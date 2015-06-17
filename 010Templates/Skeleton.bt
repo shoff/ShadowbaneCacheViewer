@@ -1,0 +1,20 @@
+//--------------------------------------
+//--- 010 Editor v5.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+struct nullArray {
+    uint blanks[3];
+};
+
+uint t1size;
+wchar_t name[t1size];
+
+uint numberOfAnimations;
+
+uint nulls[5];
+
+uint motion[numberOfAnimations];

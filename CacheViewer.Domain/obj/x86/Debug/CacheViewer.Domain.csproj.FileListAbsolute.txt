@@ -1,0 +1,3 @@
+C:\dev\CacheViewer_2014\CacheViewer.Domain\obj\x86\Debug\CacheViewer.Domain.csprojResolveAssemblyReference.cache
+C:\dev\CacheViewer_2014\CacheViewer.Domain\obj\x86\Debug\CacheViewer.Domain.DomainMessages.resources
+C:\dev\CacheViewer_2014\CacheViewer.Domain\obj\x86\Debug\CacheViewer.Domain.csproj.GenerateResource.Cache

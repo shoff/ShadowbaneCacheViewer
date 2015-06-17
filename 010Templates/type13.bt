@@ -1,0 +1,57 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+
+char tnlc[4];
+int flag;
+int size;
+wchar_t name[size];
+
+char crap1[25];
+
+char crap2[179];
+
+// This doesn't work either, grobold doesn't work here
+int size1;
+if(size1 != size){
+    uchar huh;    
+    int size2;
+    
+    if (size2 != size){    
+        int blank[2];
+        uchar blank1[3];
+        int size3;
+        // this works for grobold
+        if(size3 == size){
+            wchar_t nameToo2[size3];    
+        } else {
+            // this works for Irekei Mystic
+            int blank2[4];
+            int size4;
+            if(size4 == size){
+                wchar_t nameToo3[size4];   
+            }
+                
+        }
+        
+    } else {
+        wchar_t nameToo[size2];
+    }
+} else {
+    wchar_t nameToo1[size1];
+}
+
+

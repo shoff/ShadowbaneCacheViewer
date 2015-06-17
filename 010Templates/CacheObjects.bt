@@ -1,0 +1,94 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+//
+struct blankAfterRenderId {
+    int blanks[6];
+};
+
+char tnlc[4];
+int flag;
+int size;
+wchar_t name[size];    
+
+uchar someboolean;
+
+// decimal 1
+float unknown;
+time_t lastUpdated;
+float unknownFloat1;
+float unknownFloat2;
+float unknownFloat3;
+
+int terminator;
+int version; // ??
+
+blankAfterRenderId bari;
+
+uchar dataChar;
+uint runeData;
+
+float ZOffest; // Undead = 2.0, Bats = 4.0
+
+uint petOrRune;
+uint nfi;
+uint mobToken;
+
+// can also be:
+// 3851523961 CSR 
+if(mobToken == 612015249){
+    uint aiSize;
+    wchar_t ai[aiSize];
+    uint padding[4];
+} 
+else if ( mobToken == 2085359803){ 
+    uchar someBool1;
+    uint padding[4];
+} else {
+    uint padding[3];
+}
+
+float unknownFloat4;
+uint nullUint;
+// lot's of different ones over 100
+// maybe wolfpack artist's ids or something?
+uint unknownHash; 
+uint petIndicator;
+if(petIndicator == 0){
+    uint bigempty[18];
+    uint thirthTwo;    
+    uint nullUintArray[3];
+    ushort someShort;
+    uint nullUintArray1[3];
+    
+    if(mobToken == 3851523961){ 
+        // CSR
+        uint nothing[2];   
+    }
+} else{
+    uint petJunk[5];
+    uint petTextSize;
+    wchar_t petText[petTextSize];
+    ushort something;
+    uint petEmpty[33];
+}
+uint nameSize1;
+wchar_t alsoName[nameSize1];
+
+// experiment here 
+uint nullArray[6];
+
+uint afterName1[18];
+//uchar crap[293];
+//uint loreTextSize;
+//wchar_t loreText[loreTextSize];
+
+
+
+
+

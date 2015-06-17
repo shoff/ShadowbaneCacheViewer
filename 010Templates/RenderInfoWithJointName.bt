@@ -1,0 +1,53 @@
+//--------------------------------------
+//--- 010 Editor v5.0.2 Binary Template
+//
+// File:        RenderInfoWithJointName
+// Author:      shoff
+// Revision:    1   
+// Purpose:     Parse Render.cache files
+//--------------------------------------
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+// --------------------------------------------------
+
+char crap[35]<hidden=true>; 
+uint hasMesh;
+int null1<hidden=true>; 
+
+// in code is HandleMesh()
+int meshId;
+ushort null1<hidden=true>;      // null short
+
+int jointNameSize;              // can be 0
+wchar_t name[jointNameSize];    // can be empty
+
+// unknown float
+tVector3f scale;
+
+// no clue int
+uint unknown2;
+
+// texture scale?
+tVector3f position;
+
+int childRenderCount;
+// TODO loop through children
+
+byte hasTexture;
+
+// scale of texture?
+// this seems to be simply garbage
+tVector3f textureScale;
+
+uint textureId;
