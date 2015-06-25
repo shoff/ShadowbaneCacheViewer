@@ -2,7 +2,7 @@
 namespace CacheViewer.Domain.Factories
 {
     using System;
-    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using CacheViewer.Domain.Archive;
@@ -40,23 +40,26 @@ namespace CacheViewer.Domain.Factories
         /// </param>
         /// <returns>
         /// </returns>
-        /// <exception>The end of the stream is reached.
+        /// <exception>
+        /// The end of the stream is reached.
         ///   <cref>EndOfStreamException</cref>
         /// </exception>
-        /// <exception>An I/O error occurs.
+        /// <exception>
+        /// An I/O error occurs.
         ///   <cref>IOException</cref>
         /// </exception>
-        /// <exception cref="Exception">Condition. </exception>
+        /// <exception cref="Exception">
+        /// Condition. 
+        /// </exception>
         public RenderInformation Create(CacheIndex cacheIndex, int order = 0)
         {
             try
             {
-                return Create(cacheIndex.identity, order);
+                return Create(cacheIndex.Identity, order);
             }
             catch (Exception e)
             {
-                logger.Error(string.Format("Failed to created RenderInformation for cacheIndex {0}",
-                    cacheIndex.identity), e);
+                logger.Error(e, string.Format("Failed to created RenderInformation for cacheIndex {0}", cacheIndex.Identity));
                 throw;
             }
         }
@@ -64,21 +67,35 @@ namespace CacheViewer.Domain.Factories
         /// <summary>
         /// Creates the specified identity.
         /// </summary>
-        /// <param name="identity">The identity.</param>
-        /// <param name="order">The order.</param>
-        /// <param name="addByteData">if set to <c>true</c> [add byte data].</param>
-        /// <returns></returns>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+        /// <param name="identity">
+        /// The identity.
+        /// </param>
+        /// <param name="order">
+        /// The order.
+        /// </param>
+        /// <param name="addByteData">
+        /// if set to <c>true</c> [add byte data].
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="IOException">
+        /// An I/O error occurs. 
+        /// </exception>
+        /// <exception cref="EndOfStreamException">
+        /// The end of the stream is reached. 
+        /// </exception>
+        /// <exception cref="Exception">
+        /// Condition. 
+        /// </exception>
         public RenderInformation Create(int identity, int order = 0, bool addByteData = false)
         {
             CacheAsset asset = this.renderArchive[identity];
 
             RenderInformation renderInfo = new RenderInformation
             {
-                CacheIndex = this.Indexes.First(x => x.identity == identity),
-                ByteCount = order == 0 ? asset.Item1.Count : asset.Item2.Count,
-                Unknown = new object[6],
+                CacheIndex = this.Indexes.First(x => x.Identity == identity), 
+                ByteCount = order == 0 ? asset.Item1.Count : asset.Item2.Count, 
+                Unknown = new object[6], 
                 Order = order
             };
 
@@ -141,7 +158,7 @@ namespace CacheViewer.Domain.Factories
                 }
             }
 
-            if ((asset.CacheIndex2.identity > 0) && (renderInfo.Order == 0))
+            if ((asset.CacheIndex2.Identity > 0) && (renderInfo.Order == 0))
             {
                 renderInfo.SharedId = this.Create(asset.CacheIndex2, 1);
             }
@@ -155,11 +172,15 @@ namespace CacheViewer.Domain.Factories
         /// </param>
         /// <param name="renderInfo">
         /// </param>
+        /// <returns>
+        /// </returns>
         private bool HandleMesh(BinaryReader reader, RenderInformation renderInfo)
         {
+            Contract.Requires<ArgumentNullException>(reader != null);
+            Contract.Requires<ArgumentNullException>(renderInfo != null);
 
             var nullByte = reader.ReadUInt32(); // skip over null byte
-            Debug.Assert(nullByte == 0);        // should always be null
+            Contract.Assert(nullByte == 0);        // should always be null
 
             // TODO validate all meshIds
             renderInfo.MeshId = reader.ReadInt32();
@@ -167,8 +188,8 @@ namespace CacheViewer.Domain.Factories
             if (renderInfo.MeshId == 0)
             {
                 renderInfo.Notes = string.Format(
-                    "{0} claimed to have a mesh, however the meshId read was 0.",
-                    renderInfo.CacheIndex.identity);
+                    "{0} claimed to have a mesh, however the meshId read was 0.", 
+                    renderInfo.CacheIndex.Identity);
                 logger.Warn(renderInfo.Notes);
                 return false;
             }
@@ -185,8 +206,8 @@ namespace CacheViewer.Domain.Factories
                     {
                         renderInfo.Notes =
                             string.Format(
-                                "{0} claimed to have a mesh with MeshId {1}, however the MeshCache does not contain an item with that id.",
-                                renderInfo.CacheIndex.identity,
+                                "{0} claimed to have a mesh with MeshId {1}, however the MeshCache does not contain an item with that id.", 
+                                renderInfo.CacheIndex.Identity, 
                                 renderInfo.MeshId);
                         logger.Warn(renderInfo.Notes);
                         return false;
@@ -197,27 +218,29 @@ namespace CacheViewer.Domain.Factories
             {
                 renderInfo.Notes = string.Join("\r\n", new 
                 {
-                    renderInfo.Notes,
+                    renderInfo.Notes, 
                     infe.Message 
                 });
+                logger.Error(infe);
             }
 
             // null short
             var nullShort = reader.ReadUInt16();
-            Debug.Assert(nullShort == 0);
+            Contract.Assert(nullShort == 0);
 
             uint size = reader.ReadUInt32();
 
             if (size > 0)
             {
                 // since this size count is actually a Unicode character count, each number is actually 2 bytes.
-                Debug.Assert(reader.HasEnoughBytesLeft(size * 2));
+                Contract.Assert(reader.HasEnoughBytesLeft(size * 2));
 
                 renderInfo.JointName = reader.ReadAsciiString(size);
                 renderInfo.JointName = !string.IsNullOrEmpty(renderInfo.JointName)
                     ? renderInfo.JointName.Replace(" ", string.Empty) : string.Empty;
                 
             }
+
             return true;
         }
 
@@ -232,8 +255,8 @@ namespace CacheViewer.Domain.Factories
             if (renderInfo.RenderCount > 1000)
             {
                 // bail
-                var message = string.Format("{0} claimed to have a {1} child render nodes, bailing out.",
-                    renderInfo.CacheIndex.identity, renderInfo.RenderCount);
+                var message = string.Format("{0} claimed to have a {1} child render nodes, bailing out.", 
+                    renderInfo.CacheIndex.Identity, renderInfo.RenderCount);
                 logger.Error(message);
                 return;
             }
@@ -276,7 +299,11 @@ namespace CacheViewer.Domain.Factories
         /// </value>
         public static RenderFactory Instance
         {
-            get { return instance; }
+            get
+            {
+                Contract.Ensures(Contract.Result<RenderFactory>() != null);
+                return instance;
+            }
         }
 
         /// <summary>
@@ -313,8 +340,8 @@ namespace CacheViewer.Domain.Factories
         }
 
         /// <summary>
-        /// Gets the cacheasset from the
-        /// render archive by identity from cacheindex.
+        /// Gets the cache asset from the
+        /// render archive by identity from cache index.
         /// </summary>
         /// <param name="identity">
         /// </param>
@@ -322,8 +349,7 @@ namespace CacheViewer.Domain.Factories
         /// </returns>
         public CacheAsset GetById(int identity)
         {
-            var asset = this.renderArchive[identity];
-            return asset;
+            return this.renderArchive[identity];
         }
 
         /// <summary>
@@ -334,15 +360,12 @@ namespace CacheViewer.Domain.Factories
         /// </returns>
         private bool IsValidId(int id)
         {
-            bool result = false;
-
-            if (id.TestRange(this.meshFactory.IdentityRange.Item1,
-                this.meshFactory.IdentityRange.Item2))
+            if (id.TestRange(this.meshFactory.IdentityRange.Item1, this.meshFactory.IdentityRange.Item2))
             {
-                result = this.meshFactory.IdentityArray.Where(x => x == id).Any();
+                return this.meshFactory.IdentityArray.Where(x => x == id).Any();
             }
 
-            return result;
+            return false;
         }
     }
 }

@@ -3,6 +3,10 @@ using System.Configuration;
 
 namespace CacheViewer.Domain.Utility
 {
+    using System;
+    using System.Diagnostics.Contracts;
+
+    [ContractClass(typeof(ConfigurationWrapperContract))]
     public interface IConfigurationWrapper
     {
         /// Summary:
@@ -84,5 +88,50 @@ namespace CacheViewer.Domain.Utility
         /// <param name="name">The name.</param>
         /// <returns></returns>
         string GetAppSetting(string name);
+    }
+
+    [ContractClassFor(typeof(IConfigurationWrapper))]
+    abstract class ConfigurationWrapperContract : IConfigurationWrapper
+    {
+        NameValueCollection IConfigurationWrapper.AppSettings
+        {
+            get { return default(NameValueCollection); }
+        }
+
+        ConnectionStringSettingsCollection IConfigurationWrapper.ConnectionStrings
+        {
+            get { return default(ConnectionStringSettingsCollection); }
+
+        }
+
+        object IConfigurationWrapper.GetSection(string sectionName)
+        {
+            Contract.Requires<ArgumentNullException>(sectionName != null);
+            Contract.Ensures(Contract.Result<object>() != null);
+            return default(object);
+        }
+
+        Configuration IConfigurationWrapper.OpenExeConfiguration(ConfigurationUserLevel userLevel)
+        {
+            Contract.Ensures(Contract.Result<Configuration>() != null);
+            return default(Configuration);
+        }
+
+        Configuration IConfigurationWrapper.OpenMachineConfiguration()
+        {
+            Contract.Ensures(Contract.Result<Configuration>() != null);
+            return default(Configuration);
+        }
+
+        void IConfigurationWrapper.RefreshSection(string sectionName)
+        {
+            Contract.Requires<ArgumentNullException>(sectionName != null);
+        }
+
+        string IConfigurationWrapper.GetAppSetting(string name)
+        {
+            Contract.Requires<ArgumentNullException>(name != null);
+            return default(string);
+        }
     }
 }

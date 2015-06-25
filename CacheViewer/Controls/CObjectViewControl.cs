@@ -38,16 +38,16 @@ namespace CacheViewer.Controls
                 items[0] =
                    new ListViewItem(new[] { string.Format("name {0}", cacheObject.Name) });
 
-                items[1] = new ListViewItem(new[] { string.Format("identity {0}", cacheObject.CacheIndex.identity) });
+                items[1] = new ListViewItem(new[] { string.Format("identity {0}", cacheObject.CacheIndex.Identity) });
 
                 items[2] =
-                    new ListViewItem(new[] { string.Format("offset {0}", cacheObject.CacheIndex.offset) });
+                    new ListViewItem(new[] { string.Format("offset {0}", cacheObject.CacheIndex.Offset) });
 
                 items[3] =
-                    new ListViewItem(new[] { string.Format("uncompressed {0}", cacheObject.CacheIndex.unCompressedSize) });
+                    new ListViewItem(new[] { string.Format("uncompressed {0}", cacheObject.CacheIndex.UnCompressedSize) });
 
                 items[4] =
-                    new ListViewItem(new[] { string.Format("compressed {0}", cacheObject.CacheIndex.compressedSize) });
+                    new ListViewItem(new[] { string.Format("compressed {0}", cacheObject.CacheIndex.CompressedSize) });
 
                 items[5] =
                     new ListViewItem(new[]{string.Format("render id {0}",

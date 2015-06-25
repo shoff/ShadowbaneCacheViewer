@@ -50,17 +50,17 @@ namespace CacheViewer.Domain.Models
                     }
                     catch (EndOfStreamException endOfStreamException)
                     {
-                        logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.identity), endOfStreamException);
+                        logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity), endOfStreamException);
                         throw;
                     }
                     this.UnParsedBytes = data.Count - (int)reader.BaseStream.Position;
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.identity), ioException);
+                    logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity), ioException);
                     throw;
                 }
-                logger.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.identity, UnParsedBytes);
+                logger.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.Identity, UnParsedBytes);
             }
         }
     }

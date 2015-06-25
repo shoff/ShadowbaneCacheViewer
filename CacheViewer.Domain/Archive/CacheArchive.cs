@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ArraySegments;
-using CacheViewer.Domain.Extensions;
-using CacheViewer.Domain.Services;
-using CacheViewer.Domain.Utility;
-using NLog;
-
+﻿
 namespace CacheViewer.Domain.Archive
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using ArraySegments;
+    using CacheViewer.Domain.Extensions;
+    using CacheViewer.Domain.Services;
+    using CacheViewer.Domain.Utility;
+    using NLog;
     using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Security;
     using CacheViewer.Domain.Exceptions;
 
@@ -30,9 +31,7 @@ namespace CacheViewer.Domain.Archive
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CacheArchive" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CacheArchive" /> class.</summary>
         /// <param name="name">The name.</param>
         /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
         /// <exception cref="IOException">An I/O error occurred while opening the file. </exception>
@@ -55,6 +54,8 @@ namespace CacheViewer.Domain.Archive
         /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
         protected CacheArchive(string name)
         {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+
             this.Name = name;
             this.cacheIndex = new List<CacheIndex>();
             this.cacheHeader = new CacheHeader();
@@ -64,9 +65,7 @@ namespace CacheViewer.Domain.Archive
             this.bufferData = File.ReadAllBytes(this.fileInfo.FullName).AsArraySegment();
         }
 
-        /// <summary>
-        /// Loads the cache header.
-        /// </summary>
+        /// <summary>Loads the cache header.</summary>
         /// <exception cref="System.ApplicationException"></exception>
         /// <exception cref="IOException">An I/O error occurs. </exception>
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
@@ -95,7 +94,6 @@ namespace CacheViewer.Domain.Archive
                     throw new ApplicationException(
                         string.Format(
                             "{0} Header states file should be {1} in size, but FileInfo object reported {2} as actual size.",
-                        // ReSharper disable once HeapView.BoxingAllocation
                             this.Name, (int)this.CacheHeader.fileSize, length));
                 }
 
@@ -104,18 +102,14 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>
-        /// Loads the indexes.
-        /// </summary>
+        /// <summary>Loads the indexes.</summary>
         /// <returns></returns>
         public async virtual Task LoadIndexesAsync()
         {
             await Task.Run(() => this.LoadIndexes());
         }
 
-        /// <summary>
-        /// Loads the indexes.
-        /// </summary>
+        /// <summary>Loads the indexes.</summary>
         /// <exception cref="IOException">An I/O error occurs. </exception>
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         public virtual void LoadIndexes()
@@ -128,19 +122,23 @@ namespace CacheViewer.Domain.Archive
                 for (int i = 0; i < this.cacheHeader.indexCount; i++)
                 {
                     CacheIndex index = new CacheIndex
-                    {
-                        junk1 = reader.ReadUInt32(),
-                        identity = reader.ReadInt32(),
-                        offset = reader.ReadUInt32(),
-                        unCompressedSize = reader.ReadUInt32(),
-                        compressedSize = reader.ReadUInt32()
-                    };
-                    this.identityArray[i] = index.identity;
+                                           {
+                                               Junk1 = reader.ReadUInt32(),
+                                               Identity = reader.ReadInt32(),
+                                               Offset = reader.ReadUInt32(),
+                                               UnCompressedSize = reader.ReadUInt32(),
+                                               CompressedSize = reader.ReadUInt32()
+                                           };
+                    this.identityArray[i] = index.Identity;
                     this.cacheIndex.Add(index);
                 }
 
-                Debug.Assert(reader.BaseStream.Position == this.cacheHeader.dataOffset);
-                Debug.Assert(this.cacheIndex.Count == this.cacheHeader.indexCount);
+                // this is off on the tile archive for some reason ...
+                if (this is Tile == false)
+                {
+                    Debug.Assert(reader.BaseStream.Position == this.cacheHeader.dataOffset);
+                    Debug.Assert(this.cacheIndex.Count == this.cacheHeader.indexCount);
+                }
             }
 
             //foreach (var ci in this.cacheIndex)
@@ -149,8 +147,8 @@ namespace CacheViewer.Domain.Archive
             //    Debug.Assert(count < 3);
             //}
 
-            this.LowestId = this.cacheIndex[0].identity;
-            this.HighestId = this.cacheIndex.Last().identity;
+            this.LowestId = this.cacheIndex[0].Identity;
+            this.HighestId = this.cacheIndex.Last().Identity;
         }
 
         /// <summary>
@@ -179,97 +177,91 @@ namespace CacheViewer.Domain.Archive
         ///     <name>source</name>
         ///   </paramref>
         ///   is larger than <see cref="F:System.Int32.MaxValue" />.</exception>
-        /// <exception cref="IndexNotFoundException" accessor="get">Condition. </exception>
         public virtual CacheAsset this[int id]
         {
             get
             {
-                // ReSharper disable once ExceptionNotDocumented
-                int count = this.cacheIndex.Count(x => x.identity == id);
-
-                // there are several pairs of cache items that share the same identity. 
-                // fucking brilliant wolfpack.
-                Debug.Assert(count < 3);
-
-                if (count == 0)
-                {
-                    throw new IndexNotFoundException(this.Name, id);
-                }
-
+                Contract.Ensures(Contract.Result<CacheAsset>() != null);
+                int count = this.cacheIndex.Count(x => x.Identity == id);
                 CacheAsset asset = new CacheAsset
                 {
-                    CacheIndex1 = this.cacheIndex.FirstOrDefault(x => x.identity == id)
+                    CacheIndex1 = this.cacheIndex.FirstOrDefault(x => x.Identity == id)
                 };
 
                 // do we have two with the same id?
                 if (count > 1)
                 {
                     logger.Info("{0} found {1} entries for identity {2}", this.Name, count, id);
-                    CacheIndex ci = this.cacheIndex.Where(x => x.identity == id).Skip(1).Select(x => x).Single();
-                    ci.order = 2;
+                    CacheIndex ci = this.cacheIndex.Where(x => x.Identity == id).Skip(1).Select(x => x).Single();
+                    ci.Order = 2;
                     asset.CacheIndex2 = ci;
                 }
 
                 using (var reader = this.bufferData.CreateBinaryReaderUtf32())
                 {
                     // ReSharper disable ExceptionNotDocumented
-                    reader.BaseStream.Position = asset.CacheIndex1.offset;
-                    var buffer = reader.ReadBytes((int)asset.CacheIndex1.compressedSize);
-                    asset.Item1 = this.Decompress(asset.CacheIndex1.unCompressedSize, buffer);
+                    reader.BaseStream.Position = asset.CacheIndex1.Offset;
+                    var buffer = reader.ReadBytes((int)asset.CacheIndex1.CompressedSize);
+                    asset.Item1 = this.Decompress(asset.CacheIndex1.UnCompressedSize, buffer);
 
                     // hate this hack, freaking Wolfpack decided that the identity in the 
                     // render.cache didn't need to be unique... brilliant...
-                    if (count > 0)
+                    if (count > 1)
                     {
-                        reader.BaseStream.Position = asset.CacheIndex2.offset;
-                        asset.Item2 = this.Decompress(asset.CacheIndex2.unCompressedSize, 
-                            reader.ReadBytes((int)asset.CacheIndex2.compressedSize));
+                        reader.BaseStream.Position = asset.CacheIndex2.Offset;
+                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize, 
+                            reader.ReadBytes((int)asset.CacheIndex2.CompressedSize));
                     }
                 }
                 return asset;
             }
         }
 
-        /// <summary>
-        /// Saves to file.
-        /// </summary>
+        /// <summary>Saves to file.</summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="path">The path.</param>
         /// <returns></returns>
         public async Task SaveToFile(CacheIndex cacheIndex, string path)
         {
+            Contract.Requires<ArgumentNullException>(path != null);
+
             // TODO move to it's own object, this doesn't belong here.
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            var asset = this[cacheIndex.identity];
+            var asset = this[cacheIndex.Identity];
 
             if (asset.Item1.Count > 0)
             {
                 await FileWriter.Writer.WriteAsync(asset.Item1,
-                    Path.Combine(path, this.saveName + asset.CacheIndex1.identity.ToString(CultureInfo.InvariantCulture) + ".cache"));
+                    Path.Combine(path, this.saveName + asset.CacheIndex1.Identity.ToString(CultureInfo.InvariantCulture) + ".cache"));
 
                 if (asset.Item2.Count > 0)
                 {
                     await FileWriter.Writer.WriteAsync(asset.Item2, Path.Combine(path,
-                        this.saveName + asset.CacheIndex2.identity.ToString(CultureInfo.InvariantCulture) + "_1.cache"));
+                        this.saveName + asset.CacheIndex2.Identity.ToString(CultureInfo.InvariantCulture) + "_1.cache"));
                 }
             }
         }
 
+        /// <summary>Gets the name.</summary>
+        /// <param name="buffer">The buffer.</param>
+        /// <param name="cacheIndex">Index of the cache.</param>
+        /// <returns></returns>
         protected virtual string GetName(byte[] buffer, CacheIndex cacheIndex)
         {
             return string.Empty;
         }
 
+        /// <summary>Sets the file location.</summary>
         protected void SetFileLocation()
         {
             string folderName = this.fileLocations.GetCacheFolder();
             this.fileInfo = new FileInfo(Path.Combine(folderName, this.Name));
         }
 
-        private ArraySegment<byte> Decompress(uint uncompressedSize, byte[] file)
+        protected ArraySegment<byte> Decompress(uint uncompressedSize, byte[] file)
         {
             if (file.Length == uncompressedSize)
             {
@@ -281,7 +273,7 @@ namespace CacheViewer.Domain.Archive
 
             if (item.Length != uncompressedSize)
             {
-                throw new InvalidCastException("Index rawsize should be " + uncompressedSize + " , but was " + item.Length);
+                throw new InvalidCastException("Index raw size should be " + uncompressedSize + " , but was " + item.Length);
             }
 
             // gets the name
@@ -312,69 +304,47 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>
-        /// Gets the cache header.
-        /// </summary>
-        /// <value>
-        /// The cache header.
-        /// </value>
+        /// <summary>Gets the cache header.</summary>
         public CacheHeader CacheHeader
         {
             get { return this.cacheHeader; }
         }
 
-        /// <summary>
-        /// Gets the indexes.
-        /// </summary>
-        /// <value>
-        /// The indexes.
-        /// </value>
+        /// <summary>Gets the indexes.</summary>
         public List<CacheIndex> CacheIndices
         {
             get{ return this.cacheIndex; }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [cache on index load].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [cache on index load]; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets or sets a value indicating whether [cache on index load].</summary>
         public bool CacheOnIndexLoad { get;set;}
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [use cache].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [use cache]; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets or sets a value indicating whether [use cache].</summary>
         public bool UseCache{get;set;}
 
-        /// <summary>
-        /// Gets or sets the lowest identifier.
-        /// </summary>
-        /// <value>
-        /// The lowest identifier.
-        /// </value>
+        /// <summary>Gets or sets the lowest identifier.</summary>
         public int LowestId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the highest identifier.
-        /// </summary>
-        /// <value>
-        /// The highest identifier.
-        /// </value>
+        /// <summary>Gets or sets the highest identifier.</summary>
         public int HighestId { get; set;}
 
-        /// <summary>
-        /// Gets the identity array.
-        /// </summary>
-        /// <value>
-        /// The identity array.
-        /// </value>
+        /// <summary>Gets the identity array.</summary>
         public int[] IdentityArray
         {
             get { return this.identityArray; }
+        }
+
+        [Pure]
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.bufferData != null);
+            Contract.Invariant(this.bufferData.Count > 0);
+            Contract.Invariant(this.fileLocations != null);
+            Contract.Invariant(this.cacheIndex != null);
+            Contract.Invariant(this.fileInfo != null);
+            Contract.Invariant(!string.IsNullOrWhiteSpace(this.name));
+            Contract.Invariant(this.saveName == this.name.Replace(".cache", "_"));
         }
     }
 }

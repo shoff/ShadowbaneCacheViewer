@@ -17,8 +17,8 @@ namespace CacheViewer.Tests.Domain.Extensions
             var actual = this.vector3.ToString();
             Console.WriteLine(actual);
         }
-        
-        [TestCase(null)]
+
+        [TestCase(null), Ignore]
         [TestCase("")]
         public void ToVector3_Should_Throw_If_VectorString_Is_Null_Or_Empty(string vectorString)
         {

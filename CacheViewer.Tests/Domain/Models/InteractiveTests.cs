@@ -9,7 +9,7 @@ namespace CacheViewer.Tests.Domain.Models
     [TestFixture]
     public class InteractiveTests
     {
-        private CacheObjectFactory cacheObjectFactory;
+        private CacheObjectsCache cacheObjectsCache;
         private CObjects cobjects;
         private Render renderArchive;
 
@@ -19,7 +19,7 @@ namespace CacheViewer.Tests.Domain.Models
         {
             this.renderArchive = (Render)ArchiveFactory.Instance.Build(CacheFile.Render);
             this.cobjects = (CObjects) ArchiveFactory.Instance.Build(CacheFile.CObjects);
-            this.cacheObjectFactory = CacheObjectFactory.Instance;
+            this.cacheObjectsCache = CacheObjectsCache.Instance;
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace CacheViewer.Tests.Domain.Models
         private bool Found(int id)
         {
             var renderId = renderArchive[id];
-            if (renderId.CacheIndex1.identity > 0)
+            if (renderId.CacheIndex1.Identity > 0)
             {
                 return true;
             }

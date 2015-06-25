@@ -34,7 +34,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Data_Should_Match_MotionId_Count()
         {
-            var id = skeletonCache.CacheIndices[0].identity;
+            var id = skeletonCache.CacheIndices[0].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
 
             try
@@ -53,7 +53,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Id_1_Parses()
         {
-            var id = skeletonCache.CacheIndices[0].identity;
+            var id = skeletonCache.CacheIndices[0].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
             Skeleton skeleton = new Skeleton(buffer, id);
             Assert.AreEqual(455, skeleton.MotionCount);
@@ -63,7 +63,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Id_2_Parses()
         {
-            var id = skeletonCache.CacheIndices[1].identity;
+            var id = skeletonCache.CacheIndices[1].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
             Skeleton skeleton = new Skeleton(buffer, id);
             Assert.AreEqual(240, skeleton.MotionCount);
@@ -73,7 +73,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Id_3_Parses()
         {
-            var id = skeletonCache.CacheIndices[2].identity;
+            var id = skeletonCache.CacheIndices[2].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
             Skeleton skeleton = new Skeleton(buffer, id);
             Assert.AreEqual(240, skeleton.MotionCount);
@@ -83,7 +83,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Id_6_Parses()
         {
-            var id = skeletonCache.CacheIndices[5].identity;
+            var id = skeletonCache.CacheIndices[5].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
             Skeleton skeleton = new Skeleton(buffer, id);
             Assert.AreEqual(455, skeleton.MotionCount);
@@ -93,7 +93,7 @@ namespace CacheViewer.Tests.Domain.Archive
         [Test]
         public void Id_32_Parses()
         {
-            var id = skeletonCache.CacheIndices[32].identity;
+            var id = skeletonCache.CacheIndices[32].Identity;
             ArraySegment<byte> buffer = skeletonCache[id].Item1;
             Skeleton skeleton = new Skeleton(buffer, id);
             Assert.AreEqual(203, skeleton.MotionCount);
@@ -115,7 +115,7 @@ namespace CacheViewer.Tests.Domain.Archive
             foreach (var motionId in skeleton.MotionIds)
             {
                 Console.WriteLine(motionId);
-                var motion = this.motionCache.CacheIndices.Find(x => x.identity == motionId);
+                var motion = this.motionCache.CacheIndices.Find(x => x.Identity == motionId);
                 Assert.IsNotNull(motion);
             }
         }

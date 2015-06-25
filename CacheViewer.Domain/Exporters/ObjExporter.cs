@@ -44,11 +44,11 @@ namespace CacheViewer.Domain.Exporters
             
             // todo - not all objects seem to have names
             this.name = string.IsNullOrEmpty(cacheObject.Name) 
-                ? cacheObject.CacheIndex.identity + "_" 
+                ? cacheObject.CacheIndex.Identity + "_" 
                 : cacheObject.Name.Replace(" ", "_");
 
             string exportDirectory = this.EnsureDirectory(this.name);
-            mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(cacheObject.CacheIndex.identity));
+            mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(cacheObject.CacheIndex.Identity));
             mainStringBuilder.AppendFormat(MaterialLib, this.name);
 
             // we'll treat each renderInfo as a separate Mesh for now.
@@ -86,7 +86,7 @@ namespace CacheViewer.Domain.Exporters
         public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
             StringBuilder materialBuilder, string directory)
         {
-            mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.identity);
+            mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
 
             List<string> mapFiles = new List<string>();
 

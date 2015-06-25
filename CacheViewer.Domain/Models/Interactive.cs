@@ -200,7 +200,7 @@ namespace CacheViewer.Domain.Models
                                 logger.Error(
                                     string.Format(
                                         "Exception thrown parsing CacheIndex {0}, in Interactive exception e1.",
-                                        this.CacheIndex.identity),
+                                        this.CacheIndex.Identity),
                                     e1);
                                 throw;
                             }
@@ -229,13 +229,13 @@ namespace CacheViewer.Domain.Models
                                     // range error check
                                     if (counter > 10000) // nothing should be more than that
                                     {
-                                        logger.Error("counter of {0} is out of range for CacheIndex {1} in Interactive line 209.",counter,this.CacheIndex.identity);
+                                        logger.Error("counter of {0} is out of range for CacheIndex {1} in Interactive line 209.",counter,this.CacheIndex.Identity);
                                         return;
                                     }
                                 }
                                 catch (Exception e2)
                                 {
-                                    logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e2.",this.CacheIndex.identity),e2);
+                                    logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e2.",this.CacheIndex.Identity),e2);
                                     return;
                                 }
 
@@ -282,7 +282,7 @@ namespace CacheViewer.Domain.Models
                                         logger.Error(
                                             string.Format(
                                                 "Exception thrown parsing CacheIndex {0}, in Interactive exception e3.",
-                                                this.CacheIndex.identity),
+                                                this.CacheIndex.Identity),
                                             e3);
                                         return;
                                     }
@@ -311,7 +311,7 @@ namespace CacheViewer.Domain.Models
                     if (counter > 5000)
                     {
                         // Range check for invalid values
-                        logger.Error("counter of {0} is out of range for walk data in Structure parsing for CacheIndex {1} in Interactive line 276.",counter,this.CacheIndex.identity);
+                        logger.Error("counter of {0} is out of range for walk data in Structure parsing for CacheIndex {1} in Interactive line 276.",counter,this.CacheIndex.Identity);
                         return;
                     }
 
@@ -333,7 +333,7 @@ namespace CacheViewer.Domain.Models
                         }
                         catch (Exception e4)
                         {
-                            logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e4.",this.CacheIndex.identity), e4);
+                            logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e4.",this.CacheIndex.Identity), e4);
                             break;
                         }
                     }
@@ -341,7 +341,7 @@ namespace CacheViewer.Domain.Models
             }
             catch(Exception e5)
             {
-                logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e5.", this.CacheIndex.identity), e5);
+                logger.Error(string.Format("Exception thrown parsing CacheIndex {0}, in Interactive exception e5.", this.CacheIndex.Identity), e5);
                 //wxLogMessage(_T("Error: Failed to load Object Type 4"));
             }
         }

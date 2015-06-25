@@ -14,21 +14,21 @@ namespace CacheViewer.Tests.Domain.Factories
     {
         // this breaks testing in isolation, but the alternative is to start passing this as an interface
         // which would impact performance HUGELY so ...
-        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
+        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
 
         [Test]
         public void The_First_CacheIndex_Is_The_Sun()
         {
-            var cacheIndex = this.cacheObjectFactory.Indexes.FirstOrDefault();
-            var sun = this.cacheObjectFactory.Create(cacheIndex);
+            var cacheIndex = this.cacheObjectsCache.Indexes.FirstOrDefault();
+            var sun = this.cacheObjectsCache.Create(cacheIndex);
             Assert.AreEqual(ObjectType.Sun, sun.Flag);
         }
 
         [Test]
         public void Create_Simpler_Returns_A_Simple_CacheObject()
         {
-            var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.identity == 103);
-            var cacheObject = this.cacheObjectFactory.Create(cacheIndex);
+            var cacheIndex = this.cacheObjectsCache.Indexes.First(x => x.Identity == 103);
+            var cacheObject = this.cacheObjectsCache.Create(cacheIndex);
             Assert.AreEqual(ObjectType.Simple, cacheObject.Flag);
         }
 

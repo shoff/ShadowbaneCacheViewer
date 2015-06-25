@@ -42,7 +42,7 @@
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Requires<ArgumentException>(data.Count > 0);
 
-            this.ObjId = this.CacheIndex.identity;
+            this.ObjId = this.CacheIndex.Identity;
 
             this.FourIntArray = new int[4];
             using (BinaryReader reader = data.CreateBinaryReaderUtf32())

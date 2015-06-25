@@ -16,17 +16,13 @@ namespace CacheViewer.Domain.Factories
         private static readonly TextureFactory instance = new TextureFactory();
         private readonly Textures textureArchive;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TextureFactory"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="TextureFactory"/> class.</summary>
         private TextureFactory()
         {
             this.textureArchive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
         }
 
-        /// <summary>
-        /// Builds the specified identity.
-        /// </summary>
+        /// <summary>Builds the specified identity.</summary>
         /// <param name="identity">
         /// The identity.
         /// </param>
@@ -40,20 +36,13 @@ namespace CacheViewer.Domain.Factories
             return new Texture(this.textureArchive[identity].Item1, identity);
         }
 
-        /// <summary>
-        /// Gets the indexes.
-        /// </summary>
-        /// <value>
-        /// The indexes.
-        /// </value>
+        /// <summary>Gets the indexes.</summary>
         public CacheIndex[] Indexes
         {
             get { return this.textureArchive.CacheIndices.ToArray(); }
         }
 
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
+        /// <summary>Gets the by identifier.</summary>
         /// <param name="id">
         /// The identifier.
         /// </param>
@@ -64,20 +53,13 @@ namespace CacheViewer.Domain.Factories
             return this.textureArchive[id];
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
+        /// <summary>Gets the instance.</summary>
         public static TextureFactory Instance
         {
             get { return instance; }
         }
 
-        /// <summary>
-        /// Sets the cache use.
-        /// </summary>
+        /// <summary>Sets the cache use.</summary>
         /// <param name="useCache">
         /// if set to <c>true</c> [use cache].
         /// </param>
@@ -85,19 +67,20 @@ namespace CacheViewer.Domain.Factories
         {
             this.textureArchive.UseCache = useCache;
         }
-        
 
-        /// <summary>
-        /// Textures the map.
-        /// </summary>
+        /// <summary>Textures the map.</summary>
         /// <param name="identity">
         /// The identity.
         /// </param>
         /// <returns>
         /// </returns>
+        /// <exception cref="IOException">An I/O error occurs. </exception>
+        /// <exception cref="NotSupportedException">The stream does not support seeking. </exception>
+        /// <exception cref="ObjectDisposedException">Methods were called after the stream was closed. </exception>
         public Bitmap TextureMap(int identity)
         {
             ArraySegment<byte> buffer = this.textureArchive[identity].Item1;
+
             using (BinaryReader reader = buffer.CreateBinaryReader())
             {
                 int width = reader.ReadInt32();
@@ -112,14 +95,7 @@ namespace CacheViewer.Domain.Factories
                     return null;
                 }
 
-                if (depth == 4)
-                {
-                    format = PixelFormat.Format32bppArgb; /* Gl.GL_RGBA;*/
-                }
-                else
-                {
-                    format = PixelFormat.Format24bppRgb; /*Gl.GL_RGB;*/
-                }
+                format = depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
 
                 var myBitmap = new Bitmap(width, height, format);
 

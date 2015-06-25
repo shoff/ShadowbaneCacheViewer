@@ -21,7 +21,7 @@ namespace CacheViewer
     {
         private readonly List<CacheObject> mobiles;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private CacheObjectFactory cacheObjectFactory;
+        private CacheObjectsCache cacheObjectsCache;
         private readonly DataContext dataContext;
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace CacheViewer
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
                 logger.Debug("DatabaseForm created.");
-                this.cacheObjectFactory = CacheObjectFactory.Instance;
+                this.cacheObjectsCache = CacheObjectsCache.Instance;
                 this.dataContext = new DataContext();
                 this.dataContext.Configuration.AutoDetectChangesEnabled = false;
                 this.dataContext.ValidateOnSave = false;
@@ -90,14 +90,14 @@ namespace CacheViewer
 
             foreach (var motion in motionArchive.CacheIndices)
             {
-                ArraySegment<byte> buffer = motionArchive[motion.identity].Item1;
+                ArraySegment<byte> buffer = motionArchive[motion.Identity].Item1;
 
                 // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
-                FileWriter.Writer.Write(buffer, motionDirectory + "\\motion_" + motion.identity + ".cache");
+                FileWriter.Writer.Write(buffer, motionDirectory + "\\motion_" + motion.Identity + ".cache");
 
                 this.dataContext.MotionEntities.Add(new MotionEntity
                 {
-                    CacheIdentity = motion.identity
+                    CacheIdentity = motion.Identity
                 });
                 this.dataContext.SaveChanges();
             }
@@ -105,12 +105,12 @@ namespace CacheViewer
 
             foreach (var skel in archive.CacheIndices)
             {
-                ArraySegment<byte> buffer = archive[skel.identity].Item1;
+                ArraySegment<byte> buffer = archive[skel.Identity].Item1;
 
                 // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
-                FileWriter.Writer.Write(buffer, directory + "\\skeleton_" + skel.identity + ".cache");
+                FileWriter.Writer.Write(buffer, directory + "\\skeleton_" + skel.Identity + ".cache");
 
-                this.dataContext.SkeletonEntities.Add(new Skeleton(buffer, skel.identity));
+                this.dataContext.SkeletonEntities.Add(new Skeleton(buffer, skel.Identity));
                 this.dataContext.SaveChanges();
             }
 

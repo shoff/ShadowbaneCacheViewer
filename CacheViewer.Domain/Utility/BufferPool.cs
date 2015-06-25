@@ -2,6 +2,8 @@
 
 namespace CacheViewer.Domain.Utility
 {
+    using System.Diagnostics.Contracts;
+
     /// <summary>
     ///   Pools data buffers to prevent both frequent allocation and memory fragmentation
     ///   due to pinning in high volume scenarios.
@@ -58,12 +60,20 @@ namespace CacheViewer.Domain.Utility
         }
 
         /// <summary>
-        /// Checkins the specified buffer.
+        /// Check-ins the specified buffer.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         public void CheckIn(byte[] buffer)
         {
             this.freeBuffers.Enqueue(buffer);
+        }
+
+
+        [ContractInvariantMethod]
+        private void ObjectInvariants()
+        {
+            Contract.Invariant(instance != null);
+            Contract.Invariant(this.freeBuffers != null);
         }
     }
 }

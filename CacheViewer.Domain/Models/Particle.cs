@@ -24,7 +24,6 @@ namespace CacheViewer.Domain.Models
         /// Parses the specified data.
         /// </summary>
         /// <param name="data">The data.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public override void Parse(ArraySegment<byte> data)
         {
             // ignore for now.

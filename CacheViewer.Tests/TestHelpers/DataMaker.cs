@@ -246,14 +246,14 @@ namespace CacheViewer.Tests.TestHelpers
                 //public uint flag;       // this is ALWAYS 0
                 var cacheIndex = new CacheIndex
                 {
-                    identity = ValueTypeFactory.GetInteger(),
-                    junk1 = ValueTypeFactory.GetUint(),
-                    offset = ValueTypeFactory.GetUint(),
-                    unCompressedSize = ValueTypeFactory.GetUint(),
-                    compressedSize = ValueTypeFactory.GetUint(),
-                    order = ValueTypeFactory.GetInteger(),
-                    name = GetString(),
-                    flag = 0
+                    Identity = ValueTypeFactory.GetInteger(),
+                    Junk1 = ValueTypeFactory.GetUint(),
+                    Offset = ValueTypeFactory.GetUint(),
+                    UnCompressedSize = ValueTypeFactory.GetUint(),
+                    CompressedSize = ValueTypeFactory.GetUint(),
+                    Order = ValueTypeFactory.GetInteger(),
+                    Name = GetString(),
+                    Flag = 0
                 };
                 return cacheIndex;
             }

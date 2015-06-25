@@ -40,14 +40,14 @@ namespace CacheViewer.Controls
             {
 
                 var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
-                var cacheIndex = this.soundArchive.CacheIndices.Find(x => x.identity == id);
-                byte[] data = this.soundArchive[cacheIndex.identity].Item1.Array;
+                var cacheIndex = this.soundArchive.CacheIndices.Find(x => x.Identity == id);
+                byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
                 Sound sound = new Sound(data);
 
 
                 // for mono 16 bit audio captured at 16kHz
                 WaveFormat format = new WaveFormat(sound.Bitrate, sound.Frequency, 1);
-                string fileName = "./Sounds/" + cacheIndex.identity + ".wav";
+                string fileName = "./Sounds/" + cacheIndex.Identity + ".wav";
 
                 while (File.Exists(fileName))
                 {
@@ -73,7 +73,7 @@ namespace CacheViewer.Controls
                 for (int i = 0; i < this.soundArchive.CacheIndices.Count; i++)
                 {
                     var cacheIndex = this.soundArchive.CacheIndices[i];
-                    byte[] data = this.soundArchive[cacheIndex.identity].Item1.Array;
+                    byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
                     Sound sound = new Sound(data);
 
                     // for mono 16 bit audio captured at 16kHz
@@ -83,7 +83,7 @@ namespace CacheViewer.Controls
 
                     WaveFormat format = new WaveFormat(sound.Bitrate, sound.Frequency, sound.NumberOfChannels);
 
-                    string fileName = "./Sounds/" + cacheIndex.identity + ".wav";
+                    string fileName = "./Sounds/" + cacheIndex.Identity + ".wav";
 
                     if (File.Exists(fileName))
                     {
@@ -93,7 +93,7 @@ namespace CacheViewer.Controls
                         }
                         catch
                         {
-                            fileName = cacheIndex.identity + DateTime.Now.Ticks + ".wav";
+                            fileName = cacheIndex.Identity + DateTime.Now.Ticks + ".wav";
                         }
                     }
 
@@ -115,8 +115,8 @@ namespace CacheViewer.Controls
         private void PlaySoundFileButtonClick(object sender, EventArgs e)
         {
             var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
-            var cacheIndex = this.soundArchive.CacheIndices.Find(x=>x.identity == id);
-            byte[] data = this.soundArchive[cacheIndex.identity].Item1.Array;
+            var cacheIndex = this.soundArchive.CacheIndices.Find(x=>x.Identity == id);
+            byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
             Sound sound = new Sound(data);
 
             IWaveProvider provider = new RawSourceWaveStream(
@@ -192,7 +192,7 @@ namespace CacheViewer.Controls
                     //int n = this.SoundsDataGrid.Rows.Add();
 
                     values[0] = i;
-                    values[1] = cacheIndex.identity;
+                    values[1] = cacheIndex.Identity;
                     //values[2] = s.Bitrate;
                     //values[3] = s.Frequency;
                     //values[4] = s.NumberOfChannels;

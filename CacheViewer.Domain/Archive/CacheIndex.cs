@@ -5,16 +5,16 @@ namespace CacheViewer.Domain.Archive
 {
     public struct CacheIndex : IComparable<CacheIndex>, IEquatable<CacheIndex>
     {
-        public int identity;
-        public uint junk1;
-        public uint offset;
-        public uint unCompressedSize;
-        public uint compressedSize;
+        public int Identity;
+        public uint Junk1;
+        public uint Offset;
+        public uint UnCompressedSize;
+        public uint CompressedSize;
 
         // not really part of the index
-        public int order;
-        public string name;
-        public uint flag;       // this is ALWAYS 0
+        public int Order;
+        public string Name;
+        public uint Flag;       // this is ALWAYS 0
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -26,14 +26,14 @@ namespace CacheViewer.Domain.Archive
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("CacheIndex Object\r\n");
-            sb.AppendFormat("identity {0}\r\n", identity);
-            sb.AppendFormat("junk1 {0}\r\n", junk1);
-            sb.AppendFormat("offset {0}\r\n", offset);
-            sb.AppendFormat("unCompressedSize {0}\r\n", unCompressedSize);
-            sb.AppendFormat("compressedSize {0}\r\n", compressedSize);
-            sb.AppendFormat("order {0}\r\n", order);
-            sb.AppendFormat("name {0}\r\n", name ?? "no name");
-            sb.AppendFormat("flag {0}\r\n", flag);
+            sb.AppendFormat("identity {0}\r\n", this.Identity);
+            sb.AppendFormat("junk1 {0}\r\n", this.Junk1);
+            sb.AppendFormat("offset {0}\r\n", this.Offset);
+            sb.AppendFormat("unCompressedSize {0}\r\n", this.UnCompressedSize);
+            sb.AppendFormat("compressedSize {0}\r\n", this.CompressedSize);
+            sb.AppendFormat("order {0}\r\n", this.Order);
+            sb.AppendFormat("name {0}\r\n", this.Name ?? "no name");
+            sb.AppendFormat("flag {0}\r\n", this.Flag);
             return sb.ToString();
         }
 
@@ -44,11 +44,11 @@ namespace CacheViewer.Domain.Archive
         /// <returns></returns>
         public int CompareTo(CacheIndex other)
         {
-            if (this.flag == other.flag)
+            if (this.Flag == other.Flag)
             {
                 return 0;
             }
-            if (this.flag > other.flag)
+            if (this.Flag > other.Flag)
             {
                 return 1;
             }
@@ -62,21 +62,21 @@ namespace CacheViewer.Domain.Archive
         /// <returns></returns>
         public bool Equals(CacheIndex other)
         {
-            if (other.identity != this.identity)
+            if (other.Identity != this.Identity)
             {
                 return false;
             }
 
-            if (other.offset != this.offset)
+            if (other.Offset != this.Offset)
             {
                 return false;
             }
 
-            if (other.flag != this.flag)
+            if (other.Flag != this.Flag)
             {
                 return false;
             }
-            if (other.order != this.order)
+            if (other.Order != this.Order)
             {
                 return false;
             }

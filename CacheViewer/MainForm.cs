@@ -33,7 +33,7 @@ namespace CacheViewer
         private readonly TreeNode particleNode = new TreeNode("Particles");
 
         // Archives
-        private readonly CacheObjectFactory cacheObjectFactory;
+        private readonly CacheObjectsCache cacheObjectsCache;
         private readonly MeshOnlyObjExporter meshExporter;
         private readonly RenderFactory renderFactory;
         private readonly TextureFactory textureFactory;
@@ -57,7 +57,7 @@ namespace CacheViewer
                 logger.Debug("CacheViewForm created.");
                 //this.AcceptButton = this.CacheSaveButton;
                 this.textureFactory = TextureFactory.Instance;
-                this.cacheObjectFactory = CacheObjectFactory.Instance;
+                this.cacheObjectsCache = CacheObjectsCache.Instance;
                 this.renderFactory = RenderFactory.Instance;
                 this.meshExporter = MeshOnlyObjExporter.Instance;
                 this.meshFactory = MeshFactory.Instance;
@@ -91,14 +91,14 @@ namespace CacheViewer
             await Task.Run(() =>
             {
 
-                foreach (var ci in this.cacheObjectFactory.Indexes)
+                foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectFactory.Create(ci);
+                    ICacheObject cacheObject = this.cacheObjectsCache.Create(ci);
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
-                        ci.identity.ToString(CultureInfo.InvariantCulture) :
-                        string.Format("{0}-{1}", ci.identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
+                        ci.Identity.ToString(CultureInfo.InvariantCulture) :
+                        string.Format("{0}-{1}", ci.Identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
 
                     var node = new TreeNode(title)
                     {
@@ -207,7 +207,7 @@ namespace CacheViewer
 
                 if (item.RenderId == 0)
                 {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.identity);
+                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
                 this.DisplayItemInformation(item);
             }

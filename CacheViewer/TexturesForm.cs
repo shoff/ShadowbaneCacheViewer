@@ -29,14 +29,14 @@ namespace CacheViewer
             {
                 foreach (var index in this.textureFactory.Indexes)
                 {
-                    var bitmap = this.textureFactory.TextureMap(index.identity);
+                    var bitmap = this.textureFactory.TextureMap(index.Identity);
                     if (bitmap != null)
                     {
-                        bitmap.Save(Path.Combine(ExportDirectory, index.identity.ToString(CultureInfo.InvariantCulture) + ".png"),
+                        bitmap.Save(Path.Combine(ExportDirectory, index.Identity.ToString(CultureInfo.InvariantCulture) + ".png"),
                             ImageFormat.Png);
 
                         this.SetMessage(MessageLabel,
-                            string.Format("Saved {0}", index.identity.ToString(CultureInfo.InvariantCulture) + ".png"));
+                            string.Format("Saved {0}", index.Identity.ToString(CultureInfo.InvariantCulture) + ".png"));
                     }
                     else
                     {

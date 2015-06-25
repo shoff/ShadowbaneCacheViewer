@@ -5,6 +5,8 @@ using SlimDX.DirectInput;
 
 namespace CacheViewer.Domain.Utility
 {
+    using System.Diagnostics.Contracts;
+
     public class UserInput : IDisposable
     {
         private DirectInput directInput;
@@ -23,13 +25,19 @@ namespace CacheViewer.Domain.Utility
         {
             this.InitDirectInput();
 
-            // We need to intiailize these because otherwise we will get a null reference error
+            // We need to initialize these because otherwise we will get a null reference error
             // if the program tries to access these on the first frame.
             this.keyboardStateCurrent = new KeyboardState();
             this.keyboardStateLast = new KeyboardState();
-
             this.mouseStateCurrent = new MouseState();
             this.mouseStateLast = new MouseState();
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(Keyboard != null);
+            Contract.Invariant(Mouse != null);
         }
 
         /// <summary>
@@ -133,14 +141,12 @@ namespace CacheViewer.Domain.Utility
         public void Update()
         {
             // Reacquire the devices in case another application has taken control of them and check for errors.
-            if (this.keyboard.Acquire().IsFailure ||
-                this.mouse.Acquire().IsFailure)
+            if (this.keyboard.Acquire().IsFailure || this.mouse.Acquire().IsFailure)
             {
                 // We failed to successfully acquire one of the devices so abort updating the user input stuff by simply returning from this method.
                 return;
             }
-
-
+            
             // Update our keyboard state variables.
             this.keyboardStateLast = this.keyboardStateCurrent;
             this.keyboardStateCurrent = this.keyboard.GetCurrentState();
@@ -195,42 +201,14 @@ namespace CacheViewer.Domain.Utility
         }
 
         /// <summary>
-        /// This method checks if the specified key was pressed during the previous frame.
-        /// </summary>
-        /// <param name="key">The key to check the state of.</param>
-        /// <returns>True if the key was pressed during the previous frame, or false otherwise.</returns>
-        public bool WasKeyPressed(Key key)
-        {
-            return this.keyboardStateLast.IsPressed(key);
-        }
-
-        /// <summary>
-        /// This method checks if the specified key is released.
-        /// </summary>
-        /// <param name="key">The key to check the state of.</param>
-        /// <returns>True if the key is released or false otherwise.</returns>
-        public bool IsKeyReleased(Key key)
-        {
-            return this.keyboardStateCurrent.IsReleased(key);
-        }
-
-        /// <summary>
-        /// This method checks if the specified key was released (not pressed) during the previous frame.
-        /// </summary>
-        /// <param name="key">The key to check the state of.</param>
-        /// <returns>True if the key was not pressed during the previous frame, or false otherwise.</returns>
-        public bool WasKeyReleased(Key key)
-        {
-            return this.keyboardStateLast.IsReleased(key);
-        }
-
-        /// <summary>
         /// This method checks if the specified key is held down (meaning it has been held down for 2 or more consecutive frames).
         /// </summary>
         /// <param name="key">The key to check the state of.</param>
         /// <returns>True if the key is being held down or false otherwise.</returns>
         public bool IsKeyHeldDown(Key key)
         {
+            Contract.Assume(this.keyboardStateCurrent != null);
+            Contract.Assume(this.keyboardStateLast != null);
             return (this.keyboardStateCurrent.IsPressed(key) && this.keyboardStateLast.IsPressed(key));
         }
 
@@ -241,6 +219,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is pressed or false otherwise.</returns>
         public bool IsMouseButtonPressed(int button)
         {
+            Contract.Assume(this.mouseStateCurrent != null);
             return this.mouseStateCurrent.IsPressed(button);
         }
 
@@ -251,6 +230,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button was pressed during the previous frame or false otherwise.</returns>
         public bool WasMouseButtonPressed(int button)
         {
+            Contract.Assume(this.mouseStateLast != null);
             return this.mouseStateLast.IsPressed(button);
         }
 
@@ -261,6 +241,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is released or false otherwise.</returns>
         public bool IsMouseButtonReleased(int button)
         {
+            Contract.Assume(this.mouseStateCurrent != null);
             return this.mouseStateCurrent.IsReleased(button);
         }
 
@@ -271,6 +252,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button was released (not pressed) during the previous frame or false otherwise.</returns>
         public bool WasMouseButtonReleased(int button)
         {
+            Contract.Assume(this.mouseStateLast != null);
             return this.mouseStateLast.IsReleased(button);
         }
 
@@ -281,6 +263,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is held down or false otherwise.</returns>
         public bool IsMouseButtonHeldDown(int button)
         {
+            Contract.Assume(this.mouseStateCurrent != null);
             return (this.mouseStateCurrent.IsPressed(button) && this.mouseStateLast.IsPressed(button));
         }
 
@@ -290,6 +273,8 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the mouse has moved since the previous frame, or false otherwise.</returns>
         public bool MouseHasMoved()
         {
+            Contract.Assume(this.mouseStateLast != null);
+            Contract.Assume(this.mouseStateCurrent != null);
             if ((this.mouseStateCurrent.X != this.mouseStateLast.X) ||
                 (this.mouseStateCurrent.Y != this.mouseStateLast.Y))
             {
@@ -324,6 +309,8 @@ namespace CacheViewer.Domain.Utility
         /// <returns>The amount the scroll wheel has moved.  This can be positive or negative depending on which way it has moved.</returns>
         public int MouseWheelMovement()
         {
+            Contract.Assume(this.mouseStateCurrent != null);
+
             return this.mouseStateCurrent.Z;
         }
 

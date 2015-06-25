@@ -4,11 +4,12 @@ using System.Text;
 namespace CacheViewer.Domain.Archive
 {
     [StructLayout(LayoutKind.Sequential)]
+    // TODO do these REALLY need to be structs?
     public struct CacheHeader
     {
         public uint indexCount;
         public uint dataOffset;	// File offset to where the data chunks begin
-        public uint fileSize;	    // total size of the file
+        public uint fileSize;	// total size of the file
         public uint junk1;		// 0xFFFF ffff
         public long indexOffset;
 

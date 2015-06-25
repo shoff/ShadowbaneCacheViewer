@@ -30,7 +30,7 @@ namespace CacheViewer
         private readonly TreeNode particleNode = new TreeNode("Particles");
 
         // Archives
-        private readonly CacheObjectFactory cacheObjectFactory;
+        private readonly CacheObjectsCache cacheObjectsCache;
         private readonly MeshOnlyObjExporter meshExporter;
         private readonly RenderFactory renderFactory;
         private readonly TextureFactory textureFactory;
@@ -49,10 +49,10 @@ namespace CacheViewer
                 logger.Debug("CacheViewForm created.");
                 this.AcceptButton = this.CacheSaveButton;
                 this.textureFactory = TextureFactory.Instance;
-                this.cacheObjectFactory = CacheObjectFactory.Instance;
+                this.cacheObjectsCache = CacheObjectsCache.Instance;
                 this.renderFactory = RenderFactory.Instance;
                 this.meshExporter = MeshOnlyObjExporter.Instance;
-                this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectFactory.Indexes.Count;
+                this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectsCache.Indexes.Count;
                 this.TotalCacheLabel.Refresh();
             }
         }
@@ -64,7 +64,7 @@ namespace CacheViewer
 
             // ReSharper disable once LocalizableElement
             this.LoadLabel.Text = Messages.LoadTimeFromCache + " " +
-                TimeSpan.FromTicks(this.cacheObjectFactory.LoadTime).Seconds + Messages.Seconds;
+                TimeSpan.FromTicks(this.cacheObjectsCache.LoadTime).Seconds + Messages.Seconds;
             this.LoadLabel.Refresh();
 
             List<TreeNode> simpleNodes = new List<TreeNode>();
@@ -83,14 +83,14 @@ namespace CacheViewer
             await Task.Run(() =>
             {
 
-                foreach (var ci in this.cacheObjectFactory.Indexes)
+                foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectFactory.Create(ci);
+                    ICacheObject cacheObject = this.cacheObjectsCache.Create(ci);
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
-                        ci.identity.ToString(CultureInfo.InvariantCulture) :
-                        string.Format("{0}-{1}", ci.identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
+                        ci.Identity.ToString(CultureInfo.InvariantCulture) :
+                        string.Format("{0}-{1}", ci.Identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
 
                     var node = new TreeNode(title)
                     {
@@ -201,7 +201,7 @@ namespace CacheViewer
 
                 if (item.RenderId == 0)
                 {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.identity);
+                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                     return;
                 }
 
@@ -254,7 +254,7 @@ namespace CacheViewer
 
                 if (item.RenderId == 0)
                 {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.identity);
+                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
             }
             catch (Exception ex)
@@ -335,11 +335,11 @@ namespace CacheViewer
 
             if (string.IsNullOrEmpty(item.Name))
             {
-                directory = AppDomain.CurrentDomain.BaseDirectory +"\\ObjectCache\\"+ item.CacheIndex.identity;
+                directory = AppDomain.CurrentDomain.BaseDirectory +"\\ObjectCache\\"+ item.CacheIndex.Identity;
             }
             else
             {
-                directory = AppDomain.CurrentDomain.BaseDirectory + "\\ObjectCache\\" + item.Name + "_" + item.CacheIndex.identity;
+                directory = AppDomain.CurrentDomain.BaseDirectory + "\\ObjectCache\\" + item.Name + "_" + item.CacheIndex.Identity;
             }
 
             if (Directory.Exists(directory))
@@ -355,7 +355,7 @@ namespace CacheViewer
             {
                 if (item.RenderId == 0)
                 {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.identity);
+                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                     ResetSaveButtons();
                     return;
                 }

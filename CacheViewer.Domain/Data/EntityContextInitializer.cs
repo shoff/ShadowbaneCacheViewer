@@ -13,7 +13,7 @@ namespace CacheViewer.Domain.Data
 {
     public class EntitiesContextInitializer : CreateDatabaseIfNotExists<DataContext>
     {
-        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
+        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
         private readonly RenderFactory renderFactory = RenderFactory.Instance;
         private readonly MeshFactory meshFactory = MeshFactory.Instance;
         private readonly TextureFactory textureFactory = TextureFactory.Instance;
@@ -45,7 +45,7 @@ namespace CacheViewer.Domain.Data
             foreach (var cacheIndex in this.textureFactory.Indexes)
             {
                 i++;
-                Texture texture = textureFactory.Build(cacheIndex.identity, false);
+                Texture texture = textureFactory.Build(cacheIndex.Identity, false);
                 context.Textures.Add(texture);
 
                 if (i > 1000)
@@ -70,10 +70,10 @@ namespace CacheViewer.Domain.Data
                 Mesh mesh = this.meshFactory.Create(cacheIndex);
                 MeshEntity meshEntity = new MeshEntity
                 {
-                    CacheIndexIdentity = cacheIndex.identity,
-                    CompressedSize = (int)cacheIndex.compressedSize,
-                    UncompressedSize = (int)cacheIndex.compressedSize,
-                    FileOffset = (int)cacheIndex.offset,
+                    CacheIndexIdentity = cacheIndex.Identity,
+                    CompressedSize = (int)cacheIndex.CompressedSize,
+                    UncompressedSize = (int)cacheIndex.CompressedSize,
+                    FileOffset = (int)cacheIndex.Offset,
                     NormalsCount = (int)mesh.NormalsCount,
                     TexturesCount = (int)mesh.TextureCoordinatesCount,
                     VertexCount = (int)mesh.VertexCount,
@@ -124,7 +124,7 @@ namespace CacheViewer.Domain.Data
             foreach (var cacheIndex in this.renderFactory.Indexes)
             {
                 i++;
-                if (cacheIndex.identity == lastIdentity)
+                if (cacheIndex.Identity == lastIdentity)
                 {
                     lastIdentity = 0;
                     continue;
@@ -137,7 +137,7 @@ namespace CacheViewer.Domain.Data
 
                 if (ri.SharedId != null)
                 {
-                    lastIdentity = cacheIndex.identity;
+                    lastIdentity = cacheIndex.Identity;
                     var re1 = BuildRenderEntity(ri.SharedId);
                     context.RenderEntities.Add(re1);
                 }
@@ -156,9 +156,9 @@ namespace CacheViewer.Domain.Data
             RenderEntity re = new RenderEntity
             {
                 ByteCount = ri.ByteCount,
-                CacheIndexIdentity = ri.CacheIndex.identity,
-                CompressedSize = (int)ri.CacheIndex.compressedSize,
-                FileOffset = (int)ri.CacheIndex.offset,
+                CacheIndexIdentity = ri.CacheIndex.Identity,
+                CompressedSize = (int)ri.CacheIndex.CompressedSize,
+                FileOffset = (int)ri.CacheIndex.Offset,
                 HasMesh = ri.HasMesh,
                 JointName = ri.JointName,
                 MeshId = ri.MeshId,
@@ -168,7 +168,7 @@ namespace CacheViewer.Domain.Data
                 Scale = ri.Scale.ToString(),
                 TextureId = ri.TextureId,
 
-                UncompressedSize = (int)ri.CacheIndex.unCompressedSize,
+                UncompressedSize = (int)ri.CacheIndex.UnCompressedSize,
                 Children = ri.ChildRenderIdList.Map(x => new RenderChild
                     {
                         RenderId = x
@@ -179,17 +179,18 @@ namespace CacheViewer.Domain.Data
 
         private void AddCacheObjectEntities(DataContext context)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
             int i = 0;
-            foreach (var cacheIndex in this.cacheObjectFactory.Indexes)
+            foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
             {
                 i++;
-                ICacheObject cacheObject = this.cacheObjectFactory.Create(cacheIndex);
+                ICacheObject cacheObject = this.cacheObjectsCache.Create(cacheIndex);
                 CacheObjectEntity entity = new CacheObjectEntity
                 {
-                    CacheIndexIdentity = cacheIndex.identity,
-                    CompressedSize = (int)cacheIndex.compressedSize,
-                    UncompressedSize = (int)cacheIndex.unCompressedSize,
-                    FileOffset = (int)cacheIndex.offset,
+                    CacheIndexIdentity = cacheIndex.Identity,
+                    CompressedSize = (int)cacheIndex.CompressedSize,
+                    UncompressedSize = (int)cacheIndex.UnCompressedSize,
+                    FileOffset = (int)cacheIndex.Offset,
                     RenderKey = (int)cacheObject.RenderId,
                     Name = cacheObject.Name,
                     // Data = cacheObject.Data,
@@ -230,7 +231,7 @@ namespace CacheViewer.Domain.Data
                             {
                                 Offset = i,
                                 RenderId = id,
-                                CacheIndexIdentity = entity.CacheIndex.identity
+                                CacheIndexIdentity = entity.CacheIndex.Identity
                             });
                             Console.WriteLine("Found matching renderId at position {0}, id is {1}", i, id);
                         }
@@ -241,8 +242,8 @@ namespace CacheViewer.Domain.Data
 
         private bool Found(int id)
         {
-            var renderId = this.renderFactory.Indexes.FirstOrDefault(x => x.identity == id);
-            if (renderId.identity > 0)
+            var renderId = this.renderFactory.Indexes.FirstOrDefault(x => x.Identity == id);
+            if (renderId.Identity > 0)
             {
                 return true;
             }

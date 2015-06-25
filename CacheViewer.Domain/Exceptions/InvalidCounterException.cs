@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
          public InvalidCounterException(CacheIndex cacheIndex)
-            : base(string.Format("Invalid counter parsed for CacheInded {0}", cacheIndex.identity))
+            : base(string.Format("Invalid counter parsed for CacheInded {0}", cacheIndex.Identity))
         {
         }
     }

@@ -106,7 +106,7 @@ namespace CacheViewer.Tests.Domain.Factories
             Assert.AreEqual(actual.Name, "Visual.cache");
         }
         
-        [Test]
+        [Test, Ignore("Still need to create a cache maker")]
         public void Build_Unknown_Should_Return_Unknown_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Unknown);

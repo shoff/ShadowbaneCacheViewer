@@ -4,9 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CacheViewer.Domain.Data.Entities
 {
+    using System.Diagnostics.Contracts;
+
     [Table("RenderEntities")]   
     public class RenderEntity
     {
+        [ContractInvariantMethod]
+        private void ObjectInvariants()
+        {
+            Contract.Invariant(this.Children != null);
+            Contract.Invariant(this.Scale.Length <= 64);
+            Contract.Invariant(this.Position.Length <= 64);
+        }
+
         public RenderEntity()
         {
             this.Children = new List<RenderChild>();

@@ -50,7 +50,7 @@ namespace CacheViewer.Domain.Models
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error( string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.identity), ioException);
+                    logger.Error( string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity), ioException);
                     throw;
                 }
 
@@ -83,7 +83,7 @@ namespace CacheViewer.Domain.Models
 
                     if (this.RenderId == 0)
                     {
-                        logger.Error("No RenderId found for Equipment CacheIndex {0}", this.CacheIndex.identity);
+                        logger.Error("No RenderId found for Equipment CacheIndex {0}", this.CacheIndex.Identity);
                         return; //if there was no ID given, then nfi what to do - so exit.
                     }
 
@@ -98,7 +98,7 @@ namespace CacheViewer.Domain.Models
                 }
                 catch (Exception e)
                 {
-                    logger.Error(string.Format("Error parsing Equipment for CacheIndex {0}", this.CacheIndex.identity), e);
+                    logger.Error(string.Format("Error parsing Equipment for CacheIndex {0}", this.CacheIndex.Identity), e);
                 }
             }
         }

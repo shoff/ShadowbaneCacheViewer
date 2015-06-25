@@ -6,10 +6,12 @@ using CacheViewer.Domain.Archive;
 using CacheViewer.Domain.Exceptions;
 using CacheViewer.Domain.Extensions;
 using CacheViewer.Domain.Models;
-using SlimDX;
 
 namespace CacheViewer.Domain.Factories
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+
     public class MeshFactory : IModelFactory
     {
         private static MeshArchive meshArchive;
@@ -20,26 +22,36 @@ namespace CacheViewer.Domain.Factories
             meshArchive = (MeshArchive)ArchiveFactory.Instance.Build(CacheFile.Mesh);
         }
 
-        /// <summary>
-        /// Creates the specified index identifier.
-        /// </summary>
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(meshArchive != null);
+        }
+
+        /// <summary>Creates the specified index identifier.</summary>
         /// <param name="indexId">The index identifier.</param>
         /// <returns></returns>
+        /// <exception cref="IndexNotFoundException">When cache does not contain item with matching indexId.</exception>
+        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+        /// <exception cref="IOException">An I/O error occurs. </exception>
+        /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(int indexId)
         {
-            CacheIndex cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.identity == indexId);
-            if (cacheIndex.identity > 0)
+            CacheIndex cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
+            if (cacheIndex.Identity > 0)
             {
                 return Create(cacheIndex);
             }
             throw new IndexNotFoundException(this.GetType(), indexId);
         }
 
-        /// <summary>
-        /// Creates the specified buffer.
-        /// </summary>
+        /// <summary>Creates the specified buffer.</summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <returns></returns>
+        /// <exception cref="IndexNotFoundException">Condition. </exception>
+        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+        /// <exception cref="IOException">An I/O error occurs. </exception>
+        /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(CacheIndex cacheIndex)
         {
             Mesh mesh = new Mesh
@@ -47,7 +59,7 @@ namespace CacheViewer.Domain.Factories
                 CacheIndex = cacheIndex
             };
 
-            CacheAsset cacheAsset = meshArchive[cacheIndex.identity];
+            CacheAsset cacheAsset = meshArchive[cacheIndex.Identity];
             using (BinaryReader reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {
                 mesh.Header = new MeshHeader
@@ -66,29 +78,28 @@ namespace CacheViewer.Domain.Factories
 
                 mesh.VertexCount = reader.ReadUInt32();
                 mesh.VertexBufferSize = mesh.VertexCount * sizeof(float) * 3;
-                mesh.Vertices = new Vector3[mesh.VertexCount];
+                //mesh.Vertices = new Vector3[mesh.VertexCount];
 
                 for (int i = 0; i < mesh.VertexCount; i++)
                 {
-                    mesh.Vertices[i] = reader.ReadToVector3();
+                    mesh.Vertices.Add(reader.ReadToVector3());
                 }
 
                 mesh.NormalsCount = reader.ReadUInt32();
                 mesh.NormalsBufferSize = mesh.NormalsCount * sizeof(float) * 3;
-                mesh.Normals = new Vector3[mesh.NormalsCount];
+                //mesh.Normals = new Vector3[mesh.NormalsCount];
 
                 for (int i = 0; i < mesh.NormalsCount; i++)
                 {
-                    mesh.Normals[i] = reader.ReadToVector3();
+                    mesh.Normals.Add(reader.ReadToVector3());
                 }
 
-                // should be the same as the verts, normals count.
+                // should be the same as the vertices, normals count.
                 mesh.TextureCoordinatesCount = reader.ReadUInt32();
 
-                mesh.TextureVectors = new Vector2[mesh.TextureCoordinatesCount];
                 for (int i = 0; i < mesh.TextureCoordinatesCount; i++)
                 {
-                    mesh.TextureVectors[i] = reader.ReadToVector2();
+                    mesh.TextureVectors.Add(reader.ReadToVector2());
                 }
 
                 //---------------- Indices ----------------
@@ -96,7 +107,7 @@ namespace CacheViewer.Domain.Factories
                 // nIndices *= 3; // three indices per triangle maybe ?
                 mesh.NumberOfIndices = reader.ReadUInt32();
 
-                // if they aren't divisable by 3 then something is borked.
+                // if they aren't dividable by 3 then something is borked.
                 if ((mesh.NumberOfIndices > 0) && (mesh.NumberOfIndices % 3 == 0))
                 {
                     var dataLength = mesh.NumberOfIndices * 2;
@@ -119,48 +130,45 @@ namespace CacheViewer.Domain.Factories
             return mesh;
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
+        /// <summary>Gets the instance.</summary>
         public static MeshFactory Instance
         {
             get { return instance; }
         }
 
-        /// <summary>
-        /// Gets the indexes.
-        /// </summary>
-        /// <value>
-        /// The indexes.
-        /// </value>
+        /// <summary>Gets the indexes.</summary>
         public CacheIndex[] Indexes
         {
-            get { return meshArchive.CacheIndices.ToArray(); }
+            get
+            {
+                Contract.Ensures(Contract.Result<CacheIndex[]>() != null);
+                return meshArchive.CacheIndices.ToArray();
+            }
         }
 
-        /// <summary>
-        /// Gets the identity range.
-        /// </summary>
-        /// <value>
-        /// The identity range.
-        /// </value>
+        /// <summary>Gets the identity range.</summary>
         public Tuple<int, int> IdentityRange
         {
-            get { return new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId); }
+            get
+            {
+                Contract.Ensures(Contract.Result<Tuple<int, int>>() != null);
+                return new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId);
+            }
         }
 
-        /// <summary>
-        /// Gets the identity array.
-        /// </summary>
-        /// <value>
-        /// The identity array.
-        /// </value>
+        /// <summary>Gets the identity array.</summary>
         public int[] IdentityArray
         {
             get { return meshArchive.IdentityArray; }
+        }
+        
+        [ContractInvariantMethod]
+        private void ObjectInvariants()
+        {
+            Contract.Invariant(instance != null);
+            Contract.Invariant(Indexes != null);
+            Contract.Invariant(IdentityRange != null);
+            Contract.Invariant(meshArchive != null);
         }
     }
 }

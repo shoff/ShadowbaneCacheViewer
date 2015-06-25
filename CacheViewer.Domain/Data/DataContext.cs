@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DataContext.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
+﻿
 namespace CacheViewer.Domain.Data
 {
     using System;
@@ -71,7 +63,6 @@ namespace CacheViewer.Domain.Data
         public DataContext()
             : this(ConfigurationWrapper.Instance.AppSettings["ConnectionString"])
         {
-            // : this("Server=192.168.0.8;Initial Catalog=CacheView;User Id=steve;Password=hacker22;MultipleActiveResultSets=True")
         }
 
         /// <summary>
@@ -234,7 +225,7 @@ namespace CacheViewer.Domain.Data
             }
             catch (SqlException sql)
             {
-                logger.ErrorException(sql.Message, sql);
+                logger.Error(sql.Message, sql);
                 if (this.ReThrowExceptions)
                 {
                     throw;
@@ -332,14 +323,6 @@ namespace CacheViewer.Domain.Data
             return await SaveChangesAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Calls the protected Dispose method.
-        /// </summary>
-        public new void Dispose()
-        {
-            base.Dispose();
-            GC.SuppressFinalize(this);
-        }
 
         /// <summary>
         /// Called when [model creation].

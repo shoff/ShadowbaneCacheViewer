@@ -2,6 +2,8 @@
 
 namespace CacheViewer.Domain.Exceptions
 {
+    using System.Diagnostics.Contracts;
+
     [Serializable]
     public class IndexNotFoundException : ApplicationException
     {

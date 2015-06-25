@@ -197,14 +197,15 @@ namespace CacheViewer.Domain.Parsers
                 : line.Substring(Keywords[type].Length).Trim();
         }
 
-        internal static float[] ParseFloatArray(string str, int count)
+        public static float[] ParseFloatArray(string str, int count)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
             Contract.Requires<ArgumentException>(count > 0);
+            Contract.Ensures(Contract.Result<float[]>() != null);
+            Contract.Ensures(Contract.Result<float[]>().Length == count);
 
-
-            // Create an array of floats of arbitary length from a string representation,
-            // where the floats are spearated by whitespace.
+            // Create an array of floats of arbitrary length from a string representation,
+            // where the floats are separated by whitespace.
             var floats = new float[count];
 
             var segments = str.Split(' ');
@@ -227,7 +228,7 @@ namespace CacheViewer.Domain.Parsers
             return floats;
         }
 
-        internal Vector2 ParseVector2(string str)
+        public Vector2 ParseVector2(string str)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
             // Parse a 3D vector from a string definition in the form of: 2.0 3.0 1.0
@@ -241,7 +242,7 @@ namespace CacheViewer.Domain.Parsers
             return Math.Abs(components[2]) < .00001f ? vec : vec / components[2];
         }
 
-        internal Vector3 ParseVector3(string str)
+        public Vector3 ParseVector3(string str)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
             // Parse a 3D vector from a string definition in the form of: 1.0 2.0 3.0 1.0
@@ -250,10 +251,11 @@ namespace CacheViewer.Domain.Parsers
             return Math.Abs(components[3]) < .00001f ? vec : vec / components[3];
         }
 
-        internal WavefrontFace ParseFace(string str)
+        public WavefrontFace ParseFace(string str)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
             Contract.Ensures(Contract.Result<WavefrontFace>() != null);
+
             // Parse a OBJ face from a string definition.
             // Split the face definition at whitespace
             var segments = str.Split(new Char[0], StringSplitOptions.RemoveEmptyEntries);
@@ -274,7 +276,7 @@ namespace CacheViewer.Domain.Parsers
             };
         }
 
-        internal WavefrontVertex ParseVertex(string str)
+        public WavefrontVertex ParseVertex(string str)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
             Contract.Ensures(Contract.Result<WavefrontVertex>() != null);

@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿
 
 namespace CacheViewer.Domain.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Validation;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using System.Diagnostics.Contracts;
+    using NLog;
+
     /// <summary> 
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
@@ -15,6 +19,9 @@ namespace CacheViewer.Domain.Data
     public class EntityRepository<TEntity, TK> : IEntityRepository<TEntity, TK>, IDisposable
         where TEntity : class
     {
+
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         // ReSharper disable once InconsistentNaming
         protected IQueryableDataContext dataContext;
 
@@ -24,8 +31,10 @@ namespace CacheViewer.Domain.Data
         /// <param name="dataContext">The data context.</param>
         public EntityRepository(IQueryableDataContext dataContext)
         {
+            Contract.Requires<ArgumentNullException>(dataContext != null);
             this.dataContext = dataContext;
         }
+
 
         /// <summary>
         /// Gets or sets the context.
@@ -36,7 +45,11 @@ namespace CacheViewer.Domain.Data
         public IQueryableDataContext Context
         {
             get { return this.dataContext; }
-            set { this.dataContext = value; }
+            set
+            {
+                //Contract.Requires(value != null);
+                //this.dataContext = value;
+            }
         }
 
         /// <summary>
@@ -165,13 +178,8 @@ namespace CacheViewer.Domain.Data
         /// Generic method for deleting a method in the context pasing the Entity
         /// </summary>
         /// <param name="entityToDelete">Entity to Delete</param>
-        /// <exception cref="ArgumentNullException">The value of 'entityToDelete' cannot be null. </exception>
         public virtual void Delete(TEntity entityToDelete)
         {
-            if (entityToDelete == null)
-            {
-                throw new ArgumentNullException("entityToDelete");
-            }
             this.dataContext.Attach(entityToDelete);
             this.dataContext.SetEntity<TEntity>().Remove(entityToDelete);
         }
@@ -247,6 +255,7 @@ namespace CacheViewer.Domain.Data
             {
                 throw new ArgumentNullException("orderByExpression");
             }
+
             try
             {
                 return (orderby)
@@ -259,21 +268,29 @@ namespace CacheViewer.Domain.Data
                             .Take(pageCount)
                             .ToList();
             }
-            catch (DbEntityValidationException dbe)
+            catch (DbEntityValidationException dbv)
             {
                 // if you override ToString on your story, if there is a validation error, 
                 // this will log the whatever you put in ToString so you can identify 
                 // the faulting story.
 
-                if (!ReferenceEquals(null, dbe.EntityValidationErrors))
-                {
-                }
-                throw;
+                //if (!ReferenceEquals(null, dbe.EntityValidationErrors))
+                //{
+                //}
+                //throw;
+                logger.Error(dbv);
+                return new List<TEntity>();
             }
-            catch (InvalidCastException)
+            catch (InvalidCastException ice)
             {
+                logger.Error(ice);
                 // we never return null from our repository, just
                 // an empty collection.
+                return new List<TEntity>();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
                 return new List<TEntity>();
             }
         }
@@ -351,6 +368,13 @@ namespace CacheViewer.Domain.Data
         public virtual void Dispose()
         {
             this.Context.Dispose();
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariants()
+        {
+            Contract.Invariant(this.dataContext != null);
+            Contract.Invariant(Context != null);
         }
     }
 }

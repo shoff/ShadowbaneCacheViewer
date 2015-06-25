@@ -13,6 +13,11 @@ using CacheViewer.Domain.Utility;
 
 namespace CacheViewer.Domain.Exporters
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Security;
+    using NLog;
+
     public class MeshOnlyObjExporter
     {
         private const string SbRenderId = "# RenderId: {0}\r\n";
@@ -29,15 +34,25 @@ namespace CacheViewer.Domain.Exporters
         private const string MaterialSpecualrNs = "Ns 10.000";
         private const string MaterialDefaultIllumination = "illum 2\r\n";
         private const string MapTo = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-        private readonly string modelDirectory; 
+        private readonly string modelDirectory = FileLocations.Instance.GetExportFolder(); 
         private string name;
+
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
+        [ContractInvariantMethod]
+        private void ObjectVariant()
+        {
+            Contract.Invariant(modelDirectory != null);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjExporter"/> class.
         /// </summary>
+        /// <exception cref="IOException">The directory specified by <paramref name="path" /> is a file.-or-The network name is not known.</exception>
+        /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission. </exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
         public MeshOnlyObjExporter()
         {
-            this.modelDirectory = FileLocations.Instance.GetExportFolder();
             if (!Directory.Exists(this.modelDirectory))
             {
                 Directory.CreateDirectory(this.modelDirectory);
@@ -50,49 +65,68 @@ namespace CacheViewer.Domain.Exporters
         /// <param name="mesh">The Mesh.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public async Task ExportAsync(Mesh mesh, string name = null)
+        /// <exception cref="FileNotFoundException">The file cannot be found, such as when <paramref name="mode" /> is FileMode.Truncate or FileMode.Open, and the file specified by <paramref name="path" /> does not exist. The file must already exist in these modes. </exception>
+        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid, such as being on an unmapped drive. </exception>
+        /// <exception cref="UnauthorizedAccessException">The <paramref name="access" /> requested is not permitted by the operating system for the specified <paramref name="path" />, such as when <paramref name="access" /> is Write or ReadWrite and the file or directory is set for read-only access. </exception>
+        /// <exception cref="IOException">An I/O error, such as specifying FileMode.CreateNew when the file specified by <paramref name="path" /> already exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and <paramref name="share" /> is set to FileShare.Delete.-or-The stream has been closed.</exception>
+        public async Task<bool> ExportAsync(Mesh mesh, string name = null)
         {
-            StringBuilder mainStringBuilder = new StringBuilder();
-            StringBuilder materialBuilder = new StringBuilder();
-            mainStringBuilder.Append(UsesCentimeters);
-            // todo - not all objects seem to have names
-            this.name = name ?? string.Join(string.Empty, new[]{"Mesh_", mesh.CacheIndex.identity.ToString(CultureInfo.InvariantCulture)}); 
+            Contract.Requires<ArgumentNullException>(mesh != null);
+            Contract.Ensures(Contract.Result<Task<bool>>() != null);
 
-            mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(mesh.CacheIndex.identity));
-            mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.identity);
-            mainStringBuilder.AppendFormat(MaterialLib, this.name);
-            mainStringBuilder.Append(DefaultGroup);
-            
-            // save the obj
-            this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.modelDirectory);
-
-            using (var fs = new FileStream(this.modelDirectory + "\\" + this.name + ".obj", FileMode.Create, FileAccess.ReadWrite))
+            try
             {
-                using (StreamWriter writer = new StreamWriter(fs))
+                StringBuilder mainStringBuilder = new StringBuilder();
+                StringBuilder materialBuilder = new StringBuilder();
+                mainStringBuilder.Append(UsesCentimeters);
+                // todo - not all objects seem to have names
+
+                this.name = name ?? string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
+
+                mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(mesh.CacheIndex.Identity));
+                mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
+                mainStringBuilder.AppendFormat(MaterialLib, this.name);
+                mainStringBuilder.Append(DefaultGroup);
+
+                // save the obj
+                this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.modelDirectory);
+
+                using (var fs = new FileStream(this.modelDirectory + "\\" + this.name + ".obj",
+                    FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
-                    await writer.WriteAsync(mainStringBuilder.ToString());
+                    using (StreamWriter writer = new StreamWriter(fs))
+                    {
+                        await writer.WriteAsync(mainStringBuilder.ToString());
+                    }
+                }
+
+                // save the material
+                string mtlFile = this.modelDirectory + "\\" + this.name + ".mtl";
+                if (File.Exists(mtlFile))
+                {
+                    File.Delete(mtlFile);
+                }
+
+                using (var fs1 = new FileStream(this.modelDirectory + "\\" + this.name + ".mtl",
+                    FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    using (StreamWriter writer = new StreamWriter(fs1))
+                    {
+                        await writer.WriteAsync(materialBuilder.ToString());
+                    }
                 }
             }
-
-            // save the material
-            string mtlFile = this.modelDirectory + "\\" + this.name + ".mtl";
-            if (File.Exists(mtlFile))
+            catch (Exception e)
             {
-                File.Delete(mtlFile);
+                logger.Error(e);
+                return false;
             }
 
-            using (var fs1 = new FileStream(this.modelDirectory + "\\" + this.name + ".mtl", 
-                FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-            {
-                using (StreamWriter writer = new StreamWriter(fs1))
-                {
-                    await writer.WriteAsync(materialBuilder.ToString());
-                }
-            }
+            return true;
         }
 
-        private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
-            StringBuilder materialBuilder, string directory)
+        private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, StringBuilder materialBuilder, string directory)
         {
             List<string> mapFiles = new List<string>();
 
@@ -187,9 +221,6 @@ namespace CacheViewer.Domain.Exporters
         /// <summary>
         /// Gets the instance.
         /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
         public static MeshOnlyObjExporter Instance
         {
             get { return new MeshOnlyObjExporter(); }

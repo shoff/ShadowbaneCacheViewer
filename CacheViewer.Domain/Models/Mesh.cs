@@ -6,6 +6,8 @@ using SlimDX;
 
 namespace CacheViewer.Domain.Models
 {
+    using System.Diagnostics.Contracts;
+
     /// <summary>
     /// </summary>
     public class Mesh
@@ -17,6 +19,19 @@ namespace CacheViewer.Domain.Models
         {
             this.Textures = new List<Texture>();
             this.Indices = new List<WavefrontVertex>();
+            this.Normals = new List<Vector3>();
+            this.Vertices = new List<Vector3>();
+            this.TextureVectors = new List<Vector2>();
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(Textures != null);
+            Contract.Invariant(Vertices != null);
+            Contract.Invariant(Normals != null);
+            Contract.Invariant(TextureVectors != null);
+            Contract.Invariant(Indices != null);
         }
 
         /// <summary>
@@ -57,94 +72,61 @@ namespace CacheViewer.Domain.Models
         /// <value>
         /// The textures.
         /// </value>
-        public List<Texture> Textures { get; set; }
+        public List<Texture> Textures  { get; private set; }
 
         /// <summary>
         /// Gets or sets the vertices.
         /// </summary>
-        /// <value>
-        /// The vertices.
-        /// </value>
-        public Vector3[] Vertices { get; set; }
+        public List<Vector3> Vertices { get; private set; }
 
         /// <summary>
         /// Gets or sets the normals.
         /// </summary>
-        /// <value>
-        /// The normals.
-        /// </value>
-        public Vector3[] Normals { get; set; }
+        public List<Vector3> Normals { get; private set; }
 
         /// <summary>
         /// Gets or sets the texture vectors.
         /// </summary>
-        /// <value>
-        /// The texture vectors.
-        /// </value>
-        public Vector2[] TextureVectors { get; set; }
+        public List<Vector2> TextureVectors { get; private set; }
 
         /// <summary>
         /// Gets or sets the indices.
         /// </summary>
-        /// <value>
-        /// The indices.
-        /// </value>
-        public List<WavefrontVertex> Indices { get; set; }
+        public List<WavefrontVertex> Indices { get; private set; }
 
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the normals count.
         /// </summary>
-        /// <value>
-        /// The normals count.
-        /// </value>
         public uint NormalsCount { get; set; }
 
         /// <summary>
         /// Gets or sets the size of the normals buffer.
         /// </summary>
-        /// <value>
-        /// The size of the normals buffer.
-        /// </value>
         public uint NormalsBufferSize { get; set; }
 
         /// <summary>
         /// Gets or sets the texture coordinates count.
         /// </summary>
-        /// <value>
-        /// The texture coordinates count.
-        /// </value>
         public uint TextureCoordinatesCount { get; set; }
 
         /// <summary>
         /// Gets or sets the unknown data.
         /// </summary>
-        /// <value>
-        /// The unknown data.
-        /// </value>
         public byte[] UnknownData { get; set; }
 
         /// <summary>
         /// Gets or sets the offset to unknown data.
         /// </summary>
-        /// <value>
-        /// The offset to unknown data.
-        /// </value>
         public long OffsetToUnknownData { get; set; }
 
         /// <summary>
         /// Gets or sets the number of indices.
         /// </summary>
-        /// <value>
-        /// The number of indices.
-        /// </value>
         public uint NumberOfIndices { get; set; }
     }
 }

@@ -11,12 +11,6 @@ namespace CacheViewer.Domain.Data.Entities
     {
         /// <summary>
         /// </summary>
-        public MeshEntity()
-        {
-        }
-
-        /// <summary>
-        /// </summary>
         [Key]
         public int MeshEntityId { get; set; }
 

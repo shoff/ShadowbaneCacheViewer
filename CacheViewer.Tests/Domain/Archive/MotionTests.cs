@@ -16,6 +16,8 @@ namespace CacheViewer.Tests.Domain.Archive
             this.motion = new Motion();
         }
 
+
+
         [Test]
         public void CachHeader_Should_Contain_Correct_Values()
         {

@@ -90,7 +90,7 @@ namespace CacheViewer.Domain.Models
                 if (counter > 10000) // one million, nothing should have more than that
                 {
                     logger.Error("Counter value of {0} out of range when parsing structure of CacheIndex {1} in Structure line 84.",counter,
-                        this.CacheIndex.identity);
+                        this.CacheIndex.Identity);
                     return;
                 }
 
@@ -139,7 +139,7 @@ namespace CacheViewer.Domain.Models
                     if (counter > 10000) // nothing should be more than that
                     {
                         logger.Error("counter of {0} is out of range for walk data in Structure parsing for CacheIndex {1} in Structure line 133.", 
-                            counter, this.CacheIndex.identity);
+                            counter, this.CacheIndex.Identity);
                         return;
                     }
 
@@ -178,7 +178,7 @@ namespace CacheViewer.Domain.Models
                         catch(Exception e1)
                         {
                             logger.Error(string.Format("Exception thrown while trying to create walk data for CacheIndex {0} in Structure line 172.", 
-                                CacheIndex.identity), e1);
+                                CacheIndex.Identity), e1);
                             throw;
                         }
                     }
@@ -208,13 +208,13 @@ namespace CacheViewer.Domain.Models
                                 if (counter > 10000) // nothing should be more than that
                                 {
                                     logger.Error("counter of {0} is out of range for walk data in Structure parsing for CacheIndex {1} in Structure line 202.",
-                                        counter, this.CacheIndex.identity);
+                                        counter, this.CacheIndex.Identity);
                                     return;
                                 }
                             }
                             catch(Exception e2)
                             {
-                                logger.Error(string.Format("Exception occurred parsing structure for CacheIndex {0} in Structure line 209.", this.CacheIndex.identity), e2);
+                                logger.Error(string.Format("Exception occurred parsing structure for CacheIndex {0} in Structure line 209.", this.CacheIndex.Identity), e2);
                                 return;
                             }
 
@@ -253,7 +253,7 @@ namespace CacheViewer.Domain.Models
                                 catch(Exception e3)
                                 {
                                     logger.Error(string.Format("Exception thrown on second chunk of walk data for CacheIndex {0} in Structure line 247.",
-                                        CacheIndex.identity), e3);
+                                        CacheIndex.Identity), e3);
                                     return;
                                 }
                             }
@@ -286,7 +286,7 @@ namespace CacheViewer.Domain.Models
                 if (counter > 5000)
                 { 
                     // Range check for invalid values
-                    logger.Error("Error: had render pass count of {0} on CacheIndex {1}  Exiting function  in Structure line 281.", counter, this.CacheIndex.identity);
+                    logger.Error("Error: had render pass count of {0} on CacheIndex {1}  Exiting function  in Structure line 281.", counter, this.CacheIndex.Identity);
                     //wxLogMessage(_T("Error: had render pass count of %i.  Exiting function."), counter);
                     return;
                 }
@@ -314,7 +314,7 @@ namespace CacheViewer.Domain.Models
                     }
                     catch(Exception e5)
                     {
-                        logger.Error(string.Format("Error parsing structure for CacheIndex {0} in Structure line 309.", this.CacheIndex.identity), e5);
+                        logger.Error(string.Format("Error parsing structure for CacheIndex {0} in Structure line 309.", this.CacheIndex.Identity), e5);
                         break;
                     }
                 }
@@ -322,7 +322,7 @@ namespace CacheViewer.Domain.Models
             }
             catch(Exception e6)
             {
-                logger.Error(string.Format("Error parsing structure for CacheIndex {0} in Structure line 317.", this.CacheIndex.identity), e6);
+                logger.Error(string.Format("Error parsing structure for CacheIndex {0} in Structure line 317.", this.CacheIndex.Identity), e6);
                 //wxLogMessage(_T("Error: Failed to load Object Type 4"));
                 return;
             }
