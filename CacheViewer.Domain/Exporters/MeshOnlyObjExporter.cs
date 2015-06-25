@@ -1,25 +1,29 @@
 ﻿
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Factories;
-using CacheViewer.Domain.Models;
-using CacheViewer.Domain.Utility;
-
 namespace CacheViewer.Domain.Exporters
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
-    using System.Security;
+    using System.Drawing.Imaging;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Factories;
+    using CacheViewer.Domain.Models;
+    using CacheViewer.Domain.Parsers;
+    using CacheViewer.Domain.Utility;
     using NLog;
 
+    /// <summary>
+    /// </summary>
+    [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class MeshOnlyObjExporter
     {
+
         private const string SbRenderId = "# RenderId: {0}\r\n";
         private const string UsesCentimeters = "# This file uses centimeters as units for non-parametric coordinates.\r\n";
         private const string DefaultGroup = "g default\r\n";
@@ -34,9 +38,8 @@ namespace CacheViewer.Domain.Exporters
         private const string MaterialSpecualrNs = "Ns 10.000";
         private const string MaterialDefaultIllumination = "illum 2\r\n";
         private const string MapTo = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-        private readonly string modelDirectory = FileLocations.Instance.GetExportFolder(); 
+        private readonly string modelDirectory = FileLocations.Instance.GetExportFolder();
         private string name;
-
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
         [ContractInvariantMethod]
@@ -46,15 +49,20 @@ namespace CacheViewer.Domain.Exporters
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjExporter"/> class.
+        /// Initializes a new instance of the <see cref="ObjExporter" /> class.
         /// </summary>
-        /// <exception cref="IOException">The directory specified by <paramref name="path" /> is a file.-or-The network name is not known.</exception>
-        /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission. </exception>
-        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
+        /// The directory specified by <paramref>
+        ///   <name>path</name>
+        /// </paramref>
+        /// is a file.-or-The network name is not known.
+        /// The caller does not have the required permission.
+        /// The specified path is invalid (for example, it is on an unmapped drive).
+        /// <cref>DirectoryNotFoundException</cref>
         public MeshOnlyObjExporter()
         {
             if (!Directory.Exists(this.modelDirectory))
             {
+                // ReSharper disable once ExceptionNotDocumented
                 Directory.CreateDirectory(this.modelDirectory);
             }
         }
@@ -62,14 +70,14 @@ namespace CacheViewer.Domain.Exporters
         /// <summary>
         /// Exports the specified Mesh.
         /// </summary>
-        /// <param name="mesh">The Mesh.</param>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
-        /// <exception cref="FileNotFoundException">The file cannot be found, such as when <paramref name="mode" /> is FileMode.Truncate or FileMode.Open, and the file specified by <paramref name="path" /> does not exist. The file must already exist in these modes. </exception>
-        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
-        /// <exception cref="DirectoryNotFoundException">The specified path is invalid, such as being on an unmapped drive. </exception>
-        /// <exception cref="UnauthorizedAccessException">The <paramref name="access" /> requested is not permitted by the operating system for the specified <paramref name="path" />, such as when <paramref name="access" /> is Write or ReadWrite and the file or directory is set for read-only access. </exception>
-        /// <exception cref="IOException">An I/O error, such as specifying FileMode.CreateNew when the file specified by <paramref name="path" /> already exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and <paramref name="share" /> is set to FileShare.Delete.-or-The stream has been closed.</exception>
+        /// <param name="mesh">
+        /// The Mesh.
+        /// </param>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public async Task<bool> ExportAsync(Mesh mesh, string name = null)
         {
             Contract.Requires<ArgumentNullException>(mesh != null);
@@ -80,8 +88,8 @@ namespace CacheViewer.Domain.Exporters
                 StringBuilder mainStringBuilder = new StringBuilder();
                 StringBuilder materialBuilder = new StringBuilder();
                 mainStringBuilder.Append(UsesCentimeters);
-                // todo - not all objects seem to have names
 
+                // todo - not all objects seem to have names
                 this.name = name ?? string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
 
                 mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(mesh.CacheIndex.Identity));
@@ -92,8 +100,12 @@ namespace CacheViewer.Domain.Exporters
                 // save the obj
                 this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.modelDirectory);
 
-                using (var fs = new FileStream(this.modelDirectory + "\\" + this.name + ".obj",
-                    FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (
+                    var fs = new FileStream(
+                        this.modelDirectory + "\\" + this.name + ".obj", 
+                        FileMode.Create, 
+                        FileAccess.ReadWrite, 
+                        FileShare.ReadWrite))
                 {
                     using (StreamWriter writer = new StreamWriter(fs))
                     {
@@ -108,8 +120,12 @@ namespace CacheViewer.Domain.Exporters
                     File.Delete(mtlFile);
                 }
 
-                using (var fs1 = new FileStream(this.modelDirectory + "\\" + this.name + ".mtl",
-                    FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (
+                    var fs1 = new FileStream(
+                        this.modelDirectory + "\\" + this.name + ".mtl", 
+                        FileMode.Create, 
+                        FileAccess.ReadWrite, 
+                        FileShare.ReadWrite))
                 {
                     using (StreamWriter writer = new StreamWriter(fs1))
                     {
@@ -126,16 +142,33 @@ namespace CacheViewer.Domain.Exporters
             return true;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="mesh">
+        /// </param>
+        /// <param name="mainStringBuilder">
+        /// </param>
+        /// <param name="materialBuilder">
+        /// </param>
+        /// <param name="directory">
+        /// </param>
         private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, StringBuilder materialBuilder, string directory)
         {
+            Contract.Assume(mainStringBuilder != null);
+            Contract.Assume(materialBuilder != null);
+            Contract.Assume(mesh != null);
+            Contract.Assume(!string.IsNullOrWhiteSpace(directory));
+
             List<string> mapFiles = new List<string>();
 
-            if ((mesh.Textures != null) && (mesh.Textures.Any()))
+            if (mesh.Textures.Any())
             {
                 Textures archive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
+
                 for (int i = 0; i < mesh.Textures.Count(); i++)
                 {
                     var texture = mesh.Textures[i];
+                    Contract.Assume(texture != null);
                     var asset = archive[texture.TextureId];
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {
@@ -147,7 +180,7 @@ namespace CacheViewer.Domain.Exporters
                 }
             }
 
-            // for now let's just see if we can even get one to work
+
             if (mapFiles.Count > 0)
             {
                 this.CreateMaterial(mapFiles[0], materialBuilder);
@@ -168,15 +201,16 @@ namespace CacheViewer.Domain.Exporters
                 mainStringBuilder.AppendFormat(Texture, t[0].ToString("0.0#####"), t[1].ToString("0.0#####"));
             }
 
-            // this does not spit out the faces the same as the exporter from Maya does
-            for (int i = 0; i < mesh.Indices.Count; i++)
+            // TODO this does not spit out the faces the same as the exporter from Maya does
+            Contract.Assert(mesh.Indices != null);
+            foreach (WavefrontVertex wavefrontVertex in mesh.Indices)
             {
-                ushort a = (ushort) (mesh.Indices[i].Position + 1);
-                ushort b = (ushort) (mesh.Indices[i].TextureCoordinate + 1);
-                ushort c = (ushort) (mesh.Indices[i].Normal + 1);
+                ushort a = (ushort)(wavefrontVertex.Position + 1);
+                ushort b = (ushort)(wavefrontVertex.TextureCoordinate + 1);
+                ushort c = (ushort)(wavefrontVertex.Normal + 1);
 
                 mainStringBuilder.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c +
-                    @"/" + c + "\r\n");
+                                         @"/" + c + "\r\n");
             }
         }
 
@@ -202,13 +236,22 @@ namespace CacheViewer.Domain.Exporters
         // illum 2
         // map_Ka lenna.tga           # the ambient texture map
         // map_Kd lenna.tga           # the diffuse texture map (most of the time, it will
-        //                            # be the same as the ambient texture map)
+        // # be the same as the ambient texture map)
         // map_Ks lenna.tga           # the specular texture map
         // map_d lenna_alpha.tga      # the alpha texture map
         // map_bump lenna_bump.tga    # the bump map
         // bump lenna_bump.tga        # some implementations use 'bump' instead of 'map_Bump'
+        /// <summary>
+        /// </summary>
+        /// <param name="mapName">
+        /// </param>
+        /// <param name="materialBuilder">
+        /// </param>
         private void CreateMaterial(string mapName, StringBuilder materialBuilder)
         {
+            Contract.Requires<ArgumentNullException>(mapName != null);
+            Contract.Requires<ArgumentNullException>(materialBuilder != null);
+
             materialBuilder.AppendFormat(MaterialName, this.name);
             materialBuilder.Append(MaterialWhite);
             materialBuilder.Append(MaterialDiffuse);
@@ -226,4 +269,4 @@ namespace CacheViewer.Domain.Exporters
             get { return new MeshOnlyObjExporter(); }
         }
     }
-} 
+}

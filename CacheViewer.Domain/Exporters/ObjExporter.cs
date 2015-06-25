@@ -12,6 +12,12 @@ using CacheViewer.Domain.Utility;
 
 namespace CacheViewer.Domain.Exporters
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+    using System.Security;
+
+    [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class ObjExporter
     {
         private const string SbRenderId = "# RenderId: {0}\r\n";
@@ -37,8 +43,22 @@ namespace CacheViewer.Domain.Exporters
             this.modelDirectory = FileLocations.Instance.GetExportFolder();
         }
 
+        /// <summary>
+        /// Exports the specified cache object.
+        /// </summary>
+        /// <param name="cacheObject">The cache object.</param>
+        /// <exception cref="FileNotFoundException">The file cannot be found, such as when <paramref>
+        ///     <name>mode</name>
+        ///   </paramref>
+        ///   is FileMode.Truncate or FileMode.Open, and the file specified by <paramref name="path" /> does not exist. The file must already exist in these modes.</exception>
+        /// <exception cref="SecurityException">The caller does not have the required permission.</exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid, such as being on an unmapped drive.</exception>
+        /// <exception cref="UnauthorizedAccessException">The <paramref name="access" /> requested is not permitted by the operating system for the specified <paramref name="path" />, such as when <paramref name="access" /> is Write or ReadWrite and the file or directory is set for read-only access.</exception>
+        /// <exception cref="IOException">An I/O error, such as specifying FileMode.CreateNew when the file specified by <paramref name="path" /> already exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and <paramref name="share" /> is set to FileShare.Delete.-or-The stream has been closed.</exception>
         public void Export(ICacheObject cacheObject)
         {
+            Contract.Requires<ArgumentNullException>(cacheObject != null);
+
             StringBuilder mainStringBuilder = new StringBuilder();
             StringBuilder materialBuilder = new StringBuilder();
             
@@ -57,7 +77,8 @@ namespace CacheViewer.Domain.Exporters
             // cacheObject.RenderList.AsParallel().ForAll(obj => this.CreateObject(obj, cacheObject, modelDirectory));
             // save the obj
 
-            using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj", FileMode.Create, FileAccess.ReadWrite))
+            using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj", 
+                FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {
@@ -86,18 +107,24 @@ namespace CacheViewer.Domain.Exporters
         public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
             StringBuilder materialBuilder, string directory)
         {
+            Contract.Requires<ArgumentNullException>(mesh != null);
+            Contract.Requires<ArgumentNullException>(mainStringBuilder != null);
+            Contract.Requires<ArgumentNullException>(materialBuilder != null);
+            Contract.Requires<ArgumentNullException>(directory != null);
+
             mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
 
             List<string> mapFiles = new List<string>();
-
-
-            if ((mesh.Textures != null) && (mesh.Textures.Any()))
+            if(mesh.Textures.Any())
             {
                 Textures archive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
                 for (int i = 0; i < mesh.Textures.Count(); i++)
                 {
                     var texture = mesh.Textures[i];
+                    Contract.Assert(texture != null);
                     var asset = archive[texture.TextureId];
+                    Contract.Assert(asset != null);
+
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {
                         var mapName = directory + "\\" +
