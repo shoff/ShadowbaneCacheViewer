@@ -73,7 +73,6 @@ namespace CacheViewer.Domain.Utility
         /// A configuration file could not be loaded.
         public object GetSection(string sectionName)
         {
-            Contract.Requires<ArgumentNullException>(sectionName != null);
             Contract.Ensures(Contract.Result<object>() != null);
             return ConfigurationManager.GetSection(sectionName);
         }
@@ -129,7 +128,6 @@ namespace CacheViewer.Domain.Utility
         /// of the section to refresh.
         public void RefreshSection(string sectionName)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(sectionName));
             ConfigurationManager.RefreshSection(sectionName);
         }
 
@@ -143,7 +141,6 @@ namespace CacheViewer.Domain.Utility
         [Pure]
         public string GetAppSetting(string name)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(name));
             Contract.Assume(this.AppSettings != null);
             return AppSettings[name];
         }
