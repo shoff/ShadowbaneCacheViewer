@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using CacheViewer.Domain.Data.Entities;
@@ -117,7 +116,6 @@ namespace CacheViewer.Domain.Data
 
         private void AddRenderEntities(DataContext context)
         {
-            Contract.Requires(context != null);
             int i = 0;
             int lastIdentity = 0;
 
@@ -179,7 +177,6 @@ namespace CacheViewer.Domain.Data
 
         private void AddCacheObjectEntities(DataContext context)
         {
-            Contract.Requires<ArgumentNullException>(context != null);
             int i = 0;
             foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
             {

@@ -2,7 +2,7 @@
 namespace CacheViewer.Domain.Factories
 {
     using System;
-    using System.Diagnostics.Contracts;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using CacheViewer.Domain.Archive;
@@ -59,7 +59,7 @@ namespace CacheViewer.Domain.Factories
             }
             catch (Exception e)
             {
-                logger.Error(e, string.Format("Failed to created RenderInformation for cacheIndex {0}", cacheIndex.Identity));
+                logger.Error(e, $"Failed to created RenderInformation for cacheIndex {cacheIndex.Identity}");
                 throw;
             }
         }
@@ -176,20 +176,15 @@ namespace CacheViewer.Domain.Factories
         /// </returns>
         private bool HandleMesh(BinaryReader reader, RenderInformation renderInfo)
         {
-            Contract.Requires<ArgumentNullException>(reader != null);
-            Contract.Requires<ArgumentNullException>(renderInfo != null);
-
             var nullByte = reader.ReadUInt32(); // skip over null byte
-            Contract.Assert(nullByte == 0);        // should always be null
+            Debug.Assert(nullByte == 0);
 
             // TODO validate all meshIds
             renderInfo.MeshId = reader.ReadInt32();
 
             if (renderInfo.MeshId == 0)
             {
-                renderInfo.Notes = string.Format(
-                    "{0} claimed to have a mesh, however the meshId read was 0.", 
-                    renderInfo.CacheIndex.Identity);
+                renderInfo.Notes = $"{renderInfo.CacheIndex.Identity} claimed to have a mesh, however the meshId read was 0.";
                 logger.Warn(renderInfo.Notes);
                 return false;
             }
@@ -205,10 +200,7 @@ namespace CacheViewer.Domain.Factories
                     else
                     {
                         renderInfo.Notes =
-                            string.Format(
-                                "{0} claimed to have a mesh with MeshId {1}, however the MeshCache does not contain an item with that id.", 
-                                renderInfo.CacheIndex.Identity, 
-                                renderInfo.MeshId);
+                            $"{renderInfo.CacheIndex.Identity} claimed to have a mesh with MeshId {renderInfo.MeshId}, however the MeshCache does not contain an item with that id.";
                         logger.Warn(renderInfo.Notes);
                         return false;
                     }
@@ -226,14 +218,13 @@ namespace CacheViewer.Domain.Factories
 
             // null short
             var nullShort = reader.ReadUInt16();
-            Contract.Assert(nullShort == 0);
+            Debug.Assert(nullShort == 0);
 
             uint size = reader.ReadUInt32();
 
             if (size > 0)
             {
                 // since this size count is actually a Unicode character count, each number is actually 2 bytes.
-                Contract.Assert(reader.HasEnoughBytesLeft(size * 2));
 
                 renderInfo.JointName = reader.ReadAsciiString(size);
                 renderInfo.JointName = !string.IsNullOrEmpty(renderInfo.JointName)
@@ -255,8 +246,8 @@ namespace CacheViewer.Domain.Factories
             if (renderInfo.RenderCount > 1000)
             {
                 // bail
-                var message = string.Format("{0} claimed to have a {1} child render nodes, bailing out.", 
-                    renderInfo.CacheIndex.Identity, renderInfo.RenderCount);
+                var message =
+                    $"{renderInfo.CacheIndex.Identity} claimed to have a {renderInfo.RenderCount} child render nodes, bailing out.";
                 logger.Error(message);
                 return;
             }
@@ -297,14 +288,7 @@ namespace CacheViewer.Domain.Factories
         /// <value>
         /// The instance.
         /// </value>
-        public static RenderFactory Instance
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<RenderFactory>() != null);
-                return instance;
-            }
-        }
+        public static RenderFactory Instance => instance;
 
         /// <summary>
         /// Gets the indexes.
@@ -312,10 +296,7 @@ namespace CacheViewer.Domain.Factories
         /// <value>
         /// The indexes.
         /// </value>
-        public CacheIndex[] Indexes
-        {
-            get { return this.renderArchive.CacheIndices.ToArray(); }
-        }
+        public CacheIndex[] Indexes => this.renderArchive.CacheIndices.ToArray();
 
         /// <summary>
         /// Gets or sets a value indicating whether [append model].
@@ -327,17 +308,11 @@ namespace CacheViewer.Domain.Factories
 
         /// <summary>
         /// </summary>
-        public Tuple<int, int> IdentityRange
-        {
-            get { return new Tuple<int, int>(this.renderArchive.LowestId, this.renderArchive.HighestId); }
-        }
+        public Tuple<int, int> IdentityRange => new Tuple<int, int>(this.renderArchive.LowestId, this.renderArchive.HighestId);
 
         /// <summary>
         /// </summary>
-        public int[] IdentityArray
-        {
-            get { return this.renderArchive.IdentityArray; }
-        }
+        public int[] IdentityArray => this.renderArchive.IdentityArray;
 
         /// <summary>
         /// Gets the cache asset from the

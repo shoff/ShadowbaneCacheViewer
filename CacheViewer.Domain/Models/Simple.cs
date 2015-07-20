@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Extensions;
-using CacheViewer.Domain.Models.Exportable;
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
-    using System.Diagnostics.Contracts;
+    using System;
+    using System.IO;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Extensions;
+    using CacheViewer.Domain.Models.Exportable;
     using NLog;
 
     public class Simple : ModelObject
@@ -35,9 +33,6 @@ namespace CacheViewer.Domain.Models
         /// <exception cref="IOException">Condition. </exception>
         public override void Parse(ArraySegment<byte> data)
         {
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(data.Count > 0);
-
             using (BinaryReader reader = data.CreateBinaryReaderUtf32())
             {
                 try
@@ -50,14 +45,14 @@ namespace CacheViewer.Domain.Models
                     }
                     catch (EndOfStreamException endOfStreamException)
                     {
-                        logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity), endOfStreamException);
+                        logger.Error(endOfStreamException, $"Exception in Simple for CacheIndex {this.CacheIndex.Identity}");
                         throw;
                     }
                     this.UnParsedBytes = data.Count - (int)reader.BaseStream.Position;
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(string.Format("Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity), ioException);
+                    logger.Error(ioException, $"Exception in Simple for CacheIndex {this.CacheIndex.Identity}");
                     throw;
                 }
                 logger.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.Identity, UnParsedBytes);

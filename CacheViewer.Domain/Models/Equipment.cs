@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Extensions;
-using CacheViewer.Domain.Models.Exportable;
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
-    using System.Diagnostics.Contracts;
+    using System;
+    using System.IO;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Extensions;
+    using CacheViewer.Domain.Models.Exportable;
     using NLog;
 
     public class Equipment : ModelObject
@@ -37,9 +35,6 @@ namespace CacheViewer.Domain.Models
         /// <exception cref="IOException">Condition.</exception>
         public override void Parse(ArraySegment<byte> data)
         {
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(data.Count > 0);
-
             using (BinaryReader reader = data.CreateBinaryReaderUtf32())
             {
                 // ReSharper disable once NotAccessedVariable
@@ -50,7 +45,8 @@ namespace CacheViewer.Domain.Models
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error( string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity), ioException);
+                    logger.Error(string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity),
+                        ioException);
                     throw;
                 }
 
@@ -63,20 +59,24 @@ namespace CacheViewer.Domain.Models
                     reader.BaseStream.Position += 24;
 
                     this.inventoryTextureId = reader.ReadUInt32();
+
                     //memcpy(&invTex, data + ptr, 4); // inventory texture id
                     //ptr += 4;
                     //wxLogMessage(_T("Inventory Texture ID: %i"), invTex);
                     this.mapTex = reader.ReadUInt32();
+
                     //memcpy(&mapTex, data + ptr, 4); // Get the minimap texture id
                     //ptr += 4;
                     //wxLogMessage(_T("Minimap Texture ID: %i"), mapTex);
                     // ReSharper disable once RedundantAssignment
                     iUnk = reader.ReadUInt32();
+
                     //memcpy(&iUnk, data + ptr, 4);
                     //ptr += 4;
                     //wxLogMessage(_T("Unknown ID: %i"), iUnk);
                     // ReSharper disable once RedundantAssignment
                     iUnk = reader.ReadUInt32();
+
                     //memcpy(&iUnk, data + ptr, 4); 
                     //ptr += 4;
                     //wxLogMessage(_T("Unknown ID: %i"), iUnk);
@@ -84,7 +84,6 @@ namespace CacheViewer.Domain.Models
                     if (this.RenderId == 0)
                     {
                         logger.Error("No RenderId found for Equipment CacheIndex {0}", this.CacheIndex.Identity);
-                        return; //if there was no ID given, then nfi what to do - so exit.
                     }
 
                     //var cii = new CacheIndexIdentity
@@ -98,10 +97,11 @@ namespace CacheViewer.Domain.Models
                 }
                 catch (Exception e)
                 {
-                    logger.Error(string.Format("Error parsing Equipment for CacheIndex {0}", this.CacheIndex.Identity), e);
+                    logger.Error(e, $"Error parsing Equipment for CacheIndex {this.CacheIndex.Identity}");
                 }
             }
         }
     }
+
     // ReSharper restore NotAccessedField.Local
 }

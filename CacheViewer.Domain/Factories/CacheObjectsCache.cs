@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Threading.Tasks;
     using CacheViewer.Domain.Archive;
@@ -49,7 +48,6 @@
         /// <exception cref="IOException">An I/O error occurs. </exception>
         public async Task<ICacheObject> CreateAsync(CacheIndex cacheIndex)
         {
-            Contract.Ensures(Contract.Result<Task<ICacheObject>>() != null);
             return await Task.FromResult(Create(cacheIndex));
         }
 
@@ -147,32 +145,12 @@
         }
 
         /// <summary>Gets the indexes.</summary>
-        public IList<CacheIndex> Indexes
-        {
-            get { return this.cobjects.CacheIndices; }
-        }
+        public IList<CacheIndex> Indexes => this.cobjects.CacheIndices;
 
         /// <summary>Gets the instance.</summary>
-        public static CacheObjectsCache Instance
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<CacheObjectsCache>() != null);
-                Contract.Assert(instance != null, "instance != null");
-                return instance;
-            }
-        }
+        public static CacheObjectsCache Instance => instance;
 
         /// <summary>Gets the load time.</summary>
-        public long LoadTime
-        {
-            get { return this.loadTime; }
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariants()
-        {
-            Contract.Invariant(this.cobjects != null);
-        }
+        public long LoadTime => this.loadTime;
     }
 }

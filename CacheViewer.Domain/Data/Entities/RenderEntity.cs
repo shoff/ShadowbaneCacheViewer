@@ -1,21 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿
 
 namespace CacheViewer.Domain.Data.Entities
 {
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     [Table("RenderEntities")]   
     public class RenderEntity
     {
-        [ContractInvariantMethod]
-        private void ObjectInvariants()
-        {
-            Contract.Invariant(this.Children != null);
-            Contract.Invariant(this.Scale.Length <= 64);
-            Contract.Invariant(this.Position.Length <= 64);
-        }
 
         public RenderEntity()
         {

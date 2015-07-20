@@ -1,12 +1,12 @@
-﻿using System.IO;
-using System.Text;
-using SlimDX;
+﻿
 
 namespace CacheViewer.Domain.Extensions
 {
+    using System.IO;
+    using System.Text;
+    using SlimDX;
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
 
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public static class BinaryReaderExtensions
@@ -19,7 +19,6 @@ namespace CacheViewer.Domain.Extensions
         /// <returns></returns>
         public static bool HasEnoughBytesLeft(this BinaryReader reader, uint bytesToRead)
         {
-            Contract.Requires<ArgumentNullException>(reader != null);
             return reader.BaseStream.Position + bytesToRead < reader.BaseStream.Length;
         }
 
@@ -30,7 +29,6 @@ namespace CacheViewer.Domain.Extensions
         /// <returns></returns>
         public static Vector3 ReadToVector3(this BinaryReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null);
             return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         }
 
@@ -41,7 +39,6 @@ namespace CacheViewer.Domain.Extensions
         /// <returns></returns>
         public static Vector2 ReadToVector2(this BinaryReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null);
             return new Vector2(reader.ReadSingle(), reader.ReadSingle());
         }
 
@@ -53,9 +50,6 @@ namespace CacheViewer.Domain.Extensions
         /// <returns></returns>
         public static string ReadAsciiString(this BinaryReader reader, uint counter)
         {
-            Contract.Requires<ArgumentNullException>(reader != null);
-            Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
-
             byte[] byteArray = reader.ReadBytes((int)counter * 2);
 
             ASCIIEncoding enc = new ASCIIEncoding();

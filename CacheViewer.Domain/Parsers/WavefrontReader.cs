@@ -1,80 +1,23 @@
-﻿using System.Diagnostics.Contracts;
-using SlimDX;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace CacheViewer.Domain.Parsers
+﻿namespace CacheViewer.Domain.Parsers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using SlimDX;
 
     /// <summary>
     ///     Class for reading a 3D mesh in the Wavefront OBJ format from a stream.
     /// </summary>
     public class WavefrontReader
     {
-        /// <summary>
-        /// Enum for describing the semantic meaning of a line in an OBJ file.
-        /// </summary>
-        private enum DataType
+        private static Dictionary<DataType, string> Keywords => new Dictionary<DataType, string>
         {
-            /// <summary>
-            /// The line contains nothing or has no or an undefined keyword.
-            /// </summary>
-            Empty,
-
-            /// <summary>
-            /// The line contains a comment.
-            /// </summary>
-            Comment,
-
-            /// <summary>
-            /// The line contains a group definition.
-            /// </summary>
-            Group,
-
-            /// <summary>
-            /// The line contains a smoothing group definitio.
-            /// </summary>
-            SmoothingGroup,
-
-            /// <summary>
-            /// The line contains a position vector definition.
-            /// </summary>
-            Position,
-
-            /// <summary>
-            /// The line contains a normal vector definition.
-            /// </summary>
-            Normal,
-
-            /// <summary>
-            /// The line contains a texture coordinate definition.
-            /// </summary>
-            TexCoord,
-
-            /// <summary>
-            /// The line contains a face definition.
-            /// </summary>
-            Face,
-        }
-
-        private static Dictionary<DataType, string> Keywords
-        {
-            get
-            {
-                return new Dictionary<DataType, string>
-                {
-                    { DataType.Comment,         "#"     },
-                    { DataType.Group,           "g"     },
-                    { DataType.SmoothingGroup,  "s"     },
-                    { DataType.Position,        "v"     },
-                    { DataType.TexCoord,        "vt"    },
-                    { DataType.Normal,          "vn"    },
-                    { DataType.Face,            "f"     },
-                };
-            }
-        }
+            { DataType.Comment, "#" }, { DataType.Group, "g" }, { DataType.SmoothingGroup, "s" }, { DataType.Position, "v" },
+            { DataType.TexCoord, "vt" }, { DataType.Normal, "vn" }, { DataType.Face, "f" }
+        };
 
         /// <summary>
         ///     Reads a WavefrontObject instance from the stream.
@@ -90,8 +33,10 @@ namespace CacheViewer.Domain.Parsers
         /// </exception>
         public WavefrontObject Read(Stream stream)
         {
-            Contract.Requires<ArgumentNullException>(stream != null);
-            Contract.Ensures(Contract.Result<WavefrontObject>() != null);
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
 
             // Create the stream reader for the file
             var reader = new StreamReader(stream);
@@ -162,7 +107,7 @@ namespace CacheViewer.Domain.Parsers
         private string NormalizeLine(string line)
         {
             // Trim beginning and end and collapse all whitespace in a string to single space.
-            return System.Text.RegularExpressions.Regex.Replace(line.Trim(), @"\s+", " ");
+            return Regex.Replace(line.Trim(), @"\s+", " ");
         }
 
         private DataType GetType(string line)
@@ -192,17 +137,15 @@ namespace CacheViewer.Domain.Parsers
             // Returns an empty string if the specified type was DataType.Empty.
             // If empty return empty string,
             // else remove the keyword from the start
-            return type == DataType.Empty
-                ? string.Empty
-                : line.Substring(Keywords[type].Length).Trim();
+            return type == DataType.Empty ? string.Empty : line.Substring(Keywords[type].Length).Trim();
         }
 
         public static float[] ParseFloatArray(string str, int count)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
-            Contract.Requires<ArgumentException>(count > 0);
-            Contract.Ensures(Contract.Result<float[]>() != null);
-            Contract.Ensures(Contract.Result<float[]>().Length == count);
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new ArgumentNullException(str);
+            }
 
             // Create an array of floats of arbitrary length from a string representation,
             // where the floats are separated by whitespace.
@@ -216,7 +159,7 @@ namespace CacheViewer.Domain.Parsers
                 {
                     try
                     {
-                        floats[i] = float.Parse(segments[i], System.Globalization.CultureInfo.InvariantCulture);
+                        floats[i] = float.Parse(segments[i], CultureInfo.InvariantCulture);
                     }
                     catch
                     {
@@ -230,7 +173,10 @@ namespace CacheViewer.Domain.Parsers
 
         public Vector2 ParseVector2(string str)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new ArgumentNullException(str);
+            }
             // Parse a 3D vector from a string definition in the form of: 2.0 3.0 1.0
             var components = ParseFloatArray(str, 3);
             if (components.Length != 3)
@@ -244,7 +190,10 @@ namespace CacheViewer.Domain.Parsers
 
         public Vector3 ParseVector3(string str)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new ArgumentNullException(str);
+            }
             // Parse a 3D vector from a string definition in the form of: 1.0 2.0 3.0 1.0
             var components = ParseFloatArray(str, 4);
             var vec = new Vector3(components[0], components[1], components[2]);
@@ -253,8 +202,10 @@ namespace CacheViewer.Domain.Parsers
 
         public WavefrontFace ParseFace(string str)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
-            Contract.Ensures(Contract.Result<WavefrontFace>() != null);
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new ArgumentNullException(str);
+            }
 
             // Parse a OBJ face from a string definition.
             // Split the face definition at whitespace
@@ -270,16 +221,16 @@ namespace CacheViewer.Domain.Parsers
             }
 
             // Create and return the face
-            return new WavefrontFace
-            {
-                Vertices = vertices,
-            };
+            return new WavefrontFace { Vertices = vertices };
         }
 
         public WavefrontVertex ParseVertex(string str)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(str));
-            Contract.Ensures(Contract.Result<WavefrontVertex>() != null);
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw new ArgumentNullException(str);
+            }
+
             // Parse an OBJ vertex from a string definition in the forms of: 
             //     1/2/3
             //     1//3
@@ -304,7 +255,52 @@ namespace CacheViewer.Domain.Parsers
 
             // Create the new vertex
             return new WavefrontVertex(indices[0], indices[1], indices[2]);
+        }
 
+        /// <summary>
+        /// Enum for describing the semantic meaning of a line in an OBJ file.
+        /// </summary>
+        private enum DataType
+        {
+            /// <summary>
+            /// The line contains nothing or has no or an undefined keyword.
+            /// </summary>
+            Empty,
+
+            /// <summary>
+            /// The line contains a comment.
+            /// </summary>
+            Comment,
+
+            /// <summary>
+            /// The line contains a group definition.
+            /// </summary>
+            Group,
+
+            /// <summary>
+            /// The line contains a smoothing group definitio.
+            /// </summary>
+            SmoothingGroup,
+
+            /// <summary>
+            /// The line contains a position vector definition.
+            /// </summary>
+            Position,
+
+            /// <summary>
+            /// The line contains a normal vector definition.
+            /// </summary>
+            Normal,
+
+            /// <summary>
+            /// The line contains a texture coordinate definition.
+            /// </summary>
+            TexCoord,
+
+            /// <summary>
+            /// The line contains a face definition.
+            /// </summary>
+            Face
         }
     }
 }

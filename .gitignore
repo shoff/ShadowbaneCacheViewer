@@ -43,3 +43,6 @@ Temporary Items
 .apdisk
 *.dll
 *.pdb
+CacheViewer.Domain/bin/Debug/CacheViewer.Domain.dll.config
+CacheViewer.Domain/bin/Debug/ArraySegments.xml
+CacheViewer.Domain/bin/Debug/EntityFramework.SqlServer.xml

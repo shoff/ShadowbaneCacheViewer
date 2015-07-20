@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Factories;
-using CacheViewer.Domain.Models;
-using CacheViewer.Domain.Models.Exportable;
-using CacheViewer.Domain.Utility;
-
+﻿
 namespace CacheViewer.Domain.Exporters
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
-    using System.Security;
+    using System.Drawing.Imaging;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Factories;
+    using CacheViewer.Domain.Models;
+    using CacheViewer.Domain.Models.Exportable;
+    using CacheViewer.Domain.Utility;
 
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class ObjExporter
@@ -47,17 +45,12 @@ namespace CacheViewer.Domain.Exporters
         /// Exports the specified cache object.
         /// </summary>
         /// <param name="cacheObject">The cache object.</param>
-        /// <exception cref="FileNotFoundException">The file cannot be found, such as when <paramref>
-        ///     <name>mode</name>
-        ///   </paramref>
-        ///   is FileMode.Truncate or FileMode.Open, and the file specified by <paramref name="path" /> does not exist. The file must already exist in these modes.</exception>
-        /// <exception cref="SecurityException">The caller does not have the required permission.</exception>
-        /// <exception cref="DirectoryNotFoundException">The specified path is invalid, such as being on an unmapped drive.</exception>
-        /// <exception cref="UnauthorizedAccessException">The <paramref name="access" /> requested is not permitted by the operating system for the specified <paramref name="path" />, such as when <paramref name="access" /> is Write or ReadWrite and the file or directory is set for read-only access.</exception>
-        /// <exception cref="IOException">An I/O error, such as specifying FileMode.CreateNew when the file specified by <paramref name="path" /> already exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and <paramref name="share" /> is set to FileShare.Delete.-or-The stream has been closed.</exception>
         public void Export(ICacheObject cacheObject)
         {
-            Contract.Requires<ArgumentNullException>(cacheObject != null);
+            if (cacheObject == null)
+            {
+                throw new ArgumentNullException(nameof(cacheObject));
+            }
 
             StringBuilder mainStringBuilder = new StringBuilder();
             StringBuilder materialBuilder = new StringBuilder();
@@ -107,10 +100,22 @@ namespace CacheViewer.Domain.Exporters
         public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
             StringBuilder materialBuilder, string directory)
         {
-            Contract.Requires<ArgumentNullException>(mesh != null);
-            Contract.Requires<ArgumentNullException>(mainStringBuilder != null);
-            Contract.Requires<ArgumentNullException>(materialBuilder != null);
-            Contract.Requires<ArgumentNullException>(directory != null);
+            if (mesh == null)
+            {
+                throw new ArgumentNullException(nameof(mesh));
+            }
+            if (mainStringBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(mainStringBuilder));
+            }
+            if (materialBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(materialBuilder));
+            }
+            if (string.IsNullOrWhiteSpace(directory))
+            {
+                throw new ArgumentNullException(nameof(directory));
+            }
 
             mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
 
@@ -121,9 +126,7 @@ namespace CacheViewer.Domain.Exporters
                 for (int i = 0; i < mesh.Textures.Count(); i++)
                 {
                     var texture = mesh.Textures[i];
-                    Contract.Assert(texture != null);
                     var asset = archive[texture.TextureId];
-                    Contract.Assert(asset != null);
 
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {

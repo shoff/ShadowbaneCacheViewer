@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Pools data buffers to prevent both frequent allocation and memory fragmentation
@@ -14,8 +12,6 @@ namespace CacheViewer.Domain.Utility
         private const int InitialPoolSize = 1024; // initial size of the pool
         private const int BufferSize = 1024; // size of the buffers
         private readonly Queue<byte[]> freeBuffers;
-        private static readonly BufferPool instance = new BufferPool();
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BufferPool"/> class.
@@ -34,10 +30,7 @@ namespace CacheViewer.Domain.Utility
         /// Gets the instance.
         /// </summary>
         /// <value>The instance.</value>
-        public static BufferPool Instance
-        {
-            get { return instance; }
-        }
+        public static BufferPool Instance { get; } = new BufferPool();
 
         /// <summary>
         /// Checks the out.
@@ -48,10 +41,11 @@ namespace CacheViewer.Domain.Utility
         {
             //if (this.freeBuffers.Count > 0)
             //{
-                if (this.freeBuffers.Count > 0)
-                {
-                    return this.freeBuffers.Dequeue();
-                }
+            if (this.freeBuffers.Count > 0)
+            {
+                return this.freeBuffers.Dequeue();
+            }
+
             //}
             // instead of creating new buffer, 
             // blocking waiting or refusing request may be better
@@ -66,14 +60,6 @@ namespace CacheViewer.Domain.Utility
         public void CheckIn(byte[] buffer)
         {
             this.freeBuffers.Enqueue(buffer);
-        }
-
-
-        [ContractInvariantMethod]
-        private void ObjectInvariants()
-        {
-            Contract.Invariant(instance != null);
-            Contract.Invariant(this.freeBuffers != null);
         }
     }
 }

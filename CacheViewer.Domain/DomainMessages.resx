@@ -104,4 +104,7 @@
   <data name="SoundControl_SaveAllSoundsButtonClick_Saving_sound_file_" xml:space="preserve">
     <value>Saving sound file </value>
   </data>
+  <data name="The_number_of_meshes_exceeded_5000" xml:space="preserve">
+    <value>the number of meshes exceeded 5000.</value>
+  </data>
 </root>

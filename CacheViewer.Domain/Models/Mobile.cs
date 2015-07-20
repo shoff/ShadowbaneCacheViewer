@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Extensions;
@@ -39,9 +38,6 @@
         // ReSharper disable once FunctionComplexityOverflow
         public override void Parse(ArraySegment<byte> data)
         {
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(data.Count > 0);
-
             this.ObjId = this.CacheIndex.Identity;
 
             this.FourIntArray = new int[4];

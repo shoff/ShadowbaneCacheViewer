@@ -1,23 +1,17 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using ArraySegments;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Factories;
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
-    using System.Diagnostics.Contracts;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using ArraySegments;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Factories;
 
     public class Texture
     {
-        private int depth;
-        private int height;
-        private int width;
-
         /// <summary>
         /// Creates the texture.
         /// </summary>
@@ -27,16 +21,13 @@ namespace CacheViewer.Domain.Models
         /// the data not setting up ilut!!!!!!!!!!!!!!!!!!!
         public Texture(ArraySegment<byte> data, int id)
         {
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(data.Count > 0);
-
             this.TextureId = id;
 
             using (BinaryReader reader = data.CreateBinaryReader())
             {
-                this.width = reader.ReadInt32();
-                this.height = reader.ReadInt32();
-                this.depth = reader.ReadInt32();
+                this.Width = reader.ReadInt32();
+                this.Height = reader.ReadInt32();
+                this.Depth = reader.ReadInt32();
             }
         }
 
@@ -93,7 +84,8 @@ namespace CacheViewer.Domain.Models
         ///   Gets or sets the texture id.
         /// </summary>
         /// <value>The texture id.</value>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int TextureId { get; set; }
 
         /// <summary>
@@ -107,21 +99,13 @@ namespace CacheViewer.Domain.Models
         ///   Gets or sets the width.
         /// </summary>
         /// <value>The width.</value>
-        public int Width
-        {
-            get { return this.width; }
-            set { this.width = value; }
-        }
+        public int Width { get; set; }
 
         /// <summary>
         ///   Gets or sets the height.
         /// </summary>
         /// <value>The height.</value>
-        public int Height
-        {
-            get { return this.height; }
-            set { this.height = value; }
-        }
+        public int Height { get; set; }
 
         /// <summary>
         /// Gets the depth.
@@ -129,11 +113,7 @@ namespace CacheViewer.Domain.Models
         /// <value>
         /// The depth.
         /// </value>
-        public int Depth
-        {
-            get { return this.depth; }
-            set { this.depth = value; }
-        }
+        public int Depth { get; set; }
 
         /// <summary>
         /// Textures the map.
@@ -146,16 +126,16 @@ namespace CacheViewer.Domain.Models
             {
                 reader.BaseStream.Position += 26;
                 PixelFormat format;
-                if (this.depth == 1)
+                if (this.Depth == 1)
                 {
                     format = PixelFormat.Alpha; /* Gl.GL_LUMINANCE;*/
                 }
                 else
                 {
-                    format = this.depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
+                    format = this.Depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
                 }
 
-                var myBitmap = new Bitmap(this.width, this.height, format);
+                var myBitmap = new Bitmap(this.Width, this.Height, format);
 
                 Color clr;
                 var pd = new PixelData();

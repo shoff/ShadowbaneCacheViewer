@@ -1,10 +1,7 @@
-﻿using System.Collections.Specialized;
-using System.Configuration;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
-    using System;
-    using System.Diagnostics.Contracts;
+    using System.Collections.Specialized;
+    using System.Configuration;
 
     /// <summary>
     /// Allows testing of classes that make use of AppSettings and ConnectionStrings 
@@ -12,6 +9,11 @@ namespace CacheViewer.Domain.Utility
     /// </summary>
     public class ConfigurationWrapper : IConfigurationWrapper
     {
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        public static ConfigurationWrapper Instance => new ConfigurationWrapper();
+
         /// <summary>
         /// </summary>
         /// <exception cref="ConfigurationErrorsException">Could not retrieve a 
@@ -27,14 +29,7 @@ namespace CacheViewer.Domain.Utility
         /// System.Configuration.ConfigurationErrorsException:
         /// Could not retrieve a System.Collections.Specialized.NameValueCollection object
         /// with the application settings data.
-        public NameValueCollection AppSettings
-        {
-            get
-            {
-                Contract.Assume(ConfigurationManager.AppSettings != null);
-                return ConfigurationManager.AppSettings;
-            }
-        }
+        public NameValueCollection AppSettings => ConfigurationManager.AppSettings;
 
         /// <summary>
         /// Gets the System.Configuration.ConnectionStringsSection data for the current
@@ -46,14 +41,7 @@ namespace CacheViewer.Domain.Utility
         /// </summary>       
         /// <exception cref="ConfigurationErrorsException" accessor="get">Could not retrieve a 
         /// <see cref="T:System.Configuration.ConnectionStringSettingsCollection" /> object.</exception>
-        public ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get
-            {
-                Contract.Assume(ConfigurationManager.ConnectionStrings != null);
-                return ConfigurationManager.ConnectionStrings;
-            }
-        }
+        public ConnectionStringSettingsCollection ConnectionStrings => ConfigurationManager.ConnectionStrings;
 
         /// <summary>
         /// </summary>
@@ -73,7 +61,6 @@ namespace CacheViewer.Domain.Utility
         /// A configuration file could not be loaded.
         public object GetSection(string sectionName)
         {
-            Contract.Ensures(Contract.Result<object>() != null);
             return ConfigurationManager.GetSection(sectionName);
         }
 
@@ -95,7 +82,6 @@ namespace CacheViewer.Domain.Utility
         /// A configuration file could not be loaded.
         public Configuration OpenExeConfiguration(ConfigurationUserLevel userLevel)
         {
-            Contract.Ensures(Contract.Result<Configuration>() != null);
             return ConfigurationManager.OpenExeConfiguration(userLevel);
         }
 
@@ -112,7 +98,6 @@ namespace CacheViewer.Domain.Utility
         /// A configuration file could not be loaded.
         public Configuration OpenMachineConfiguration()
         {
-            Contract.Ensures(Contract.Result<Configuration>() != null);
             return ConfigurationManager.OpenMachineConfiguration();
         }
 
@@ -138,23 +123,9 @@ namespace CacheViewer.Domain.Utility
         /// <returns></returns>
         /// <exception cref="ConfigurationErrorsException">Could not retrieve a 
         /// <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.</exception>
-        [Pure]
         public string GetAppSetting(string name)
         {
-            Contract.Assume(this.AppSettings != null);
             return AppSettings[name];
-        }
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        public static ConfigurationWrapper Instance
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<ConfigurationWrapper>() != null);
-                return new ConfigurationWrapper();
-            }
         }
     }
 }

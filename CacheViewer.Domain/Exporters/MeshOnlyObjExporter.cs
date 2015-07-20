@@ -4,7 +4,6 @@ namespace CacheViewer.Domain.Exporters
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
@@ -42,10 +41,8 @@ namespace CacheViewer.Domain.Exporters
         private string name;
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        [ContractInvariantMethod]
         private void ObjectVariant()
         {
-            Contract.Invariant(modelDirectory != null);
         }
 
         /// <summary>
@@ -80,8 +77,6 @@ namespace CacheViewer.Domain.Exporters
         /// </returns>
         public async Task<bool> ExportAsync(Mesh mesh, string name = null)
         {
-            Contract.Requires<ArgumentNullException>(mesh != null);
-            Contract.Ensures(Contract.Result<Task<bool>>() != null);
 
             try
             {
@@ -154,10 +149,6 @@ namespace CacheViewer.Domain.Exporters
         /// </param>
         private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, StringBuilder materialBuilder, string directory)
         {
-            Contract.Assume(mainStringBuilder != null);
-            Contract.Assume(materialBuilder != null);
-            Contract.Assume(mesh != null);
-            Contract.Assume(!string.IsNullOrWhiteSpace(directory));
 
             List<string> mapFiles = new List<string>();
 
@@ -168,7 +159,6 @@ namespace CacheViewer.Domain.Exporters
                 for (int i = 0; i < mesh.Textures.Count(); i++)
                 {
                     var texture = mesh.Textures[i];
-                    Contract.Assume(texture != null);
                     var asset = archive[texture.TextureId];
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {
@@ -202,7 +192,6 @@ namespace CacheViewer.Domain.Exporters
             }
 
             // TODO this does not spit out the faces the same as the exporter from Maya does
-            Contract.Assert(mesh.Indices != null);
             foreach (WavefrontVertex wavefrontVertex in mesh.Indices)
             {
                 ushort a = (ushort)(wavefrontVertex.Position + 1);
@@ -249,8 +238,6 @@ namespace CacheViewer.Domain.Exporters
         /// </param>
         private void CreateMaterial(string mapName, StringBuilder materialBuilder)
         {
-            Contract.Requires<ArgumentNullException>(mapName != null);
-            Contract.Requires<ArgumentNullException>(materialBuilder != null);
 
             materialBuilder.AppendFormat(MaterialName, this.name);
             materialBuilder.Append(MaterialWhite);

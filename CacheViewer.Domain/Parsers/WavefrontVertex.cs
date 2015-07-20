@@ -1,6 +1,5 @@
 namespace CacheViewer.Domain.Parsers
 {
-    using System.Diagnostics.Contracts;
 
     /// <summary>
     ///     A struct representing an Wavefront OBJ vertex. 

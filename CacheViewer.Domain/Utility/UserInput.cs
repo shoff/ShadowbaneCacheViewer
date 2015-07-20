@@ -1,22 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using SlimDX.DirectInput;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
-    using System.Diagnostics.Contracts;
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+    using SlimDX.DirectInput;
 
     public class UserInput : IDisposable
     {
         private DirectInput directInput;
-        private bool isDisposed = false;
-        private Keyboard keyboard;
-        private KeyboardState keyboardStateCurrent;
-        private KeyboardState keyboardStateLast;
-        private Mouse mouse;
-        private MouseState mouseStateCurrent;
-        private MouseState mouseStateLast;
 
         /// <summary>
         /// The constructor.
@@ -27,74 +18,46 @@ namespace CacheViewer.Domain.Utility
 
             // We need to initialize these because otherwise we will get a null reference error
             // if the program tries to access these on the first frame.
-            this.keyboardStateCurrent = new KeyboardState();
-            this.keyboardStateLast = new KeyboardState();
-            this.mouseStateCurrent = new MouseState();
-            this.mouseStateLast = new MouseState();
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Keyboard != null);
-            Contract.Invariant(Mouse != null);
+            this.KeyboardStateCurrent = new KeyboardState();
+            this.KeyboardStatePrevious = new KeyboardState();
+            this.MouseStateCurrent = new MouseState();
+            this.MouseStatePrevious = new MouseState();
         }
 
         /// <summary>
         /// Returns a boolean value indicating whether or not this object has been disposed.
         /// </summary>
-        public bool IsDisposed
-        {
-            get { return this.isDisposed; }
-        }
+        public bool IsDisposed { get; } = false;
 
         /// <summary>
         /// Gets the keyboard object.
         /// </summary>
-        public Keyboard Keyboard
-        {
-            get { return this.keyboard; }
-        }
+        public Keyboard Keyboard { get; private set; }
 
         /// <summary>
         /// Gets the keyboard state for the current frame.
         /// </summary>
-        public KeyboardState KeyboardStateCurrent
-        {
-            get { return this.keyboardStateCurrent; }
-        }
+        public KeyboardState KeyboardStateCurrent { get; private set; }
 
         /// <summary>
         /// Gets the keyboard state from the previous frame.
         /// </summary>
-        public KeyboardState KeyboardStatePrevious
-        {
-            get { return this.keyboardStateLast; }
-        }
+        public KeyboardState KeyboardStatePrevious { get; private set; }
 
         /// <summary>
         ///  Gets the mouse object.
         /// </summary>
-        public Mouse Mouse
-        {
-            get { return this.mouse; }
-        }
+        public Mouse Mouse { get; private set; }
 
         /// <summary>
         /// Gets the mouse state for the current frame.
         /// </summary>
-        public MouseState MouseStateCurrent
-        {
-            get { return this.mouseStateCurrent; }
-        }
+        public MouseState MouseStateCurrent { get; private set; }
 
         /// <summary>
         /// Gets the mouse state from the previous frame.
         /// </summary>
-        public MouseState MouseStatePrevious
-        {
-            get { return this.mouseStateLast; }
-        }
+        public MouseState MouseStatePrevious { get; private set; }
 
         public void Dispose()
         {
@@ -118,21 +81,21 @@ namespace CacheViewer.Domain.Utility
             if (this.directInput == null)
             {
                 return;
+
                 // An error has occurred, initialization of DirectInput failed for some reason so simply return from this method.
             }
 
-
             // Create our keyboard and mouse devices.
-            this.keyboard = new Keyboard(this.directInput);
-            if (this.keyboard == null)
+            this.Keyboard = new Keyboard(this.directInput);
+            if (this.Keyboard == null)
             {
                 return;
+
                 // An error has occurred, initialization of the keyboard failed for some reason so simply return from this method.
             }
 
-            this.mouse = new Mouse(this.directInput);
+            this.Mouse = new Mouse(this.directInput);
         }
-
 
         /// <summary>
         /// This function updates the state variables.  It should be called from the game's UpdateScene() function before
@@ -141,20 +104,18 @@ namespace CacheViewer.Domain.Utility
         public void Update()
         {
             // Reacquire the devices in case another application has taken control of them and check for errors.
-            if (this.keyboard.Acquire().IsFailure || this.mouse.Acquire().IsFailure)
+            if (this.Keyboard.Acquire().IsFailure || this.Mouse.Acquire().IsFailure)
             {
                 // We failed to successfully acquire one of the devices so abort updating the user input stuff by simply returning from this method.
                 return;
             }
-            
-            // Update our keyboard state variables.
-            this.keyboardStateLast = this.keyboardStateCurrent;
-            this.keyboardStateCurrent = this.keyboard.GetCurrentState();
 
+            // Update our keyboard state variables.
+            this.KeyboardStatePrevious = this.KeyboardStateCurrent;
+            this.KeyboardStateCurrent = this.Keyboard.GetCurrentState();
 
             // NOTE: All of the if statements below are for testing purposes.  In a real program, you would remove them or comment them out
             //       and then recompile before releasing your game.  This is because we don't want debug code slowing down the finished game
-
 
             // This is our test code for keyboard input via DirectInput.
             if (this.IsKeyPressed(Key.Space))
@@ -170,10 +131,9 @@ namespace CacheViewer.Domain.Utility
                 Debug.WriteLine("DIRECTINPUT: KEY Z IS PRESSED!");
             }
 
-
             // Update our mouse state variables.
-            this.mouseStateLast = this.mouseStateCurrent;
-            this.mouseStateCurrent = this.mouse.GetCurrentState();
+            this.MouseStatePrevious = this.MouseStateCurrent;
+            this.MouseStateCurrent = this.Mouse.GetCurrentState();
 
             // This is our test code for mouse input via DirectInput.
             if (this.IsMouseButtonPressed(0))
@@ -197,7 +157,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the key is pressed or false otherwise.</returns>
         public bool IsKeyPressed(Key key)
         {
-            return this.keyboardStateCurrent.IsPressed(key);
+            return this.KeyboardStateCurrent.IsPressed(key);
         }
 
         /// <summary>
@@ -207,9 +167,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the key is being held down or false otherwise.</returns>
         public bool IsKeyHeldDown(Key key)
         {
-            Contract.Assume(this.keyboardStateCurrent != null);
-            Contract.Assume(this.keyboardStateLast != null);
-            return (this.keyboardStateCurrent.IsPressed(key) && this.keyboardStateLast.IsPressed(key));
+            return (this.KeyboardStateCurrent.IsPressed(key) && this.KeyboardStatePrevious.IsPressed(key));
         }
 
         /// <summary>
@@ -219,8 +177,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is pressed or false otherwise.</returns>
         public bool IsMouseButtonPressed(int button)
         {
-            Contract.Assume(this.mouseStateCurrent != null);
-            return this.mouseStateCurrent.IsPressed(button);
+            return this.MouseStateCurrent.IsPressed(button);
         }
 
         /// <summary>
@@ -230,8 +187,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button was pressed during the previous frame or false otherwise.</returns>
         public bool WasMouseButtonPressed(int button)
         {
-            Contract.Assume(this.mouseStateLast != null);
-            return this.mouseStateLast.IsPressed(button);
+            return this.MouseStatePrevious.IsPressed(button);
         }
 
         /// <summary>
@@ -241,8 +197,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is released or false otherwise.</returns>
         public bool IsMouseButtonReleased(int button)
         {
-            Contract.Assume(this.mouseStateCurrent != null);
-            return this.mouseStateCurrent.IsReleased(button);
+            return this.MouseStateCurrent.IsReleased(button);
         }
 
         /// <summary>
@@ -252,8 +207,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button was released (not pressed) during the previous frame or false otherwise.</returns>
         public bool WasMouseButtonReleased(int button)
         {
-            Contract.Assume(this.mouseStateLast != null);
-            return this.mouseStateLast.IsReleased(button);
+            return this.MouseStatePrevious.IsReleased(button);
         }
 
         /// <summary>
@@ -263,8 +217,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the button is held down or false otherwise.</returns>
         public bool IsMouseButtonHeldDown(int button)
         {
-            Contract.Assume(this.mouseStateCurrent != null);
-            return (this.mouseStateCurrent.IsPressed(button) && this.mouseStateLast.IsPressed(button));
+            return (this.MouseStateCurrent.IsPressed(button) && this.MouseStatePrevious.IsPressed(button));
         }
 
         /// <summary>
@@ -273,10 +226,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>True if the mouse has moved since the previous frame, or false otherwise.</returns>
         public bool MouseHasMoved()
         {
-            Contract.Assume(this.mouseStateLast != null);
-            Contract.Assume(this.mouseStateCurrent != null);
-            if ((this.mouseStateCurrent.X != this.mouseStateLast.X) ||
-                (this.mouseStateCurrent.Y != this.mouseStateLast.Y))
+            if ((this.MouseStateCurrent.X != this.MouseStatePrevious.X) || (this.MouseStateCurrent.Y != this.MouseStatePrevious.Y))
             {
                 return true;
             }
@@ -289,7 +239,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>A System.Drawing.Point object containing the current mouse position.</returns>
         public Point MousePosition()
         {
-            return new Point(this.mouseStateCurrent.X, this.mouseStateCurrent.Y);
+            return new Point(this.MouseStateCurrent.X, this.MouseStateCurrent.Y);
         }
 
         /// <summary>
@@ -298,7 +248,7 @@ namespace CacheViewer.Domain.Utility
         /// <returns>A System.Drawing.Point object containing the mouse's position during the previous frame.</returns>
         public Point LastMousePosition()
         {
-            return new Point(this.mouseStateLast.X, this.mouseStateLast.Y);
+            return new Point(this.MouseStatePrevious.X, this.MouseStatePrevious.Y);
         }
 
         /// <summary>
@@ -309,14 +259,12 @@ namespace CacheViewer.Domain.Utility
         /// <returns>The amount the scroll wheel has moved.  This can be positive or negative depending on which way it has moved.</returns>
         public int MouseWheelMovement()
         {
-            Contract.Assume(this.mouseStateCurrent != null);
-
-            return this.mouseStateCurrent.Z;
+            return this.MouseStateCurrent.Z;
         }
 
         protected void Dispose(bool disposing)
         {
-            if (!this.isDisposed)
+            if (!this.IsDisposed)
             {
                 /*
                 * The following text is from MSDN  (http://msdn.microsoft.com/en-us/library/fs2xkftw%28VS.80%29.aspx)
@@ -334,27 +282,14 @@ namespace CacheViewer.Domain.Utility
                 {
                     // Unregister events
 
-
                     // get rid of managed resources
-                    if (this.directInput != null)
-                    {
-                        this.directInput.Dispose();
-                    }
-
-                    if (this.keyboard != null)
-                    {
-                        this.keyboard.Dispose();
-                    }
-
-                    if (this.mouse != null)
-                    {
-                        this.mouse.Dispose();
-                    }
+                    this.directInput?.Dispose();
+                    this.Keyboard?.Dispose();
+                    this.Mouse?.Dispose();
                 }
 
                 // get rid of unmanaged resources
             }
         }
-
     }
 }

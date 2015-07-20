@@ -3,19 +3,16 @@ namespace CacheViewer.Domain.Archive
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using ArraySegments;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Services;
-    using CacheViewer.Domain.Utility;
+    using Extensions;
+    using Services;
+    using Utility;
     using NLog;
-    using System.Diagnostics;
-    using System.Diagnostics.Contracts;
-    using System.Security;
-    using CacheViewer.Domain.Exceptions;
 
     public abstract class CacheArchive
     {
@@ -54,8 +51,10 @@ namespace CacheViewer.Domain.Archive
         /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
         protected CacheArchive(string name)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
-
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             this.Name = name;
             this.cacheIndex = new List<CacheIndex>();
             this.cacheHeader = new CacheHeader();
@@ -181,7 +180,6 @@ namespace CacheViewer.Domain.Archive
         {
             get
             {
-                Contract.Ensures(Contract.Result<CacheAsset>() != null);
                 int count = this.cacheIndex.Count(x => x.Identity == id);
                 CacheAsset asset = new CacheAsset
                 {
@@ -223,7 +221,10 @@ namespace CacheViewer.Domain.Archive
         /// <returns></returns>
         public async Task SaveToFile(CacheIndex cacheIndex, string path)
         {
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
 
             // TODO move to it's own object, this doesn't belong here.
             if (!Directory.Exists(path))
@@ -334,17 +335,5 @@ namespace CacheViewer.Domain.Archive
             get { return this.identityArray; }
         }
 
-        [Pure]
-        [ContractInvariantMethod]
-        private void Invariants()
-        {
-            Contract.Invariant(this.bufferData != null);
-            Contract.Invariant(this.bufferData.Count > 0);
-            Contract.Invariant(this.fileLocations != null);
-            Contract.Invariant(this.cacheIndex != null);
-            Contract.Invariant(this.fileInfo != null);
-            Contract.Invariant(!string.IsNullOrWhiteSpace(this.name));
-            Contract.Invariant(this.saveName == this.name.Replace(".cache", "_"));
-        }
     }
 }

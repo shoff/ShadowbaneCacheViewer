@@ -9,7 +9,6 @@ namespace CacheViewer.Domain.Data
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using System.Diagnostics.Contracts;
     using NLog;
 
     /// <summary> 
@@ -31,7 +30,6 @@ namespace CacheViewer.Domain.Data
         /// <param name="dataContext">The data context.</param>
         public EntityRepository(IQueryableDataContext dataContext)
         {
-            Contract.Requires<ArgumentNullException>(dataContext != null);
             this.dataContext = dataContext;
         }
 
@@ -368,13 +366,6 @@ namespace CacheViewer.Domain.Data
         public virtual void Dispose()
         {
             this.Context.Dispose();
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariants()
-        {
-            Contract.Invariant(this.dataContext != null);
-            Contract.Invariant(Context != null);
         }
     }
 }

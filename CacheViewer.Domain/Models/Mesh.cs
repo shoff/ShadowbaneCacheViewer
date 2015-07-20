@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Parsers;
-using SlimDX;
-
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Parsers;
+    using SlimDX;
 
     /// <summary>
     /// </summary>
@@ -22,16 +19,6 @@ namespace CacheViewer.Domain.Models
             this.Normals = new List<Vector3>();
             this.Vertices = new List<Vector3>();
             this.TextureVectors = new List<Vector2>();
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Textures != null);
-            Contract.Invariant(Vertices != null);
-            Contract.Invariant(Normals != null);
-            Contract.Invariant(TextureVectors != null);
-            Contract.Invariant(Indices != null);
         }
 
         /// <summary>
@@ -72,27 +59,27 @@ namespace CacheViewer.Domain.Models
         /// <value>
         /// The textures.
         /// </value>
-        public List<Texture> Textures  { get; private set; }
+        public List<Texture> Textures { get; }
 
         /// <summary>
         /// Gets or sets the vertices.
         /// </summary>
-        public List<Vector3> Vertices { get; private set; }
+        public List<Vector3> Vertices { get; }
 
         /// <summary>
         /// Gets or sets the normals.
         /// </summary>
-        public List<Vector3> Normals { get; private set; }
+        public List<Vector3> Normals { get; }
 
         /// <summary>
         /// Gets or sets the texture vectors.
         /// </summary>
-        public List<Vector2> TextureVectors { get; private set; }
+        public List<Vector2> TextureVectors { get; }
 
         /// <summary>
         /// Gets or sets the indices.
         /// </summary>
-        public List<WavefrontVertex> Indices { get; private set; }
+        public List<WavefrontVertex> Indices { get; }
 
         /// <summary>
         /// Gets or sets the identifier.

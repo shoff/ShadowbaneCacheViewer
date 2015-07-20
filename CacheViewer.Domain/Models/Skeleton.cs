@@ -3,7 +3,6 @@
 namespace CacheViewer.Domain.Models
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using ArraySegments;
     using System.Collections.Generic;
@@ -23,9 +22,6 @@ namespace CacheViewer.Domain.Models
         /// <exception cref="IOException">An I/O error occurs. </exception>
         public Skeleton(ArraySegment<byte> data, int id)
         {
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(data.Count > 0);
-
             this.MotionIds = new HashSet<long>();
             this.SkeletonId = id;
 
