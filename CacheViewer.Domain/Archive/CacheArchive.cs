@@ -7,8 +7,10 @@ namespace CacheViewer.Domain.Archive
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Security;
     using System.Threading.Tasks;
     using ArraySegments;
+    using CacheViewer.Domain.Exceptions;
     using Extensions;
     using Services;
     using Utility;
@@ -121,13 +123,13 @@ namespace CacheViewer.Domain.Archive
                 for (int i = 0; i < this.cacheHeader.indexCount; i++)
                 {
                     CacheIndex index = new CacheIndex
-                                           {
-                                               Junk1 = reader.ReadUInt32(),
-                                               Identity = reader.ReadInt32(),
-                                               Offset = reader.ReadUInt32(),
-                                               UnCompressedSize = reader.ReadUInt32(),
-                                               CompressedSize = reader.ReadUInt32()
-                                           };
+                    {
+                        Junk1 = reader.ReadUInt32(),
+                        Identity = reader.ReadInt32(),
+                        Offset = reader.ReadUInt32(),
+                        UnCompressedSize = reader.ReadUInt32(),
+                        CompressedSize = reader.ReadUInt32()
+                    };
                     this.identityArray[i] = index.Identity;
                     this.cacheIndex.Add(index);
                 }
@@ -181,10 +183,16 @@ namespace CacheViewer.Domain.Archive
             get
             {
                 int count = this.cacheIndex.Count(x => x.Identity == id);
+
                 CacheAsset asset = new CacheAsset
                 {
                     CacheIndex1 = this.cacheIndex.FirstOrDefault(x => x.Identity == id)
                 };
+
+                if (asset.CacheIndex1.Identity == 0)
+                {
+                    throw new IndexNotFoundException("no name", id);
+                }
 
                 // do we have two with the same id?
                 if (count > 1)
@@ -207,7 +215,7 @@ namespace CacheViewer.Domain.Archive
                     if (count > 1)
                     {
                         reader.BaseStream.Position = asset.CacheIndex2.Offset;
-                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize, 
+                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize,
                             reader.ReadBytes((int)asset.CacheIndex2.CompressedSize));
                     }
                 }
@@ -314,20 +322,20 @@ namespace CacheViewer.Domain.Archive
         /// <summary>Gets the indexes.</summary>
         public List<CacheIndex> CacheIndices
         {
-            get{ return this.cacheIndex; }
+            get { return this.cacheIndex; }
         }
 
         /// <summary>Gets or sets a value indicating whether [cache on index load].</summary>
-        public bool CacheOnIndexLoad { get;set;}
+        public bool CacheOnIndexLoad { get; set; }
 
         /// <summary>Gets or sets a value indicating whether [use cache].</summary>
-        public bool UseCache{get;set;}
+        public bool UseCache { get; set; }
 
         /// <summary>Gets or sets the lowest identifier.</summary>
         public int LowestId { get; set; }
 
         /// <summary>Gets or sets the highest identifier.</summary>
-        public int HighestId { get; set;}
+        public int HighestId { get; set; }
 
         /// <summary>Gets the identity array.</summary>
         public int[] IdentityArray
