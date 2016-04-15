@@ -38,6 +38,9 @@
         /// <value>
         /// The instance.
         /// </value>
-        public static FileLocations Instance => new FileLocations(ConfigurationWrapper.Instance);
+        public static FileLocations Instance
+        {
+            get { return new FileLocations(ConfigurationWrapper.Instance); }
+        }
     }
 }

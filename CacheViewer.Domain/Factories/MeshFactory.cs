@@ -20,7 +20,10 @@
         }
 
         /// <summary>Gets the instance.</summary>
-        public static MeshFactory Instance { get; } = new MeshFactory();
+        public static MeshFactory Instance
+        {
+            get { return new MeshFactory(); }
+        }
 
         /// <summary>Gets the indexes.</summary>
         public CacheIndex[] Indexes
@@ -41,7 +44,10 @@
         }
 
         /// <summary>Gets the identity array.</summary>
-        public int[] IdentityArray => meshArchive.IdentityArray;
+        public int[] IdentityArray
+        {
+            get { return meshArchive.IdentityArray; }
+        }
 
         /// <summary>Creates the specified buffer.</summary>
         /// <param name="cacheIndex">Index of the cache.</param>

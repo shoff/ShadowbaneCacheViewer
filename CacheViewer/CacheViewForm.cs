@@ -259,7 +259,7 @@ namespace CacheViewer
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex.Message, ex);
+                logger.Error(ex, ex.Message);
             }
 
             this.DisplayItemInformation(item);

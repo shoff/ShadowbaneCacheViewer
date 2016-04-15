@@ -45,14 +45,14 @@
                     }
                     catch (EndOfStreamException endOfStreamException)
                     {
-                        logger.Error(endOfStreamException, $"Exception in Simple for CacheIndex {this.CacheIndex.Identity}");
+                        logger.Error(endOfStreamException, "Exception in Simple for CacheIndex {0}",this.CacheIndex.Identity);
                         throw;
                     }
                     this.UnParsedBytes = data.Count - (int)reader.BaseStream.Position;
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(ioException, $"Exception in Simple for CacheIndex {this.CacheIndex.Identity}");
+                    logger.Error(ioException, "Exception in Simple for CacheIndex {0}",this.CacheIndex.Identity);
                     throw;
                 }
                 logger.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.Identity, UnParsedBytes);

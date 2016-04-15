@@ -12,7 +12,10 @@
         /// <summary>
         /// Gets the instance.
         /// </summary>
-        public static ConfigurationWrapper Instance => new ConfigurationWrapper();
+        public static ConfigurationWrapper Instance
+        {
+            get { return new ConfigurationWrapper(); }
+        }
 
         /// <summary>
         /// </summary>
@@ -29,7 +32,10 @@
         /// System.Configuration.ConfigurationErrorsException:
         /// Could not retrieve a System.Collections.Specialized.NameValueCollection object
         /// with the application settings data.
-        public NameValueCollection AppSettings => ConfigurationManager.AppSettings;
+        public NameValueCollection AppSettings
+        {
+            get { return ConfigurationManager.AppSettings; }
+        }
 
         /// <summary>
         /// Gets the System.Configuration.ConnectionStringsSection data for the current
@@ -41,7 +47,10 @@
         /// </summary>       
         /// <exception cref="ConfigurationErrorsException" accessor="get">Could not retrieve a 
         /// <see cref="T:System.Configuration.ConnectionStringSettingsCollection" /> object.</exception>
-        public ConnectionStringSettingsCollection ConnectionStrings => ConfigurationManager.ConnectionStrings;
+        public ConnectionStringSettingsCollection ConnectionStrings
+        {
+            get { return ConfigurationManager.ConnectionStrings; }
+        }
 
         /// <summary>
         /// </summary>

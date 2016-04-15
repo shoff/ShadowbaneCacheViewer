@@ -55,7 +55,7 @@ namespace CacheViewer.Domain.Archive
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentNullException(nameof(name));
+                throw new ArgumentNullException("name");
             }
             this.Name = name;
             this.cacheIndex = new List<CacheIndex>();
@@ -231,7 +231,7 @@ namespace CacheViewer.Domain.Archive
         {
             if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentNullException(nameof(path));
+                throw new ArgumentNullException("path");
             }
 
             // TODO move to it's own object, this doesn't belong here.

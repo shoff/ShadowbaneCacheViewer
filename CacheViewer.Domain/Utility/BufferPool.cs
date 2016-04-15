@@ -30,7 +30,10 @@
         /// Gets the instance.
         /// </summary>
         /// <value>The instance.</value>
-        public static BufferPool Instance { get; } = new BufferPool();
+        public static BufferPool Instance
+        {
+            get { return new BufferPool(); }
+        }
 
         /// <summary>
         /// Checks the out.

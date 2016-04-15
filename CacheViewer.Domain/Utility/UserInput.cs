@@ -27,7 +27,9 @@
         /// <summary>
         /// Returns a boolean value indicating whether or not this object has been disposed.
         /// </summary>
-        public bool IsDisposed { get; } = false;
+        public bool IsDisposed {
+            get { return false; }
+        }
 
         /// <summary>
         /// Gets the keyboard object.
@@ -283,9 +285,18 @@
                     // Unregister events
 
                     // get rid of managed resources
-                    this.directInput?.Dispose();
-                    this.Keyboard?.Dispose();
-                    this.Mouse?.Dispose();
+                    if (this.directInput != null)
+                    {
+                        this.directInput.Dispose();
+                    }
+                    if (this.Keyboard != null)
+                    {
+                        this.Keyboard.Dispose();
+                    }
+                    if (this.Mouse != null)
+                    {
+                        this.Mouse.Dispose();
+                    }
                 }
 
                 // get rid of unmanaged resources

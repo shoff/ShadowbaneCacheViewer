@@ -108,7 +108,7 @@ namespace CacheViewer.Controls
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex.Message, ex);
+                logger.Error(ex, ex.Message);
             }
         }
 

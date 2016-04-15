@@ -15,7 +15,7 @@
     // TODO this is poorly named, it should just be the CObjects Cache or something
     public class CacheObjectsCache
     {
-        private CObjects cobjects;
+        private readonly CObjects cobjects;
         private static readonly CacheObjectsCache instance = new CacheObjectsCache();
         private readonly long loadTime;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -145,12 +145,21 @@
         }
 
         /// <summary>Gets the indexes.</summary>
-        public IList<CacheIndex> Indexes => this.cobjects.CacheIndices;
+        public IList<CacheIndex> Indexes
+        {
+            get { return this.cobjects.CacheIndices; }
+        }
 
         /// <summary>Gets the instance.</summary>
-        public static CacheObjectsCache Instance => instance;
+        public static CacheObjectsCache Instance
+        {
+            get { return instance; }
+        }
 
         /// <summary>Gets the load time.</summary>
-        public long LoadTime => this.loadTime;
+        public long LoadTime
+        {
+            get { return this.loadTime; }
+        }
     }
 }

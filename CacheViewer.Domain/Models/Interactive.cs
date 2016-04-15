@@ -140,8 +140,7 @@ namespace CacheViewer.Domain.Models
                             }
                             catch (Exception e1)
                             {
-                                logger.Error(e1,
-                                    $"Exception thrown parsing CacheIndex {this.CacheIndex.Identity}, in Interactive exception e1.");
+                                logger.Error(e1, "Exception thrown parsing CacheIndex {0}, in Interactive exception e1.",this.CacheIndex.Identity);
                                 throw;
                             }
                         }
@@ -175,8 +174,7 @@ namespace CacheViewer.Domain.Models
                                 }
                                 catch (Exception e2)
                                 {
-                                    logger.Error(e2,
-                                        $"Exception thrown parsing CacheIndex {this.CacheIndex.Identity}, in Interactive exception e2.");
+                                    logger.Error(e2, "Exception thrown parsing CacheIndex {0}, in Interactive exception e2.", this.CacheIndex.Identity);
                                     return;
                                 }
 
@@ -203,8 +201,7 @@ namespace CacheViewer.Domain.Models
                                     }
                                     catch (Exception e3)
                                     {
-                                        logger.Error(e3,
-                                            $"Exception thrown parsing CacheIndex {this.CacheIndex.Identity}, in Interactive exception e3.");
+                                        logger.Error(e3, "Exception thrown parsing CacheIndex {0}, in Interactive exception e3.",this.CacheIndex.Identity);
                                         return;
                                     }
                                 }
@@ -255,8 +252,7 @@ namespace CacheViewer.Domain.Models
                         }
                         catch (Exception e4)
                         {
-                            logger.Error(e4,
-                                $"Exception thrown parsing CacheIndex {this.CacheIndex.Identity}, in Interactive exception e4.");
+                            logger.Error(e4, "Exception thrown parsing CacheIndex {0}, in Interactive exception e4.",this.CacheIndex.Identity);
                             break;
                         }
                     }
@@ -264,7 +260,7 @@ namespace CacheViewer.Domain.Models
             }
             catch (Exception e5)
             {
-                logger.Error(e5, $"Exception thrown parsing CacheIndex {this.CacheIndex.Identity}, in Interactive exception e5.");
+                logger.Error(e5, "Exception thrown parsing CacheIndex {0}, in Interactive exception e5.", this.CacheIndex.Identity);
             }
         }
     }

@@ -59,27 +59,27 @@
         /// <value>
         /// The textures.
         /// </value>
-        public List<Texture> Textures { get; }
+        public List<Texture> Textures { get; set; }
 
         /// <summary>
         /// Gets or sets the vertices.
         /// </summary>
-        public List<Vector3> Vertices { get; }
+        public List<Vector3> Vertices { get; set; }
 
         /// <summary>
         /// Gets or sets the normals.
         /// </summary>
-        public List<Vector3> Normals { get; }
+        public List<Vector3> Normals { get; set; }
 
         /// <summary>
         /// Gets or sets the texture vectors.
         /// </summary>
-        public List<Vector2> TextureVectors { get; }
+        public List<Vector2> TextureVectors { get; set; }
 
         /// <summary>
         /// Gets or sets the indices.
         /// </summary>
-        public List<WavefrontVertex> Indices { get; }
+        public List<WavefrontVertex> Indices { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier.

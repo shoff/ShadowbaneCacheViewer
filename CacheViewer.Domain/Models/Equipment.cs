@@ -97,7 +97,7 @@
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, $"Error parsing Equipment for CacheIndex {this.CacheIndex.Identity}");
+                    logger.Error(e, "Error parsing Equipment for CacheIndex {0}", this.CacheIndex.Identity);
                 }
             }
         }

@@ -172,8 +172,7 @@
                         }
                         catch (Exception e1)
                         {
-                            logger.Error(e1,
-                                $"Exception thrown while trying to create walk data for CacheIndex {this.CacheIndex.Identity} in Structure line 172.");
+                            logger.Error(e1, "Exception thrown while trying to create walk data for CacheIndex {0} in Structure line 172.",this.CacheIndex.Identity);
                             throw;
                         }
                     }
@@ -209,8 +208,7 @@
                             }
                             catch (Exception e2)
                             {
-                                logger.Error(e2,
-                                    $"Exception occurred parsing structure for CacheIndex {this.CacheIndex.Identity} in Structure line 209.");
+                                logger.Error(e2, "Exception occurred parsing structure for CacheIndex {0} in Structure line 209.",this.CacheIndex.Identity);
                                 return;
                             }
 
@@ -252,7 +250,7 @@
                                 catch (Exception e3)
                                 {
                                     logger.Error(e3,
-                                        $"Exception thrown on second chunk of walk data for CacheIndex {this.CacheIndex.Identity} in Structure line 247.");
+                                        "Exception thrown on second chunk of walk data for CacheIndex {0} in Structure line 247.",this.CacheIndex.Identity);
                                     return;
                                 }
                             }
@@ -317,14 +315,14 @@
                     }
                     catch (Exception e5)
                     {
-                        logger.Error(e5, $"Error parsing structure for CacheIndex {this.CacheIndex.Identity} in Structure line 309.");
+                        logger.Error(e5, "Error parsing structure for CacheIndex {0} in Structure line 309.",this.CacheIndex.Identity);
                         break;
                     }
                 }
             }
             catch (Exception e6)
             {
-                logger.Error(e6, $"Error parsing structure for CacheIndex {this.CacheIndex.Identity} in Structure line 317.");
+                logger.Error(e6, "Error parsing structure for CacheIndex {0} in Structure line 317.",this.CacheIndex.Identity);
 
                 //wxLogMessage(_T("Error: Failed to load Object Type 4"));
             }
@@ -469,7 +467,7 @@
 
                 if (this.numberOfMeshes > 5000)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(data), DomainMessages.The_number_of_meshes_exceeded_5000);
+                    throw new ArgumentOutOfRangeException(DomainMessages.The_number_of_meshes_exceeded_5000);
                 }
 
                 for (uint i = 0; i < this.numberOfMeshes; i++)

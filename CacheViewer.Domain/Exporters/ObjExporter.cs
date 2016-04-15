@@ -49,7 +49,7 @@ namespace CacheViewer.Domain.Exporters
         {
             if (cacheObject == null)
             {
-                throw new ArgumentNullException(nameof(cacheObject));
+                throw new ArgumentNullException("cacheObject");
             }
 
             StringBuilder mainStringBuilder = new StringBuilder();
@@ -102,19 +102,19 @@ namespace CacheViewer.Domain.Exporters
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException(nameof(mesh));
+                throw new ArgumentNullException("mesh");
             }
             if (mainStringBuilder == null)
             {
-                throw new ArgumentNullException(nameof(mainStringBuilder));
+                throw new ArgumentNullException("mainStringBuilder");
             }
             if (materialBuilder == null)
             {
-                throw new ArgumentNullException(nameof(materialBuilder));
+                throw new ArgumentNullException("materialBuilder");
             }
             if (string.IsNullOrWhiteSpace(directory))
             {
-                throw new ArgumentNullException(nameof(directory));
+                throw new ArgumentNullException("directory");
             }
 
             mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);

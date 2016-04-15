@@ -13,7 +13,7 @@
     /// </summary>
     public class WavefrontReader
     {
-        private static Dictionary<DataType, string> Keywords => new Dictionary<DataType, string>
+        private static Dictionary<DataType, string> Keywords = new Dictionary<DataType, string>
         {
             { DataType.Comment, "#" }, { DataType.Group, "g" }, { DataType.SmoothingGroup, "s" }, { DataType.Position, "v" },
             { DataType.TexCoord, "vt" }, { DataType.Normal, "vn" }, { DataType.Face, "f" }
@@ -35,7 +35,7 @@
         {
             if (stream == null)
             {
-                throw new ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException("stream");
             }
 
             // Create the stream reader for the file
