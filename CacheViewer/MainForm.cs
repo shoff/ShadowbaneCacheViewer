@@ -12,12 +12,12 @@ namespace CacheViewer
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using CacheViewer.Code;
-    using CacheViewer.Domain.Exporters;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Factories;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
+    using Code;
+    using Domain.Exporters;
+    using Domain.Extensions;
+    using Domain.Factories;
+    using Domain.Models;
+    using Domain.Models.Exportable;
     using NLog;
 
     public partial class MainForm : Form
@@ -213,7 +213,7 @@ namespace CacheViewer
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex.Message, ex);
+                logger.Error(ex, ex.Message);
             }
         }
 
@@ -440,6 +440,12 @@ namespace CacheViewer
             }
             DatabaseForm dbf = new DatabaseForm(mobiles);
             dbf.Show();
+        }
+
+        private void logViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LogViewer logViewer = new LogViewer();
+            logViewer.Show();
         }
 
     }

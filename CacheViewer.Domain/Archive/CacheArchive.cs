@@ -10,7 +10,7 @@ namespace CacheViewer.Domain.Archive
     using System.Security;
     using System.Threading.Tasks;
     using ArraySegments;
-    using CacheViewer.Domain.Exceptions;
+    using Exceptions;
     using Extensions;
     using Services;
     using Utility;
@@ -62,7 +62,7 @@ namespace CacheViewer.Domain.Archive
             this.cacheHeader = new CacheHeader();
             this.fileLocations = FileLocations.Instance;
             this.UseCache = true;
-            this.SetFileLocation();
+            SetFileLocation();
             this.bufferData = File.ReadAllBytes(this.fileInfo.FullName).AsArraySegment();
         }
 
@@ -72,7 +72,7 @@ namespace CacheViewer.Domain.Archive
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         public virtual void LoadCacheHeader()
         {
-            using (var reader = bufferData.CreateBinaryReaderUtf32())
+            using (var reader = this.bufferData.CreateBinaryReaderUtf32())
             {
                 // fill in the CachecacheHeader struct for this file.
                 // number of entries in this stream?
@@ -105,7 +105,7 @@ namespace CacheViewer.Domain.Archive
 
         /// <summary>Loads the indexes.</summary>
         /// <returns></returns>
-        public async virtual Task LoadIndexesAsync()
+        public virtual async Task LoadIndexesAsync()
         {
             await Task.Run(() => this.LoadIndexes());
         }
@@ -115,7 +115,7 @@ namespace CacheViewer.Domain.Archive
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         public virtual void LoadIndexes()
         {
-            using (var reader = bufferData.CreateBinaryReaderUtf32())
+            using (var reader = this.bufferData.CreateBinaryReaderUtf32())
             {
                 // set the offset.
                 reader.BaseStream.Position = this.cacheHeader.indexOffset;
@@ -224,10 +224,10 @@ namespace CacheViewer.Domain.Archive
         }
 
         /// <summary>Saves to file.</summary>
-        /// <param name="cacheIndex">Index of the cache.</param>
+        /// <param name="index">Index of the cache.</param>
         /// <param name="path">The path.</param>
         /// <returns></returns>
-        public async Task SaveToFile(CacheIndex cacheIndex, string path)
+        public async Task SaveToFile(CacheIndex index, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -239,7 +239,7 @@ namespace CacheViewer.Domain.Archive
             {
                 Directory.CreateDirectory(path);
             }
-            var asset = this[cacheIndex.Identity];
+            var asset = this[index.Identity];
 
             if (asset.Item1.Count > 0)
             {
@@ -256,9 +256,9 @@ namespace CacheViewer.Domain.Archive
 
         /// <summary>Gets the name.</summary>
         /// <param name="buffer">The buffer.</param>
-        /// <param name="cacheIndex">Index of the cache.</param>
+        /// <param name="index">Index of the cache.</param>
         /// <returns></returns>
-        protected virtual string GetName(byte[] buffer, CacheIndex cacheIndex)
+        protected virtual string GetName(byte[] buffer, CacheIndex index)
         {
             return string.Empty;
         }
@@ -302,14 +302,11 @@ namespace CacheViewer.Domain.Archive
         /// </value>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get { return this.name; }
             protected set
             {
                 this.name = value;
-                this.saveName = name.Replace(".cache", "_").ToLowerInvariant().Trim();
+                this.saveName = this.name.Replace(".cache", "_").ToLowerInvariant().Trim();
             }
         }
 

@@ -33,7 +33,6 @@ namespace CacheViewer.Tests.Domain.Models
         }
 
 
-        [Test]
         public void Find_Where_The_RenderId_Is_Hiding(int cacheItemId, ArraySegment<byte> item)
         {
             int count = item.Count;

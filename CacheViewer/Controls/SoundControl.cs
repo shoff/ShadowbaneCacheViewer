@@ -15,7 +15,6 @@ namespace CacheViewer.Controls
     public partial class SoundControl : UserControl
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
         private readonly SoundCache soundArchive;
 
         public SoundControl()
@@ -62,7 +61,7 @@ namespace CacheViewer.Controls
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex.Message, ex);
+                logger.Error(ex, ex.Message);
             }
         }
 
@@ -91,8 +90,9 @@ namespace CacheViewer.Controls
                         {
                             File.Delete(fileName);
                         }
-                        catch
+                        catch(Exception es)
                         {
+                            logger.Error(es, es.Message);
                             fileName = cacheIndex.Identity + DateTime.Now.Ticks + ".wav";
                         }
                     }

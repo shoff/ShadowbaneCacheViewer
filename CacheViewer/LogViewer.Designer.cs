@@ -61,7 +61,7 @@
             this.Message});
             this.LogsGridView.Location = new System.Drawing.Point(146, 0);
             this.LogsGridView.Name = "LogsGridView";
-            this.LogsGridView.Size = new System.Drawing.Size(850, 391);
+            this.LogsGridView.Size = new System.Drawing.Size(959, 449);
             this.LogsGridView.TabIndex = 0;
             // 
             // Id
@@ -165,7 +165,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(996, 391);
+            this.ClientSize = new System.Drawing.Size(1105, 449);
             this.Controls.Add(this.DeleteLogsButton);
             this.Controls.Add(this.GetLogsButton);
             this.Controls.Add(this.FatalCheckBox);

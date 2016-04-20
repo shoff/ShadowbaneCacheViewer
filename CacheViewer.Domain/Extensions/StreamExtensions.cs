@@ -85,7 +85,7 @@ namespace CacheViewer.Domain.Extensions
                         }
                         catch (Exception e)
                         {
-                            logger.ErrorException(e.Message, e);
+                            logger.Error( e, e.Message);
                             throw;
                         }
                     }

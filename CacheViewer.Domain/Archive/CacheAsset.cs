@@ -52,9 +52,9 @@ namespace CacheViewer.Domain.Archive
         /// </returns>
         public override string ToString()
         {
-            if (CacheIndex2.Identity == 0)
+            if (this.CacheIndex2.Identity == 0)
             {
-                return CacheIndex1.ToString();
+                return this.CacheIndex1.ToString();
             }
 
             return this.CacheIndex1 + "\r\n" + this.CacheIndex2;

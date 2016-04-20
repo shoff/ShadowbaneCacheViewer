@@ -30,13 +30,13 @@
                 OpenFileDialog ofd = new OpenFileDialog();
             }
 
-            // CreateDb();
+             CreateDb();
 
-            // Application.Run(new CacheViewForm());
+             Application.Run(new CacheViewForm());
 
             // Application.Run(new SlimForm());
 
-            Application.Run(new MainForm());
+            //Application.Run(new MainForm());
         }
 
         private static CacheStatus CheckForCacheFiles()

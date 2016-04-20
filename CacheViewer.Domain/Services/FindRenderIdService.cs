@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using CacheViewer.Domain.Extensions;
@@ -25,6 +24,7 @@
 
             // this just gets the length of the data 
             int count = data.Count;
+
             using (var reader = data.CreateBinaryReaderUtf32())
             {
                 for (int offset = 25; offset < count - 4; offset++)
