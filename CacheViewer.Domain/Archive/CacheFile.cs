@@ -1,8 +1,8 @@
 ﻿namespace CacheViewer.Domain.Archive
 {
-    public enum CacheFile
+    public enum CacheFile : int
     {
-        CObjects,
+        CObjects = 0,
         CZone,
         Dungeon,
         Mesh,

@@ -9,7 +9,6 @@ namespace CacheViewer.Domain.Data.Entities
     [Table("RenderEntities")]   
     public class RenderEntity
     {
-
         public RenderEntity()
         {
             this.Children = new List<RenderChild>();

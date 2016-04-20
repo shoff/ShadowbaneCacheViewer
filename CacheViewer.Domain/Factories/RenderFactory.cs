@@ -5,10 +5,10 @@ namespace CacheViewer.Domain.Factories
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Exceptions;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models;
+    using Archive;
+    using Exceptions;
+    using Extensions;
+    using Models;
     using NLog;
 
     /// <summary>
@@ -302,7 +302,7 @@ namespace CacheViewer.Domain.Factories
         /// The indexes.
         /// </value>
         public CacheIndex[] Indexes 
-                    {
+        {
             get { return this.renderArchive.CacheIndices.ToArray(); }
         }
             

@@ -14,7 +14,7 @@ namespace CacheViewer.Domain.Data
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns></returns>
-        IDbSet<TEntity> SetEntity<TEntity>() where TEntity : class;
+        DbSet<TEntity> SetEntity<TEntity>() where TEntity : class;
 
         /// <summary>
         /// Attaches the specified item.

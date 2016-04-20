@@ -10,7 +10,7 @@ namespace CacheViewer.Domain.Data
     using System.Data.SqlClient;
     using System.Threading;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Utility;
+    using Utility;
     using NLog;
 
     /// <summary></summary>
@@ -89,7 +89,7 @@ namespace CacheViewer.Domain.Data
         /// <remarks>
         /// This method is virtual
         /// </remarks>
-        public  IDbSet<TEntity> SetEntity<TEntity>() 
+        public  DbSet<TEntity> SetEntity<TEntity>() 
             where TEntity : class
         {
             return Set<TEntity>();

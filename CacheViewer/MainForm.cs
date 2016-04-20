@@ -13,6 +13,8 @@ namespace CacheViewer
     using System.Linq;
     using System.Reflection;
     using Code;
+    using Domain.Data;
+    using Domain.Data.Entities;
     using Domain.Exporters;
     using Domain.Extensions;
     using Domain.Factories;
@@ -160,7 +162,7 @@ namespace CacheViewer
             //ResetSaveButtons();
             logger.Info("CacheViewForm completed loading all cache archives.");
             this.archivesLoaded = true;
-            stopwatch.Stop();
+            this.stopwatch.Stop();
             // ReSharper disable once LocalizableElement
             this.LoadLabel.Text = Messages.LoadTimeFromCache + " " + this.stopwatch.ElapsedMilliseconds + " ms.";
             this.LoadLabel.Refresh();
@@ -199,7 +201,7 @@ namespace CacheViewer
 
             await this.CacheIndexListView.Display(item);
 
-            await this.FindRenderIds(item);
+            await FindRenderIds(item);
 
             try
             {
@@ -209,7 +211,7 @@ namespace CacheViewer
                 {
                     logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
-                this.DisplayItemInformation(item);
+                DisplayItemInformation(item);
             }
             catch (Exception ex)
             {
@@ -326,7 +328,7 @@ namespace CacheViewer
 
                                     if (hasmesh)
                                     {
-                                        this.SetRenderItem(this.RenderInformationListView, new[]
+                                        SetRenderItem(this.RenderInformationListView, new[]
                                             {
                                                 id.ToString(CultureInfo.InvariantCulture), 
                                                 offset.ToString(CultureInfo.InvariantCulture), 
@@ -446,6 +448,25 @@ namespace CacheViewer
         {
             LogViewer logViewer = new LogViewer();
             logViewer.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (DataContext context = new DataContext())
+            {
+                var entities = context.Set<CacheIndexEntity>();
+                foreach (var cache in this.renderFactory.Indexes)
+                {
+                    entities.Add(new CacheIndexEntity
+                    {
+                        CompressedSize = (int) cache.CompressedSize,
+                        Offset = (int) cache.Offset,
+                        UnCompressedSize = (int) cache.UnCompressedSize,
+                        File = Domain.Archive.CacheFile.Render
+                    });
+                }
+                context.Commit();
+            }
         }
 
     }

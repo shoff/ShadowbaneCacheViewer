@@ -5,11 +5,11 @@
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Exceptions;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
+    using Archive;
+    using Exceptions;
+    using Extensions;
+    using Models;
+    using Models.Exportable;
     using NLog;
 
     // TODO this is poorly named, it should just be the CObjects Cache or something
