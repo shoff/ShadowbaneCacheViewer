@@ -16,6 +16,9 @@ namespace CacheViewer.Domain.Archive
     using Utility;
     using NLog;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class CacheArchive
     {
         // ReSharper disable InconsistentNaming
@@ -30,27 +33,25 @@ namespace CacheViewer.Domain.Archive
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         // ReSharper restore InconsistentNaming
 
-        /// <summary>Initializes a new instance of the <see cref="CacheArchive" /> class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CacheArchive" /> class.
+        /// </summary>
         /// <param name="name">The name.</param>
-        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
-        /// <exception cref="IOException">An I/O error occurred while opening the file. </exception>
-        /// <exception cref="UnauthorizedAccessException">This operation is not supported on the current platform.-or-  specified a directory.-or- The caller does not have the required permission. </exception>
-        /// <exception cref="ArgumentException">
-        ///   <name>path</name>
-        ///   is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <see>
-        ///     <cref>F:System.IO.Path.InvalidPathChars</cref>
-        ///   </see>
-        ///   . </exception>
-        /// <exception cref="ArgumentNullException">
-        ///   <name>path</name>
-        ///   is null. </exception>
+        /// <exception cref="System.ArgumentNullException">name</exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive).</exception>
+        /// <exception cref="IOException">An I/O error occurred while opening the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">This operation is not supported on the current platform.-or-  specified a directory.-or- The caller does not have the required permission.</exception>
+        /// <exception cref="ArgumentException"><name>path</name>
+        /// is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <see><cref>F:System.IO.Path.InvalidPathChars</cref></see>
+        /// .</exception>
+        /// <exception cref="ArgumentNullException"><name>path</name>
+        /// is null.</exception>
         /// <exception cref="PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length. For example,
-        ///  on Windows-based platforms, paths must be less than 248 characters, and file names must be less than 260 characters. </exception>
-        /// <exception cref="NotSupportedException">
-        ///   <name>path</name>
-        ///   is in an invalid format. </exception>
-        /// <exception cref="FileNotFoundException">The file specified in  was not found. </exception>
-        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
+        /// on Windows-based platforms, paths must be less than 248 characters, and file names must be less than 260 characters.</exception>
+        /// <exception cref="NotSupportedException"><name>path</name>
+        /// is in an invalid format.</exception>
+        /// <exception cref="FileNotFoundException">The file specified in  was not found.</exception>
+        /// <exception cref="SecurityException">The caller does not have the required permission.</exception>
         protected CacheArchive(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -66,10 +67,13 @@ namespace CacheViewer.Domain.Archive
             this.bufferData = File.ReadAllBytes(this.fileInfo.FullName).AsArraySegment();
         }
 
-        /// <summary>Loads the cache header.</summary>
+        /// <summary>
+        /// Loads the cache header.
+        /// </summary>
+        /// <exception cref="CacheViewer.Domain.Exceptions.HeaderFileSizeException"></exception>
         /// <exception cref="System.ApplicationException"></exception>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+        /// <exception cref="IOException">An I/O error occurs.</exception>
+        /// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
         public virtual void LoadCacheHeader()
         {
             using (var reader = this.bufferData.CreateBinaryReaderUtf32())
@@ -92,10 +96,9 @@ namespace CacheViewer.Domain.Archive
                         length = this.fileInfo.Length.ToString();
                     }
 
-                    throw new ApplicationException(
-                        string.Format(
+                    throw new HeaderFileSizeException(string.Format(
                             "{0} Header states file should be {1} in size, but FileInfo object reported {2} as actual size.",
-                            this.Name, (int)this.CacheHeader.fileSize, length));
+                            this.Name, this.CacheHeader.fileSize, length));
                 }
 
                 this.cacheHeader.indexOffset = reader.BaseStream.Position;
@@ -103,16 +106,20 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>Loads the indexes.</summary>
+        /// <summary>
+        /// Loads the indexes.
+        /// </summary>
         /// <returns></returns>
         public virtual async Task LoadIndexesAsync()
         {
-            await Task.Run(() => this.LoadIndexes());
+            await Task.Run(() => LoadIndexes());
         }
 
-        /// <summary>Loads the indexes.</summary>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+        /// <summary>
+        /// Loads the indexes.
+        /// </summary>
+        /// <exception cref="IOException">An I/O error occurs.</exception>
+        /// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
         public virtual void LoadIndexes()
         {
             using (var reader = this.bufferData.CreateBinaryReaderUtf32())
@@ -160,24 +167,7 @@ namespace CacheViewer.Domain.Archive
         /// </value>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        /// <exception accessor="get">An I/O error occurs.
-        ///   <cref>IOException</cref>
-        /// </exception>
-        /// <exception accessor="get">
-        ///   <cref>ArgumentNullException</cref>
-        ///   <paramref>
-        ///     <name>source</name>
-        ///   </paramref>
-        ///   or <paramref>
-        ///     <name>predicate</name>
-        ///   </paramref>
-        ///   is null.</exception>
-        /// <exception accessor="get">The number of elements in
-        ///   <cref>OverflowException</cref>
-        ///   <paramref>
-        ///     <name>source</name>
-        ///   </paramref>
-        ///   is larger than <see cref="F:System.Int32.MaxValue" />.</exception>
+        /// <exception cref="IndexNotFoundException">no name</exception>
         public virtual CacheAsset this[int id]
         {
             get
@@ -208,14 +198,14 @@ namespace CacheViewer.Domain.Archive
                     // ReSharper disable ExceptionNotDocumented
                     reader.BaseStream.Position = asset.CacheIndex1.Offset;
                     var buffer = reader.ReadBytes((int)asset.CacheIndex1.CompressedSize);
-                    asset.Item1 = this.Decompress(asset.CacheIndex1.UnCompressedSize, buffer);
+                    asset.Item1 = Decompress(asset.CacheIndex1.UnCompressedSize, buffer);
 
                     // hate this hack, freaking Wolfpack decided that the identity in the 
                     // render.cache didn't need to be unique... brilliant...
                     if (count > 1)
                     {
                         reader.BaseStream.Position = asset.CacheIndex2.Offset;
-                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize,
+                        asset.Item2 = Decompress(asset.CacheIndex2.UnCompressedSize,
                             reader.ReadBytes((int)asset.CacheIndex2.CompressedSize));
                     }
                 }
@@ -223,10 +213,23 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>Saves to file.</summary>
+        /// <summary>
+        /// Determines whether [contains] [the specified identifier].
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public virtual bool Contains(int id)
+        {
+            return this.cacheIndex.Any(x => x.Identity == id);
+        }
+
+        /// <summary>
+        /// Saves to file.
+        /// </summary>
         /// <param name="index">Index of the cache.</param>
         /// <param name="path">The path.</param>
         /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">path</exception>
         public async Task SaveToFile(CacheIndex index, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -254,7 +257,9 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>Gets the name.</summary>
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
         /// <param name="buffer">The buffer.</param>
         /// <param name="index">Index of the cache.</param>
         /// <returns></returns>
@@ -263,13 +268,22 @@ namespace CacheViewer.Domain.Archive
             return string.Empty;
         }
 
-        /// <summary>Sets the file location.</summary>
+        /// <summary>
+        /// Sets the file location.
+        /// </summary>
         protected void SetFileLocation()
         {
             string folderName = this.fileLocations.GetCacheFolder();
             this.fileInfo = new FileInfo(Path.Combine(folderName, this.Name));
         }
 
+        /// <summary>
+        /// Decompresses the specified uncompressed size.
+        /// </summary>
+        /// <param name="uncompressedSize">Size of the uncompressed.</param>
+        /// <param name="file">The file.</param>
+        /// <returns></returns>
+        /// <exception cref="CacheViewer.Domain.Exceptions.InvalidCompressionSizeException">Index raw size should be  + uncompressedSize +  , but was  + item.Length</exception>
         protected ArraySegment<byte> Decompress(uint uncompressedSize, byte[] file)
         {
             if (file.Length == uncompressedSize)
@@ -282,7 +296,8 @@ namespace CacheViewer.Domain.Archive
 
             if (item.Length != uncompressedSize)
             {
-                throw new InvalidCastException("Index raw size should be " + uncompressedSize + " , but was " + item.Length);
+                throw new InvalidCompressionSizeException
+                    ("Index raw size should be " + uncompressedSize + " , but was " + item.Length);
             }
 
             // gets the name
@@ -310,31 +325,66 @@ namespace CacheViewer.Domain.Archive
             }
         }
 
-        /// <summary>Gets the cache header.</summary>
+        /// <summary>
+        /// Gets the cache header.
+        /// </summary>
+        /// <value>
+        /// The cache header.
+        /// </value>
         public CacheHeader CacheHeader
         {
             get { return this.cacheHeader; }
         }
 
-        /// <summary>Gets the indexes.</summary>
+        /// <summary>
+        /// Gets the indexes.
+        /// </summary>
+        /// <value>
+        /// The cache indices.
+        /// </value>
         public List<CacheIndex> CacheIndices
         {
             get { return this.cacheIndex; }
         }
 
-        /// <summary>Gets or sets a value indicating whether [cache on index load].</summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether [cache on index load].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [cache on index load]; otherwise, <c>false</c>.
+        /// </value>
         public bool CacheOnIndexLoad { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether [use cache].</summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether [use cache].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [use cache]; otherwise, <c>false</c>.
+        /// </value>
         public bool UseCache { get; set; }
 
-        /// <summary>Gets or sets the lowest identifier.</summary>
+        /// <summary>
+        /// Gets or sets the lowest identifier.
+        /// </summary>
+        /// <value>
+        /// The lowest identifier.
+        /// </value>
         public int LowestId { get; set; }
 
-        /// <summary>Gets or sets the highest identifier.</summary>
+        /// <summary>
+        /// Gets or sets the highest identifier.
+        /// </summary>
+        /// <value>
+        /// The highest identifier.
+        /// </value>
         public int HighestId { get; set; }
 
-        /// <summary>Gets the identity array.</summary>
+        /// <summary>
+        /// Gets the identity array.
+        /// </summary>
+        /// <value>
+        /// The identity array.
+        /// </value>
         public int[] IdentityArray
         {
             get { return this.identityArray; }

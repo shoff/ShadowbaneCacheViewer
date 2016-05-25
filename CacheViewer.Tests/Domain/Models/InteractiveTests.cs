@@ -6,6 +6,8 @@ using NUnit.Framework;
 
 namespace CacheViewer.Tests.Domain.Models
 {
+    using CacheViewer.Domain;
+
     [TestFixture]
     public class InteractiveTests
     {
@@ -18,7 +20,7 @@ namespace CacheViewer.Tests.Domain.Models
         public void SetUp()
         {
             this.renderArchive = (Render)ArchiveFactory.Instance.Build(CacheFile.Render);
-            this.cobjects = (CObjects) ArchiveFactory.Instance.Build(CacheFile.CObjects);
+            this.cobjects = (CObjects)ArchiveFactory.Instance.Build(CacheFile.CObjects);
             this.cacheObjectsCache = CacheObjectsCache.Instance;
         }
 
@@ -44,11 +46,11 @@ namespace CacheViewer.Tests.Domain.Models
 
                     int id = reader.ReadInt32();
 
-                    if (TestRange(id, 1000, 77000300))
+                    if (TestRange(id) && this.renderArchive.Contains(id))
                     {
                         if (Found(id))
                         {
-                            Console.WriteLine("Found matching renderId at position {0}, id is {1}", i, id);
+                            Console.WriteLine(DomainMessages.MatchingRenderIdFound, i, id);
                         }
                     }
                 }
@@ -57,7 +59,7 @@ namespace CacheViewer.Tests.Domain.Models
 
         private bool Found(int id)
         {
-            var renderId = renderArchive[id];
+            var renderId = this.renderArchive[id];
             if (renderId.CacheIndex1.Identity > 0)
             {
                 return true;
@@ -65,9 +67,10 @@ namespace CacheViewer.Tests.Domain.Models
             return false;
         }
 
-        private bool TestRange(int numberToCheck, int bottom, int top)
+        private bool TestRange(int numberToCheck)
         {
-            return (numberToCheck > bottom && numberToCheck < top);
+            return (numberToCheck >= this.renderArchive.LowestId 
+                && numberToCheck <= this.renderArchive.HighestId);
         }
 
     }

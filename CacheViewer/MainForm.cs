@@ -1,18 +1,17 @@
-﻿
-
-namespace CacheViewer
+﻿namespace CacheViewer
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
     using System.Diagnostics;
     using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
     using Code;
+    using Domain.Archive;
     using Domain.Data;
     using Domain.Data.Entities;
     using Domain.Exporters;
@@ -24,29 +23,29 @@ namespace CacheViewer
 
     public partial class MainForm : Form
     {
-        private readonly TreeNode simpleNode = new TreeNode("Simple");
-        private readonly TreeNode structureNode = new TreeNode("Structures");
-        private readonly TreeNode interactiveNode = new TreeNode("Interactive");
-        private readonly TreeNode equipmentNode = new TreeNode("Equipment");
-        private readonly TreeNode mobileNode = new TreeNode("Mobiles");
-        private readonly TreeNode deedNode = new TreeNode("Deeds");
-        private readonly TreeNode unknownNode = new TreeNode("Unknown");
-        private readonly TreeNode warrantNode = new TreeNode("Warrants");
-        private readonly TreeNode particleNode = new TreeNode("Particles");
+        // data
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         // Archives
         private readonly CacheObjectsCache cacheObjectsCache;
-        private readonly MeshOnlyObjExporter meshExporter;
-        private readonly RenderFactory renderFactory;
-        private readonly TextureFactory textureFactory;
-        private readonly MeshFactory meshFactory;
         private readonly ListViewColumnSorter columnSorter;
+        private readonly TreeNode deedNode = new TreeNode("Deeds");
+        private readonly TreeNode equipmentNode = new TreeNode("Equipment");
+        private readonly TreeNode interactiveNode = new TreeNode("Interactive");
+        private readonly MeshOnlyObjExporter meshExporter;
+        private readonly MeshFactory meshFactory;
+        private readonly TreeNode mobileNode = new TreeNode("Mobiles");
+        private readonly TreeNode particleNode = new TreeNode("Particles");
+        private readonly RenderFactory renderFactory;
+        private readonly TreeNode simpleNode = new TreeNode("Simple");
+        private readonly Stopwatch stopwatch;
+        private readonly TreeNode structureNode = new TreeNode("Structures");
+        private readonly TextureFactory textureFactory;
+        private readonly TreeNode unknownNode = new TreeNode("Unknown");
+        private readonly TreeNode warrantNode = new TreeNode("Warrants");
 
 
         private bool archivesLoaded;
-        private readonly Stopwatch stopwatch;
-        // data
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public MainForm()
         {
@@ -92,7 +91,6 @@ namespace CacheViewer
 
             await Task.Run(() =>
             {
-
                 foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
@@ -104,7 +102,7 @@ namespace CacheViewer
 
                     var node = new TreeNode(title)
                     {
-                        Tag = cacheObject,
+                        Tag = cacheObject
                     };
 
                     switch (cacheObject.Flag)
@@ -142,19 +140,19 @@ namespace CacheViewer
                 }
             });
 
-            simpleNode.Nodes.AddRange(simpleNodes.ToArray());
-            structureNode.Nodes.AddRange(structureNodes.ToArray());
-            interactiveNode.Nodes.AddRange(interactiveNodes.ToArray());
-            equipmentNode.Nodes.AddRange(equipmentNodes.ToArray());
-            mobileNode.Nodes.AddRange(mobileNodes.ToArray());
-            deedNode.Nodes.AddRange(deedNodes.ToArray());
-            unknownNode.Nodes.AddRange(unknownNodes.ToArray());
-            warrantNode.Nodes.AddRange(warrantNodes.ToArray());
-            particleNode.Nodes.AddRange(particleNodes.ToArray());
+            this.simpleNode.Nodes.AddRange(simpleNodes.ToArray());
+            this.structureNode.Nodes.AddRange(structureNodes.ToArray());
+            this.interactiveNode.Nodes.AddRange(interactiveNodes.ToArray());
+            this.equipmentNode.Nodes.AddRange(equipmentNodes.ToArray());
+            this.mobileNode.Nodes.AddRange(mobileNodes.ToArray());
+            this.deedNode.Nodes.AddRange(deedNodes.ToArray());
+            this.unknownNode.Nodes.AddRange(unknownNodes.ToArray());
+            this.warrantNode.Nodes.AddRange(warrantNodes.ToArray());
+            this.particleNode.Nodes.AddRange(particleNodes.ToArray());
 
             // what a pain in the ass this is Microsoft.
-            //this.LoadingPictureBox.Visible = false;
-            //this.LoadingPictureBox.Refresh();
+            // this.LoadingPictureBox.Visible = false;
+            // this.LoadingPictureBox.Refresh();
 
             // never re-enable the load cache button!
             // this.LoadCacheButton.Enabled = true;
@@ -170,15 +168,15 @@ namespace CacheViewer
 
         private void MainFormLoad(object sender, EventArgs e)
         {
-            this.CObjectTreeView.Nodes.Add(simpleNode);
-            this.CObjectTreeView.Nodes.Add(structureNode);
-            this.CObjectTreeView.Nodes.Add(interactiveNode);
-            this.CObjectTreeView.Nodes.Add(equipmentNode);
-            this.CObjectTreeView.Nodes.Add(mobileNode);
-            this.CObjectTreeView.Nodes.Add(deedNode);
-            this.CObjectTreeView.Nodes.Add(unknownNode);
-            this.CObjectTreeView.Nodes.Add(warrantNode);
-            this.CObjectTreeView.Nodes.Add(particleNode);
+            this.CObjectTreeView.Nodes.Add(this.simpleNode);
+            this.CObjectTreeView.Nodes.Add(this.structureNode);
+            this.CObjectTreeView.Nodes.Add(this.interactiveNode);
+            this.CObjectTreeView.Nodes.Add(this.equipmentNode);
+            this.CObjectTreeView.Nodes.Add(this.mobileNode);
+            this.CObjectTreeView.Nodes.Add(this.deedNode);
+            this.CObjectTreeView.Nodes.Add(this.unknownNode);
+            this.CObjectTreeView.Nodes.Add(this.warrantNode);
+            this.CObjectTreeView.Nodes.Add(this.particleNode);
         }
 
         private async void CObjectTreeViewAfterSelect(object sender, TreeViewEventArgs e)
@@ -197,7 +195,7 @@ namespace CacheViewer
             // pertinent information from the renderId by validating the information
             // against the other archives. I will give each "archive" portion for each 
             // cahceObject a listView that ties all the information together at once.
-            ICacheObject item = (ICacheObject)this.CObjectTreeView.SelectedNode.Tag;
+            ICacheObject item = (ICacheObject) this.CObjectTreeView.SelectedNode.Tag;
 
             await this.CacheIndexListView.Display(item);
 
@@ -239,7 +237,7 @@ namespace CacheViewer
                 string name = pi[i].Name;
                 if (name == "Data")
                 {
-                    info = name + " : Length: " + ((ArraySegment<byte>)pi[i].GetValue(item, null)).Count + "\r\n";
+                    info = name + " : Length: " + ((ArraySegment<byte>) pi[i].GetValue(item, null)).Count + "\r\n";
                 }
                 else if ((name == "FourIntArray") || (name == "FourThousandInt"))
                 {
@@ -248,9 +246,9 @@ namespace CacheViewer
                 else if (name == "StatArray")
                 {
                     info = name;
-                    List<uint> stats = (List<uint>)pi[i].GetValue(item, null);
+                    List<uint> stats = (List<uint>) pi[i].GetValue(item, null);
 
-                    var lvii = new ListViewItem(new[] { info });
+                    var lvii = new ListViewItem(new[] {info});
 
                     if (stats.Count == 0)
                     {
@@ -270,7 +268,7 @@ namespace CacheViewer
                 {
                     info = name + " : " + pi[i].GetValue(item, null) + "\r\n";
                 }
-                var lvi = new ListViewItem(new[] { info });
+                var lvi = new ListViewItem(new[] {info});
                 this.PropertiesListView.Items.Add(lvi);
             }
         }
@@ -311,8 +309,8 @@ namespace CacheViewer
                             // falls outside of those bounds, it's obviously wrong.
                             // we filter on 6 because it seems to be a common number that continues to come up for 
                             // lots of mobiles and other cache items.
-                            if ((id != 6 && id != 100) && 
-                                (id.TestRange(this.renderFactory.IdentityRange.Item1, this.renderFactory.IdentityRange.Item2)))
+                            if (id != 6 && id != 100 &&
+                                id.TestRange(this.renderFactory.IdentityRange.Item1, this.renderFactory.IdentityRange.Item2))
                             {
                                 // simple query to look up the id
                                 var found = this.renderFactory.IdentityArray.Where(x => x == id).Any();
@@ -324,17 +322,17 @@ namespace CacheViewer
                                     var renderAsset = this.renderFactory.GetById(id);
 
                                     // this is the mess here
-                                    bool hasmesh = this.FindModelId(renderAsset.Item1).Result;
+                                    bool hasmesh = FindModelId(renderAsset.Item1).Result;
 
                                     if (hasmesh)
                                     {
                                         SetRenderItem(this.RenderInformationListView, new[]
-                                            {
-                                                id.ToString(CultureInfo.InvariantCulture), 
-                                                offset.ToString(CultureInfo.InvariantCulture), 
-                                                "true",
-                                                "renderinfo"
-                                            });
+                                        {
+                                            id.ToString(CultureInfo.InvariantCulture),
+                                            offset.ToString(CultureInfo.InvariantCulture),
+                                            "true",
+                                            "renderinfo"
+                                        });
                                     }
                                 }
                             }
@@ -438,7 +436,7 @@ namespace CacheViewer
 
             foreach (TreeNode mobile in this.mobileNode.Nodes)
             {
-                mobiles.Add((CacheObject)mobile.Tag);
+                mobiles.Add((CacheObject) mobile.Tag);
             }
             DatabaseForm dbf = new DatabaseForm(mobiles);
             dbf.Show();
@@ -462,12 +460,11 @@ namespace CacheViewer
                         CompressedSize = (int) cache.CompressedSize,
                         Offset = (int) cache.Offset,
                         UnCompressedSize = (int) cache.UnCompressedSize,
-                        File = Domain.Archive.CacheFile.Render
+                        File = CacheFile.Render
                     });
                 }
                 context.Commit();
             }
         }
-
     }
 }

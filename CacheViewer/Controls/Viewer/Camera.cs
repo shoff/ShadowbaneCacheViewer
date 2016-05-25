@@ -106,7 +106,7 @@ namespace CacheViewer.Controls.Viewer
         public Behavior CurrentBehavior
         {
             get { return this.behavior; }
-            set { this.ChangeBehavior(value); }
+            set { ChangeBehavior(value); }
         }
 
         /// <summary>

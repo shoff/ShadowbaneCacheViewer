@@ -67,14 +67,8 @@ namespace CacheViewer.Code
         /// </summary>
         public int SortColumn
         {
-            set
-            {
-                this.columnToSort = value;
-            }
-            get
-            {
-                return this.columnToSort;
-            }
+            set { this.columnToSort = value; }
+            get { return this.columnToSort; }
         }
 
         /// <summary>
@@ -82,14 +76,8 @@ namespace CacheViewer.Code
         /// </summary>
         public SortOrder Order
         {
-            set
-            {
-                this.orderOfSort = value;
-            }
-            get
-            {
-                return this.orderOfSort;
-            }
+            set { this.orderOfSort = value; }
+            get { return this.orderOfSort; }
         }
 
     }

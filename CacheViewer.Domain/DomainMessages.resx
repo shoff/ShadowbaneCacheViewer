@@ -107,4 +107,7 @@
   <data name="The_number_of_meshes_exceeded_5000" xml:space="preserve">
     <value>the number of meshes exceeded 5000.</value>
   </data>
+  <data name="MatchingRenderIdFound" xml:space="preserve">
+    <value>Found matching renderId at position {0}, id is {1}</value>
+  </data>
 </root>

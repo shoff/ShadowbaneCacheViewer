@@ -70,6 +70,15 @@ namespace CacheViewer.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found matching renderId at position {0}, id is {1}.
+        /// </summary>
+        internal static string MatchingRenderIdFound {
+            get {
+                return ResourceManager.GetString("MatchingRenderIdFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saving sound file .
         /// </summary>
         internal static string SoundControl_SaveAllSoundsButtonClick_Saving_sound_file_ {

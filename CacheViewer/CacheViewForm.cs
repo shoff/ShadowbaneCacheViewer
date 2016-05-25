@@ -9,13 +9,13 @@ namespace CacheViewer
     using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using CacheViewer.Domain.Exporters;
-    using CacheViewer.Domain.Factories;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
+    using Domain.Exporters;
+    using Domain.Factories;
+    using Domain.Models;
+    using Domain.Models.Exportable;
     using NLog;
     using System.IO;
-    using CacheViewer.Domain.Services;
+    using Domain.Services;
 
     public partial class CacheViewForm : Form
     {
