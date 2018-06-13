@@ -13,10 +13,10 @@
     /// </summary>
     public class WavefrontReader
     {
-        private static Dictionary<DataType, string> Keywords = new Dictionary<DataType, string>
+        private static readonly Dictionary<DataType, string> Keywords = new Dictionary<DataType, string>
         {
-            { DataType.Comment, "#" }, { DataType.Group, "g" }, { DataType.SmoothingGroup, "s" }, { DataType.Position, "v" },
-            { DataType.TexCoord, "vt" }, { DataType.Normal, "vn" }, { DataType.Face, "f" }
+            {DataType.Comment, "#"}, {DataType.Group, "g"}, {DataType.SmoothingGroup, "s"}, {DataType.Position, "v"},
+            {DataType.TexCoord, "vt"}, {DataType.Normal, "vn"}, {DataType.Face, "f"}
         };
 
         /// <summary>
@@ -26,7 +26,7 @@
         ///     Stream containing the OBJ file content.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <paramref name="stream"/> is <c>null</c>.
+        ///     <paramref name="stream" /> is <c>null</c>.
         /// </exception>
         /// <exception cref="IOException">
         ///     Error while reading from the stream.
@@ -50,41 +50,41 @@
             // Read the file line by line and normalize them
             while ((current = reader.ReadLine()) != null)
             {
-                lines.Add(NormalizeLine(current));
+                lines.Add(this.NormalizeLine(current));
             }
 
             // Create empty mesh instance
             var obj = new WavefrontObject();
 
             // Iterate over all lines
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
                 // Get line type and content
-                DataType type = GetType(line);
-                string content = GetContent(line, type);
+                var type = this.GetType(line);
+                var content = this.GetContent(line, type);
 
                 // Line is a position
                 if (type == DataType.Position)
                 {
-                    obj.Positions.Add(ParseVector3(content));
+                    obj.Positions.Add(this.ParseVector3(content));
                 }
 
                 // Line is a texture coordinate
                 if (type == DataType.TexCoord)
                 {
-                    obj.Texcoords.Add(ParseVector2(content));
+                    obj.Texcoords.Add(this.ParseVector2(content));
                 }
 
                 // Line is a normal vector
                 if (type == DataType.Normal)
                 {
-                    obj.Normals.Add(ParseVector3(content));
+                    obj.Normals.Add(this.ParseVector3(content));
                 }
 
                 // Line is a mesh sub group
                 if (type == DataType.Group)
                 {
-                    obj.Groups.Add(new WavefrontFaceGroup { Name = content });
+                    obj.Groups.Add(new WavefrontFaceGroup {Name = content});
                 }
 
                 // Line is a polygon
@@ -97,7 +97,7 @@
                     }
 
                     // Add the face to the last group added
-                    obj.Groups.Last().Faces.Add(ParseFace(content));
+                    obj.Groups.Last().Faces.Add(this.ParseFace(content));
                 }
             }
 
@@ -153,7 +153,7 @@
 
             var segments = str.Split(' ');
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 if (i < segments.Length)
                 {
@@ -177,6 +177,7 @@
             {
                 throw new ArgumentNullException(str);
             }
+
             // Parse a 3D vector from a string definition in the form of: 2.0 3.0 1.0
             var components = ParseFloatArray(str, 3);
             if (components.Length != 3)
@@ -194,6 +195,7 @@
             {
                 throw new ArgumentNullException(str);
             }
+
             // Parse a 3D vector from a string definition in the form of: 1.0 2.0 3.0 1.0
             var components = ParseFloatArray(str, 4);
             var vec = new Vector3(components[0], components[1], components[2]);
@@ -209,19 +211,19 @@
 
             // Parse a OBJ face from a string definition.
             // Split the face definition at whitespace
-            var segments = str.Split(new Char[0], StringSplitOptions.RemoveEmptyEntries);
+            var segments = str.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
 
             var vertices = new List<WavefrontVertex>();
 
             // Iterate over the segments
-            foreach (string segment in segments)
+            foreach (var segment in segments)
             {
                 // Parse and add the vertex
-                vertices.Add(ParseVertex(segment));
+                vertices.Add(this.ParseVertex(segment));
             }
 
             // Create and return the face
-            return new WavefrontFace { Vertices = vertices };
+            return new WavefrontFace {Vertices = vertices};
         }
 
         public WavefrontVertex ParseVertex(string str)
@@ -244,10 +246,10 @@
             var indices = new int[3];
 
             // Iterate 3 times
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 // If no segment exists at the location or the segment can not be passed to an integer set the index to zero
-                if ((segments.Length <= i) || (!int.TryParse(segments[i], out indices[i])))
+                if (segments.Length <= i || !int.TryParse(segments[i], out indices[i]))
                 {
                     indices[i] = 0;
                 }
@@ -258,47 +260,47 @@
         }
 
         /// <summary>
-        /// Enum for describing the semantic meaning of a line in an OBJ file.
+        ///     Enum for describing the semantic meaning of a line in an OBJ file.
         /// </summary>
         private enum DataType
         {
             /// <summary>
-            /// The line contains nothing or has no or an undefined keyword.
+            ///     The line contains nothing or has no or an undefined keyword.
             /// </summary>
             Empty,
 
             /// <summary>
-            /// The line contains a comment.
+            ///     The line contains a comment.
             /// </summary>
             Comment,
 
             /// <summary>
-            /// The line contains a group definition.
+            ///     The line contains a group definition.
             /// </summary>
             Group,
 
             /// <summary>
-            /// The line contains a smoothing group definitio.
+            ///     The line contains a smoothing group definitio.
             /// </summary>
             SmoothingGroup,
 
             /// <summary>
-            /// The line contains a position vector definition.
+            ///     The line contains a position vector definition.
             /// </summary>
             Position,
 
             /// <summary>
-            /// The line contains a normal vector definition.
+            ///     The line contains a normal vector definition.
             /// </summary>
             Normal,
 
             /// <summary>
-            /// The line contains a texture coordinate definition.
+            ///     The line contains a texture coordinate definition.
             /// </summary>
             TexCoord,
 
             /// <summary>
-            /// The line contains a face definition.
+            ///     The line contains a face definition.
             /// </summary>
             Face
         }

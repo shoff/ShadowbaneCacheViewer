@@ -30,13 +30,24 @@
                 OpenFileDialog ofd = new OpenFileDialog();
             }
 
-             CreateDb();
+            var mainForm = ConfigurationManager.AppSettings["MainFormType"];
 
-             // Application.Run(new CacheViewForm());
+            if (mainForm == "CacheViewForm")
+            {
+                Application.Run(new CacheViewForm());
+            }
+            else 
+            {
+                Application.Run(new MainForm());
+            }
+
+            //CreateDb();
+
+            // Application.Run(new CacheViewForm());
 
             // Application.Run(new SlimForm());
 
-            Application.Run(new MainForm());
+            // Application.Run(new MainForm());
         }
 
         private static CacheStatus CheckForCacheFiles()

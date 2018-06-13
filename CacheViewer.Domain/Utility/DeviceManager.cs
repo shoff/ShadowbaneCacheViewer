@@ -1,84 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Forms;
-using SlimDX;
-using SlimDX.Direct3D11;
-using SlimDX.DXGI;
-using Device = SlimDX.Direct3D11.Device;
-using Resource = SlimDX.Direct3D11.Resource;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Windows.Forms;
+    using SlimDX;
+    using SlimDX.Direct3D11;
+    using SlimDX.DXGI;
+    using Device = SlimDX.Direct3D11.Device;
+    using Resource = SlimDX.Direct3D11.Resource;
+
     /// <summary>
-    /// 
     /// </summary>
     public class DeviceManager
     {
-
-        private static readonly DeviceManager instance = new DeviceManager();
-
         /// <summary>
-        /// The context
+        ///     The context
         /// </summary>
         public DeviceContext context;
+
         /// <summary>
-        /// The device
+        ///     The device
         /// </summary>
         public Device device;
+
         /// <summary>
-        /// The render target
+        ///     The render target
         /// </summary>
         public RenderTargetView renderTarget;
+
         /// <summary>
-        /// The swap chain
+        ///     The swap chain
         /// </summary>
         public SwapChain swapChain;
+
         /// <summary>
-        /// The viewport
+        ///     The viewport
         /// </summary>
         public Viewport viewport;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="DeviceManager"/> class from being created.
+        ///     Prevents a default instance of the <see cref="DeviceManager" /> class from being created.
         /// </summary>
         private DeviceManager()
         {
         }
 
         /// <summary>
-        /// Gets the instance.
+        ///     Gets the instance.
         /// </summary>
         /// <value>
-        /// The instance.
+        ///     The instance.
         /// </value>
-        public static DeviceManager Instance { get { return instance; } }
+        public static DeviceManager Instance { get; } = new DeviceManager();
 
 
         /// <summary>
-        /// Gets the caps.
+        ///     Gets the caps.
         /// </summary>
         public void GetCaps()
         {
-            Factory1 fac = new Factory1();
-            int numAdapters = fac.GetAdapterCount1();
-            List<Adapter1> adapts = new List<Adapter1>();
-            for (int i = 0; i < numAdapters; i++)
+            var fac = new Factory1();
+            var numAdapters = fac.GetAdapterCount1();
+            var adapts = new List<Adapter1>();
+            for (var i = 0; i < numAdapters; i++)
             {
                 adapts.Add(fac.GetAdapter1(i));
             }
 
-            Output outp = adapts[0].GetOutput(0);
+            var outp = adapts[0].GetOutput(0);
 
-            List<Format> formats = new List<Format>();
+            var formats = new List<Format>();
             foreach (Format format in Enum.GetValues(typeof(Format)))
             {
                 formats.Add(format);
             }
 
-            List<ReadOnlyCollection<ModeDescription>> ll = new List<ReadOnlyCollection<ModeDescription>>();
+            var ll = new List<ReadOnlyCollection<ModeDescription>>();
 
-            for (int i = 0; i < formats.Count - 1; i++)
+            for (var i = 0; i < formats.Count - 1; i++)
             {
                 ReadOnlyCollection<ModeDescription> mdl;
                 mdl = outp.GetDisplayModeList(formats[i], DisplayModeEnumerationFlags.Interlaced);
@@ -91,7 +91,7 @@ namespace CacheViewer.Domain.Utility
         }
 
         /// <summary>
-        /// Creates the device and swap chain.
+        ///     Creates the device and swap chain.
         /// </summary>
         /// <param name="form">The form.</param>
         public void CreateDeviceAndSwapChain(Control form)
@@ -140,7 +140,7 @@ namespace CacheViewer.Domain.Utility
         }
 
         /// <summary>
-        /// Shuts down.
+        ///     Shuts down.
         /// </summary>
         public void ShutDown()
         {

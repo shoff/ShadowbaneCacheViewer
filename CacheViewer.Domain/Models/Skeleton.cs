@@ -1,12 +1,10 @@
-﻿
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
     using System;
-    using System.IO;
-    using ArraySegments;
     using System.Collections.Generic;
-    using CacheViewer.Domain.Extensions;
+    using System.IO;
+    using Extensions;
+    using Nito.ArraySegments;
 
     // TODO this is currently being used in the data context and really should not be as it is used to 
     // TODO parse binary data as such it include properties that are not available to entity framework
@@ -14,7 +12,7 @@ namespace CacheViewer.Domain.Models
     public class Skeleton
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Skeleton"/> class.
+        ///     Initializes a new instance of the <see cref="Skeleton" /> class.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="id">The identifier.</param>
@@ -25,14 +23,14 @@ namespace CacheViewer.Domain.Models
             this.MotionIds = new HashSet<long>();
             this.SkeletonId = id;
 
-            using (BinaryReader reader = data.CreateBinaryReader())
+            using (var reader = data.CreateBinaryReader())
             {
-                uint textLength = reader.ReadUInt32();
+                var textLength = reader.ReadUInt32();
                 this.SkeletonText = reader.ReadAsciiString(textLength);
                 this.MotionCount = reader.ReadUInt32();
                 reader.BaseStream.Position += 20; // empty ints
 
-                for (int i = 0; i < this.MotionCount; i++)
+                for (var i = 0; i < this.MotionCount; i++)
                 {
                     long x = reader.ReadUInt32();
                     if (x > 0)
@@ -41,46 +39,47 @@ namespace CacheViewer.Domain.Models
                     }
                 }
             }
+
             this.DistinctMotionIdCount = this.MotionIds.Count;
         }
 
         /// <summary>
-        /// Gets or sets the distinct motion identifier count.
+        ///     Gets or sets the distinct motion identifier count.
         /// </summary>
         /// <value>
-        /// The distinct motion identifier count.
+        ///     The distinct motion identifier count.
         /// </value>
         public int DistinctMotionIdCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the motion count.
+        ///     Gets or sets the motion count.
         /// </summary>
         /// <value>
-        /// The motion count.
+        ///     The motion count.
         /// </value>
         public uint MotionCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the skeleton text.
+        ///     Gets or sets the skeleton text.
         /// </summary>
         /// <value>
-        /// The skeleton text.
+        ///     The skeleton text.
         /// </value>
         public string SkeletonText { get; set; }
 
         /// <summary>
-        /// Gets or sets the skeleton identifier.
+        ///     Gets or sets the skeleton identifier.
         /// </summary>
         /// <value>
-        /// The skeleton identifier.
+        ///     The skeleton identifier.
         /// </value>
         public int SkeletonId { get; set; }
 
         /// <summary>
-        /// Gets or sets the motion ids.
+        ///     Gets or sets the motion ids.
         /// </summary>
         /// <value>
-        /// The motion ids.
+        ///     The motion ids.
         /// </value>
         public ICollection<long> MotionIds { get; set; }
     }

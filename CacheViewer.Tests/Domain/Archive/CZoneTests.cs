@@ -30,7 +30,7 @@ namespace CacheViewer.Tests.Domain.Archive
         public async void LoadIndexes_Should_Load_The_Corrent_Number()
         {
             await this.czone.LoadIndexesAsync();
-            Assert.AreEqual(this.czone.CacheHeader.indexCount, this.czone.CacheIndices.Count);
+            Assert.AreEqual(this.czone.CacheHeader.indexCount, this.czone.CacheIndices.Length);
         }
 
         [Test]

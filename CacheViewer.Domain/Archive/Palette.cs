@@ -4,9 +4,11 @@ namespace CacheViewer.Domain.Archive
     internal sealed class Palette : CacheArchive
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Palette"/> class.
+        ///     Initializes a new instance of the <see cref="Palette" /> class.
         /// </summary>
         public Palette()
-            :base("Palette.cache"){}
+            : base("Palette.cache")
+        {
+        }
     }
 }

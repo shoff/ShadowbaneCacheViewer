@@ -15,29 +15,36 @@
     // TODO this is poorly named, it should just be the CObjects Cache or something
     public class CacheObjectsCache
     {
-        private readonly CObjects cobjects;
-        private static readonly CacheObjectsCache instance = new CacheObjectsCache();
-        private readonly long loadTime;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly CObjects cobjects;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="CacheObjectsCache"/> class from being created.
+        ///     Prevents a default instance of the <see cref="CacheObjectsCache" /> class from being created.
         /// </summary>
         private CacheObjectsCache()
         {
 #if DEBUG
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 #endif
-            this.cobjects = (CObjects)ArchiveFactory.Instance.Build(CacheFile.CObjects, true);
+            this.cobjects = (CObjects) ArchiveFactory.Instance.Build(CacheFile.CObjects, true);
 
 #if DEBUG
             sw.Stop();
-            this.loadTime = sw.ElapsedTicks;
+            this.LoadTime = sw.ElapsedTicks;
 #else
             this.loadTime = 0;
 #endif
         }
+
+        /// <summary>Gets the indexes.</summary>
+        public ICollection<CacheIndex> Indexes => this.cobjects.CacheIndices;
+
+        /// <summary>Gets the instance.</summary>
+        public static CacheObjectsCache Instance { get; } = new CacheObjectsCache();
+
+        /// <summary>Gets the load time.</summary>
+        public long LoadTime { get; }
 
         /// <summary>Returns a basic cache object based on the flag type</summary>
         /// <param name="cacheIndex">Index of the cache.</param>
@@ -48,11 +55,11 @@
         /// <exception cref="IOException">An I/O error occurs. </exception>
         public async Task<ICacheObject> CreateAsync(CacheIndex cacheIndex)
         {
-            return await Task.FromResult(Create(cacheIndex));
+            return await Task.FromResult(this.Create(cacheIndex));
         }
 
         /// <summary>
-        /// Creates the specified cache index.
+        ///     Creates the specified cache index.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <returns></returns>
@@ -62,60 +69,59 @@
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         public ICacheObject Create(CacheIndex cacheIndex)
         {
-            CacheAsset asset = this.cobjects[cacheIndex.Identity];
+            var asset = this.cobjects[cacheIndex.Identity];
 
-            using (BinaryReader reader = asset.Item1.CreateBinaryReaderUtf32())
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
             {
                 // reader.skip(4); // ignore "TNLC" tag
                 // ReSharper disable once UnusedVariable
                 var tnlc = reader.ReadInt32();
 
                 // 4
-                ObjectType flag = (ObjectType)reader.ReadInt32();
-                uint nameLength = reader.ReadUInt32();
-                string name = reader.ReadAsciiString(nameLength);
+                var flag = (ObjectType) reader.ReadInt32();
+                var nameLength = reader.ReadUInt32();
+                var name = reader.ReadAsciiString(nameLength);
 
                 // why are we using this inner offset?
-                int innerOffset = (int)reader.BaseStream.Position;
+                var innerOffset = (int) reader.BaseStream.Position;
 
                 // what are we doing with the offset here??
                 // so I think this must be the bug? 
-                int offset = (int)reader.BaseStream.Position + 25;
+                var offset = (int) reader.BaseStream.Position + 25;
 
                 try
                 {
                     // TODO this can be optimized by passing the reader to the parse method.
                     switch (flag)
                     {
-
                         case ObjectType.Simple:
-                            Simple simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             simple.Parse(asset.Item1);
                             return simple;
 
                         case ObjectType.Structure:
-                            Structure structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             structure.Parse(asset.Item1);
                             return structure;
 
                         case ObjectType.Interactive:
-                            Interactive interactive = new Interactive(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var interactive = new Interactive(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             interactive.Parse(asset.Item1);
                             return interactive;
 
                         case ObjectType.Equipment:
-                            Equipment equipment = new Equipment(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var equipment = new Equipment(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             equipment.Parse(asset.Item1);
                             return equipment;
 
                         case ObjectType.Mobile:
 
-                            Mobile mobile = new Mobile(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var mobile = new Mobile(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             // mobile.Parse(asset.Item1);
                             return mobile;
 
                         case ObjectType.Deed:
-                            DeedObject deed = new DeedObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var deed = new DeedObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             deed.Parse(asset.Item1);
                             return deed;
 
@@ -123,7 +129,7 @@
                             return new Sun(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
 
                         case ObjectType.Warrant:
-                            Warrant warrent = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                            var warrent = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                             warrent.Parse(asset.Item1);
                             return warrent;
 
@@ -142,24 +148,6 @@
             }
 
             return null;
-        }
-
-        /// <summary>Gets the indexes.</summary>
-        public IList<CacheIndex> Indexes
-        {
-            get { return this.cobjects.CacheIndices; }
-        }
-
-        /// <summary>Gets the instance.</summary>
-        public static CacheObjectsCache Instance
-        {
-            get { return instance; }
-        }
-
-        /// <summary>Gets the load time.</summary>
-        public long LoadTime
-        {
-            get { return this.loadTime; }
         }
     }
 }

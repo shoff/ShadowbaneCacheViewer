@@ -2,9 +2,9 @@
 {
     using System;
     using System.IO;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models.Exportable;
+    using Archive;
+    using Exportable;
+    using Extensions;
     using NLog;
 
     public class Equipment : ModelObject
@@ -15,7 +15,7 @@
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Equipment"/> class.
+        ///     Initializes a new instance of the <see cref="Equipment" /> class.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="flag">The flag.</param>
@@ -23,29 +23,31 @@
         /// <param name="offset">The offset.</param>
         /// <param name="data">The data.</param>
         /// <param name="innerOffset">The inner offset.</param>
-        public Equipment(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data, int innerOffset)
+        public Equipment(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data,
+            int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
         }
 
         /// <summary>
-        /// Parses the specified data.
+        ///     Parses the specified data.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <exception cref="IOException">Condition.</exception>
         public override void Parse(ArraySegment<byte> data)
         {
-            using (BinaryReader reader = data.CreateBinaryReaderUtf32())
+            using (var reader = data.CreateBinaryReaderUtf32())
             {
                 // ReSharper disable once NotAccessedVariable
                 uint iUnk = 0;
                 try
                 {
-                    reader.BaseStream.Position = CursorOffset;
+                    reader.BaseStream.Position = this.CursorOffset;
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity),
+                    logger.Error(
+                        string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity),
                         ioException);
                     throw;
                 }

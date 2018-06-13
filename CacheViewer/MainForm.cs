@@ -49,7 +49,7 @@
 
         public MainForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
                 this.LoadLabel.Text = "Loading";
@@ -98,7 +98,7 @@
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
                         ci.Identity.ToString(CultureInfo.InvariantCulture) :
-                        string.Format("{0}-{1}", ci.Identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
+                        $"{ci.Identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
 
                     var node = new TreeNode(title)
                     {
@@ -195,11 +195,11 @@
             // pertinent information from the renderId by validating the information
             // against the other archives. I will give each "archive" portion for each 
             // cahceObject a listView that ties all the information together at once.
-            ICacheObject item = (ICacheObject) this.CObjectTreeView.SelectedNode.Tag;
+            ICacheObject item = (ICacheObject)this.CObjectTreeView.SelectedNode.Tag;
 
             await this.CacheIndexListView.Display(item);
 
-            await FindRenderIds(item);
+            await this.FindRenderIds(item);
 
             try
             {
@@ -209,7 +209,8 @@
                 {
                     logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
-                DisplayItemInformation(item);
+
+                this.DisplayItemInformation(item);
             }
             catch (Exception ex)
             {
@@ -237,7 +238,7 @@
                 string name = pi[i].Name;
                 if (name == "Data")
                 {
-                    info = name + " : Length: " + ((ArraySegment<byte>) pi[i].GetValue(item, null)).Count + "\r\n";
+                    info = name + " : Length: " + ((ArraySegment<byte>)pi[i].GetValue(item, null)).Count + "\r\n";
                 }
                 else if ((name == "FourIntArray") || (name == "FourThousandInt"))
                 {
@@ -246,9 +247,9 @@
                 else if (name == "StatArray")
                 {
                     info = name;
-                    List<uint> stats = (List<uint>) pi[i].GetValue(item, null);
+                    List<uint> stats = (List<uint>)pi[i].GetValue(item, null);
 
-                    var lvii = new ListViewItem(new[] {info});
+                    var lvii = new ListViewItem(new[] { info });
 
                     if (stats.Count == 0)
                     {
@@ -268,7 +269,7 @@
                 {
                     info = name + " : " + pi[i].GetValue(item, null) + "\r\n";
                 }
-                var lvi = new ListViewItem(new[] {info});
+                var lvi = new ListViewItem(new[] { info });
                 this.PropertiesListView.Items.Add(lvi);
             }
         }
@@ -313,7 +314,7 @@
                                 id.TestRange(this.renderFactory.IdentityRange.Item1, this.renderFactory.IdentityRange.Item2))
                             {
                                 // simple query to look up the id
-                                var found = this.renderFactory.IdentityArray.Where(x => x == id).Any();
+                                var found = this.renderFactory.IdentityArray.Any(x => x == id);
 
                                 if (found)
                                 {
@@ -322,11 +323,11 @@
                                     var renderAsset = this.renderFactory.GetById(id);
 
                                     // this is the mess here
-                                    bool hasmesh = FindModelId(renderAsset.Item1).Result;
+                                    bool hasmesh = this.FindModelId(renderAsset.Item1).Result;
 
                                     if (hasmesh)
                                     {
-                                        SetRenderItem(this.RenderInformationListView, new[]
+                                        this.SetRenderItem(this.RenderInformationListView, new[]
                                         {
                                             id.ToString(CultureInfo.InvariantCulture),
                                             offset.ToString(CultureInfo.InvariantCulture),
@@ -348,50 +349,49 @@
         {
             bool result = false;
 
-            await Task.Run(
-                () =>
+            await Task.Run(() =>
+            {
+                int count = data.Count;
+
+                using (var reader = data.CreateBinaryReaderUtf32())
                 {
-                    int count = data.Count;
-
-                    using (var reader = data.CreateBinaryReaderUtf32())
+                    // we start at 25 because all RenderInformation cache items
+                    // have the same 25 starting information which is NOT child ids.
+                    for (int i = 25; i < count - 4; i++)
                     {
-                        // we start at 25 because all RenderInformation cache items
-                        // have the same 25 starting information which is NOT child ids.
-                        for (int i = 25; i < count - 4; i++)
+                        reader.BaseStream.Position = i;
+                        int id = reader.ReadInt32();
+
+                        // the identityRange is just the lowest id in the cache and the highest id, if it falls outside of those
+                        // bounds, it's obviously wrong.
+                        if (id.TestRange(this.meshFactory.IdentityRange.Item1, this.meshFactory.IdentityRange.Item2))
                         {
-                            reader.BaseStream.Position = i;
-                            int id = reader.ReadInt32();
+                            // only set result to true.
+                            var found = this.meshFactory.IdentityArray.Any(x => x == id);
 
-                            // the identityRange is just the lowest id in the cache and the highest id, if it falls outside of those
-                            // bounds, it's obviously wrong.
-                            if (id.TestRange(this.meshFactory.IdentityRange.Item1, this.meshFactory.IdentityRange.Item2))
+                            if (found)
                             {
-                                // only set result to true.
-                                var found = this.meshFactory.IdentityArray.Where(x => x == id).Any();
-
-                                if (found)
+                                if (!result)
                                 {
-                                    if (!result)
-                                    {
-                                        // ok if result is still false, set it to true
-                                        // to indicate that we found a matching mesh id,
-                                        // we don't want to set it to false however as this
-                                        // loop is executed many times.
-                                        result = true;
-                                    }
-
-                                    // this.MeshesLabel.SetCrossThreadedMessage("Mesh Ids");
-                                    //this.SetRenderItem(this.MeshListView, new[] {
-                                    //    id.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture), 
-                                    //    "true"});}
-                                    //else
-                                    //{
-                                    //    this.MeshesLabel.SetCrossThreadedMessage("Mesh Ids: " + Messages.UnableToFindMathchingMeshId);
+                                    // ok if result is still false, set it to true
+                                    // to indicate that we found a matching mesh id,
+                                    // we don't want to set it to false however as this
+                                    // loop is executed many times.
+                                    result = true;
                                 }
+
+                                // this.MeshesLabel.SetCrossThreadedMessage("Mesh Ids");
+                                //this.SetRenderItem(this.MeshListView, new[] {
+                                //    id.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture), 
+                                //    "true"});}
+                                //else
+                                //{
+                                //    this.MeshesLabel.SetCrossThreadedMessage("Mesh Ids: " + Messages.UnableToFindMathchingMeshId);
                             }
                         }
                     }
-                });
+                }
+            });
             return result;
         }
 
@@ -399,7 +399,7 @@
         {
             if (control.InvokeRequired)
             {
-                control.BeginInvoke(new MethodInvoker(() => SetRenderItem(control, values)));
+                control.BeginInvoke(new MethodInvoker(() => this.SetRenderItem(control, values)));
             }
             else
             {
@@ -436,7 +436,7 @@
 
             foreach (TreeNode mobile in this.mobileNode.Nodes)
             {
-                mobiles.Add((CacheObject) mobile.Tag);
+                mobiles.Add((CacheObject)mobile.Tag);
             }
             DatabaseForm dbf = new DatabaseForm(mobiles);
             dbf.Show();
@@ -457,9 +457,9 @@
                 {
                     entities.Add(new CacheIndexEntity
                     {
-                        CompressedSize = (int) cache.CompressedSize,
-                        Offset = (int) cache.Offset,
-                        UnCompressedSize = (int) cache.UnCompressedSize,
+                        CompressedSize = (int)cache.CompressedSize,
+                        Offset = (int)cache.Offset,
+                        UnCompressedSize = (int)cache.UnCompressedSize,
                         File = CacheFile.Render
                     });
                 }

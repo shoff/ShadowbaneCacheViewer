@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using CacheViewer.Domain.Models;
-
-namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Domain.Data.Entities
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using Models;
+
     public class MotionEntity
     {
         [Key]
@@ -34,20 +33,19 @@ namespace CacheViewer.Domain.Data.Entities
 
         public static implicit operator SkeletonEntity(Skeleton skeleton)
         {
-            SkeletonEntity se = new SkeletonEntity();
+            var se = new SkeletonEntity();
             se.SkeletonText = skeleton.SkeletonText;
-            se.MotionIdCounter = (int)skeleton.MotionCount;
+            se.MotionIdCounter = (int) skeleton.MotionCount;
             se.DistinctMotionCounter = skeleton.DistinctMotionIdCount;
             foreach (var mi in skeleton.MotionIds)
             {
                 se.MotionEntities.Add(new MotionEntity
                 {
-                    CacheIdentity = (int)mi
+                    CacheIdentity = (int) mi
                 });
             }
 
             return se;
         }
-
     }
 }

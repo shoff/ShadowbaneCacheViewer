@@ -40,12 +40,13 @@ namespace CacheViewer
 
                 this.renderFactory.AppendModel = false;
             }
-            InitializeComponent();
+
+            this.InitializeComponent();
         }
 
         private async void AddRenderButtonClick(object sender, EventArgs e)
         {
-            await Task.Run(() => this.AddRenderEntitiesAsync());
+            await Task.Run(this.AddRenderEntitiesAsync);
         }
 
         private async Task AddRenderEntitiesAsync()
@@ -64,27 +65,28 @@ namespace CacheViewer
                     continue;
                 }
 
-                RenderInformation ri = renderFactory.Create(cacheIndex);
+                RenderInformation ri = this.renderFactory.Create(cacheIndex);
                 var re = BuildRenderEntity(ri);
 
-                dataContext.RenderEntities.Add(re);
+                this.dataContext.RenderEntities.Add(re);
 
                 if (ri.SharedId != null)
                 {
                     lastIdentity = cacheIndex.Identity;
                     var re1 = BuildRenderEntity(ri.SharedId);
-                    dataContext.RenderEntities.Add(re1);
+                    this.dataContext.RenderEntities.Add(re1);
                 }
-                SetMessage(this.RenderLabel, string.Format("Processed RenderId {0}", cacheIndex.Identity));
+
+                this.SetMessage(this.RenderLabel, string.Format("Processed RenderId {0}", cacheIndex.Identity));
                 if (i > 1000)
                 {
-                    SetMessage(this.TotalRenderLabel, string.Format("Render Count: {0}", count));
+                    this.SetMessage(this.TotalRenderLabel, string.Format("Render Count: {0}", count));
 
-                    await dataContext.CommitAsync();
+                    await this.dataContext.CommitAsync();
                     i = 0;
                 }
             }
-            await dataContext.CommitAsync();
+            await this.dataContext.CommitAsync();
         }
 
         private void AddTextureEntities(DataContext context)
@@ -93,7 +95,7 @@ namespace CacheViewer
             foreach (var cacheIndex in this.textureFactory.Indexes)
             {
                 i++;
-                Texture texture = textureFactory.Build(cacheIndex.Identity, false);
+                Texture texture = this.textureFactory.Build(cacheIndex.Identity, false);
                 context.Textures.Add(texture);
 
                 if (i > 1000)
@@ -204,9 +206,9 @@ namespace CacheViewer
                     reader.BaseStream.Position = i;
                     int id = reader.ReadInt32();
 
-                    if (TestRange(id, 1000, 77000300))
+                    if (this.TestRange(id, 1000, 77000300))
                     {
-                        if (await Found(id))
+                        if (await this.Found(id))
                         {
                             var item = this.dataContext.RenderAndOffsets.FirstOrDefault(x => x.Offset == i && x.RenderId == id);
                             if (item == null)
@@ -218,7 +220,7 @@ namespace CacheViewer
                                     CacheIndexIdentity = entity.CacheIndex.Identity
                                 });
 
-                                SetMessage(this.CObjectsLabel,
+                                this.SetMessage(this.CObjectsLabel,
                                     string.Format("Found matching renderId at position {0}, id is {1}", i, id));
                             }
                         }
@@ -250,7 +252,7 @@ namespace CacheViewer
         {
             if (control.InvokeRequired)
             {
-                control.BeginInvoke(new MethodInvoker(() => SetMessage(control, message)));
+                control.BeginInvoke(new MethodInvoker(() => this.SetMessage(control, message)));
             }
             else
             {
@@ -263,7 +265,7 @@ namespace CacheViewer
         {
             foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
             {
-                SetMessage(this.CurrentCObjectLabel,
+                this.SetMessage(this.CurrentCObjectLabel,
                     string.Format("Now finding RenderIds for CObject at Index {0}",
                     cacheIndex.Identity));
 
@@ -300,7 +302,7 @@ namespace CacheViewer
 
         private void UpdateMemoryLabel(object state)
         {
-            long memoryUsed = currentProc.WorkingSet64;
+            long memoryUsed = this.currentProc.WorkingSet64;
             this.SetMessage(this.MemoryLabel, string.Format("Current memory use: {0} mb.", memoryUsed > 0 ? memoryUsed / 1048576 : 0));
         }
     }

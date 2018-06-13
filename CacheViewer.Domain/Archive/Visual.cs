@@ -4,9 +4,11 @@ namespace CacheViewer.Domain.Archive
     internal sealed class Visual : CacheArchive
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Visual"/> class.
+        ///     Initializes a new instance of the <see cref="Visual" /> class.
         /// </summary>
         public Visual()
-            :base("Visual.cache"){}
+            : base("Visual.cache")
+        {
+        }
     }
 }

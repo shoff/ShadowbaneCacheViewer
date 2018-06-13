@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
-
-namespace CacheViewer.Domain.Archive
+﻿namespace CacheViewer.Domain.Archive
 {
+    using System;
+    using System.Text;
+
     public struct CacheIndex : IComparable<CacheIndex>, IEquatable<CacheIndex>
     {
         public int Identity;
@@ -14,17 +14,17 @@ namespace CacheViewer.Domain.Archive
         // not really part of the index
         public int Order;
         public string Name;
-        public uint Flag;       // this is ALWAYS 0
+        public uint Flag; // this is ALWAYS 0
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        ///     A <see cref="System.String" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append("CacheIndex Object\r\n");
             sb.AppendFormat("identity {0}\r\n", this.Identity);
             sb.AppendFormat("junk1 {0}\r\n", this.Junk1);
@@ -38,7 +38,7 @@ namespace CacheViewer.Domain.Archive
         }
 
         /// <summary>
-        /// Compares to.
+        ///     Compares to.
         /// </summary>
         /// <param name="other">The other.</param>
         /// <returns></returns>
@@ -48,15 +48,17 @@ namespace CacheViewer.Domain.Archive
             {
                 return 0;
             }
+
             if (this.Flag > other.Flag)
             {
                 return 1;
             }
+
             return -1;
         }
 
         /// <summary>
-        /// Determines if a <see cref="CacheIndex"/> item is the same.
+        ///     Determines if a <see cref="CacheIndex" /> item is the same.
         /// </summary>
         /// <param name="other">The other.</param>
         /// <returns></returns>
@@ -76,11 +78,13 @@ namespace CacheViewer.Domain.Archive
             {
                 return false;
             }
+
             if (other.Order != this.Order)
             {
                 return false;
             }
+
             return true;
         }
-    };
+    }
 }

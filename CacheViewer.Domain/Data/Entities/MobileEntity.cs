@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using CacheViewer.Domain.Models;
+    using Models;
 
     /// <summary>
     /// </summary>
@@ -14,122 +14,122 @@
         public int MobileEntityId { get; set; }
 
         /// <summary>
-        ///   Gets or sets the object identifier.
+        ///     Gets or sets the object identifier.
         /// </summary>
         public int ObjectId { get; set; }
 
         /// <summary>
-        ///   Gets or sets the name.
+        ///     Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///   Gets or sets the ai description.
+        ///     Gets or sets the ai description.
         /// </summary>
         public string AiDescription { get; set; }
 
         /// <summary>
-        ///   Gets or sets the mob token.
+        ///     Gets or sets the mob token.
         /// </summary>
         public long MobToken { get; set; }
 
         /// <summary>
-        ///   Gets or sets the gender.
+        ///     Gets or sets the gender.
         /// </summary>
         public int Gender { get; set; }
 
         /// <summary>
-        ///   Gets or sets the training power bonus.
+        ///     Gets or sets the training power bonus.
         /// </summary>
         public int TrainingPowerBonus { get; set; }
 
         /// <summary>
-        ///   Gets or sets the type of the rune.
+        ///     Gets or sets the type of the rune.
         /// </summary>
         public int RuneType { get; set; }
 
         /// <summary>
-        ///   Gets or sets the rune category.
+        ///     Gets or sets the rune category.
         /// </summary>
         public int RuneCategory { get; set; }
 
         /// <summary>
-        ///   Gets or sets the rune stack rank.
+        ///     Gets or sets the rune stack rank.
         /// </summary>
         public int RuneStackRank { get; set; }
 
         /// <summary>
-        ///   Gets or sets the rune cost.
+        ///     Gets or sets the rune cost.
         /// </summary>
-         public int RuneCost { get; set; }
+        public int RuneCost { get; set; }
 
         /// <summary>
-        ///   Gets or sets the number of skills required.
+        ///     Gets or sets the number of skills required.
         /// </summary>
         public int NumberOfSkillsRequired { get; set; }
 
         /// <summary>
-        ///   Gets or sets the level required.
+        ///     Gets or sets the level required.
         /// </summary>
         public int LevelRequired { get; set; }
 
         /// <summary>
-        ///   Gets or sets the power identifier.
+        ///     Gets or sets the power identifier.
         /// </summary>
         public int PowerId { get; set; }
 
         /// <summary>
-        ///   Gets or sets the size of the name.
+        ///     Gets or sets the size of the name.
         /// </summary>
         public int NameSize { get; set; }
 
         /// <summary>
-        ///   Gets or sets the pet name count.
+        ///     Gets or sets the pet name count.
         /// </summary>
         public int PetNameCount { get; set; }
 
         /// <summary>
-        ///   Gets or sets the prohibits race toggle.
+        ///     Gets or sets the prohibits race toggle.
         /// </summary>
         public byte ProhibitsRaceToggle { get; set; }
 
         /// <summary>
-        ///   Gets or sets some kind of type hash.
+        ///     Gets or sets some kind of type hash.
         /// </summary>
         public long SomeKindOfTypeHash { get; set; }
 
         /// <summary>
-        ///   Gets or sets the required gender.
+        ///     Gets or sets the required gender.
         /// </summary>
         public int RequiredGender { get; set; }
 
         /// <summary>
-        ///   Gets or sets the minimum required level.
+        ///     Gets or sets the minimum required level.
         /// </summary>
         public int MinRequiredLevel { get; set; }
 
         /// <summary>
-        ///   Gets or sets something with pets.
+        ///     Gets or sets something with pets.
         /// </summary>
         public int SomethingWithPets { get; set; }
 
         /// <summary>
-        ///   Gets or sets the size of the second name.
+        ///     Gets or sets the size of the second name.
         /// </summary>
         public int SecondNameSize { get; set; }
 
         /// <summary>
-        ///   Gets or sets the is pet or rune.
+        ///     Gets or sets the is pet or rune.
         /// </summary>
         public int IsPetOrRune { get; set; }
 
         /// <summary>
-        ///   Gets or sets the wolfpack create date.
+        ///     Gets or sets the wolfpack create date.
         /// </summary>
         public DateTime WolfpackCreateDate { get; set; }
 
         /// <summary>
-        ///   Performs an implicit conversion from <see cref="Mobile" /> to <see cref="MobileEntity" />.
+        ///     Performs an implicit conversion from <see cref="Mobile" /> to <see cref="MobileEntity" />.
         /// </summary>
         /// <param name="mobile">The mobile.</param>
         public static implicit operator MobileEntity(Mobile mobile)
@@ -137,7 +137,7 @@
             // ReSharper disable once UseObjectOrCollectionInitializer
             var entity = new MobileEntity();
 
-            entity.ObjectId = (int)mobile.ObjId;
+            entity.ObjectId = (int) mobile.ObjId;
             entity.AiDescription = mobile.AiDescription;
             entity.Gender = mobile.Gender;
             entity.LevelRequired = mobile.LevelRequired;
@@ -146,10 +146,10 @@
             entity.NumberOfSkillsRequired = mobile.NumberOfSkillsRequired;
             entity.Name = mobile.Name;
             entity.SomeKindOfTypeHash = mobile.SomeKindOfTypeHash;
-            entity.RuneCategory = (int)mobile.RuneCategory;
+            entity.RuneCategory = (int) mobile.RuneCategory;
             entity.WolfpackCreateDate = mobile.WolfpackCreateDate;
-            entity.SecondNameSize = (int)mobile.SecondNameSize;
-            entity.IsPetOrRune = (int)mobile.IsPetOrRune;
+            entity.SecondNameSize = (int) mobile.SecondNameSize;
+            entity.IsPetOrRune = (int) mobile.IsPetOrRune;
             return entity;
         }
     }

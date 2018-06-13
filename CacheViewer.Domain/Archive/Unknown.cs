@@ -4,9 +4,11 @@ namespace CacheViewer.Domain.Archive
     internal sealed class Unknown : CacheArchive
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Unknown"/> class.
+        ///     Initializes a new instance of the <see cref="Unknown" /> class.
         /// </summary>
         public Unknown()
-            : base("Unknown.cache") { }
+            : base("Unknown.cache")
+        {
+        }
     }
 }

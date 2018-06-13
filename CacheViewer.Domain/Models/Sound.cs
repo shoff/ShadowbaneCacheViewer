@@ -1,98 +1,77 @@
-﻿using System.IO;
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
+    using System.IO;
+
     public class Sound
     {
-        private readonly int soundDataLength;
-        private readonly int numberOfChannels;
-        private readonly int bitrate;
-        private readonly int frequency;
-        private readonly byte[] buffer;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Sound"/> class.
+        ///     Initializes a new instance of the <see cref="Sound" /> class.
         /// </summary>
         /// <param name="data">The data.</param>
         public Sound(byte[] data)
         {
-            using (MemoryStream ms = new MemoryStream(data))
+            using (var ms = new MemoryStream(data))
             {
-                using (BinaryReader reader = new BinaryReader(ms))
+                using (var reader = new BinaryReader(ms))
                 {
-                    this.soundDataLength = reader.ReadInt32();
+                    this.SoundDataLength = reader.ReadInt32();
 
                     reader.BaseStream.Position = 4;
-                    this.bitrate = reader.ReadInt32();
+                    this.Bitrate = reader.ReadInt32();
 
-                    this.numberOfChannels = reader.ReadInt32();
+                    this.NumberOfChannels = reader.ReadInt32();
 
                     reader.BaseStream.Position = 12;
-                    this.frequency = reader.ReadInt32();
+                    this.Frequency = reader.ReadInt32();
 
-                    this.buffer = new byte[data.Length - 16];
+                    this.Buffer = new byte[data.Length - 16];
 
-                    for (int i = 0; i < buffer.Length; i++)
+                    for (var i = 0; i < this.Buffer.Length; i++)
                     {
-                        this.buffer[i] = reader.ReadByte();
+                        this.Buffer[i] = reader.ReadByte();
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Gets the buffer.
+        ///     Gets the buffer.
         /// </summary>
         /// <value>
-        /// The buffer.
+        ///     The buffer.
         /// </value>
-        public byte[] Buffer
-        {
-            get { return this.buffer; }
-        }
+        public byte[] Buffer { get; }
 
         /// <summary>
-        /// Gets the frequency.
+        ///     Gets the frequency.
         /// </summary>
         /// <value>
-        /// The frequency.
+        ///     The frequency.
         /// </value>
-        public int Frequency
-        {
-            get { return this.frequency; }
-        }
+        public int Frequency { get; }
 
         /// <summary>
-        /// Gets the bitrate.
+        ///     Gets the bitrate.
         /// </summary>
         /// <value>
-        /// The bitrate.
+        ///     The bitrate.
         /// </value>
-        public int Bitrate
-        {
-            get { return this.bitrate; }
-        }
+        public int Bitrate { get; }
 
         /// <summary>
-        /// Gets the unk1.
+        ///     Gets the unk1.
         /// </summary>
         /// <value>
-        /// The unk1.
+        ///     The unk1.
         /// </value>
-        public int SoundDataLength
-        {
-            get { return this.soundDataLength; }
-        }
+        public int SoundDataLength { get; }
 
         /// <summary>
-        /// Gets the unk2.
+        ///     Gets the unk2.
         /// </summary>
         /// <value>
-        /// The unk2.
+        ///     The unk2.
         /// </value>
-        public int NumberOfChannels
-        {
-            get { return this.numberOfChannels; }
-        }
+        public int NumberOfChannels { get; }
     }
 }

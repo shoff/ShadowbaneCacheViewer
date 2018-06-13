@@ -4,23 +4,22 @@
     using System.Configuration;
 
     /// <summary>
-    /// Allows testing of classes that make use of AppSettings and ConnectionStrings 
-    /// Sections of app.config and web.config files.
+    ///     Allows testing of classes that make use of AppSettings and ConnectionStrings
+    ///     Sections of app.config and web.config files.
     /// </summary>
     public class ConfigurationWrapper : IConfigurationWrapper
     {
         /// <summary>
-        /// Gets the instance.
+        ///     Gets the instance.
         /// </summary>
-        public static ConfigurationWrapper Instance
-        {
-            get { return new ConfigurationWrapper(); }
-        }
+        public static ConfigurationWrapper Instance => new ConfigurationWrapper();
 
         /// <summary>
         /// </summary>
-        /// <exception cref="ConfigurationErrorsException">Could not retrieve a 
-        /// <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.</exception>
+        /// <exception cref="ConfigurationErrorsException">
+        ///     Could not retrieve a
+        ///     <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.
+        /// </exception>
         /// Summary:
         /// Gets the System.Configuration.AppSettingsSection data for the current application's
         /// default configuration.
@@ -32,25 +31,21 @@
         /// System.Configuration.ConfigurationErrorsException:
         /// Could not retrieve a System.Collections.Specialized.NameValueCollection object
         /// with the application settings data.
-        public NameValueCollection AppSettings
-        {
-            get { return ConfigurationManager.AppSettings; }
-        }
+        public NameValueCollection AppSettings => ConfigurationManager.AppSettings;
 
         /// <summary>
-        /// Gets the System.Configuration.ConnectionStringsSection data for the current
-        /// application's default configuration.
-        /// Returns:
-        /// Returns a System.Configuration.ConnectionStringSettingsCollection object
-        /// that contains the contents of the System.Configuration.ConnectionStringsSection
-        /// object for the current application's default configuration.
-        /// </summary>       
-        /// <exception cref="ConfigurationErrorsException" accessor="get">Could not retrieve a 
-        /// <see cref="T:System.Configuration.ConnectionStringSettingsCollection" /> object.</exception>
-        public ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get { return ConfigurationManager.ConnectionStrings; }
-        }
+        ///     Gets the System.Configuration.ConnectionStringsSection data for the current
+        ///     application's default configuration.
+        ///     Returns:
+        ///     Returns a System.Configuration.ConnectionStringSettingsCollection object
+        ///     that contains the contents of the System.Configuration.ConnectionStringsSection
+        ///     object for the current application's default configuration.
+        /// </summary>
+        /// <exception cref="ConfigurationErrorsException" accessor="get">
+        ///     Could not retrieve a
+        ///     <see cref="T:System.Configuration.ConnectionStringSettingsCollection" /> object.
+        /// </exception>
+        public ConnectionStringSettingsCollection ConnectionStrings => ConfigurationManager.ConnectionStrings;
 
         /// <summary>
         /// </summary>
@@ -126,15 +121,17 @@
         }
 
         /// <summary>
-        /// Gets the application setting.
+        ///     Gets the application setting.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        /// <exception cref="ConfigurationErrorsException">Could not retrieve a 
-        /// <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.</exception>
+        /// <exception cref="ConfigurationErrorsException">
+        ///     Could not retrieve a
+        ///     <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.
+        /// </exception>
         public string GetAppSetting(string name)
         {
-            return AppSettings[name];
+            return this.AppSettings[name];
         }
     }
 }

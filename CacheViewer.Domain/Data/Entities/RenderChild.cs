@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Domain.Data.Entities
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     [Table("RenderChildren")]
     public class RenderChild
     {
@@ -12,5 +12,4 @@ namespace CacheViewer.Domain.Data.Entities
         // this is the ParentId
         public int RenderId { get; set; }
     }
-
 }

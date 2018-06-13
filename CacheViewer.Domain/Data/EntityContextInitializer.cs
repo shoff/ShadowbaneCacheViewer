@@ -1,24 +1,27 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using CacheViewer.Domain.Data.Entities;
-using CacheViewer.Domain.Extensions;
-using CacheViewer.Domain.Factories;
-using CacheViewer.Domain.Models;
-using CacheViewer.Domain.Models.Exportable;
-
-namespace CacheViewer.Domain.Data
+﻿namespace CacheViewer.Domain.Data
 {
+    using System;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Text;
+    using Entities;
+    using Extensions;
+    using Factories;
+    using Models;
+    using Models.Exportable;
+
     public class EntitiesContextInitializer : CreateDatabaseIfNotExists<DataContext>
     {
+        private const string Vertice = "v {0} {1} {2}\r\n";
+        private const string Normal = "vn {0} {1} {2}\r\n";
+        private const string Texture = "vt {0} {1}\r\n";
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
-        private readonly RenderFactory renderFactory = RenderFactory.Instance;
         private readonly MeshFactory meshFactory = MeshFactory.Instance;
+        private readonly RenderFactory renderFactory = RenderFactory.Instance;
         private readonly TextureFactory textureFactory = TextureFactory.Instance;
-        
+
         /// <summary>
-        /// Seeds the specified context.
+        ///     Seeds the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
         protected override void Seed(DataContext context)
@@ -40,11 +43,11 @@ namespace CacheViewer.Domain.Data
 
         private void AddTextureEntities(DataContext context)
         {
-            int i = 0;
+            var i = 0;
             foreach (var cacheIndex in this.textureFactory.Indexes)
             {
                 i++;
-                Texture texture = textureFactory.Build(cacheIndex.Identity, false);
+                var texture = this.textureFactory.Build(cacheIndex.Identity, false);
                 context.Textures.Add(texture);
 
                 if (i > 1000)
@@ -53,32 +56,29 @@ namespace CacheViewer.Domain.Data
                     i = 0;
                 }
             }
+
             context.Commit();
         }
 
-        private const string Vertice = "v {0} {1} {2}\r\n";
-        private const string Normal = "vn {0} {1} {2}\r\n";
-        private const string Texture = "vt {0} {1}\r\n";
-
         private void AddMeshEntities(DataContext context)
         {
-            int i = 0;
+            var i = 0;
 
             foreach (var cacheIndex in this.meshFactory.Indexes)
             {
-                Mesh mesh = this.meshFactory.Create(cacheIndex);
-                MeshEntity meshEntity = new MeshEntity
+                var mesh = this.meshFactory.Create(cacheIndex);
+                var meshEntity = new MeshEntity
                 {
                     CacheIndexIdentity = cacheIndex.Identity,
-                    CompressedSize = (int)cacheIndex.CompressedSize,
-                    UncompressedSize = (int)cacheIndex.CompressedSize,
-                    FileOffset = (int)cacheIndex.Offset,
-                    NormalsCount = (int)mesh.NormalsCount,
-                    TexturesCount = (int)mesh.TextureCoordinatesCount,
-                    VertexCount = (int)mesh.VertexCount,
+                    CompressedSize = (int) cacheIndex.CompressedSize,
+                    UncompressedSize = (int) cacheIndex.CompressedSize,
+                    FileOffset = (int) cacheIndex.Offset,
+                    NormalsCount = (int) mesh.NormalsCount,
+                    TexturesCount = (int) mesh.TextureCoordinatesCount,
+                    VertexCount = (int) mesh.VertexCount,
                     Id = mesh.Id
                 };
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
                 foreach (var v in mesh.Vertices)
                 {
@@ -92,6 +92,7 @@ namespace CacheViewer.Domain.Data
                 {
                     sb.AppendFormat(Normal, vn[0], vn[1], vn[2]);
                 }
+
                 meshEntity.Normals = sb.ToString();
                 sb.Clear();
 
@@ -111,13 +112,14 @@ namespace CacheViewer.Domain.Data
                     i = 0;
                 }
             }
+
             context.Commit();
         }
 
         private void AddRenderEntities(DataContext context)
         {
-            int i = 0;
-            int lastIdentity = 0;
+            var i = 0;
+            var lastIdentity = 0;
 
             foreach (var cacheIndex in this.renderFactory.Indexes)
             {
@@ -128,7 +130,7 @@ namespace CacheViewer.Domain.Data
                     continue;
                 }
 
-                RenderInformation ri = renderFactory.Create(cacheIndex);
+                var ri = this.renderFactory.Create(cacheIndex);
                 var re = BuildRenderEntity(ri);
 
                 context.RenderEntities.Add(re);
@@ -146,17 +148,18 @@ namespace CacheViewer.Domain.Data
                     i = 0;
                 }
             }
+
             context.Commit();
         }
 
         private static RenderEntity BuildRenderEntity(RenderInformation ri)
         {
-            RenderEntity re = new RenderEntity
+            var re = new RenderEntity
             {
                 ByteCount = ri.ByteCount,
                 CacheIndexIdentity = ri.CacheIndex.Identity,
-                CompressedSize = (int)ri.CacheIndex.CompressedSize,
-                FileOffset = (int)ri.CacheIndex.Offset,
+                CompressedSize = (int) ri.CacheIndex.CompressedSize,
+                FileOffset = (int) ri.CacheIndex.Offset,
                 HasMesh = ri.HasMesh,
                 JointName = ri.JointName,
                 MeshId = ri.MeshId,
@@ -166,32 +169,32 @@ namespace CacheViewer.Domain.Data
                 Scale = ri.Scale.ToString(),
                 TextureId = ri.TextureId,
 
-                UncompressedSize = (int)ri.CacheIndex.UnCompressedSize,
+                UncompressedSize = (int) ri.CacheIndex.UnCompressedSize,
                 Children = ri.ChildRenderIdList.Map(x => new RenderChild
-                    {
-                        RenderId = x
-                    }).ToList()
+                {
+                    RenderId = x
+                }).ToList()
             };
             return re;
         }
 
         private void AddCacheObjectEntities(DataContext context)
         {
-            int i = 0;
+            var i = 0;
             foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
             {
                 i++;
-                ICacheObject cacheObject = this.cacheObjectsCache.Create(cacheIndex);
-                CacheObjectEntity entity = new CacheObjectEntity
+                var cacheObject = this.cacheObjectsCache.Create(cacheIndex);
+                var entity = new CacheObjectEntity
                 {
                     CacheIndexIdentity = cacheIndex.Identity,
-                    CompressedSize = (int)cacheIndex.CompressedSize,
-                    UncompressedSize = (int)cacheIndex.UnCompressedSize,
-                    FileOffset = (int)cacheIndex.Offset,
-                    RenderKey = (int)cacheObject.RenderId,
+                    CompressedSize = (int) cacheIndex.CompressedSize,
+                    UncompressedSize = (int) cacheIndex.UnCompressedSize,
+                    FileOffset = (int) cacheIndex.Offset,
+                    RenderKey = (int) cacheObject.RenderId,
                     Name = cacheObject.Name,
                     // Data = cacheObject.Data,
-                    ObjectType = (int)cacheObject.Flag,
+                    ObjectType = (int) cacheObject.Flag,
                     ObjectTypeDescription = cacheObject.Flag.ToString()
                 };
 
@@ -208,21 +211,22 @@ namespace CacheViewer.Domain.Data
                     i = 0;
                 }
             }
+
             context.Commit();
         }
 
         public void Find_Where_The_RenderId_Is_Hiding(ICacheObject entity, DataContext context)
         {
-            int count = entity.Data.Count;
+            var count = entity.Data.Count;
             using (var reader = entity.Data.CreateBinaryReaderUtf32())
             {
-                for (int i = 25; i < count - 4; i++)
+                for (var i = 25; i < count - 4; i++)
                 {
                     reader.BaseStream.Position = i;
-                    int id = reader.ReadInt32();
-                    if (TestRange(id, 1000, 77000300))
+                    var id = reader.ReadInt32();
+                    if (this.TestRange(id, 1000, 77000300))
                     {
-                        if (Found(id))
+                        if (this.Found(id))
                         {
                             context.RenderAndOffsets.Add(new RenderAndOffset
                             {
@@ -244,13 +248,13 @@ namespace CacheViewer.Domain.Data
             {
                 return true;
             }
+
             return false;
         }
 
         private bool TestRange(int numberToCheck, int bottom, int top)
         {
-            return (numberToCheck > bottom && numberToCheck < top);
+            return numberToCheck > bottom && numberToCheck < top;
         }
-
     }
 }

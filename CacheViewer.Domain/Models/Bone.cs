@@ -1,14 +1,14 @@
-﻿using System;
-using SlimDX;
-
-namespace CacheViewer.Domain.Models
+﻿namespace CacheViewer.Domain.Models
 {
+    using System;
+    using SlimDX;
+
     public class Bone
     {
         private readonly ArraySegment<byte> data;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Bone"/> class.
+        ///     Initializes a new instance of the <see cref="Bone" /> class.
         /// </summary>
         /// <param name="data">The data.</param>
         public Bone(ArraySegment<byte> data)
@@ -35,122 +35,122 @@ namespace CacheViewer.Domain.Models
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Bone"/> is setup.
+        ///     Gets or sets a value indicating whether this <see cref="Bone" /> is setup.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if setup; otherwise, <c>false</c>.
+        ///     <c>true</c> if setup; otherwise, <c>false</c>.
         /// </value>
         public bool Setup { get; set; }
 
         /// <summary>
-        /// Gets or sets the r mat.
+        ///     Gets or sets the r mat.
         /// </summary>
         /// <value>
-        /// The r mat.
+        ///     The r mat.
         /// </value>
         public Matrix RMat { get; set; }
 
         /// <summary>
-        /// Gets or sets the mat.
+        ///     Gets or sets the mat.
         /// </summary>
         /// <value>
-        /// The mat.
+        ///     The mat.
         /// </value>
         public Matrix Mat { get; set; }
 
         /// <summary>
-        /// Gets or sets the scale.
+        ///     Gets or sets the scale.
         /// </summary>
         /// <value>
-        /// The scale.
+        ///     The scale.
         /// </value>
         public Vector3 Scale { get; set; }
 
         /// <summary>
-        /// Gets or sets the rot.
+        ///     Gets or sets the rot.
         /// </summary>
         /// <value>
-        /// The rot.
+        ///     The rot.
         /// </value>
         public Quaternion Rot { get; set; }
 
         /// <summary>
-        /// Gets or sets the position.
+        ///     Gets or sets the position.
         /// </summary>
         /// <value>
-        /// The position.
+        ///     The position.
         /// </value>
         public Vector3 Pos { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Bone"/> is flip.
+        ///     Gets or sets a value indicating whether this <see cref="Bone" /> is flip.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if flip; otherwise, <c>false</c>.
+        ///     <c>true</c> if flip; otherwise, <c>false</c>.
         /// </value>
         public bool Flip { get; set; }
 
         /// <summary>
-        /// Gets or sets the length.
+        ///     Gets or sets the length.
         /// </summary>
         /// <value>
-        /// The length.
+        ///     The length.
         /// </value>
         public float Length { get; set; }
 
         /// <summary>
-        /// Gets or sets the axis.
+        ///     Gets or sets the axis.
         /// </summary>
         /// <value>
-        /// The axis.
+        ///     The axis.
         /// </value>
         public Vector3 Axis { get; set; }
 
         /// <summary>
-        /// Gets or sets the direction.
+        ///     Gets or sets the direction.
         /// </summary>
         /// <value>
-        /// The direction.
+        ///     The direction.
         /// </value>
         public Vector3 Direction { get; set; }
 
         /// <summary>
-        /// Gets or sets the children.
+        ///     Gets or sets the children.
         /// </summary>
         /// <value>
-        /// The children.
+        ///     The children.
         /// </value>
         public int Children { get; set; }
 
         /// <summary>
-        /// Gets or sets the parent identifier.
+        ///     Gets or sets the parent identifier.
         /// </summary>
         /// <value>
-        /// The parent identifier.
+        ///     The parent identifier.
         /// </value>
         public int ParentId { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of children.
+        ///     Gets or sets the number of children.
         /// </summary>
         /// <value>
-        /// The number of children.
+        ///     The number of children.
         /// </value>
         public int NumberOfChildren { get; set; }
 
         /// <summary>
-        /// Gets or sets the mesh identifier.
+        ///     Gets or sets the mesh identifier.
         /// </summary>
         /// <value>
-        /// The mesh identifier.
+        ///     The mesh identifier.
         /// </value>
         public int MeshId { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier.
+        ///     Gets or sets the identifier.
         /// </summary>
         /// <value>
-        /// The identifier.
+        ///     The identifier.
         /// </value>
         public int Id { get; set; }
     }

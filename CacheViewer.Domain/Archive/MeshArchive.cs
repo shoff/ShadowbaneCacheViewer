@@ -4,9 +4,11 @@ namespace CacheViewer.Domain.Archive
     internal sealed class MeshArchive : CacheArchive
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MeshArchive"/> class.
+        ///     Initializes a new instance of the <see cref="MeshArchive" /> class.
         /// </summary>
         public MeshArchive()
-            :base("Mesh.cache"){}
+            : base("Mesh.cache")
+        {
+        }
     }
 }

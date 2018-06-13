@@ -1,5 +1,4 @@
-﻿
-namespace CacheViewer.Domain.Exporters
+﻿namespace CacheViewer.Domain.Exporters
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +8,11 @@ namespace CacheViewer.Domain.Exporters
     using System.IO;
     using System.Linq;
     using System.Text;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Factories;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
-    using CacheViewer.Domain.Utility;
+    using Archive;
+    using Factories;
+    using Models;
+    using Models.Exportable;
+    using Utility;
 
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class ObjExporter
@@ -34,7 +33,7 @@ namespace CacheViewer.Domain.Exporters
         private string name;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjExporter"/> class.
+        ///     Initializes a new instance of the <see cref="ObjExporter" /> class.
         /// </summary>
         public ObjExporter()
         {
@@ -42,7 +41,7 @@ namespace CacheViewer.Domain.Exporters
         }
 
         /// <summary>
-        /// Exports the specified cache object.
+        ///     Exports the specified cache object.
         /// </summary>
         /// <param name="cacheObject">The cache object.</param>
         public void Export(ICacheObject cacheObject)
@@ -52,66 +51,70 @@ namespace CacheViewer.Domain.Exporters
                 throw new ArgumentNullException("cacheObject");
             }
 
-            StringBuilder mainStringBuilder = new StringBuilder();
-            StringBuilder materialBuilder = new StringBuilder();
-            
+            var mainStringBuilder = new StringBuilder();
+            var materialBuilder = new StringBuilder();
+
             // todo - not all objects seem to have names
-            this.name = string.IsNullOrEmpty(cacheObject.Name) 
-                ? cacheObject.CacheIndex.Identity + "_" 
+            this.name = string.IsNullOrEmpty(cacheObject.Name)
+                ? cacheObject.CacheIndex.Identity + "_"
                 : cacheObject.Name.Replace(" ", "_");
 
-            string exportDirectory = this.EnsureDirectory(this.name);
+            var exportDirectory = this.EnsureDirectory(this.name);
             mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(cacheObject.CacheIndex.Identity));
             mainStringBuilder.AppendFormat(MaterialLib, this.name);
 
             // we'll treat each renderInfo as a separate Mesh for now.
             // foreach (var obj in cacheObject.RenderInfoList)
-            
+
             // cacheObject.RenderList.AsParallel().ForAll(obj => this.CreateObject(obj, cacheObject, modelDirectory));
             // save the obj
 
-            using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj", 
+            using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj",
                 FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
-                using (StreamWriter writer = new StreamWriter(fs))
+                using (var writer = new StreamWriter(fs))
                 {
                     writer.Write(mainStringBuilder.ToString());
                 }
             }
 
             // save the material
-            string mtlFile = exportDirectory + "\\" + this.name + ".mtl";
+            var mtlFile = exportDirectory + "\\" + this.name + ".mtl";
             if (File.Exists(mtlFile))
             {
                 File.Delete(mtlFile);
             }
 
             using (
-                var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create, FileAccess.ReadWrite,
+                var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create,
+                    FileAccess.ReadWrite,
                     FileShare.ReadWrite))
             {
-                using (StreamWriter writer = new StreamWriter(fs1))
+                using (var writer = new StreamWriter(fs1))
                 {
                     writer.Write(materialBuilder.ToString());
                 }
             }
         }
 
-        public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
+        public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder,
             StringBuilder materialBuilder, string directory)
         {
             if (mesh == null)
             {
                 throw new ArgumentNullException("mesh");
             }
+
             if (mainStringBuilder == null)
             {
                 throw new ArgumentNullException("mainStringBuilder");
             }
+
             if (materialBuilder == null)
             {
                 throw new ArgumentNullException("materialBuilder");
             }
+
             if (string.IsNullOrWhiteSpace(directory))
             {
                 throw new ArgumentNullException("directory");
@@ -119,11 +122,11 @@ namespace CacheViewer.Domain.Exporters
 
             mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
 
-            List<string> mapFiles = new List<string>();
-            if(mesh.Textures.Any())
+            var mapFiles = new List<string>();
+            if (mesh.Textures.Any())
             {
-                Textures archive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
-                for (int i = 0; i < mesh.Textures.Count(); i++)
+                var archive = (Textures) ArchiveFactory.Instance.Build(CacheFile.Textures);
+                for (var i = 0; i < mesh.Textures.Count(); i++)
                 {
                     var texture = mesh.Textures[i];
                     var asset = archive[texture.TextureId];
@@ -159,13 +162,14 @@ namespace CacheViewer.Domain.Exporters
                 mainStringBuilder.AppendFormat(Texture, t[0], t[1]);
             }
 
-            for (int i = 0; i < mesh.Indices.Count; i++)
+            for (var i = 0; i < mesh.Indices.Count; i++)
             {
-                ushort a = (ushort)(mesh.Indices[i].Position + 1);
-                ushort b = (ushort)(mesh.Indices[i].TextureCoordinate + 1);
-                ushort c = (ushort)(mesh.Indices[i].Normal + 1);
+                var a = (ushort) (mesh.Indices[i].Position + 1);
+                var b = (ushort) (mesh.Indices[i].TextureCoordinate + 1);
+                var c = (ushort) (mesh.Indices[i].Normal + 1);
 
-                mainStringBuilder.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c +
+                mainStringBuilder.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c +
+                    @"/" + c +
                     @"/" + c + "\r\n");
             }
         }
@@ -210,12 +214,13 @@ namespace CacheViewer.Domain.Exporters
 
         private string EnsureDirectory(string name)
         {
-            string fullName = Path.Combine(this.modelDirectory, name);
+            var fullName = Path.Combine(this.modelDirectory, name);
 
             if (Directory.Exists(fullName))
             {
                 Directory.Delete(fullName, true);
             }
+
             Directory.CreateDirectory(fullName);
             return fullName;
         }

@@ -1,35 +1,37 @@
-using System;
-
 namespace CacheViewer.Domain.Factories
 {
+    using System;
+
     /// <summary>
-    /// 
     /// </summary>
     public struct PixelData : IEquatable<PixelData>
     {
         /// <summary>
-        /// The alpha
+        ///     The alpha
         /// </summary>
         public byte alpha;
+
         /// <summary>
-        /// The blue
+        ///     The blue
         /// </summary>
         public byte blue;
+
         /// <summary>
-        /// The green
+        ///     The green
         /// </summary>
         public byte green;
+
         /// <summary>
-        /// The red
+        ///     The red
         /// </summary>
         public byte red;
 
         /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
+        ///     Indicates whether the current object is equal to another object of the same type.
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>
-        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         public bool Equals(PixelData other)
         {
@@ -37,14 +39,17 @@ namespace CacheViewer.Domain.Factories
             {
                 return false;
             }
+
             if (this.blue != other.blue)
             {
                 return false;
             }
+
             if (this.green != other.green)
             {
                 return false;
             }
+
             if (this.red != other.red)
             {
                 return false;

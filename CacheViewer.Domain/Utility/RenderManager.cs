@@ -1,47 +1,46 @@
-﻿using System.Threading;
-using SlimDX;
-using SlimDX.DXGI;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
+    using System.Threading;
+    using SlimDX;
+    using SlimDX.DXGI;
+
     /// <summary>
     /// </summary>
     public class RenderManager
     {
         /// <summary>
-        /// The instance
+        ///     The instance
         /// </summary>
         private static readonly RenderManager instance = new RenderManager();
 
         /// <summary>
-        /// Gets the instance.
+        ///     The render thread
         /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
-        public static RenderManager Instance
+        private Thread renderThread;
+
+        /// <summary>
+        ///     Prevents a default instance of the <see cref="RenderManager" /> class from being created.
+        /// </summary>
+        private RenderManager()
         {
-            get { return instance; }
         }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="RenderManager"/> class from being created.
+        ///     Gets the instance.
         /// </summary>
-        private RenderManager() { }
+        /// <value>
+        ///     The instance.
+        /// </value>
+        public static RenderManager Instance => instance;
 
         /// <summary>
-        /// The render thread
-        /// </summary>
-        Thread renderThread;
-
-        /// <summary>
-        /// Renders the scene.
+        ///     Renders the scene.
         /// </summary>
         public void RenderScene()
         {
             while (true)
             {
-                DeviceManager dm = DeviceManager.Instance;
+                var dm = DeviceManager.Instance;
                 dm.context.ClearRenderTargetView(dm.renderTarget, new Color4(0.25f, 0.75f, 0.25f));
 
                 Scene.Instance.Render();
@@ -51,20 +50,20 @@ namespace CacheViewer.Domain.Utility
         }
 
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         public void Init()
         {
-            renderThread = new Thread(this.RenderScene);
-            renderThread.Start();
+            this.renderThread = new Thread(this.RenderScene);
+            this.renderThread.Start();
         }
 
         /// <summary>
-        /// Shuts down.
+        ///     Shuts down.
         /// </summary>
         public void ShutDown()
         {
-            renderThread.Abort();
+            this.renderThread.Abort();
         }
     }
 }

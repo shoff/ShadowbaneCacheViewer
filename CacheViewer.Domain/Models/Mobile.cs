@@ -4,18 +4,17 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models.Exportable;
+    using Archive;
+    using Exportable;
+    using Extensions;
     using NLog;
-    using SlimDX;
 
     public class Mobile : AnimationObject
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mobile"/> class.
+        ///     Initializes a new instance of the <see cref="Mobile" /> class.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="flag">The flag.</param>
@@ -23,14 +22,255 @@
         /// <param name="offset">The offset.</param>
         /// <param name="data">The data.</param>
         /// <param name="innerOffset">The inner offset.</param>
-        public Mobile(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data, int innerOffset)
+        public Mobile(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data,
+            int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
             this.StatArray = new List<uint>();
         }
 
         /// <summary>
-        /// Parses the specified data.
+        ///     Gets or sets the is pet or rune.
+        /// </summary>
+        /// <value>
+        ///     The is pet or rune.
+        /// </value>
+        public uint IsPetOrRune { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the object identifier.
+        /// </summary>
+        /// <value>
+        ///     The object identifier.
+        /// </value>
+        public decimal ObjId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the size of the second name.
+        /// </summary>
+        /// <value>
+        ///     The size of the second name.
+        /// </value>
+        public uint SecondNameSize { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the ai description.
+        /// </summary>
+        /// <value>
+        ///     The ai description.
+        /// </value>
+        public string AiDescription { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the mob token.
+        /// </summary>
+        /// <value>
+        ///     The mob token.
+        /// </value>
+        public uint MobToken { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the z offset.
+        /// </summary>
+        /// <value>
+        ///     The z offset.
+        /// </value>
+        public float ZOffset { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the skills map.
+        /// </summary>
+        /// <value>
+        ///     The skills map.
+        /// </value>
+        public Dictionary<string, List<uint>> SkillsMap { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the stat array.
+        /// </summary>
+        /// <value>
+        ///     The stat array.
+        /// </value>
+        public List<uint> StatArray { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the gender.
+        /// </summary>
+        /// <value>
+        ///     The gender.
+        /// </value>
+        public int Gender { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the training power bonus.
+        /// </summary>
+        /// <value>
+        ///     The training power bonus.
+        /// </value>
+        public int TrainingPowerBonus { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the type of the rune.
+        /// </summary>
+        /// <value>
+        ///     The type of the rune.
+        /// </value>
+        public int RuneType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the rune category.
+        /// </summary>
+        /// <value>
+        ///     The rune category.
+        /// </value>
+        public uint RuneCategory { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the rune stack rank.
+        /// </summary>
+        /// <value>
+        ///     The rune stack rank.
+        /// </value>
+        public int RuneStackRank { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the rune cost.
+        /// </summary>
+        /// <value>
+        ///     The rune cost.
+        /// </value>
+        public int RuneCost { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the number of skills required.
+        /// </summary>
+        /// <value>
+        ///     The number of skills required.
+        /// </value>
+        public int NumberOfSkillsRequired { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the level required.
+        /// </summary>
+        /// <value>
+        ///     The level required.
+        /// </value>
+        public int LevelRequired { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the power identifier.
+        /// </summary>
+        /// <value>
+        ///     The power identifier.
+        /// </value>
+        public int PowerId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the exit message.
+        /// </summary>
+        /// <value>
+        ///     The exit message.
+        /// </value>
+        public string ExitMessage { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the size of the name.
+        /// </summary>
+        /// <value>
+        ///     The size of the name.
+        /// </value>
+        public int NameSize { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the pet name count.
+        /// </summary>
+        /// <value>
+        ///     The pet name count.
+        /// </value>
+        public int PetNameCount { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the prohibits race toggle.
+        /// </summary>
+        /// <value>
+        ///     The prohibits race toggle.
+        /// </value>
+        public byte ProhibitsRaceToggle { get; set; }
+
+        /// <summary>
+        ///     Gets or sets some kind of type hash.
+        /// </summary>
+        /// <value>
+        ///     Some kind of type hash.
+        /// </value>
+        public uint SomeKindOfTypeHash { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the required gender.
+        /// </summary>
+        /// <value>
+        ///     The required gender.
+        /// </value>
+        public int RequiredGender { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the minimum required level.
+        /// </summary>
+        /// <value>
+        ///     The minimum required level.
+        /// </value>
+        public int MinRequiredLevel { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the prohibits disc toggle.
+        /// </summary>
+        /// <value>
+        ///     The prohibits disc toggle.
+        /// </value>
+        public byte ProhibitsDiscToggle { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the prohibits class toggle.
+        /// </summary>
+        /// <value>
+        ///     The prohibits class toggle.
+        /// </value>
+        public byte ProhibitsClassToggle { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the four int array.
+        /// </summary>
+        /// <value>
+        ///     The four int array.
+        /// </value>
+        public int[] FourIntArray { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the four thousand int.
+        /// </summary>
+        /// <value>
+        ///     The four thousand int.
+        /// </value>
+        public int FourThousandInt { get; set; }
+
+        /// <summary>
+        ///     Gets or sets something with pets.
+        /// </summary>
+        /// <value>
+        ///     Something with pets.
+        /// </value>
+        public int SomethingWithPets { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the wolfpack create date.
+        /// </summary>
+        /// <value>
+        ///     The wolfpack create date.
+        /// </value>
+        public DateTime WolfpackCreateDate { get; set; }
+
+        /// <summary>
+        ///     Parses the specified data.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
@@ -41,7 +281,7 @@
             this.ObjId = this.CacheIndex.Identity;
 
             this.FourIntArray = new int[4];
-            using (BinaryReader reader = data.CreateBinaryReaderUtf32())
+            using (var reader = data.CreateBinaryReaderUtf32())
             {
                 // TNLC
                 reader.ReadInt32();
@@ -49,41 +289,41 @@
 
                 // flag
                 this.NameSize = reader.ReadInt32();
-                reader.BaseStream.Position += (this.NameSize * 2);
+                reader.BaseStream.Position += this.NameSize * 2;
 
                 // reader.BaseStream.Position = this.InnerOffset;
-                byte b1 = reader.ReadByte();
+                var b1 = reader.ReadByte();
 
                 //This block seems to be static for all Type 13 Objects
                 // this should always be 00 00 80 3F
-                float f1 = reader.ReadSingle();
+                var f1 = reader.ReadSingle();
 
-                uint time = reader.ReadUInt32();
-                this.WolfpackCreateDate = ((Double)time).FromUnixTimeStamp();
+                var time = reader.ReadUInt32();
+                this.WolfpackCreateDate = ((double) time).FromUnixTimeStamp();
 
-                Vector3 someScale = reader.ReadToVector3();
-                uint u1 = reader.ReadUInt32(); //0
+                var someScale = reader.ReadToVector3();
+                var u1 = reader.ReadUInt32(); //0
                 Debug.Assert(u1 == 0);
 
                 //4000
                 this.FourThousandInt = reader.ReadInt32();
 
                 // should be all zeros
-                for (int ed = 0; ed < 6; ed++)
+                for (var ed = 0; ed < 6; ed++)
                 {
-                    uint u2 = reader.ReadUInt32();
+                    var u2 = reader.ReadUInt32();
                     Debug.Assert(u2 == 0);
                 }
 
                 // is this a boolean?
-                byte b2 = reader.ReadByte(); //Data block 00
+                var b2 = reader.ReadByte(); //Data block 00
                 this.RuneCategory = reader.ReadUInt32(); // Rune Icon
 
                 this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
 
                 this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
 
-                uint u11 = reader.ReadUInt32();
+                var u11 = reader.ReadUInt32();
 
                 this.MobToken = reader.ReadUInt32();
                 /*
@@ -98,7 +338,7 @@
                 if (this.MobToken == 612015249)
                 {
                     // Determines Aggro Type
-                    uint strSize = reader.ReadUInt32();
+                    var strSize = reader.ReadUInt32();
                     this.AiDescription = reader.ReadAsciiString(strSize);
 
                     // this needs to be read here because its 4 if mobtoken is this
@@ -122,19 +362,20 @@
                     reader.ReadUInt32();
                 }
 
-                float unknownFloat = reader.ReadSingle();
+                var unknownFloat = reader.ReadSingle();
                 var zeroUint = reader.ReadUInt32(); // All runes have this, set to 1.0.
                 this.SomeKindOfTypeHash = reader.ReadUInt32(); //Some kind of type hash
 
-                uint petIndicator = reader.ReadUInt32();
+                var petIndicator = reader.ReadUInt32();
 
                 if (petIndicator == 0)
                 {
-                    for (int be = 0; be < 18; be++)
+                    for (var be = 0; be < 18; be++)
                     {
                         reader.ReadUInt32();
                     }
-                    uint thirtyTwo = reader.ReadUInt32();
+
+                    var thirtyTwo = reader.ReadUInt32();
 
                     reader.ReadUInt32();
                     reader.ReadUInt32();
@@ -157,14 +398,15 @@
                 }
                 else
                 {
-                    for (int pj = 0; pj < 5; pj++)
+                    for (var pj = 0; pj < 5; pj++)
                     {
                         reader.ReadUInt32();
                     }
-                    uint petTextSize = reader.ReadUInt32();
-                    string petText = reader.ReadAsciiString(petTextSize);
-                    ushort something = reader.ReadUInt16();
-                    for (int pj = 0; pj < 33; pj++)
+
+                    var petTextSize = reader.ReadUInt32();
+                    var petText = reader.ReadAsciiString(petTextSize);
+                    var something = reader.ReadUInt16();
+                    for (var pj = 0; pj < 33; pj++)
                     {
                         reader.ReadUInt32();
                     }
@@ -606,245 +848,5 @@
                 //System.out.println(counter2 + "/" + counter3);
             }
         }
-
-        /// <summary>
-        /// Gets or sets the is pet or rune.
-        /// </summary>
-        /// <value>
-        /// The is pet or rune.
-        /// </value>
-        public uint IsPetOrRune { get; set; }
-
-        /// <summary>
-        /// Gets or sets the object identifier.
-        /// </summary>
-        /// <value>
-        /// The object identifier.
-        /// </value>
-        public decimal ObjId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of the second name.
-        /// </summary>
-        /// <value>
-        /// The size of the second name.
-        /// </value>
-        public uint SecondNameSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ai description.
-        /// </summary>
-        /// <value>
-        /// The ai description.
-        /// </value>
-        public string AiDescription { get; set; }
-
-        /// <summary>
-        /// Gets or sets the mob token.
-        /// </summary>
-        /// <value>
-        /// The mob token.
-        /// </value>
-        public uint MobToken { get; set; }
-
-        /// <summary>
-        /// Gets or sets the z offset.
-        /// </summary>
-        /// <value>
-        /// The z offset.
-        /// </value>
-        public float ZOffset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the skills map.
-        /// </summary>
-        /// <value>
-        /// The skills map.
-        /// </value>
-        public Dictionary<string, List<uint>> SkillsMap { get; set; }
-
-        /// <summary>
-        /// Gets or sets the stat array.
-        /// </summary>
-        /// <value>
-        /// The stat array.
-        /// </value>
-        public List<uint> StatArray { get; set; }
-
-        /// <summary>
-        /// Gets or sets the gender.
-        /// </summary>
-        /// <value>
-        /// The gender.
-        /// </value>
-        public int Gender { get; set; }
-
-        /// <summary>
-        /// Gets or sets the training power bonus.
-        /// </summary>
-        /// <value>
-        /// The training power bonus.
-        /// </value>
-        public int TrainingPowerBonus { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the rune.
-        /// </summary>
-        /// <value>
-        /// The type of the rune.
-        /// </value>
-        public int RuneType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rune category.
-        /// </summary>
-        /// <value>
-        /// The rune category.
-        /// </value>
-        public uint RuneCategory { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rune stack rank.
-        /// </summary>
-        /// <value>
-        /// The rune stack rank.
-        /// </value>
-        public int RuneStackRank { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rune cost.
-        /// </summary>
-        /// <value>
-        /// The rune cost.
-        /// </value>
-        public int RuneCost { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of skills required.
-        /// </summary>
-        /// <value>
-        /// The number of skills required.
-        /// </value>
-        public int NumberOfSkillsRequired { get; set; }
-
-        /// <summary>
-        /// Gets or sets the level required.
-        /// </summary>
-        /// <value>
-        /// The level required.
-        /// </value>
-        public int LevelRequired { get; set; }
-
-        /// <summary>
-        /// Gets or sets the power identifier.
-        /// </summary>
-        /// <value>
-        /// The power identifier.
-        /// </value>
-        public int PowerId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exit message.
-        /// </summary>
-        /// <value>
-        /// The exit message.
-        /// </value>
-        public string ExitMessage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of the name.
-        /// </summary>
-        /// <value>
-        /// The size of the name.
-        /// </value>
-        public int NameSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the pet name count.
-        /// </summary>
-        /// <value>
-        /// The pet name count.
-        /// </value>
-        public int PetNameCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the prohibits race toggle.
-        /// </summary>
-        /// <value>
-        /// The prohibits race toggle.
-        /// </value>
-        public byte ProhibitsRaceToggle { get; set; }
-
-        /// <summary>
-        /// Gets or sets some kind of type hash.
-        /// </summary>
-        /// <value>
-        /// Some kind of type hash.
-        /// </value>
-        public uint SomeKindOfTypeHash { get; set; }
-
-        /// <summary>
-        /// Gets or sets the required gender.
-        /// </summary>
-        /// <value>
-        /// The required gender.
-        /// </value>
-        public int RequiredGender { get; set; }
-
-        /// <summary>
-        /// Gets or sets the minimum required level.
-        /// </summary>
-        /// <value>
-        /// The minimum required level.
-        /// </value>
-        public int MinRequiredLevel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the prohibits disc toggle.
-        /// </summary>
-        /// <value>
-        /// The prohibits disc toggle.
-        /// </value>
-        public byte ProhibitsDiscToggle { get; set; }
-
-        /// <summary>
-        /// Gets or sets the prohibits class toggle.
-        /// </summary>
-        /// <value>
-        /// The prohibits class toggle.
-        /// </value>
-        public byte ProhibitsClassToggle { get; set; }
-
-        /// <summary>
-        /// Gets or sets the four int array.
-        /// </summary>
-        /// <value>
-        /// The four int array.
-        /// </value>
-        public int[] FourIntArray { get; set; }
-
-        /// <summary>
-        /// Gets or sets the four thousand int.
-        /// </summary>
-        /// <value>
-        /// The four thousand int.
-        /// </value>
-        public int FourThousandInt { get; set; }
-
-        /// <summary>
-        /// Gets or sets something with pets.
-        /// </summary>
-        /// <value>
-        /// Something with pets.
-        /// </value>
-        public int SomethingWithPets { get; set; }
-
-        /// <summary>
-        /// Gets or sets the wolfpack create date.
-        /// </summary>
-        /// <value>
-        /// The wolfpack create date.
-        /// </value>
-        public DateTime WolfpackCreateDate { get; set; }
     }
 }

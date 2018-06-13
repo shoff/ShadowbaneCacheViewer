@@ -82,7 +82,6 @@ namespace CacheViewer
 
             await Task.Run(() =>
             {
-
                 foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
@@ -90,14 +89,12 @@ namespace CacheViewer
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
                         ci.Identity.ToString(CultureInfo.InvariantCulture) :
-                        string.Format("{0}-{1}", ci.Identity.ToString(CultureInfo.InvariantCulture), cacheObject.Name);
+                        $"{ci.Identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
 
                     var node = new TreeNode(title)
                     {
                         Tag = cacheObject,
-                         
                     };
-
 
                     switch (cacheObject.Flag)
                     {

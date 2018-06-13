@@ -1,18 +1,15 @@
-﻿
-
-namespace CacheViewer.Domain.Extensions
+﻿namespace CacheViewer.Domain.Extensions
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
     using SlimDX;
-    using System;
-    using System.Diagnostics.CodeAnalysis;
 
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public static class BinaryReaderExtensions
     {
         /// <summary>
-        /// Determines whether [has enough bytes left] [the specified bytes to read].
+        ///     Determines whether [has enough bytes left] [the specified bytes to read].
         /// </summary>
         /// <param name="reader">The reader.</param>
         /// <param name="bytesToRead">The bytes to read.</param>
@@ -23,7 +20,7 @@ namespace CacheViewer.Domain.Extensions
         }
 
         /// <summary>
-        /// Reads to vector3.
+        ///     Reads to vector3.
         /// </summary>
         /// <param name="reader">The reader.</param>
         /// <returns></returns>
@@ -33,7 +30,7 @@ namespace CacheViewer.Domain.Extensions
         }
 
         /// <summary>
-        /// Reads to vector2.
+        ///     Reads to vector2.
         /// </summary>
         /// <param name="reader">The reader.</param>
         /// <returns></returns>
@@ -43,22 +40,21 @@ namespace CacheViewer.Domain.Extensions
         }
 
         /// <summary>
-        /// Reads the ASCII string.
+        ///     Reads the ASCII string.
         /// </summary>
         /// <param name="reader">The reader.</param>
         /// <param name="counter">The counter.</param>
         /// <returns></returns>
         public static string ReadAsciiString(this BinaryReader reader, uint counter)
         {
-            byte[] byteArray = reader.ReadBytes((int)counter * 2);
+            var byteArray = reader.ReadBytes((int) counter * 2);
 
-            ASCIIEncoding enc = new ASCIIEncoding();
-            
-            string tvTemp = enc.GetString(byteArray);
-            
+            var enc = new ASCIIEncoding();
+
+            var tvTemp = enc.GetString(byteArray);
+
             //remove all the \0 and trim the string
             return tvTemp.Replace("\0", "").Trim();
         }
-
     }
 }

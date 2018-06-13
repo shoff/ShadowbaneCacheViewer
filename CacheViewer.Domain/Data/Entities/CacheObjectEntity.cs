@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Domain.Data.Entities
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     [Table("CacheObjectEntities")]
     public class CacheObjectEntity
     {
@@ -17,14 +17,13 @@ namespace CacheViewer.Domain.Data.Entities
 
         public int FileOffset { get; set; }
 
-        public int RenderKey{ get; set; }
+        public int RenderKey { get; set; }
 
-        public string Name{ get; set; }
+        public string Name { get; set; }
 
-        public int ObjectType{ get; set; }
+        public int ObjectType { get; set; }
 
         [MaxLength(11)]
         public string ObjectTypeDescription { get; set; }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CacheViewer.Domain.Archive
 {
-    public enum CacheFile : int
+    public enum CacheFile
     {
         CObjects = 0,
         CZone,

@@ -1,6 +1,4 @@
-﻿
-
-namespace CacheViewer.Domain.Data
+﻿namespace CacheViewer.Domain.Data
 {
     using System;
     using System.Collections.Generic;
@@ -11,21 +9,20 @@ namespace CacheViewer.Domain.Data
     using System.Threading.Tasks;
     using NLog;
 
-    /// <summary> 
+    /// <summary>
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TK">The type of the k.</typeparam>
     public class EntityRepository<TEntity, TK> : IEntityRepository<TEntity, TK>, IDisposable
         where TEntity : class
     {
-
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
         // ReSharper disable once InconsistentNaming
         protected IQueryableDataContext dataContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntityRepository{TEntity, TK}" /> class.
+        ///     Initializes a new instance of the <see cref="EntityRepository{TEntity, TK}" /> class.
         /// </summary>
         /// <param name="dataContext">The data context.</param>
         public EntityRepository(IQueryableDataContext dataContext)
@@ -33,16 +30,24 @@ namespace CacheViewer.Domain.Data
             this.dataContext = dataContext;
         }
 
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            this.Context.Dispose();
+        }
+
 
         /// <summary>
-        /// Gets or sets the context.
+        ///     Gets or sets the context.
         /// </summary>
         /// <value>
-        /// The context.
+        ///     The context.
         /// </value>
         public IQueryableDataContext Context
         {
-            get { return this.dataContext; }
+            get => this.dataContext;
             set
             {
                 //Contract.Requires(value != null);
@@ -51,7 +56,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Gets the TEnity asynchronously.
+        ///     Gets the TEnity asynchronously.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="orderBy">The order by.</param>
@@ -68,14 +73,14 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic method to get a collection of Entities
+        ///     Generic method to get a collection of Entities
         /// </summary>
         /// <param name="filter">Filter expression for the return Entities</param>
         /// <param name="orderBy">Represents the order of the return Entities</param>
         /// <param name="doNotTrack">if set to <c>true</c> [do not track].</param>
         /// <param name="includeProperties">Include Properties for the navigation properties</param>
         /// <returns>
-        /// A Enumerable of Entities
+        ///     A Enumerable of Entities
         /// </returns>
         public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -93,19 +98,20 @@ namespace CacheViewer.Domain.Data
                 query = query.AsNoTracking();
             }
 
-            if (!String.IsNullOrEmpty(includeProperties))
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 query = includeProperties.Split(new[]
                 {
                     ','
-                }, StringSplitOptions.RemoveEmptyEntries).Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+                }, StringSplitOptions.RemoveEmptyEntries).Aggregate(query,
+                    (current, includeProperty) => current.Include(includeProperty));
             }
 
             return orderBy != null ? orderBy(query).ToList() : query.ToList();
         }
 
         /// <summary>
-        /// Gets the by identifier asynchronous.
+        ///     Gets the by identifier asynchronous.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="configureAwait">if set to <c>true</c> [configure await].</param>
@@ -117,11 +123,11 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic Method to get an Entity by Identity
+        ///     Generic Method to get an Entity by Identity
         /// </summary>
         /// <param name="id">The Identity of the Entity</param>
         /// <returns>
-        /// The Entity
+        ///     The Entity
         /// </returns>
         public virtual TEntity GetById(TK id)
         {
@@ -130,7 +136,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic method for add an Entity to the context
+        ///     Generic method for add an Entity to the context
         /// </summary>
         /// <param name="entity">The Entity to Add</param>
         public virtual void Insert(TEntity entity)
@@ -139,7 +145,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Inserts the asynchronous.
+        ///     Inserts the asynchronous.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="configureAwait">if set to <c>true</c> [configure await].</param>
@@ -151,29 +157,18 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic method for deleting a method in the context by identity
+        ///     Generic method for deleting a method in the context by identity
         /// </summary>
         /// <param name="id">The Identity of the Entity</param>
         public virtual void Delete(TK id)
         {
             CheckParameter(id);
-            TEntity entityToDelete = this.dataContext.SetEntity<TEntity>().Find(id);
+            var entityToDelete = this.dataContext.SetEntity<TEntity>().Find(id);
             this.Delete(entityToDelete);
         }
 
-        private static void CheckParameter(TK id)
-        {
-            if (!typeof(TK).IsValueType)
-            {
-                if (ReferenceEquals(null, id))
-                {
-                    throw new ArgumentNullException("id");
-                }
-            }
-        }
-
         /// <summary>
-        /// Generic method for deleting a method in the context pasing the Entity
+        ///     Generic method for deleting a method in the context pasing the Entity
         /// </summary>
         /// <param name="entityToDelete">Entity to Delete</param>
         public virtual void Delete(TEntity entityToDelete)
@@ -183,7 +178,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Deletes the TEntity with given id asynchronously.
+        ///     Deletes the TEntity with given id asynchronously.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="configureAwait">if set to <c>true</c> [configure await].</param>
@@ -194,7 +189,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic method for updating an Entity in the context
+        ///     Generic method for updating an Entity in the context
         /// </summary>
         /// <param name="entityToUpdate">The story to Update</param>
         /// <exception cref="ArgumentNullException">The value of 'entityToUpdate' cannot be null. </exception>
@@ -204,11 +199,12 @@ namespace CacheViewer.Domain.Data
             {
                 throw new ArgumentNullException("entityToUpdate");
             }
+
             this.dataContext.SetModified(entityToUpdate);
         }
 
         /// <summary>
-        /// Updates the given TEntity asynchronously.
+        ///     Updates the given TEntity asynchronously.
         /// </summary>
         /// <param name="entityToUpdate">The entity to update.</param>
         /// <param name="configureAwait">if set to <c>true</c> [configure await].</param>
@@ -219,7 +215,7 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Generic implementation for get Paged Entities
+        ///     Generic implementation for get Paged Entities
         /// </summary>
         /// <typeparam name="TKey">Key for order Expression</typeparam>
         /// <param name="pageIndex">Index of the Page</param>
@@ -228,7 +224,7 @@ namespace CacheViewer.Domain.Data
         /// <param name="orderby">if set to <c>true</c> [orderby].</param>
         /// <param name="includeProperties">The include properties.</param>
         /// <returns>
-        /// Enumerable of Entities matching the conditions
+        ///     Enumerable of Entities matching the conditions
         /// </returns>
         /// <exception cref="ArgumentNullException">orderByExpression</exception>
         /// <exception cref="DbEntityValidationException">Condition. </exception>
@@ -237,13 +233,14 @@ namespace CacheViewer.Domain.Data
         {
             IQueryable<TEntity> query = this.dataContext.SetEntity<TEntity>();
 
-            if (!String.IsNullOrEmpty(includeProperties))
+            if (!string.IsNullOrEmpty(includeProperties))
             {
-                foreach (var s in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var s in includeProperties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(s);
                 }
             }
+
             if (pageIndex < 1)
             {
                 pageIndex = 1;
@@ -256,15 +253,15 @@ namespace CacheViewer.Domain.Data
 
             try
             {
-                return (orderby)
-                      ? query.OrderBy(orderByExpression)
-                            .Skip((pageIndex - 1) * pageCount)
-                            .Take(pageCount)
-                            .ToList()
-                      : query.OrderByDescending(orderByExpression)
-                            .Skip((pageIndex - 1) * pageCount)
-                            .Take(pageCount)
-                            .ToList();
+                return orderby
+                    ? query.OrderBy(orderByExpression)
+                        .Skip((pageIndex - 1) * pageCount)
+                        .Take(pageCount)
+                        .ToList()
+                    : query.OrderByDescending(orderByExpression)
+                        .Skip((pageIndex - 1) * pageCount)
+                        .Take(pageCount)
+                        .ToList();
             }
             catch (DbEntityValidationException dbv)
             {
@@ -294,12 +291,12 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Execute query
+        ///     Execute query
         /// </summary>
         /// <param name="sqlQuery">The Query to be executed</param>
         /// <param name="parameters">The parameters</param>
         /// <returns>
-        /// List of Entity
+        ///     List of Entity
         /// </returns>
         /// <exception cref="ArgumentNullException">The value of 'sqlQuery' cannot be null. </exception>
         public IEnumerable<TEntity> GetFromDatabaseWithQuery(string sqlQuery, params object[] parameters)
@@ -308,15 +305,17 @@ namespace CacheViewer.Domain.Data
             {
                 throw new ArgumentNullException("sqlQuery");
             }
+
             if (parameters == null)
             {
                 throw new ArgumentNullException("parameters");
             }
+
             return this.dataContext.ExecuteQuery<TEntity>(sqlQuery, parameters);
         }
 
         /// <summary>
-        /// Execute a command in database
+        ///     Execute a command in database
         /// </summary>
         /// <param name="sqlCommand">The sql query</param>
         /// <param name="parameters">The parameters</param>
@@ -328,21 +327,26 @@ namespace CacheViewer.Domain.Data
             {
                 throw new ArgumentNullException("parameters");
             }
+
             if (string.IsNullOrEmpty(sqlCommand))
             {
                 throw new ArgumentNullException("sqlCommand");
             }
+
             return this.dataContext.ExecuteCommand(sqlCommand, parameters);
         }
 
         /// <summary>
-        /// Get count of Entities
+        ///     Get count of Entities
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="OverflowException">The number of elements in <paramref>
-        ///     <name>source</name>
-        ///   </paramref>
-        ///   is larger than <see cref="F:System.Int32.MaxValue" />.</exception>
+        /// <exception cref="OverflowException">
+        ///     The number of elements in
+        ///     <paramref>
+        ///         <name>source</name>
+        ///     </paramref>
+        ///     is larger than <see cref="F:System.Int32.MaxValue" />.
+        /// </exception>
         public int GetCount()
         {
             // return this.dataContext.Set<TEntity>().Count();
@@ -352,20 +356,23 @@ namespace CacheViewer.Domain.Data
         }
 
         /// <summary>
-        /// Gets or sets the default include properties. This needs to be a comma-delimited list of 
-        /// properties to include in a query by default.
+        ///     Gets or sets the default include properties. This needs to be a comma-delimited list of
+        ///     properties to include in a query by default.
         /// </summary>
         /// <value>
-        /// The default include properties.
+        ///     The default include properties.
         /// </value>
         public string DefaultIncludeProperties { get; set; }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public virtual void Dispose()
+        private static void CheckParameter(TK id)
         {
-            this.Context.Dispose();
+            if (!typeof(TK).IsValueType)
+            {
+                if (ReferenceEquals(null, id))
+                {
+                    throw new ArgumentNullException("id");
+                }
+            }
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿
-using System.Windows.Forms;
-
-namespace CacheViewer.Domain.Extensions
+﻿namespace CacheViewer.Domain.Extensions
 {
+    using System.Windows.Forms;
+
     public static class WindowsFormsExtensions
     {
         /// <summary>
-        /// Allows setting a cross threaded message to a control.
+        ///     Allows setting a cross threaded message to a control.
         /// </summary>
         /// <param name="control"></param>
         /// <param name="message"></param>

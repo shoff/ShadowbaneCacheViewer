@@ -51,7 +51,9 @@ namespace CacheViewer.Controls
 
             // load and compile the pixel shader
             using (var bytecode = ShaderBytecode.CompileFromFile("triangle.fx", "PShader", "ps_4_0", ShaderFlags.None, EffectFlags.None))
-                pixelShader = new PixelShader(DeviceManager.Instance.device, bytecode);
+            {
+                this.pixelShader = new PixelShader(DeviceManager.Instance.device, bytecode);
+            }
 
             // create test vertex data, making sure to rewind the stream afterward
             var vertices = new DataStream(12 * 3, true, true);

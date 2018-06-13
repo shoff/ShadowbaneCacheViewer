@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CacheViewer.Domain.Extensions;
-using CacheViewer.Domain.Models;
-using CacheViewer.Domain.Parsers;
-using SlimDX;
-
-namespace CacheViewer.Domain.Exporters
+﻿namespace CacheViewer.Domain.Exporters
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Models;
+    using Parsers;
+    using SlimDX;
+
     public class MeshData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MeshData"/> class.
+        ///     Initializes a new instance of the <see cref="MeshData" /> class.
         /// </summary>
         public MeshData()
         {
@@ -21,7 +20,7 @@ namespace CacheViewer.Domain.Exporters
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MeshData"/> class.
+        ///     Initializes a new instance of the <see cref="MeshData" /> class.
         /// </summary>
         /// <param name="mesh">The Mesh.</param>
         public MeshData(Mesh mesh)
@@ -33,34 +32,34 @@ namespace CacheViewer.Domain.Exporters
         }
 
         /// <summary>
-        /// Gets or sets the positions.
+        ///     Gets or sets the positions.
         /// </summary>
         /// <value>
-        /// The positions.
+        ///     The positions.
         /// </value>
         public List<Vector3> Positions { get; set; }
 
         /// <summary>
-        /// Gets or sets the normals.
+        ///     Gets or sets the normals.
         /// </summary>
         /// <value>
-        /// The normals.
+        ///     The normals.
         /// </value>
         public List<Vector3> Normals { get; set; }
 
         /// <summary>
-        /// Gets or sets the texture coordinates.
+        ///     Gets or sets the texture coordinates.
         /// </summary>
         /// <value>
-        /// The texture coordinates.
+        ///     The texture coordinates.
         /// </value>
         public List<Vector2> TextureCoordinates { get; set; }
 
         /// <summary>
-        /// Gets or sets the indices.
+        ///     Gets or sets the indices.
         /// </summary>
         /// <value>
-        /// The indices.
+        ///     The indices.
         /// </value>
         public List<WavefrontVertex> Indices { get; set; }
     }

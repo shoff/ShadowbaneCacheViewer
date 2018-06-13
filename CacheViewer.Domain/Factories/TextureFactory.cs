@@ -1,33 +1,46 @@
-﻿
-namespace CacheViewer.Domain.Factories
+﻿namespace CacheViewer.Domain.Factories
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
-    using ArraySegments;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Models;
+    using System.Linq;
+    using Archive;
+    using Models;
+    using Nito.ArraySegments;
 
     /// <summary>
     /// </summary>
     public class TextureFactory
     {
-        private static readonly TextureFactory instance = new TextureFactory();
         private readonly Textures textureArchive;
 
-        /// <summary>Initializes a new instance of the <see cref="TextureFactory"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="TextureFactory" /> class.</summary>
         private TextureFactory()
         {
-            this.textureArchive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
+            this.textureArchive = (Textures) ArchiveFactory.Instance.Build(CacheFile.Textures);
         }
+
+        /// <summary>Gets the indexes.</summary>
+        public CacheIndex[] Indexes => this.textureArchive.CacheIndices.ToArray();
+
+        /// <summary>Gets the instance.</summary>
+        public static TextureFactory Instance { get; } = new TextureFactory();
+
+        /// <summary>
+        ///     Gets the identity array.
+        /// </summary>
+        /// <value>
+        ///     The identity array.
+        /// </value>
+        public int[] IdentityArray => this.textureArchive.IdentityArray;
 
         /// <summary>Builds the specified identity.</summary>
         /// <param name="identity">
-        /// The identity.
+        ///     The identity.
         /// </param>
         /// <param name="storeBuffer">
-        /// if set to <c>true</c> [store buffer].
+        ///     if set to <c>true</c> [store buffer].
         /// </param>
         /// <returns>
         /// </returns>
@@ -36,15 +49,9 @@ namespace CacheViewer.Domain.Factories
             return new Texture(this.textureArchive[identity].Item1, identity);
         }
 
-        /// <summary>Gets the indexes.</summary>
-        public CacheIndex[] Indexes
-        {
-            get { return this.textureArchive.CacheIndices.ToArray(); }
-        }
-
         /// <summary>Gets the by identifier.</summary>
         /// <param name="id">
-        /// The identifier.
+        ///     The identifier.
         /// </param>
         /// <returns>
         /// </returns>
@@ -53,15 +60,9 @@ namespace CacheViewer.Domain.Factories
             return this.textureArchive[id];
         }
 
-        /// <summary>Gets the instance.</summary>
-        public static TextureFactory Instance
-        {
-            get { return instance; }
-        }
-
         /// <summary>Sets the cache use.</summary>
         /// <param name="useCache">
-        /// if set to <c>true</c> [use cache].
+        ///     if set to <c>true</c> [use cache].
         /// </param>
         public void SetCacheUse(bool useCache)
         {
@@ -70,7 +71,7 @@ namespace CacheViewer.Domain.Factories
 
         /// <summary>Textures the map.</summary>
         /// <param name="identity">
-        /// The identity.
+        ///     The identity.
         /// </param>
         /// <returns>
         /// </returns>
@@ -79,13 +80,13 @@ namespace CacheViewer.Domain.Factories
         /// <exception cref="ObjectDisposedException">Methods were called after the stream was closed. </exception>
         public Bitmap TextureMap(int identity)
         {
-            ArraySegment<byte> buffer = this.textureArchive[identity].Item1;
+            var buffer = this.textureArchive[identity].Item1;
 
-            using (BinaryReader reader = buffer.CreateBinaryReader())
+            using (var reader = buffer.CreateBinaryReader())
             {
-                int width = reader.ReadInt32();
-                int height = reader.ReadInt32();
-                int depth = reader.ReadInt32();
+                var width = reader.ReadInt32();
+                var height = reader.ReadInt32();
+                var depth = reader.ReadInt32();
                 reader.BaseStream.Position += 14;
 
                 PixelFormat format;
@@ -105,9 +106,9 @@ namespace CacheViewer.Domain.Factories
                 switch (format)
                 {
                     case PixelFormat.Format24bppRgb:
-                        for (int y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap.Height; y++)
                         {
-                            for (int x = 0; x < myBitmap.Width; x++)
+                            for (var x = 0; x < myBitmap.Width; x++)
                             {
                                 // pd.blue = reader.ReadByte();
                                 // pd.green = reader.ReadByte();
@@ -122,9 +123,9 @@ namespace CacheViewer.Domain.Factories
 
                         break;
                     case PixelFormat.Format32bppArgb:
-                        for (int y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap.Height; y++)
                         {
-                            for (int x = 0; x < myBitmap.Width; x++)
+                            for (var x = 0; x < myBitmap.Width; x++)
                             {
                                 // pd.alpha = reader.ReadByte();
                                 pd.red = reader.ReadByte();
@@ -143,17 +144,6 @@ namespace CacheViewer.Domain.Factories
                 myBitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
                 return myBitmap;
             }
-        }
-
-        /// <summary>
-        /// Gets the identity array.
-        /// </summary>
-        /// <value>
-        /// The identity array.
-        /// </value>
-        public int[] IdentityArray
-        {
-            get { return this.textureArchive.IdentityArray; }
         }
     }
 }

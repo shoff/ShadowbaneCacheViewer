@@ -6,7 +6,7 @@
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileLocations"/> class.
+        ///     Initializes a new instance of the <see cref="FileLocations" /> class.
         /// </summary>
         /// <param name="configurationWrapper">The configuration wrapper.</param>
         public FileLocations(IConfigurationWrapper configurationWrapper)
@@ -15,7 +15,15 @@
         }
 
         /// <summary>
-        /// Gets the cache folder.
+        ///     Gets the instance.
+        /// </summary>
+        /// <value>
+        ///     The instance.
+        /// </value>
+        public static FileLocations Instance => new FileLocations(ConfigurationWrapper.Instance);
+
+        /// <summary>
+        ///     Gets the cache folder.
         /// </summary>
         /// <returns></returns>
         public string GetCacheFolder()
@@ -24,23 +32,12 @@
         }
 
         /// <summary>
-        /// Gets the export folder.
+        ///     Gets the export folder.
         /// </summary>
         /// <returns></returns>
         public string GetExportFolder()
         {
             return this.configurationWrapper.GetAppSetting("ExportFolder");
-        }
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
-        public static FileLocations Instance
-        {
-            get { return new FileLocations(ConfigurationWrapper.Instance); }
         }
     }
 }

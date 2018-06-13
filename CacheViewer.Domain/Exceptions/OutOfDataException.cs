@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace CacheViewer.Domain.Exceptions
+﻿namespace CacheViewer.Domain.Exceptions
 {
+    using System;
+
     [Serializable]
     public class OutOfDataException : ApplicationException
     {

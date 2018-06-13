@@ -33,7 +33,7 @@ namespace CacheViewer.Tests.Domain.Archive
         public async void LoadIndexes_Should_Load_The_Corrent_Number()
         {
             await this.render.LoadIndexesAsync();
-            Assert.AreEqual(this.render.CacheHeader.indexCount, this.render.CacheIndices.Count);
+            Assert.AreEqual(this.render.CacheHeader.indexCount, this.render.CacheIndices.Length);
         }
 
         [Test]

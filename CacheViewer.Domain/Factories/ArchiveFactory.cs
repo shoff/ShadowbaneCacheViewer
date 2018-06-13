@@ -1,15 +1,13 @@
-﻿
-
-namespace CacheViewer.Domain.Factories
+﻿namespace CacheViewer.Domain.Factories
 {
     using System;
     using System.IO;
     using System.Security;
-    using CacheViewer.Domain.Archive;
+    using Archive;
 
     /// <summary>
-    /// Just simply maintains a collection of types to enums and
-    /// returns a new instance for the given type.
+    ///     Just simply maintains a collection of types to enums and
+    ///     returns a new instance for the given type.
     /// </summary>
     internal class ArchiveFactory
     {
@@ -23,18 +21,11 @@ namespace CacheViewer.Domain.Factories
         private static Motion motion;
 
         private static readonly object syncRoot = new object();
-        private static readonly ArchiveFactory instance = new ArchiveFactory();
 
         /// <summary>
-        /// Gets the instance.
+        ///     Gets the instance.
         /// </summary>
-        internal static ArchiveFactory Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        internal static ArchiveFactory Instance { get; } = new ArchiveFactory();
 
         /// <summary>Builds the specified cache file.</summary>
         /// <param name="cacheFile">The cache file.</param>
@@ -45,8 +36,10 @@ namespace CacheViewer.Domain.Factories
         /// <exception cref="IOException">An I/O error occurs. </exception>
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
-        /// <exception cref="UnauthorizedAccessException">This operation is not supported on the current platform.-or-  
-        /// specified a directory.-or- The caller does not have the required permission. </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        ///     This operation is not supported on the current platform.-or-
+        ///     specified a directory.-or- The caller does not have the required permission.
+        /// </exception>
         /// <exception cref="FileNotFoundException">The file specified in  was not found. </exception>
         /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
         internal CacheArchive Build(CacheFile cacheFile, bool preCacheData = false, bool loadIndexes = true)
@@ -61,6 +54,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             return cobjects;
                         }
+
                         cobjects = new CObjects();
                         cobjects.LoadCacheHeader();
                         cobjects.CacheOnIndexLoad = preCacheData;
@@ -68,6 +62,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             cobjects.LoadIndexes();
                         }
+
                         return cobjects;
 
                     case CacheFile.Render:
@@ -75,6 +70,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             return render;
                         }
+
                         render = new Render();
                         render.LoadCacheHeader();
                         render.CacheOnIndexLoad = preCacheData;
@@ -82,6 +78,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             render.LoadIndexes();
                         }
+
                         return render;
 
                     case CacheFile.CZone:
@@ -89,6 +86,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             czone = new CZone();
                         }
+
                         czone.LoadCacheHeader();
                         czone.CacheOnIndexLoad = preCacheData;
 
@@ -96,6 +94,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             czone.LoadIndexes();
                         }
+
                         return czone;
 
                     case CacheFile.Mesh:
@@ -103,6 +102,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             return meshArchive;
                         }
+
                         meshArchive = new MeshArchive();
                         meshArchive.LoadCacheHeader();
                         meshArchive.CacheOnIndexLoad = preCacheData;
@@ -110,6 +110,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             meshArchive.LoadIndexes();
                         }
+
                         return meshArchive;
 
                     case CacheFile.Motion:
@@ -117,16 +118,18 @@ namespace CacheViewer.Domain.Factories
                         {
                             motion = new Motion();
                         }
+
                         motion.LoadCacheHeader();
                         motion.CacheOnIndexLoad = preCacheData;
                         if (loadIndexes)
                         {
                             motion.LoadIndexes();
                         }
+
                         return motion;
 
                     case CacheFile.Palette:
-                        Palette palette = new Palette();
+                        var palette = new Palette();
                         palette.LoadCacheHeader();
                         palette.CacheOnIndexLoad = preCacheData;
                         // palette has no indexes.
@@ -137,12 +140,14 @@ namespace CacheViewer.Domain.Factories
                         {
                             skeletonCache = new SkeletonCache();
                         }
+
                         skeletonCache.LoadCacheHeader();
                         skeletonCache.CacheOnIndexLoad = preCacheData;
                         if (loadIndexes)
                         {
                             skeletonCache.LoadIndexes();
                         }
+
                         return skeletonCache;
 
                     case CacheFile.Sound:
@@ -150,6 +155,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             return soundCache;
                         }
+
                         soundCache = new SoundCache();
                         soundCache.LoadCacheHeader();
                         soundCache.CacheOnIndexLoad = preCacheData;
@@ -157,16 +163,18 @@ namespace CacheViewer.Domain.Factories
                         {
                             soundCache.LoadIndexes();
                         }
+
                         return soundCache;
 
                     case CacheFile.TerrainAlpha:
-                        TerrainAlpha terrainAlpha = new TerrainAlpha();
+                        var terrainAlpha = new TerrainAlpha();
                         terrainAlpha.LoadCacheHeader();
                         terrainAlpha.CacheOnIndexLoad = preCacheData;
                         if (loadIndexes)
                         {
                             terrainAlpha.LoadIndexes();
                         }
+
                         return terrainAlpha;
 
                     case CacheFile.Textures:
@@ -174,6 +182,7 @@ namespace CacheViewer.Domain.Factories
                         {
                             return textures;
                         }
+
                         textures = new Textures();
                         textures.LoadCacheHeader();
                         textures.CacheOnIndexLoad = preCacheData;
@@ -181,30 +190,33 @@ namespace CacheViewer.Domain.Factories
                         {
                             textures.LoadIndexes();
                         }
+
                         return textures;
 
                     case CacheFile.Tile:
-                        Tile tile = new Tile();
+                        var tile = new Tile();
                         tile.LoadCacheHeader();
                         tile.CacheOnIndexLoad = preCacheData;
                         if (loadIndexes && tile.CacheHeader.indexCount > 0)
                         {
                             tile.LoadIndexes();
                         }
+
                         return tile;
 
                     case CacheFile.Visual:
-                        Visual visual = new Visual();
+                        var visual = new Visual();
                         visual.LoadCacheHeader();
                         visual.CacheOnIndexLoad = preCacheData;
                         if (loadIndexes)
                         {
                             visual.LoadIndexes();
                         }
+
                         return visual;
 
                     case CacheFile.Dungeon:
-                        Dungeon dungeon = new Dungeon();
+                        var dungeon = new Dungeon();
                         dungeon.LoadCacheHeader();
                         dungeon.CacheOnIndexLoad = preCacheData;
                         // dungeon has no indexes.

@@ -12,6 +12,8 @@ using NLog;
 
 namespace CacheViewer.Controls
 {
+    using System.Linq;
+
     public partial class SoundControl : UserControl
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -39,7 +41,7 @@ namespace CacheViewer.Controls
             {
 
                 var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
-                var cacheIndex = this.soundArchive.CacheIndices.Find(x => x.Identity == id);
+                var cacheIndex = this.soundArchive.CacheIndices.ToArray().First(x => x.Identity == id);
                 byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
                 Sound sound = new Sound(data);
 
@@ -69,7 +71,7 @@ namespace CacheViewer.Controls
         {
             try
             {
-                for (int i = 0; i < this.soundArchive.CacheIndices.Count; i++)
+                for (int i = 0; i < this.soundArchive.CacheIndices.Length; i++)
                 {
                     var cacheIndex = this.soundArchive.CacheIndices[i];
                     byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
@@ -115,7 +117,7 @@ namespace CacheViewer.Controls
         private void PlaySoundFileButtonClick(object sender, EventArgs e)
         {
             var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
-            var cacheIndex = this.soundArchive.CacheIndices.Find(x=>x.Identity == id);
+            var cacheIndex = this.soundArchive.CacheIndices.FirstOrDefault(x=>x.Identity == id);
             byte[] data = this.soundArchive[cacheIndex.Identity].Item1.Array;
             Sound sound = new Sound(data);
 
@@ -182,7 +184,7 @@ namespace CacheViewer.Controls
         {
             await Task.Run(() =>
             {
-                for (int i = 0; i < this.soundArchive.CacheIndices.Count; i++)
+                for (int i = 0; i < this.soundArchive.CacheIndices.Length; i++)
                 {
                     var cacheIndex = this.soundArchive.CacheIndices[i];
 

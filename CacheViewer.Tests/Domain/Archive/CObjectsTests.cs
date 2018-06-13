@@ -30,7 +30,7 @@ namespace CacheViewer.Tests.Domain.Archive
         {
 
             var expected = this.cobjects.CacheHeader.indexCount;
-            var actual = this.cobjects.CacheIndices.Count;
+            var actual = this.cobjects.CacheIndices.Length;
             Assert.AreEqual(expected, actual);
         }
 

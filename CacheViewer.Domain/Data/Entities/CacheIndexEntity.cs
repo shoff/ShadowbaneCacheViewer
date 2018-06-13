@@ -9,9 +9,9 @@
         public int CacheIndexEntityId { get; set; }
 
         public int Offset { get; set; }
-        
+
         public int UnCompressedSize { get; set; }
-        
+
         public int CompressedSize { get; set; }
 
         public CacheFile File { get; set; }

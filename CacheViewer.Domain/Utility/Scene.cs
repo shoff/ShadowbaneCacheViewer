@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using CacheViewer.Domain.Models;
-
-namespace CacheViewer.Domain.Utility
+﻿namespace CacheViewer.Domain.Utility
 {
+    using System.Collections.Generic;
+    using Models;
+
     /// <summary>
     /// </summary>
     public class Scene
@@ -30,7 +30,7 @@ namespace CacheViewer.Domain.Utility
         /// <value>
         ///     The instance.
         /// </value>
-        public static Scene Instance { get { return instance; } }
+        public static Scene Instance => instance;
 
         /// <summary>
         ///     Adds the render object.
@@ -66,7 +66,7 @@ namespace CacheViewer.Domain.Utility
         {
             lock (this.renderObjects)
             {
-                foreach (Renderable renderable in this.renderObjects)
+                foreach (var renderable in this.renderObjects)
                 {
                     renderable.Render();
                 }

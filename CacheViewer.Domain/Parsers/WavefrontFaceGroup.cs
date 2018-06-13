@@ -1,17 +1,17 @@
-using System.Collections.Generic;
-
 namespace CacheViewer.Domain.Parsers
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Struct representing an Wavefront OBJ face group.
+    ///     Struct representing an Wavefront OBJ face group.
     /// </summary>
     /// <remarks>
-    /// Groups contain faces and subdivide a geometry into smaller objects.
+    ///     Groups contain faces and subdivide a geometry into smaller objects.
     /// </remarks>
     public class WavefrontFaceGroup
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WavefrontFaceGroup"/> class.
+        ///     Initializes a new instance of the <see cref="WavefrontFaceGroup" /> class.
         /// </summary>
         public WavefrontFaceGroup()
         {
@@ -20,26 +20,26 @@ namespace CacheViewer.Domain.Parsers
 
         // Name of the sub mesh
         /// <summary>
-        /// Gets or sets the name.
+        ///     Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The name.
+        ///     The name.
         /// </value>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the faces.
+        ///     Gets or sets the faces.
         /// </summary>
         /// <value>
-        /// The faces.
+        ///     The faces.
         /// </value>
         public List<WavefrontFace> Faces { get; set; }
 
         /// <summary>
-        /// Gets the triangle count.
+        ///     Gets the triangle count.
         /// </summary>
         /// <value>
-        /// The triangle count.
+        ///     The triangle count.
         /// </value>
         public int TriangleCount
         {

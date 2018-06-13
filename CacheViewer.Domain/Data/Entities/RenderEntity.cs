@@ -1,12 +1,10 @@
-﻿
-
-namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Domain.Data.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("RenderEntities")]   
+    [Table("RenderEntities")]
     public class RenderEntity
     {
         public RenderEntity()
@@ -18,13 +16,13 @@ namespace CacheViewer.Domain.Data.Entities
         public int RenderEntityId { get; set; }
 
         public int CacheIndexIdentity { get; set; }
-        
+
         public int ByteCount { get; set; }
 
         public int Order { get; set; }
 
         public bool HasMesh { get; set; }
-        
+
         public int MeshId { get; set; }
 
         public string JointName { get; set; }
@@ -36,7 +34,7 @@ namespace CacheViewer.Domain.Data.Entities
         public string Position { get; set; }
 
         public int RenderCount { get; set; }
-        
+
         public int CompressedSize { get; set; }
 
         public int UncompressedSize { get; set; }

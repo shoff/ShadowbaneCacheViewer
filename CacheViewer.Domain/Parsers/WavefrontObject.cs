@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using SlimDX;
-
 namespace CacheViewer.Domain.Parsers
 {
+    using System.Collections.Generic;
+    using SlimDX;
+
     /// <summary>
-    /// Class representing a Wavefront OBJ 3D mesh.
+    ///     Class representing a Wavefront OBJ 3D mesh.
     /// </summary>
     public class WavefrontObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WavefrontObject"/> class.
+        ///     Initializes a new instance of the <see cref="WavefrontObject" /> class.
         /// </summary>
         public WavefrontObject()
         {
@@ -18,37 +18,37 @@ namespace CacheViewer.Domain.Parsers
             this.Texcoords = new List<Vector2>();
             this.Normals = new List<Vector3>();
         }
-        
-        /// <summary>
-        /// Gets the positions.
-        /// </summary>
-        /// <value>
-        /// The positions.
-        /// </value>
-        public List<Vector3> Positions { get; private set; }
 
         /// <summary>
-        /// Gets the texcoords.
+        ///     Gets the positions.
         /// </summary>
         /// <value>
-        /// The texcoords.
+        ///     The positions.
         /// </value>
-        public List<Vector2> Texcoords { get; private set; }
+        public List<Vector3> Positions { get; }
 
         /// <summary>
-        /// Gets the normals.
+        ///     Gets the texcoords.
         /// </summary>
         /// <value>
-        /// The normals.
+        ///     The texcoords.
         /// </value>
-        public List<Vector3> Normals { get; private set; }
+        public List<Vector2> Texcoords { get; }
 
         /// <summary>
-        /// Gets the groups.
+        ///     Gets the normals.
         /// </summary>
         /// <value>
-        /// The groups.
+        ///     The normals.
         /// </value>
-        public List<WavefrontFaceGroup> Groups { get; private set; }
+        public List<Vector3> Normals { get; }
+
+        /// <summary>
+        ///     Gets the groups.
+        /// </summary>
+        /// <value>
+        ///     The groups.
+        /// </value>
+        public List<WavefrontFaceGroup> Groups { get; }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using ArraySegments;
-
-namespace CacheViewer.Domain.Extensions
+﻿namespace CacheViewer.Domain.Extensions
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using Nito.ArraySegments;
+
     public static class ArraySegmentExtensions
     {
         /// <summary>
-        /// Creates the binary reader ut F32.
+        ///     Creates the binary reader ut F32.
         /// </summary>
         /// <param name="segment">The segment.</param>
         /// <returns></returns>
@@ -16,6 +16,5 @@ namespace CacheViewer.Domain.Extensions
         {
             return new BinaryReader(segment.CreateStream(false), Encoding.UTF32);
         }
-
     }
 }

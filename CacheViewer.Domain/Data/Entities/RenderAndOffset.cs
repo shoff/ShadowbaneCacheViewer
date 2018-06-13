@@ -11,6 +11,6 @@ namespace CacheViewer.Domain.Data.Entities
 
         public long Offset { get; set; }
 
-        public int  CacheIndexIdentity { get; set; }
+        public int CacheIndexIdentity { get; set; }
     }
 }

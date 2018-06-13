@@ -22,6 +22,6 @@
         Deed = 15,
         Warrant = 16,
         Unknown = 17,
-        Particle = 19,
+        Particle = 19
     }
 }

@@ -3,9 +3,9 @@
     using System.Collections.Generic;
 
     /// <summary>
-    ///   Pools data buffers to prevent both frequent allocation and memory fragmentation
-    ///   due to pinning in high volume scenarios.
-    ///   See https://blogs.msdn.com/yunjin/archive/2004/01/27/63642.aspx
+    ///     Pools data buffers to prevent both frequent allocation and memory fragmentation
+    ///     due to pinning in high volume scenarios.
+    ///     See https://blogs.msdn.com/yunjin/archive/2004/01/27/63642.aspx
     /// </summary>
     public class BufferPool
     {
@@ -14,29 +14,26 @@
         private readonly Queue<byte[]> freeBuffers;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BufferPool"/> class.
+        ///     Initializes a new instance of the <see cref="BufferPool" /> class.
         /// </summary>
         private BufferPool()
         {
             this.freeBuffers = new Queue<byte[]>(InitialPoolSize);
 
-            for (int i = 0; i < InitialPoolSize; i++)
+            for (var i = 0; i < InitialPoolSize; i++)
             {
                 this.freeBuffers.Enqueue(new byte[BufferSize]);
             }
         }
 
         /// <summary>
-        /// Gets the instance.
+        ///     Gets the instance.
         /// </summary>
         /// <value>The instance.</value>
-        public static BufferPool Instance
-        {
-            get { return new BufferPool(); }
-        }
+        public static BufferPool Instance => new BufferPool();
 
         /// <summary>
-        /// Checks the out.
+        ///     Checks the out.
         /// </summary>
         /// <param name="size">The size.</param>
         /// <returns></returns>
@@ -57,7 +54,7 @@
         }
 
         /// <summary>
-        /// Check-ins the specified buffer.
+        ///     Check-ins the specified buffer.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         public void CheckIn(byte[] buffer)

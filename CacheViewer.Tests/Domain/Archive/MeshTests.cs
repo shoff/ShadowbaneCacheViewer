@@ -28,7 +28,7 @@ namespace CacheViewer.Tests.Domain.Archive
         public async void LoadIndexes_Should_Load_The_Corrent_Number()
         {
             await this.meshArchive.LoadIndexesAsync();
-            Assert.AreEqual(this.meshArchive.CacheHeader.indexCount, this.meshArchive.CacheIndices.Count);
+            Assert.AreEqual(this.meshArchive.CacheHeader.indexCount, this.meshArchive.CacheIndices.Length);
         }
 
         [Test]

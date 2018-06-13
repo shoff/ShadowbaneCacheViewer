@@ -1,30 +1,25 @@
-using System;
-
 namespace CacheViewer.Domain.Archive
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class)]
     public class CacheFileAttribute : Attribute
     {
-        private readonly CacheFile cacheFile;
-        
         /// <summary>
-        /// Initializes a new instance of the <see cref="CacheFileAttribute"/> class.
+        ///     Initializes a new instance of the <see cref="CacheFileAttribute" /> class.
         /// </summary>
         /// <param name="cacheFile">The cache file.</param>
         public CacheFileAttribute(CacheFile cacheFile)
         {
-            this.cacheFile = cacheFile;
+            this.TypeOfCacheFile = cacheFile;
         }
 
         /// <summary>
-        /// Gets the type of cache file.
+        ///     Gets the type of cache file.
         /// </summary>
         /// <value>
-        /// The type of cache file.
+        ///     The type of cache file.
         /// </value>
-        public CacheFile TypeOfCacheFile
-        {
-            get { return this.cacheFile; }
-        }
+        public CacheFile TypeOfCacheFile { get; }
     }
 }

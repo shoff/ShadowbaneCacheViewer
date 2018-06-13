@@ -5,15 +5,14 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using System.IO;
-    using ArraySegments;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Factories;
+    using Archive;
+    using Factories;
+    using Nito.ArraySegments;
 
     public class Texture
     {
         /// <summary>
-        /// Creates the texture.
+        ///     Creates the texture.
         /// </summary>
         /// <param name="data">The buffer.</param>
         /// <param name="id">The id.</param>
@@ -23,7 +22,7 @@
         {
             this.TextureId = id;
 
-            using (BinaryReader reader = data.CreateBinaryReader())
+            using (var reader = data.CreateBinaryReader())
             {
                 this.Width = reader.ReadInt32();
                 this.Height = reader.ReadInt32();
@@ -81,7 +80,7 @@
         //}
 
         /// <summary>
-        ///   Gets or sets the texture id.
+        ///     Gets or sets the texture id.
         /// </summary>
         /// <value>The texture id.</value>
         [Key]
@@ -89,40 +88,40 @@
         public int TextureId { get; set; }
 
         /// <summary>
-        ///   Gets or sets the id.
+        ///     Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
         [NotMapped]
         public CacheIndex CacheIndexIdentity { get; set; }
 
         /// <summary>
-        ///   Gets or sets the width.
+        ///     Gets or sets the width.
         /// </summary>
         /// <value>The width.</value>
         public int Width { get; set; }
 
         /// <summary>
-        ///   Gets or sets the height.
+        ///     Gets or sets the height.
         /// </summary>
         /// <value>The height.</value>
         public int Height { get; set; }
 
         /// <summary>
-        /// Gets the depth.
+        ///     Gets the depth.
         /// </summary>
         /// <value>
-        /// The depth.
+        ///     The depth.
         /// </value>
         public int Depth { get; set; }
 
         /// <summary>
-        /// Textures the map.
+        ///     Textures the map.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         /// <returns></returns>
         public Bitmap TextureMap(ArraySegment<byte> buffer)
         {
-            using (BinaryReader reader = buffer.CreateBinaryReader())
+            using (var reader = buffer.CreateBinaryReader())
             {
                 reader.BaseStream.Position += 26;
                 PixelFormat format;
@@ -143,9 +142,9 @@
                 switch (format)
                 {
                     case PixelFormat.Format24bppRgb:
-                        for (int y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap.Height; y++)
                         {
-                            for (int x = 0; x < myBitmap.Width; x++)
+                            for (var x = 0; x < myBitmap.Width; x++)
                             {
                                 // pd.blue = reader.ReadByte();
                                 // pd.green = reader.ReadByte();
@@ -157,11 +156,12 @@
                                 myBitmap.SetPixel(x, y, clr);
                             }
                         }
+
                         break;
                     case PixelFormat.Format32bppArgb:
-                        for (int y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap.Height; y++)
                         {
-                            for (int x = 0; x < myBitmap.Width; x++)
+                            for (var x = 0; x < myBitmap.Width; x++)
                             {
                                 // pd.alpha = reader.ReadByte();
                                 pd.red = reader.ReadByte();
@@ -173,15 +173,17 @@
                                 myBitmap.SetPixel(x, y, clr);
                             }
                         }
+
                         break;
                 }
+
                 myBitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
                 return myBitmap;
             }
         }
 
         /// <summary>
-        ///   Binds this instance.
+        ///     Binds this instance.
         /// </summary>
         public void Bind()
         {
@@ -189,7 +191,7 @@
         }
 
         /// <summary>
-        ///   Un-Binds the texture.
+        ///     Un-Binds the texture.
         /// </summary>
         public void UnBind()
         {

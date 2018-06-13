@@ -4,11 +4,11 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Exceptions;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Parsers;
+    using Archive;
+    using Exceptions;
+    using Extensions;
+    using Models;
+    using Parsers;
 
     public class MeshFactory : IModelFactory
     {
@@ -16,38 +16,20 @@
 
         private MeshFactory()
         {
-            meshArchive = (MeshArchive)ArchiveFactory.Instance.Build(CacheFile.Mesh);
+            meshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
         }
 
         /// <summary>Gets the instance.</summary>
-        public static MeshFactory Instance
-        {
-            get { return new MeshFactory(); }
-        }
+        public static MeshFactory Instance => new MeshFactory();
 
         /// <summary>Gets the indexes.</summary>
-        public CacheIndex[] Indexes
-        {
-            get
-            {
-                return meshArchive.CacheIndices.ToArray();
-            }
-        }
+        public CacheIndex[] Indexes => meshArchive.CacheIndices.ToArray();
 
         /// <summary>Gets the identity range.</summary>
-        public Tuple<int, int> IdentityRange
-        {
-            get
-            {
-                return new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId);
-            }
-        }
+        public Tuple<int, int> IdentityRange => new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId);
 
         /// <summary>Gets the identity array.</summary>
-        public int[] IdentityArray
-        {
-            get { return meshArchive.IdentityArray; }
-        }
+        public int[] IdentityArray => meshArchive.IdentityArray;
 
         /// <summary>Creates the specified buffer.</summary>
         /// <param name="cacheIndex">Index of the cache.</param>
@@ -58,12 +40,14 @@
         /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(CacheIndex cacheIndex)
         {
-            Mesh mesh = new Mesh { CacheIndex = cacheIndex };
+            var mesh = new Mesh {CacheIndex = cacheIndex};
 
-            CacheAsset cacheAsset = meshArchive[cacheIndex.Identity];
-            using (BinaryReader reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
+            var cacheAsset = meshArchive[cacheIndex.Identity];
+            using (var reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {
-                mesh.Header = new MeshHeader { null1 = reader.ReadUInt32(), // 4
+                mesh.Header = new MeshHeader
+                {
+                    null1 = reader.ReadUInt32(), // 4
                     unixUpdatedTimeStamp = reader.ReadUInt32(), // 8
                     unk3 = reader.ReadUInt32(), // 12
                     unixCreatedTimeStamp = reader.ReadUInt32(), // 16
@@ -80,7 +64,7 @@
 
                 //mesh.Vertices = new Vector3[mesh.VertexCount];
 
-                for (int i = 0; i < mesh.VertexCount; i++)
+                for (var i = 0; i < mesh.VertexCount; i++)
                 {
                     mesh.Vertices.Add(reader.ReadToVector3());
                 }
@@ -90,7 +74,7 @@
 
                 //mesh.Normals = new Vector3[mesh.NormalsCount];
 
-                for (int i = 0; i < mesh.NormalsCount; i++)
+                for (var i = 0; i < mesh.NormalsCount; i++)
                 {
                     mesh.Normals.Add(reader.ReadToVector3());
                 }
@@ -98,7 +82,7 @@
                 // should be the same as the vertices, normals count.
                 mesh.TextureCoordinatesCount = reader.ReadUInt32();
 
-                for (int i = 0; i < mesh.TextureCoordinatesCount; i++)
+                for (var i = 0; i < mesh.TextureCoordinatesCount; i++)
                 {
                     mesh.TextureVectors.Add(reader.ReadToVector2());
                 }
@@ -109,7 +93,7 @@
                 mesh.NumberOfIndices = reader.ReadUInt32();
 
                 // if they aren't dividable by 3 then something is borked.
-                if ((mesh.NumberOfIndices > 0) && (mesh.NumberOfIndices % 3 == 0))
+                if (mesh.NumberOfIndices > 0 && mesh.NumberOfIndices % 3 == 0)
                 {
                     var dataLength = mesh.NumberOfIndices * 2;
 
@@ -118,7 +102,7 @@
                         throw new OutOfDataException();
                     }
 
-                    for (int i = 0; i < mesh.NumberOfIndices; i += 3)
+                    for (var i = 0; i < mesh.NumberOfIndices; i += 3)
                     {
                         int position = reader.ReadUInt16();
                         int textureCoordinate = reader.ReadUInt16();
@@ -141,11 +125,12 @@
         /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(int indexId)
         {
-            CacheIndex cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
+            var cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
             if (cacheIndex.Identity > 0)
             {
-                return Create(cacheIndex);
+                return this.Create(cacheIndex);
             }
+
             throw new IndexNotFoundException(this.GetType(), indexId);
         }
     }

@@ -5,7 +5,7 @@
     public abstract class Renderable
     {
         /// <summary>
-        /// Renders this instance.
+        ///     Renders this instance.
         /// </summary>
         public abstract void Render();
     }

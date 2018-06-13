@@ -10,7 +10,7 @@
         private DirectInput directInput;
 
         /// <summary>
-        /// The constructor.
+        ///     The constructor.
         /// </summary>
         public UserInput()
         {
@@ -25,39 +25,37 @@
         }
 
         /// <summary>
-        /// Returns a boolean value indicating whether or not this object has been disposed.
+        ///     Returns a boolean value indicating whether or not this object has been disposed.
         /// </summary>
-        public bool IsDisposed {
-            get { return false; }
-        }
+        public bool IsDisposed => false;
 
         /// <summary>
-        /// Gets the keyboard object.
+        ///     Gets the keyboard object.
         /// </summary>
         public Keyboard Keyboard { get; private set; }
 
         /// <summary>
-        /// Gets the keyboard state for the current frame.
+        ///     Gets the keyboard state for the current frame.
         /// </summary>
         public KeyboardState KeyboardStateCurrent { get; private set; }
 
         /// <summary>
-        /// Gets the keyboard state from the previous frame.
+        ///     Gets the keyboard state from the previous frame.
         /// </summary>
         public KeyboardState KeyboardStatePrevious { get; private set; }
 
         /// <summary>
-        ///  Gets the mouse object.
+        ///     Gets the mouse object.
         /// </summary>
         public Mouse Mouse { get; private set; }
 
         /// <summary>
-        /// Gets the mouse state for the current frame.
+        ///     Gets the mouse state for the current frame.
         /// </summary>
         public MouseState MouseStateCurrent { get; private set; }
 
         /// <summary>
-        /// Gets the mouse state from the previous frame.
+        ///     Gets the mouse state from the previous frame.
         /// </summary>
         public MouseState MouseStatePrevious { get; private set; }
 
@@ -75,7 +73,7 @@
         }
 
         /// <summary>
-        /// This method initializes DirectInput.
+        ///     This method initializes DirectInput.
         /// </summary>
         private void InitDirectInput()
         {
@@ -100,8 +98,8 @@
         }
 
         /// <summary>
-        /// This function updates the state variables.  It should be called from the game's UpdateScene() function before
-        /// it does any input processing.  
+        ///     This function updates the state variables.  It should be called from the game's UpdateScene() function before
+        ///     it does any input processing.
         /// </summary>
         public void Update()
         {
@@ -124,10 +122,12 @@
             {
                 Debug.WriteLine("DIRECTINPUT: KEY SPACE IS PRESSED!");
             }
+
             if (this.IsKeyHeldDown(Key.Space))
             {
                 Debug.WriteLine("DIRECTINPUT: KEY SPACE IS HELD DOWN!");
             }
+
             if (this.IsKeyPressed(Key.Z))
             {
                 Debug.WriteLine("DIRECTINPUT: KEY Z IS PRESSED!");
@@ -142,10 +142,12 @@
             {
                 Debug.WriteLine("DIRECTINPUT: LEFT MOUSE BUTTON IS PRESSED!");
             }
+
             if (this.IsMouseButtonPressed(1))
             {
                 Debug.WriteLine("DIRECTINPUT: RIGHT MOUSE BUTTON IS PRESSED!");
             }
+
             if (this.IsMouseButtonPressed(2))
             {
                 Debug.WriteLine("DIRECTINPUT: MIDDLE MOUSE BUTTON IS PRESSED!");
@@ -153,7 +155,7 @@
         }
 
         /// <summary>
-        /// This method checks if the specified key is pressed.
+        ///     This method checks if the specified key is pressed.
         /// </summary>
         /// <param name="key">The key to check the state of.</param>
         /// <returns>True if the key is pressed or false otherwise.</returns>
@@ -163,17 +165,18 @@
         }
 
         /// <summary>
-        /// This method checks if the specified key is held down (meaning it has been held down for 2 or more consecutive frames).
+        ///     This method checks if the specified key is held down (meaning it has been held down for 2 or more consecutive
+        ///     frames).
         /// </summary>
         /// <param name="key">The key to check the state of.</param>
         /// <returns>True if the key is being held down or false otherwise.</returns>
         public bool IsKeyHeldDown(Key key)
         {
-            return (this.KeyboardStateCurrent.IsPressed(key) && this.KeyboardStatePrevious.IsPressed(key));
+            return this.KeyboardStateCurrent.IsPressed(key) && this.KeyboardStatePrevious.IsPressed(key);
         }
 
         /// <summary>
-        /// This method checks if the specified mouse button is pressed.
+        ///     This method checks if the specified mouse button is pressed.
         /// </summary>
         /// <param name="button">The button to check the state of. 0 = left button, 1 = right button, 2 = middle button</param>
         /// <returns>True if the button is pressed or false otherwise.</returns>
@@ -183,7 +186,7 @@
         }
 
         /// <summary>
-        /// This method checks if the specified mouse button was pressed during the previous frame.
+        ///     This method checks if the specified mouse button was pressed during the previous frame.
         /// </summary>
         /// <param name="button">The button to check the state of. 0 = left button, 1 = right button, 2 = middle button</param>
         /// <returns>True if the button was pressed during the previous frame or false otherwise.</returns>
@@ -193,7 +196,7 @@
         }
 
         /// <summary>
-        /// This method checks if the specified mouse button is pressed.
+        ///     This method checks if the specified mouse button is pressed.
         /// </summary>
         /// <param name="button">The button to check the state of. 0 = left button, 1 = right button, 2 = middle button.</param>
         /// <returns>True if the button is released or false otherwise.</returns>
@@ -203,7 +206,7 @@
         }
 
         /// <summary>
-        /// This method checks if the specified mouse button was released (not pressed) during the previous frame.
+        ///     This method checks if the specified mouse button was released (not pressed) during the previous frame.
         /// </summary>
         /// <param name="button">The button to check the state of. 0 = left button, 1 = right button, 2 = middle button</param>
         /// <returns>True if the button was released (not pressed) during the previous frame or false otherwise.</returns>
@@ -213,30 +216,33 @@
         }
 
         /// <summary>
-        /// This method checks if the specified mouse button is being held down (meaning it has been held down for 2 or more consecutive frames).
+        ///     This method checks if the specified mouse button is being held down (meaning it has been held down for 2 or more
+        ///     consecutive frames).
         /// </summary>
         /// <param name="button">The button to check the state of. 0 = left button, 1 = right button, 2 = middle button</param>
         /// <returns>True if the button is held down or false otherwise.</returns>
         public bool IsMouseButtonHeldDown(int button)
         {
-            return (this.MouseStateCurrent.IsPressed(button) && this.MouseStatePrevious.IsPressed(button));
+            return this.MouseStateCurrent.IsPressed(button) && this.MouseStatePrevious.IsPressed(button);
         }
 
         /// <summary>
-        /// This method checks if the mouse has moved since the previous frame.
+        ///     This method checks if the mouse has moved since the previous frame.
         /// </summary>
         /// <returns>True if the mouse has moved since the previous frame, or false otherwise.</returns>
         public bool MouseHasMoved()
         {
-            if ((this.MouseStateCurrent.X != this.MouseStatePrevious.X) || (this.MouseStateCurrent.Y != this.MouseStatePrevious.Y))
+            if (this.MouseStateCurrent.X != this.MouseStatePrevious.X ||
+                this.MouseStateCurrent.Y != this.MouseStatePrevious.Y)
             {
                 return true;
             }
+
             return false;
         }
 
         /// <summary>
-        /// This method gets the mouse position for the current frame.
+        ///     This method gets the mouse position for the current frame.
         /// </summary>
         /// <returns>A System.Drawing.Point object containing the current mouse position.</returns>
         public Point MousePosition()
@@ -245,7 +251,7 @@
         }
 
         /// <summary>
-        /// This method gets the mouse position for the previous frame.
+        ///     This method gets the mouse position for the previous frame.
         /// </summary>
         /// <returns>A System.Drawing.Point object containing the mouse's position during the previous frame.</returns>
         public Point LastMousePosition()
@@ -254,9 +260,9 @@
         }
 
         /// <summary>
-        /// This method gets the scrollwheel value in most cases.
-        /// Note that this value is a delta, or in other words it is the amount the scroll wheel has been moved
-        /// since the last frame.
+        ///     This method gets the scrollwheel value in most cases.
+        ///     Note that this value is a delta, or in other words it is the amount the scroll wheel has been moved
+        ///     since the last frame.
         /// </summary>
         /// <returns>The amount the scroll wheel has moved.  This can be positive or negative depending on which way it has moved.</returns>
         public int MouseWheelMovement()
@@ -289,10 +295,12 @@
                     {
                         this.directInput.Dispose();
                     }
+
                     if (this.Keyboard != null)
                     {
                         this.Keyboard.Dispose();
                     }
+
                     if (this.Mouse != null)
                     {
                         this.Mouse.Dispose();

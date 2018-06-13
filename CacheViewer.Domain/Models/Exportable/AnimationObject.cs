@@ -1,12 +1,12 @@
-﻿using System;
-using CacheViewer.Domain.Archive;
-
-namespace CacheViewer.Domain.Models.Exportable
+﻿namespace CacheViewer.Domain.Models.Exportable
 {
+    using System;
+    using Archive;
+
     public abstract class AnimationObject : ModelObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnimationObject"/> class.
+        ///     Initializes a new instance of the <see cref="AnimationObject" /> class.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="flag">The flag.</param>
@@ -14,16 +14,17 @@ namespace CacheViewer.Domain.Models.Exportable
         /// <param name="offset">The offset.</param>
         /// <param name="data">The data.</param>
         /// <param name="innerOffset">The inner offset.</param>
-        protected AnimationObject(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data, int innerOffset)
+        protected AnimationObject(CacheIndex cacheIndex, ObjectType flag, string name, int offset,
+            ArraySegment<byte> data, int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
         }
 
         /// <summary>
-        /// Gets or sets the skeleton.
+        ///     Gets or sets the skeleton.
         /// </summary>
         /// <value>
-        /// The skeleton.
+        ///     The skeleton.
         /// </value>
         public ICacheObject Skeleton { get; set; }
     }
