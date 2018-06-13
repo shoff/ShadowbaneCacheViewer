@@ -22,7 +22,7 @@
         /// </summary>
         private RenderFactory()
         {
-            this.renderArchive = (Render) ArchiveFactory.Instance.Build(CacheFile.Render);
+            this.renderArchive = (Render)ArchiveFactory.Instance.Build(CacheFile.Render);
             this.meshFactory = MeshFactory.Instance;
             this.AppendModel = true;
         }
@@ -123,6 +123,13 @@
         {
             var asset = this.renderArchive[identity];
 
+            // should duplicate identity render indexes be allowed?
+            var indexesCount = this.Indexes.Count(x => x.Identity == identity);
+            if (indexesCount > 1)
+            {
+                logger?.Warn($"Multiple ({indexesCount}) Render Cache Index items have the identity {identity}");
+            }
+            
             var renderInfo = new RenderInformation
             {
                 CacheIndex = this.Indexes.First(x => x.Identity == identity),
@@ -153,6 +160,7 @@
              */
 
             // this really blows.
+            // TODO allow for number 3?
             var arraySegment = order == 0 ? asset.Item1 : asset.Item2;
 
             using (var reader = arraySegment.CreateBinaryReaderUtf32())
@@ -199,6 +207,7 @@
         }
 
         /// <summary>
+        /// we re-use the binary reader we've already opened.
         /// </summary>
         /// <param name="reader">
         /// </param>
@@ -214,12 +223,19 @@
             // TODO validate all meshIds
             renderInfo.MeshId = reader.ReadInt32();
 
-            if (renderInfo.MeshId == 0)
+            while (renderInfo.MeshId == 0)
             {
-                renderInfo.Notes =
-                    $"{renderInfo.CacheIndex.Identity} claimed to have a mesh, however the meshId read was 0.";
+                renderInfo.Notes = $"{renderInfo.CacheIndex.Identity} claimed to have a mesh, however the meshId read was 0.";
                 logger.Warn(renderInfo.Notes);
-                return false;
+
+                // TODO this could blow through the index
+                renderInfo.MeshId = reader.ReadInt32();
+                if (renderInfo.MeshId == 1)
+                {
+                    // experiment see if the next byte is the same
+                    var x = reader.ReadInt32();
+                    logger?.Fatal($"MeshId was 0 then 1 and on third read is {x} for {renderInfo.CacheIndex.Identity}");
+                }
             }
 
             try

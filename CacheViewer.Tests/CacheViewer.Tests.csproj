@@ -148,6 +148,9 @@
     <None Include="CacheFiles\Meshes\mesh_405304.cache" />
     <None Include="CacheFiles\Meshes\mesh_407303.cache" />
     <None Include="CacheFiles\Meshes\mesh_82033.cache" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="WavefrontFiles\Mesh_110168.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
