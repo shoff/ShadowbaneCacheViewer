@@ -36,7 +36,7 @@
         private readonly MeshFactory meshFactory;
         private readonly TreeNode mobileNode = new TreeNode("Mobiles");
         private readonly TreeNode particleNode = new TreeNode("Particles");
-        private readonly RenderFactory renderFactory;
+        private readonly RenderInformationFactory renderInformationFactory;
         private readonly TreeNode simpleNode = new TreeNode("Simple");
         private readonly Stopwatch stopwatch;
         private readonly TreeNode structureNode = new TreeNode("Structures");
@@ -59,7 +59,7 @@
                 //this.AcceptButton = this.CacheSaveButton;
                 this.textureFactory = TextureFactory.Instance;
                 this.cacheObjectsCache = CacheObjectsCache.Instance;
-                this.renderFactory = RenderFactory.Instance;
+                this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshExporter = MeshOnlyObjExporter.Instance;
                 this.meshFactory = MeshFactory.Instance;
                 this.columnSorter = new ListViewColumnSorter();
@@ -311,16 +311,16 @@
                             // we filter on 6 because it seems to be a common number that continues to come up for 
                             // lots of mobiles and other cache items.
                             if (id != 6 && id != 100 &&
-                                id.TestRange(this.renderFactory.IdentityRange.Item1, this.renderFactory.IdentityRange.Item2))
+                                id.TestRange(this.renderInformationFactory.IdentityRange.Item1, this.renderInformationFactory.IdentityRange.Item2))
                             {
                                 // simple query to look up the id
-                                var found = this.renderFactory.IdentityArray.Any(x => x == id);
+                                var found = this.renderInformationFactory.IdentityArray.Any(x => x == id);
 
                                 if (found)
                                 {
                                     // ok here we need to actually parse this renderId to make sure it has a mesh associated to it.
                                     // this pulls the raw, uncompressed cacheObject from the renderArchive
-                                    var renderAsset = this.renderFactory.GetById(id);
+                                    var renderAsset = this.renderInformationFactory.GetById(id);
 
                                     // this is the mess here
                                     bool hasmesh = this.FindModelId(renderAsset.Item1).Result;
@@ -453,7 +453,7 @@
             using (DataContext context = new DataContext())
             {
                 var entities = context.Set<CacheIndexEntity>();
-                foreach (var cache in this.renderFactory.Indexes)
+                foreach (var cache in this.renderInformationFactory.Indexes)
                 {
                     entities.Add(new CacheIndexEntity
                     {

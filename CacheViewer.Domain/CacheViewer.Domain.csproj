@@ -85,6 +85,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>IDE0003</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -177,7 +178,7 @@
     <Compile Include="Factories\CacheObjectsCache.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\PixelData.cs" />
-    <Compile Include="Factories\RenderFactory.cs" />
+    <Compile Include="Factories\RenderInformationFactory.cs" />
     <Compile Include="Factories\TextureFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Bone.cs" />
@@ -237,6 +238,9 @@
     </PackageReference>
     <PackageReference Include="NAudio">
       <Version>1.8.4</Version>
+    </PackageReference>
+    <PackageReference Include="newtonsoft.json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Nito.ArraySegments">
       <Version>2.0.3</Version>

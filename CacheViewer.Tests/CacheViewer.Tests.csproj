@@ -74,7 +74,7 @@
     <Compile Include="Domain\Factories\ArchiveFactoryTests.cs" />
     <Compile Include="Domain\Factories\CacheObjectFactoryTests.cs" />
     <Compile Include="Domain\Factories\ModelFactoryTests.cs" />
-    <Compile Include="Domain\Factories\RenderFactoryTests.cs" />
+    <Compile Include="Domain\Factories\RenderInformationFactoryTests.cs" />
     <Compile Include="Domain\Models\InteractiveTests.cs" />
     <Compile Include="Domain\Models\SimpleTests.cs" />
     <Compile Include="Domain\Parsers\WavefrontReaderTests.cs" />
@@ -266,6 +266,9 @@
     </PackageReference>
     <PackageReference Include="Moq">
       <Version>4.8.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Nito.ArraySegments">
       <Version>2.0.3</Version>

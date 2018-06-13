@@ -18,7 +18,7 @@ namespace CacheViewer
     {
         private readonly DataContext dataContext;
         private readonly CacheObjectsCache cacheObjectsCache;// = CacheObjectFactory.Instance;
-        private readonly RenderFactory renderFactory;// = RenderFactory.Instance;
+        private readonly RenderInformationFactory renderInformationFactory;// = RenderFactory.Instance;
         private readonly MeshFactory meshFactory;// = MeshFactory.Instance;
         private readonly TextureFactory textureFactory;// = TextureFactory.Instance;
         private readonly Process currentProc = Process.GetCurrentProcess();
@@ -34,11 +34,11 @@ namespace CacheViewer
                 this.dataContext.ValidateOnSave = false;
 
                 this.cacheObjectsCache = CacheObjectsCache.Instance;
-                this.renderFactory = RenderFactory.Instance;
+                this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshFactory = MeshFactory.Instance;
                 this.textureFactory = TextureFactory.Instance;
 
-                this.renderFactory.AppendModel = false;
+                this.renderInformationFactory.AppendModel = false;
             }
 
             this.InitializeComponent();
@@ -55,7 +55,7 @@ namespace CacheViewer
             int i = 0;
             int lastIdentity = 0;
 
-            foreach (var cacheIndex in this.renderFactory.Indexes)
+            foreach (var cacheIndex in this.renderInformationFactory.Indexes)
             {
                 count++;
                 i++;
@@ -65,7 +65,7 @@ namespace CacheViewer
                     continue;
                 }
 
-                RenderInformation ri = this.renderFactory.Create(cacheIndex);
+                RenderInformation ri = this.renderInformationFactory.Create(cacheIndex);
                 var re = BuildRenderEntity(ri);
 
                 this.dataContext.RenderEntities.Add(re);
@@ -234,7 +234,7 @@ namespace CacheViewer
         {
             return await Task.Run(() =>
             {
-                var renderId = this.renderFactory.Indexes.FirstOrDefault(x => x.Identity == id);
+                var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
                 if (renderId.Identity > 0)
                 {
                     return true;

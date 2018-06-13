@@ -39,11 +39,11 @@
                     // Only test the int if it falls within a range determined by the item itself.
                     // The identityRange is just the lowest id in the cache and the highest id, if it 
                     // falls outside of those bounds, it's obviously wrong.
-                    if (id.TestRange(RenderFactory.Instance.IdentityRange.Item1,
-                        RenderFactory.Instance.IdentityRange.Item2))
+                    if (id.TestRange(RenderInformationFactory.Instance.IdentityRange.Item1,
+                        RenderInformationFactory.Instance.IdentityRange.Item2))
                     {
                         // simple query to look up the id
-                        var found = RenderFactory.Instance.IdentityArray.Where(x => x == id).Any();
+                        var found = RenderInformationFactory.Instance.IdentityArray.Where(x => x == id).Any();
 
                         if (found)
                         {

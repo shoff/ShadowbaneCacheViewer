@@ -1,175 +1,45 @@
 ﻿namespace CacheViewer.Domain.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
     using Archive;
+    using Newtonsoft.Json;
     using SlimDX;
 
     public class RenderInformation
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="RenderInformation" /> class.
-        /// </summary>
-        public RenderInformation()
-        {
-            this.ChildRenderIdList = new List<int>();
-        }
-
-        /// <summary>
-        ///     Gets or sets the byte count.
-        /// </summary>
-        /// <value>The byte count.</value>
+        public bool HasJoint { get; set; }
         public int ByteCount { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the order.
-        /// </summary>
-        /// <value>
-        ///     The order.
-        /// </value>
         public int Order { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance has mesh.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance has mesh; otherwise, <c>false</c>.
-        /// </value>
         public bool HasMesh { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the mesh.
-        /// </summary>
-        /// <value>
-        ///     The mesh.
-        /// </value>
+        [JsonIgnore]
         public Mesh Mesh { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the unknown.
-        /// </summary>
-        /// <value>
-        ///     The unknown.
-        /// </value>
+        [JsonIgnore]
         public object[] Unknown { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the mesh id.
-        /// </summary>
-        /// <value>
-        ///     The mesh id.
-        /// </value>
         public int MeshId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether [valid mesh found].
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if [valid mesh found]; otherwise, <c>false</c>.
-        /// </value>
         public bool ValidMeshFound { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the name of the joint.
-        /// </summary>
-        /// <value>
-        ///     The name of the joint.
-        /// </value>
         public string JointName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the scale.
-        /// </summary>
-        /// <value>
-        ///     The scale.
-        /// </value>
+        [JsonIgnore]
         public Vector3 Scale { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the position.
-        /// </summary>
-        /// <value>
-        ///     The position.
-        /// </value>
+        [JsonIgnore]
         public Vector3 Position { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the render count.
-        /// </summary>
-        /// <value>
-        ///     The render count.
-        /// </value>
         public int RenderCount { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the child render ids.
-        /// </summary>
-        /// <value>
-        ///     The child render ids.
-        /// </value>
         public CacheIndex[] ChildRenderIds { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the texture id.
-        /// </summary>
-        /// <value>
-        ///     The texture id.
-        /// </value>
         public int TextureId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the texture.
-        /// </summary>
-        /// <value>
-        ///     The texture.
-        /// </value>
+        [JsonIgnore]
         public Texture Texture { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the identity.
-        /// </summary>
-        /// <value>The identity.</value>
         public CacheIndex CacheIndex { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the notes.
-        /// </summary>
-        /// <value>The notes.</value>
         public string Notes { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the shared identifier.
-        /// </summary>
-        /// <value>
-        ///     The shared identifier.
-        /// </value>
+        [JsonIgnore]
         public RenderInformation SharedId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the child render identifier list.
-        /// </summary>
-        /// <value>
-        ///     The child render identifier list.
-        /// </value>
-        public List<int> ChildRenderIdList { get; set; }
-
-        /// <summary>
-        ///     Gets the children.
-        /// </summary>
-        /// <value>
-        ///     The children.
-        /// </value>
+        public List<int> ChildRenderIdList { get; set; } = new List<int>();
         public List<RenderInformation> Children { get; } = new List<RenderInformation>();
-
-        /// <summary>
-        ///     Gets or sets the binary asset.
-        /// </summary>
-        /// <value>
-        ///     The binary asset.
-        /// </value>
         public CacheAsset BinaryAsset { get; set; }
-
+        public DateTime? CreateDate { get; set; }
+        public byte B34 { get; set; }
+        public byte B11 { get; set; }
         public override string ToString()
         {
             var sb = new StringBuilder();

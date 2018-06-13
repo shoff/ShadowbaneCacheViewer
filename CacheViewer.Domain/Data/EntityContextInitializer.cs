@@ -17,7 +17,7 @@
         private const string Texture = "vt {0} {1}\r\n";
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
         private readonly MeshFactory meshFactory = MeshFactory.Instance;
-        private readonly RenderFactory renderFactory = RenderFactory.Instance;
+        private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
         private readonly TextureFactory textureFactory = TextureFactory.Instance;
 
         /// <summary>
@@ -28,7 +28,7 @@
         {
             context.Configuration.AutoDetectChangesEnabled = false;
             context.ValidateOnSave = false;
-            this.renderFactory.AppendModel = false;
+            this.renderInformationFactory.AppendModel = false;
             this.AddRenderEntities(context);
             this.AddCacheObjectEntities(context);
             this.AddTextureEntities(context);
@@ -121,7 +121,7 @@
             var i = 0;
             var lastIdentity = 0;
 
-            foreach (var cacheIndex in this.renderFactory.Indexes)
+            foreach (var cacheIndex in this.renderInformationFactory.Indexes)
             {
                 i++;
                 if (cacheIndex.Identity == lastIdentity)
@@ -130,7 +130,7 @@
                     continue;
                 }
 
-                var ri = this.renderFactory.Create(cacheIndex);
+                var ri = this.renderInformationFactory.Create(cacheIndex);
                 var re = BuildRenderEntity(ri);
 
                 context.RenderEntities.Add(re);
@@ -243,7 +243,7 @@
 
         private bool Found(int id)
         {
-            var renderId = this.renderFactory.Indexes.FirstOrDefault(x => x.Identity == id);
+            var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
             if (renderId.Identity > 0)
             {
                 return true;

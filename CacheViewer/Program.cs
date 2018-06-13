@@ -5,6 +5,7 @@
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using CacheViewer.Domain.Data;
     using CacheViewer.Domain.Data.Entities;
@@ -29,6 +30,7 @@
             {
                 OpenFileDialog ofd = new OpenFileDialog();
             }
+            //CreateDb();
 
             var mainForm = ConfigurationManager.AppSettings["MainFormType"];
 
@@ -36,12 +38,11 @@
             {
                 Application.Run(new CacheViewForm());
             }
-            else 
+            else
             {
                 Application.Run(new MainForm());
             }
 
-            //CreateDb();
 
             // Application.Run(new CacheViewForm());
 

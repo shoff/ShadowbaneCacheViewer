@@ -32,7 +32,7 @@ namespace CacheViewer
         // Archives
         private readonly CacheObjectsCache cacheObjectsCache;
         private readonly MeshOnlyObjExporter meshExporter;
-        private readonly RenderFactory renderFactory;
+        private readonly RenderInformationFactory renderInformationFactory;
         private readonly TextureFactory textureFactory;
         private bool archivesLoaded;
 
@@ -50,7 +50,7 @@ namespace CacheViewer
                 this.AcceptButton = this.CacheSaveButton;
                 this.textureFactory = TextureFactory.Instance;
                 this.cacheObjectsCache = CacheObjectsCache.Instance;
-                this.renderFactory = RenderFactory.Instance;
+                this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshExporter = MeshOnlyObjExporter.Instance;
                 this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectsCache.Indexes.Count;
                 this.TotalCacheLabel.Refresh();
@@ -205,7 +205,7 @@ namespace CacheViewer
                 //var renderCacheIndex = this.renderFactory.Indexes[item.RenderId];
                 //var render = this.renderFactory.Create(renderCacheIndex);
 
-                var render = this.renderFactory.Create((int)item.RenderId);
+                var render = this.renderInformationFactory.Create((int)item.RenderId);
 
                 if (render.TextureId == 0)
                 {
@@ -357,7 +357,7 @@ namespace CacheViewer
                     return;
                 }
 
-                var render = this.renderFactory.Create((int)item.RenderId, addByteData: true);
+                var render = this.renderInformationFactory.Create((int)item.RenderId, addByteData: true);
 
                 if (render.BinaryAsset.Item1.Count > 0)
                 {

@@ -20,6 +20,11 @@
         /// <returns></returns>
         public async Task WriteAsync(ArraySegment<byte> data, string path)
         {
+            if (data.Count == 0)
+            {
+                throw new ArgumentException(DomainMessages.Cannot_Be_An_Empty_Collection, nameof(data));
+            }
+
             await Task.Run(() =>
             {
                 FileStream fs = null;
@@ -34,10 +39,7 @@
                 }
                 finally
                 {
-                    if (fs != null)
-                    {
-                        fs.Dispose();
-                    }
+                    fs?.Dispose();
                 }
             });
         }

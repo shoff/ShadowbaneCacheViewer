@@ -23,7 +23,7 @@ namespace CacheViewer.Controls
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
 
         private readonly ListViewColumnSorter columnSorter;
-        private readonly RenderFactory renderFactory;
+        private readonly RenderInformationFactory renderInformationFactory;
         private readonly MeshFactory meshFactory;
         private readonly IModelIdService modelIdService;
 
@@ -46,7 +46,7 @@ namespace CacheViewer.Controls
                 this.modelIdService = new ModelIdService();
                 this.textureFactory = TextureFactory.Instance;
                 this.meshFactory = MeshFactory.Instance;
-                this.renderFactory = RenderFactory.Instance;
+                this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.columnSorter = new ListViewColumnSorter();
                 this.RenderInformationListView.ListViewItemSorter = this.columnSorter;
 
@@ -74,9 +74,9 @@ namespace CacheViewer.Controls
             // ok get the renderIndex from cache
             var id = int.Parse(item.Text);
 
-            if (this.renderFactory.IdentityArray.Any(x => x == id))
+            if (this.renderInformationFactory.IdentityArray.Any(x => x == id))
             {
-                var cacheAsset = this.renderFactory.GetById(id);
+                var cacheAsset = this.renderInformationFactory.GetById(id);
 
                 // TODO THIS IS FUCKED HERE 4/21/2015
                 // there is something Fucked in the get children part.
@@ -84,7 +84,7 @@ namespace CacheViewer.Controls
 
                 // TODO this is still fucked but only here, the getting part if fixed, I think
                 // 5/13/2015
-                var renderInformation = this.renderFactory.Create(id, addByteData: true);
+                var renderInformation = this.renderInformationFactory.Create(id, addByteData: true);
 
                 // await this.FindModelId(cacheAsset.Item1);
                 var idList = this.modelIdService.FindModelId(cacheAsset.Item1);
@@ -218,16 +218,16 @@ namespace CacheViewer.Controls
                             // Only test the int if it falls within a range determined by the item itself.
                             // The identityRange is just the lowest id in the cache and the highest id, if it 
                             // falls outside of those bounds, it's obviously wrong.
-                            if (id.TestRange(this.renderFactory.IdentityRange.Item1, this.renderFactory.IdentityRange.Item2))
+                            if (id.TestRange(this.renderInformationFactory.IdentityRange.Item1, this.renderInformationFactory.IdentityRange.Item2))
                             {
                                 // simple query to look up the id
-                                var found = this.renderFactory.IdentityArray.Where(x => x == id).Any();
+                                var found = this.renderInformationFactory.IdentityArray.Where(x => x == id).Any();
 
                                 if (found)
                                 {
                                     // ok here we need to actually parse this renderId to make sure it has a mesh associated to it.
                                     // this pulls the raw, uncompressed cacheObject from the renderArchive
-                                    var renderAsset = this.renderFactory.GetById(id);
+                                    var renderAsset = this.renderInformationFactory.GetById(id);
 
                                     // this is the mess here
                                     bool hasmesh = this.FindModelId(renderAsset.Item1).Result;

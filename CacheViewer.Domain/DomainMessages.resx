@@ -110,4 +110,7 @@
   <data name="MatchingRenderIdFound" xml:space="preserve">
     <value>Found matching renderId at position {0}, id is {1}</value>
   </data>
+  <data name="Cannot_Be_An_Empty_Collection" xml:space="preserve">
+    <value>Value cannot be an empty collection.</value>
+  </data>
 </root>

@@ -1,8 +1,5 @@
 ﻿namespace CacheViewer.Domain.Factories
 {
-    using System;
-    using System.IO;
-    using System.Security;
     using Archive;
 
     /// <summary>
@@ -21,27 +18,9 @@
         private static Motion motion;
 
         private static readonly object syncRoot = new object();
-
-        /// <summary>
-        ///     Gets the instance.
-        /// </summary>
+        
         internal static ArchiveFactory Instance { get; } = new ArchiveFactory();
-
-        /// <summary>Builds the specified cache file.</summary>
-        /// <param name="cacheFile">The cache file.</param>
-        /// <param name="preCacheData">if set to <c>true</c> [pre cache data].</param>
-        /// <param name="loadIndexes">if set to <c>true</c> [load indexes].</param>
-        /// <returns></returns>
-        /// <exception cref="ApplicationException">Condition. </exception>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
-        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        ///     This operation is not supported on the current platform.-or-
-        ///     specified a directory.-or- The caller does not have the required permission.
-        /// </exception>
-        /// <exception cref="FileNotFoundException">The file specified in  was not found. </exception>
-        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
+        
         internal CacheArchive Build(CacheFile cacheFile, bool preCacheData = false, bool loadIndexes = true)
         {
             lock (syncRoot)

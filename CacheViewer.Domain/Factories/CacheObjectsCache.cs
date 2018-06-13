@@ -149,5 +149,8 @@
 
             return null;
         }
+
+
+        internal CObjects CacheObjects => this.cobjects;
     }
 }

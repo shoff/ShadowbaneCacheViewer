@@ -61,6 +61,15 @@ namespace CacheViewer.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value cannot be an empty collection..
+        /// </summary>
+        internal static string Cannot_Be_An_Empty_Collection {
+            get {
+                return ResourceManager.GetString("Cannot_Be_An_Empty_Collection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} could not find a CacheIndex for identy {1}.
         /// </summary>
         internal static string IndexNotFoundException {

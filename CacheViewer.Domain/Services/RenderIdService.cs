@@ -45,7 +45,7 @@
     public class RenderIdService
     {
         private readonly IModelIdService modelIdService;
-        private readonly RenderFactory renderFactory;
+        private readonly RenderInformationFactory renderInformationFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RenderIdService" /> class.
@@ -54,7 +54,7 @@
         public RenderIdService(IModelIdService modelIdService = null)
         {
             this.modelIdService = modelIdService ?? new ModelIdService();
-            this.renderFactory = RenderFactory.Instance;
+            this.renderInformationFactory = RenderInformationFactory.Instance;
         }
 
         /// <summary>
@@ -96,18 +96,18 @@
                         // Only test the int if it falls within a range determined by the item itself.
                         // The identityRange is just the lowest id in the cache and the highest id, if it 
                         // falls outside of those bounds, it's obviously wrong.
-                        if (id.TestRange(this.renderFactory.IdentityRange.Item1,
-                            this.renderFactory.IdentityRange.Item2))
+                        if (id.TestRange(this.renderInformationFactory.IdentityRange.Item1,
+                            this.renderInformationFactory.IdentityRange.Item2))
                         {
                             // simple query to look up the id 
-                            var found = this.renderFactory.IdentityArray.Where(x => x == id).Any();
+                            var found = this.renderInformationFactory.IdentityArray.Any(x => x == id);
 
                             // if we found a possible RenderId, then we need to see if it has a mesh associated with it.
                             if (found)
                             {
                                 // ok here we need to actually parse this renderId to make sure it has a mesh associated to it.
                                 // this pulls the raw, uncompressed cacheObject from the renderArchive
-                                var asset = this.renderFactory.GetById(id);
+                                var asset = this.renderInformationFactory.GetById(id);
 
                                 var renderItem = new RenderListViewItem
                                 {
