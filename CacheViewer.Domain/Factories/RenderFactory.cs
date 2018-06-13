@@ -216,8 +216,8 @@
 
             if (renderInfo.MeshId == 0)
             {
-                renderInfo.Notes = string.Format("{0} claimed to have a mesh, however the meshId read was 0.",
-                    renderInfo.CacheIndex.Identity);
+                renderInfo.Notes =
+                    $"{renderInfo.CacheIndex.Identity} claimed to have a mesh, however the meshId read was 0.";
                 logger.Warn(renderInfo.Notes);
                 return false;
             }
@@ -233,9 +233,7 @@
                     else
                     {
                         renderInfo.Notes =
-                            string.Format(
-                                "{0} claimed to have a mesh with MeshId {1}, however the MeshCache does not contain an item with that id.",
-                                renderInfo.CacheIndex.Identity, renderInfo.MeshId);
+                            $"{renderInfo.CacheIndex.Identity} claimed to have a mesh with MeshId {renderInfo.MeshId}, however the MeshCache does not contain an item with that id.";
                         logger.Warn(renderInfo.Notes);
                         return false;
                     }
@@ -260,7 +258,6 @@
             if (size > 0)
             {
                 // since this size count is actually a Unicode character count, each number is actually 2 bytes.
-
                 renderInfo.JointName = reader.ReadAsciiString(size);
                 renderInfo.JointName = !string.IsNullOrEmpty(renderInfo.JointName)
                     ? renderInfo.JointName.Replace(" ", string.Empty) : string.Empty;
@@ -281,9 +278,7 @@
             {
                 // bail
                 var message =
-                    string.Format(
-                        "{0} claimed to have a {1} child render nodes, bailing out.", renderInfo.CacheIndex.Identity,
-                        renderInfo.RenderCount);
+                    $"{renderInfo.CacheIndex.Identity} claimed to have a {renderInfo.RenderCount} child render nodes, bailing out.";
                 logger.Error(message);
                 return;
             }
@@ -337,11 +332,12 @@
         /// </param>
         /// <returns>
         /// </returns>
-        private bool IsValidId(int id)
+        internal bool IsValidId(int id)
         {
+            // TODO this does not belong here. 
             if (id.TestRange(this.meshFactory.IdentityRange.Item1, this.meshFactory.IdentityRange.Item2))
             {
-                return this.meshFactory.IdentityArray.Where(x => x == id).Any();
+                return this.meshFactory.IdentityArray.Any(x => x == id);
             }
 
             return false;

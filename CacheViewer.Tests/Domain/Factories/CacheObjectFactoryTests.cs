@@ -3,11 +3,8 @@ using NUnit.Framework;
 
 namespace CacheViewer.Tests.Domain.Factories
 {
-    using System;
     using System.Linq;
-    using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
 
     [TestFixture]
     public class CacheObjectFactoryTests

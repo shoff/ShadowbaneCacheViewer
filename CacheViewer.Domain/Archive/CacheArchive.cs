@@ -187,7 +187,8 @@
 
                 var asset = new CacheAsset
                 {
-                    CacheIndex1 = this.CacheIndices.FirstOrDefault(x => x.Identity == id)
+                    // leave this as First, we want it to throw if the id is invalid
+                    CacheIndex1 = this.CacheIndices.First(x => x.Identity == id)
                 };
 
                 if (asset.CacheIndex1.Identity == 0)
@@ -199,9 +200,22 @@
                 if (count > 1)
                 {
                     logger.Info("{0} found {1} entries for identity {2}", this.Name, count, id);
-                    var ci = this.CacheIndices.Where(x => x.Identity == id).Skip(1).Select(x => x).Single();
-                    ci.Order = 2;
-                    asset.CacheIndex2 = ci;
+
+                    // don't think there are any that have more than 3
+                    Debug.Assert(count < 4);
+                    for (int i = 1; i < count; i++)
+                    {
+                        var ci = this.CacheIndices.Where(x => x.Identity == id).Skip(i).Select(x => x).Single();
+                        ci.Order = i+1;
+                        if (i == 1)
+                        {
+                            asset.CacheIndex2 = ci;
+                        }
+                        else
+                        {
+                            asset.CacheIndex3 = ci;
+                        }
+                    }
                 }
 
                 using (var reader = this.bufferData.CreateBinaryReaderUtf32())
@@ -216,9 +230,21 @@
                     if (count > 1)
                     {
                         reader.BaseStream.Position = asset.CacheIndex2.Offset;
-                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize,
-                            reader.ReadBytes((int) asset.CacheIndex2.CompressedSize));
+                        asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize, reader.ReadBytes((int) asset.CacheIndex2.CompressedSize));
                     }
+
+                    if (count > 2)
+                    {
+                        reader.BaseStream.Position = asset.CacheIndex3.Offset;
+                        asset.Item2 = this.Decompress(asset.CacheIndex3.UnCompressedSize, reader.ReadBytes((int)asset.CacheIndex3.CompressedSize));
+                    }
+
+                    if (count > 3)
+                    {
+                        throw new ApplicationException(
+                            "Need to refactor some twat added more than three indexes with the same id.");
+                    }
+                    // if there are more than 3 fuck it
                 }
 
                 return asset;
@@ -246,7 +272,7 @@
         {
             if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
 
             // TODO move to it's own object, this doesn't belong here.
