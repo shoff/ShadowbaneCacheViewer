@@ -10,6 +10,9 @@ namespace CacheViewer.Tests.Domain.Factories
     using System.Text;
     using System.Threading.Tasks;
     using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Data;
+    using CacheViewer.Domain.Data.Entities;
+    using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Models;
     using CacheViewer.Domain.Models.Exportable;
     using Newtonsoft.Json;
@@ -74,6 +77,81 @@ namespace CacheViewer.Tests.Domain.Factories
             {ObjectType.Particle, "Particle"}
         };
 
+
+        [Test]
+        public void Lets_Find_All_Offsets_That_Match_A_RenderId_In_Type_4s()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Name,CacheId,RenderIds Found,");
+
+            using (var context = new DataContext())
+            {
+                foreach (var i in this.cacheObjectsCache.Indexes)
+                {
+                    var cobject = this.cacheObjectsCache.CreateAndParse(i);
+
+                    if (cobject.Flag == ObjectType.Structure)
+                    {
+                        var centity = (from c in context.CacheObjectEntities
+                                       where c.CacheIndexIdentity == i.Identity
+                                       select c).FirstOrDefault();
+
+                        if (centity == null)
+                        {
+                            centity = new CacheObjectEntity
+                            {
+                                CacheIndexIdentity = i.Identity,
+                                CompressedSize = (int)i.CompressedSize,
+                                FileOffset = (int)i.Offset,
+                                Name = cobject.Name,
+                                ObjectType = ObjectType.Structure,
+                                ObjectTypeDescription = "Structure",
+                                UncompressedSize = (int)i.UnCompressedSize
+                            };
+                            context.CacheObjectEntities.Add(centity);
+                        }
+
+                        Dictionary<long, int> ids = new Dictionary<long, int>();
+                        Structure structure = (Structure)cobject;
+                        using (var reader = structure.Data.CreateBinaryReaderUtf32())
+                        {
+                            reader.BaseStream.Position =
+                                57; // this is common to all cache files and doesn't contain any render ids
+
+                            while (reader.BaseStream.Position + 4 <= structure.Data.Count)
+                            {
+                                int renderId = reader.ReadInt32();
+
+                                if (renderId > 300 &&
+                                    Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray,
+                                        renderId) > -1)
+                                {
+                                    ids.Add(reader.BaseStream.Position, renderId);
+                                    centity.RenderAndOffsets.Add(new RenderAndOffset
+                                    {
+                                        RenderId = renderId,
+                                        OffSet = reader.BaseStream.Position
+                                    });
+                                }
+
+                                reader.BaseStream.Position -= 3;
+                            }
+                        }
+
+                        sb.Append($"{structure.Name},{i.Identity},{ids.Count}");
+                        ids.Each(x => sb.Append($",{x.Key},{x.Value}"));
+                        sb.Append(Environment.NewLine);
+                    }
+                }
+
+                context.SaveChanges();
+                var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
+                File.WriteAllText($"{folder}\\cache-render-ids.csv", sb.ToString());
+            }
+        }
+
+
+
         private static string CreateFolders()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
@@ -99,11 +177,6 @@ namespace CacheViewer.Tests.Domain.Factories
         [Test]
         public void Do_ANY_FUCKING_Type_4_Work()
         {
-            //var indexs = (from i in this.cacheObjectsCache.Indexes
-            //    where i.Flag == 4
-            //    select i).ToArray();
-
-            Dictionary<int, bool> hasValidMesh = new Dictionary<int, bool>();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Name,RenderId,InventoryTextureId,Unknown,MapTex,NumberOfMeshes,UnParsedBytes");
             foreach (var i in this.cacheObjectsCache.Indexes)
@@ -111,7 +184,7 @@ namespace CacheViewer.Tests.Domain.Factories
                 var cobject = this.cacheObjectsCache.CreateAndParse(i);
                 if (cobject.Flag == ObjectType.Structure)
                 {
-                    Structure structure = (Structure) cobject;
+                    Structure structure = (Structure)cobject;
                     sb.AppendLine($"{cobject.Name},{structure.RenderId},{structure.InventoryTextureId},{structure.IUnk},{structure.MapTex},{structure.NumberOfMeshes},{structure.UnParsedBytes}");
                 }
             }

@@ -1,0 +1,30 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+char tnlc[4];
+int flag;
+int size;
+wchar_t name[size];  
+
+uchar someboolean; // always a 01 or 00
+
+float unknown; // 00 00 80 3F
+
+time_t lastUpdated;
+float unknownFloat1;
+float unknownFloat2;
+float unknownFloat3;
+
+int crap[42];
+
+int unk1; // 1  ?
+int unk2; // 4  ?

@@ -12,24 +12,24 @@
 
     public class MeshFactory : IModelFactory
     {
-        private static MeshArchive meshArchive;
+        internal static MeshArchive MeshArchive { get; private set; }
 
         private MeshFactory()
         {
-            meshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
+            MeshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
         }
 
         /// <summary>Gets the instance.</summary>
         public static MeshFactory Instance => new MeshFactory();
 
         /// <summary>Gets the indexes.</summary>
-        public CacheIndex[] Indexes => meshArchive.CacheIndices.ToArray();
+        public CacheIndex[] Indexes => MeshArchive.CacheIndices.ToArray();
 
         /// <summary>Gets the identity range.</summary>
-        public Tuple<int, int> IdentityRange => new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId);
+        public Tuple<int, int> IdentityRange => new Tuple<int, int>(MeshArchive.LowestId, MeshArchive.HighestId);
 
         /// <summary>Gets the identity array.</summary>
-        public int[] IdentityArray => meshArchive.IdentityArray;
+        public int[] IdentityArray => MeshArchive.IdentityArray;
 
         /// <summary>Creates the specified buffer.</summary>
         /// <param name="cacheIndex">Index of the cache.</param>
@@ -42,7 +42,7 @@
         {
             var mesh = new Mesh {CacheIndex = cacheIndex};
 
-            var cacheAsset = meshArchive[cacheIndex.Identity];
+            var cacheAsset = MeshArchive[cacheIndex.Identity];
             using (var reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {
                 mesh.Header = new MeshHeader
@@ -125,7 +125,7 @@
         /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(int indexId)
         {
-            var cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
+            var cacheIndex = MeshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
             if (cacheIndex.Identity > 0)
             {
                 return this.Create(cacheIndex);

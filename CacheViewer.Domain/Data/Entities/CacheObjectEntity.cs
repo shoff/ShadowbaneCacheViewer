@@ -1,7 +1,9 @@
 ﻿namespace CacheViewer.Domain.Data.Entities
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using CacheViewer.Domain.Models;
 
     [Table("CacheObjectEntities")]
     public class CacheObjectEntity
@@ -21,9 +23,11 @@
 
         public string Name { get; set; }
 
-        public int ObjectType { get; set; }
+        public ObjectType ObjectType { get; set; }
 
         [MaxLength(11)]
         public string ObjectTypeDescription { get; set; }
+
+        public virtual ICollection<RenderAndOffset> RenderAndOffsets { get; set; } = new HashSet<RenderAndOffset>();
     }
 }

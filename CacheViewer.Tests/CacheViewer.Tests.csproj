@@ -73,7 +73,7 @@
     <Compile Include="Domain\Extensions\Vector3ExtensionsTests.cs" />
     <Compile Include="Domain\Factories\ArchiveFactoryTests.cs" />
     <Compile Include="Domain\Factories\CacheObjectFactoryTests.cs" />
-    <Compile Include="Domain\Factories\ModelFactoryTests.cs" />
+    <Compile Include="Domain\Factories\MeshFactoryTests.cs" />
     <Compile Include="Domain\Factories\RenderInformationFactoryTests.cs" />
     <Compile Include="Domain\Models\InteractiveTests.cs" />
     <Compile Include="Domain\Models\SimpleTests.cs" />

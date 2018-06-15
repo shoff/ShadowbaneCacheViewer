@@ -5,10 +5,8 @@
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
 
     /// <summary>
     /// </summary>
@@ -24,6 +22,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
 
             var status = CheckForCacheFiles();
             if (!status.AllFound)
@@ -138,11 +137,7 @@
 
         private static void CreateDb()
         {
-            Database.SetInitializer(new EntitiesContextInitializer());
-            DataContext dc = new DataContext();
-            dc.Configuration.AutoDetectChangesEnabled = false;
-            dc.ValidateOnSave = false;
-            var x = dc.Set<RenderEntity>().Select(xx => xx);
+            
         }
     }
 

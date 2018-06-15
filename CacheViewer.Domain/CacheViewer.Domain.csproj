@@ -155,7 +155,6 @@
     <Compile Include="Data\IDataContext.cs" />
     <Compile Include="Data\IEntityRepository.cs" />
     <Compile Include="Data\IQueryableDataContext.cs" />
-    <Compile Include="Data\QueryableDataContext.cs" />
     <Compile Include="DomainMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -181,6 +180,15 @@
     <Compile Include="Factories\RenderInformationFactory.cs" />
     <Compile Include="Factories\TextureFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Migrations\201806152050220_InitialCreate.cs" />
+    <Compile Include="Migrations\201806152050220_InitialCreate.Designer.cs">
+      <DependentUpon>201806152050220_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.cs" />
+    <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.Designer.cs">
+      <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bone.cs" />
     <Compile Include="Models\CollisionInfo.cs" />
     <Compile Include="Models\DeedObject.cs" />
@@ -265,6 +273,12 @@
     <EmbeddedResource Include="DomainMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DomainMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806152050220_InitialCreate.resx">
+      <DependentUpon>201806152050220_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806152053257_FixingRenderAndOffset.resx">
+      <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

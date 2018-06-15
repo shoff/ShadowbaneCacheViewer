@@ -1,6 +1,7 @@
 namespace CacheViewer.Domain.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class RenderAndOffset
     {
@@ -9,8 +10,9 @@ namespace CacheViewer.Domain.Data.Entities
 
         public int RenderId { get; set; }
 
-        public long Offset { get; set; }
+        public long OffSet { get; set; }
 
-        public int CacheIndexIdentity { get; set; }
     }
+
+
 }

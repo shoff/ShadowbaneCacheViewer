@@ -194,7 +194,7 @@
                     RenderKey = (int) cacheObject.RenderId,
                     Name = cacheObject.Name,
                     // Data = cacheObject.Data,
-                    ObjectType = (int) cacheObject.Flag,
+                    ObjectType = cacheObject.Flag,
                     ObjectTypeDescription = cacheObject.Flag.ToString()
                 };
 
@@ -215,46 +215,46 @@
             context.Commit();
         }
 
-        public void Find_Where_The_RenderId_Is_Hiding(ICacheObject entity, DataContext context)
-        {
-            var count = entity.Data.Count;
-            using (var reader = entity.Data.CreateBinaryReaderUtf32())
-            {
-                for (var i = 25; i < count - 4; i++)
-                {
-                    reader.BaseStream.Position = i;
-                    var id = reader.ReadInt32();
-                    if (this.TestRange(id, 1000, 77000300))
-                    {
-                        if (this.Found(id))
-                        {
-                            context.RenderAndOffsets.Add(new RenderAndOffset
-                            {
-                                Offset = i,
-                                RenderId = id,
-                                CacheIndexIdentity = entity.CacheIndex.Identity
-                            });
-                            Console.WriteLine("Found matching renderId at position {0}, id is {1}", i, id);
-                        }
-                    }
-                }
-            }
-        }
+        //public void Find_Where_The_RenderId_Is_Hiding(ICacheObject entity, DataContext context)
+        //{
+        //    var count = entity.Data.Count;
+        //    using (var reader = entity.Data.CreateBinaryReaderUtf32())
+        //    {
+        //        for (var i = 25; i < count - 4; i++)
+        //        {
+        //            reader.BaseStream.Position = i;
+        //            var id = reader.ReadInt32();
+        //            if (this.TestRange(id, 1000, 77000300))
+        //            {
+        //                if (this.Found(id))
+        //                {
+        //                    context.RenderAndOffsets.Add(new RenderAndOffset
+        //                    {
+        //                        Offset = i,
+        //                        RenderId = id,
+        //                        CacheIndexIdentity = entity.CacheIndex.Identity
+        //                    });
+        //                    Console.WriteLine("Found matching renderId at position {0}, id is {1}", i, id);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        private bool Found(int id)
-        {
-            var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
-            if (renderId.Identity > 0)
-            {
-                return true;
-            }
+        //private bool Found(int id)
+        //{
+        //    var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
+        //    if (renderId.Identity > 0)
+        //    {
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        private bool TestRange(int numberToCheck, int bottom, int top)
-        {
-            return numberToCheck > bottom && numberToCheck < top;
-        }
+        //private bool TestRange(int numberToCheck, int bottom, int top)
+        //{
+        //    return numberToCheck > bottom && numberToCheck < top;
+        //}
     }
 }

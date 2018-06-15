@@ -191,62 +191,62 @@ namespace CacheViewer
             return re;
         }
 
-        public async Task FindWhereTheRenderIdIsHiding(ICacheObject entity)
-        {
-            int count = entity.Data.Count;
-            if (count == 0)
-            {
-                return;
-            }
+        //public async Task FindWhereTheRenderIdIsHiding(ICacheObject entity)
+        //{
+        //    int count = entity.Data.Count;
+        //    if (count == 0)
+        //    {
+        //        return;
+        //    }
 
-            using (var reader = entity.Data.CreateBinaryReaderUtf32())
-            {
-                for (int i = 25; i < count - 4; i++)
-                {
-                    reader.BaseStream.Position = i;
-                    int id = reader.ReadInt32();
+        //    using (var reader = entity.Data.CreateBinaryReaderUtf32())
+        //    {
+        //        for (int i = 25; i < count - 4; i++)
+        //        {
+        //            reader.BaseStream.Position = i;
+        //            int id = reader.ReadInt32();
 
-                    if (this.TestRange(id, 1000, 77000300))
-                    {
-                        if (await this.Found(id))
-                        {
-                            var item = this.dataContext.RenderAndOffsets.FirstOrDefault(x => x.Offset == i && x.RenderId == id);
-                            if (item == null)
-                            {
-                                this.dataContext.RenderAndOffsets.Add(new RenderAndOffset
-                                {
-                                    Offset = i,
-                                    RenderId = id,
-                                    CacheIndexIdentity = entity.CacheIndex.Identity
-                                });
+        //            if (this.TestRange(id, 1000, 77000300))
+        //            {
+        //                if (await this.Found(id))
+        //                {
+        //                    var item = this.dataContext.RenderAndOffsets.FirstOrDefault(x => x.Offset == i && x.RenderId == id);
+        //                    if (item == null)
+        //                    {
+        //                        this.dataContext.RenderAndOffsets.Add(new RenderAndOffset
+        //                        {
+        //                            Offset = i,
+        //                            RenderId = id,
+        //                            CacheIndexIdentity = entity.CacheIndex.Identity
+        //                        });
 
-                                this.SetMessage(this.CObjectsLabel,
-                                    string.Format("Found matching renderId at position {0}, id is {1}", i, id));
-                            }
-                        }
-                    }
-                }
-            }
-            await this.dataContext.CommitAsync();
-        }
+        //                        this.SetMessage(this.CObjectsLabel,
+        //                            string.Format("Found matching renderId at position {0}, id is {1}", i, id));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    await this.dataContext.CommitAsync();
+        //}
 
-        private async Task<bool> Found(int id)
-        {
-            return await Task.Run(() =>
-            {
-                var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
-                if (renderId.Identity > 0)
-                {
-                    return true;
-                }
-                return false;
-            });
-        }
+        //private async Task<bool> Found(int id)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        var renderId = this.renderInformationFactory.Indexes.FirstOrDefault(x => x.Identity == id);
+        //        if (renderId.Identity > 0)
+        //        {
+        //            return true;
+        //        }
+        //        return false;
+        //    });
+        //}
 
-        private bool TestRange(int numberToCheck, int bottom, int top)
-        {
-            return (numberToCheck > bottom && numberToCheck < top);
-        }
+        //private bool TestRange(int numberToCheck, int bottom, int top)
+        //{
+        //    return (numberToCheck > bottom && numberToCheck < top);
+        //}
 
         private void SetMessage(Control control, string message)
         {
@@ -278,7 +278,7 @@ namespace CacheViewer
                     UncompressedSize = (int)cacheIndex.UnCompressedSize,
                     FileOffset = cacheObject.InnerOffset,
                     Name = cacheObject.Name,
-                    ObjectType = (int)cacheObject.Flag,
+                    ObjectType = cacheObject.Flag,
                     ObjectTypeDescription =
                         cacheObject.Flag == ObjectType.Simple ? "Simple" :
                         cacheObject.Flag == ObjectType.Mobile ? "Mobile" :
