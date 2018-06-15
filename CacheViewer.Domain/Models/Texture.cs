@@ -64,7 +64,7 @@
         //                format = Gl.GL_RGB;
         //            }
 
-        //            // Create the texture 
+        //            // CreateAndParse the texture 
         //            Gl.glGenTextures(1, new[]
         //            {
         //                id

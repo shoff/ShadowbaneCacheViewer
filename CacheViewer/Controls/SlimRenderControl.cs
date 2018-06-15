@@ -106,7 +106,7 @@ namespace CacheViewer.Controls
             };
 
 
-            // Create the SwapChain and check for errors.
+            // CreateAndParse the SwapChain and check for errors.
             if (Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.Debug, new[] { FeatureLevel.Level_11_0 },
                 swapChainDesc, out this.device, out this.swapChain).IsFailure)
             {
@@ -114,7 +114,7 @@ namespace CacheViewer.Controls
                 return false;
             }
             
-            // Create a view of our render target, which is the backbuffer of the swap chain we just created
+            // CreateAndParse a view of our render target, which is the backbuffer of the swap chain we just created
             using (var resource = SlimDX.Direct3D11.Resource.FromSwapChain<Texture2D>(this.swapChain, 0))
             {
                 this.renderTargetView = new RenderTargetView(this.device, resource);
@@ -135,11 +135,11 @@ namespace CacheViewer.Controls
                                              WindowAssociationFlags.IgnoreAltEnter);
             };
 
-            // Create our projection matrix.
+            // CreateAndParse our projection matrix.
             this.projectionMatrix = Matrix.PerspectiveFovLH(1.570796f,
                 (float)FormObject.Width / (float)FormObject.Height, 0.5f, 100.0f);
 
-            // Create our view matrix.
+            // CreateAndParse our view matrix.
             this.viewMatrix = Matrix.LookAtLH(this.cameraPosition, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
 
             return true;
@@ -186,17 +186,17 @@ namespace CacheViewer.Controls
         // called in SetupModel
         public void InitScene()
         {
-            //// Create our projection matrix.
+            //// CreateAndParse our projection matrix.
             //this.projectionMatrix = Matrix.PerspectiveFovLH(1.570796f, 
             //    (float)FormObject.Width / (float)FormObject.Height, 0.5f, 100.0f);
 
-            //// Create our view matrix.
+            //// CreateAndParse our view matrix.
             //this.viewMatrix = Matrix.LookAtLH(this.cameraPosition, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
 
-            // Create the vertices of our cube.
+            // CreateAndParse the vertices of our cube.
             var vertexData = Verts;
 
-            // Create a DataStream object that we will use to put the vertices into the vertex buffer.
+            // CreateAndParse a DataStream object that we will use to put the vertices into the vertex buffer.
             using (DataStream innerDataStream = new DataStream(40 * vertexData.Length, true, true))
             {
                 innerDataStream.Position = 0;
@@ -206,7 +206,7 @@ namespace CacheViewer.Controls
                 }
                 innerDataStream.Position = 0;
                 
-                // Create a description for the vertex buffer.
+                // CreateAndParse a description for the vertex buffer.
                 BufferDescription bd = new BufferDescription();
                 bd.Usage = ResourceUsage.Default;
                 bd.SizeInBytes = 40 * vertexData.Length;
@@ -215,7 +215,7 @@ namespace CacheViewer.Controls
                 bd.OptionFlags = ResourceOptionFlags.None;
                 bd.StructureByteStride = 40;
 
-                // Create the vertex buffer.
+                // CreateAndParse the vertex buffer.
                 this.vertexBuffer = new Buffer(this.device, innerDataStream, bd);
             }
 
@@ -228,7 +228,7 @@ namespace CacheViewer.Controls
                 new InputElement("TEXCOORD", 0, Format.R32G32_Float,       InputElement.AppendAligned, 0, InputClassification.PerVertexData, 0)
             };
 
-            // Create the InputLayout using the vertex format we just created.
+            // CreateAndParse the InputLayout using the vertex format we just created.
             this.inputLayout = new InputLayout(this.device, this.vShaderSignature, inputElements);
             
             // Setup the InputAssembler stage of the Direct3D 11 graphics pipeline.
@@ -240,7 +240,7 @@ namespace CacheViewer.Controls
             // Load the cube texture.
             this.cubeTexture = ShaderResourceView.FromFile(this.device, Application.StartupPath + "\\Brick.png");
 
-            // Create a SamplerDescription
+            // CreateAndParse a SamplerDescription
             SamplerDescription sd = new SamplerDescription();
             sd.Filter = Filter.MinMagMipLinear;
             sd.AddressU = TextureAddressMode.Wrap;
@@ -250,7 +250,7 @@ namespace CacheViewer.Controls
             sd.MinimumLod = 0;
             sd.MaximumLod = float.MaxValue;
 
-            // Create our SamplerState
+            // CreateAndParse our SamplerState
             this.cubeTexSamplerState = SamplerState.FromDescription(this.device, sd);
 
         }
@@ -277,7 +277,7 @@ namespace CacheViewer.Controls
         // called in SetupModel second
         public void InitDepthStencil()
         {
-            // Create the depth stencil texture description
+            // CreateAndParse the depth stencil texture description
             Texture2DDescription depthStencilTextureDesc = new Texture2DDescription
             {
                 Width = this.FormObject.ClientSize.Width,
@@ -292,7 +292,7 @@ namespace CacheViewer.Controls
                 OptionFlags = ResourceOptionFlags.None
             };
 
-            // Create the Depth Stencil View description
+            // CreateAndParse the Depth Stencil View description
             DepthStencilViewDescription depthStencilViewDesc = new DepthStencilViewDescription
             {
                 Format = depthStencilTextureDesc.Format,
@@ -300,10 +300,10 @@ namespace CacheViewer.Controls
                 MipSlice = 0
             };
 
-            // Create the depth stencil texture.
+            // CreateAndParse the depth stencil texture.
             this.depthStencilTexture = new Texture2D(this.device, depthStencilTextureDesc);
 
-            // Create the DepthStencilView object.
+            // CreateAndParse the DepthStencilView object.
             this.depthStencilView = new DepthStencilView(this.device, this.depthStencilTexture, depthStencilViewDesc);
 
             // Make the DepthStencilView active.
@@ -313,7 +313,7 @@ namespace CacheViewer.Controls
         // called in SetupModel last
         public void InitConstantBuffers()
         {
-            // Create a buffer description.
+            // CreateAndParse a buffer description.
             BufferDescription bd = new BufferDescription
             {
                 Usage = ResourceUsage.Default,
@@ -322,9 +322,9 @@ namespace CacheViewer.Controls
                 SizeInBytes = 64
             };
 
-            this.cbChangesOnResize = new Buffer(this.device, bd);  // Create the changes on resize buffer.
-            this.cbChangesPerFrame = new Buffer(this.device, bd);  // Create the changes per frame buffer.
-            this.cbChangesPerObject = new Buffer(this.device, bd); // Create the changes per object buffer.
+            this.cbChangesOnResize = new Buffer(this.device, bd);  // CreateAndParse the changes on resize buffer.
+            this.cbChangesPerFrame = new Buffer(this.device, bd);  // CreateAndParse the changes per frame buffer.
+            this.cbChangesPerObject = new Buffer(this.device, bd); // CreateAndParse the changes per object buffer.
             
             // Send the Projection matrix into the changes on resize constant buffer.
             this.dataStream = new DataStream(64, true, true)
@@ -414,10 +414,10 @@ namespace CacheViewer.Controls
 
         public void InitScene(MeshData meshData)
         {
-            // Create the vertices of our cube.
+            // CreateAndParse the vertices of our cube.
             var vertexData = Verts;
 
-            // Create a DataStream object that we will use to put the vertices into the vertex buffer.
+            // CreateAndParse a DataStream object that we will use to put the vertices into the vertex buffer.
             using (DataStream innerDataStream = new DataStream(40 * vertexData.Length, true, true))
             {
                 innerDataStream.Position = 0;
@@ -427,7 +427,7 @@ namespace CacheViewer.Controls
                 }
                 innerDataStream.Position = 0;
 
-                // Create a description for the vertex buffer.
+                // CreateAndParse a description for the vertex buffer.
                 BufferDescription bd = new BufferDescription();
                 bd.Usage = ResourceUsage.Default;
                 bd.SizeInBytes = 40 * vertexData.Length;
@@ -436,7 +436,7 @@ namespace CacheViewer.Controls
                 bd.OptionFlags = ResourceOptionFlags.None;
                 bd.StructureByteStride = 40;
 
-                // Create the vertex buffer.
+                // CreateAndParse the vertex buffer.
                 this.vertexBuffer = new Buffer(this.device, innerDataStream, bd);
             }
 
@@ -449,7 +449,7 @@ namespace CacheViewer.Controls
                 new InputElement("TEXCOORD", 0, Format.R32G32_Float,       InputElement.AppendAligned, 0, InputClassification.PerVertexData, 0)
             };
 
-            // Create the InputLayout using the vertex format we just created.
+            // CreateAndParse the InputLayout using the vertex format we just created.
             this.inputLayout = new InputLayout(this.device, this.vShaderSignature, inputElements);
 
             // Setup the InputAssembler stage of the Direct3D 11 graphics pipeline.
@@ -461,7 +461,7 @@ namespace CacheViewer.Controls
             // Load the cube texture.
             this.cubeTexture = ShaderResourceView.FromFile(this.device, Application.StartupPath + "\\Brick.png");
 
-            // Create a SamplerDescription
+            // CreateAndParse a SamplerDescription
             SamplerDescription sd = new SamplerDescription();
             sd.Filter = Filter.MinMagMipLinear;
             sd.AddressU = TextureAddressMode.Wrap;
@@ -471,7 +471,7 @@ namespace CacheViewer.Controls
             sd.MinimumLod = 0;
             sd.MaximumLod = float.MaxValue;
 
-            // Create our SamplerState
+            // CreateAndParse our SamplerState
             this.cubeTexSamplerState = SamplerState.FromDescription(this.device, sd);
 
         }

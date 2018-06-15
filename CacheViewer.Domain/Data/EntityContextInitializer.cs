@@ -184,7 +184,7 @@
             foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
             {
                 i++;
-                var cacheObject = this.cacheObjectsCache.Create(cacheIndex);
+                var cacheObject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
                 var entity = new CacheObjectEntity
                 {
                     CacheIndexIdentity = cacheIndex.Identity,

@@ -85,7 +85,7 @@
                 // An error has occurred, initialization of DirectInput failed for some reason so simply return from this method.
             }
 
-            // Create our keyboard and mouse devices.
+            // CreateAndParse our keyboard and mouse devices.
             this.Keyboard = new Keyboard(this.directInput);
             if (this.Keyboard == null)
             {

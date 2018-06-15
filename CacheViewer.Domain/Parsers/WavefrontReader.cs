@@ -38,7 +38,7 @@
                 throw new ArgumentNullException("stream");
             }
 
-            // Create the stream reader for the file
+            // CreateAndParse the stream reader for the file
             var reader = new StreamReader(stream);
 
             // Store the lines here
@@ -53,7 +53,7 @@
                 lines.Add(this.NormalizeLine(current));
             }
 
-            // Create empty mesh instance
+            // CreateAndParse empty mesh instance
             var obj = new WavefrontObject();
 
             // Iterate over all lines
@@ -90,7 +90,7 @@
                 // Line is a polygon
                 if (type == DataType.Face)
                 {
-                    // Create the default group for all faces outside a group
+                    // CreateAndParse the default group for all faces outside a group
                     if (obj.Groups.Count == 0)
                     {
                         obj.Groups.Add(new WavefrontFaceGroup());
@@ -147,7 +147,7 @@
                 throw new ArgumentNullException(str);
             }
 
-            // Create an array of floats of arbitrary length from a string representation,
+            // CreateAndParse an array of floats of arbitrary length from a string representation,
             // where the floats are separated by whitespace.
             var floats = new float[count];
 
@@ -222,7 +222,7 @@
                 vertices.Add(this.ParseVertex(segment));
             }
 
-            // Create and return the face
+            // CreateAndParse and return the face
             return new WavefrontFace {Vertices = vertices};
         }
 
@@ -255,7 +255,7 @@
                 }
             }
 
-            // Create the new vertex
+            // CreateAndParse the new vertex
             return new WavefrontVertex(indices[0], indices[1], indices[2]);
         }
 

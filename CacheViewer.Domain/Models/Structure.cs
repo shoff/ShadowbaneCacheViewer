@@ -19,18 +19,17 @@
         private readonly CollisionInfo collisionData1 = new CollisionInfo();
         protected readonly List<CollisionInfo> collisionInfo = new List<CollisionInfo>();
         public readonly List<uint> renderIds = new List<uint>();
-        private bool bValue1;
-        private bool bValue2;
-        private bool bValue3;
-        private bool bWalkData;
+        public bool BValue1 { get; private set; }
+        public bool BValue2 { get; private set; }
+        public bool BValue3 { get; private set; }
+        public bool BWalkData { get; private set; }
         private uint counter;
 
-        private uint inventoryTextureId;
-        private uint iUnk;
-        private uint mapTex;
-        private uint numberOfMeshes;
+        public uint InventoryTextureId { get; private set; }
+        public uint IUnk { get; private set; }
+        public uint MapTex { get; private set; }
+        public uint NumberOfMeshes { get; private set; }
         private uint renderId;
-
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Structure" /> class.
@@ -52,7 +51,7 @@
         public override void Parse(ArraySegment<byte> data)
         {
             var ptr = this.CursorOffset;
-            this.iUnk = 0;
+            this.IUnk = 0;
             //unknownData1 unkData1;
             var info = new CollisionInfo();
             try
@@ -65,12 +64,12 @@
                 var invTex = reader.ReadUInt32();
                 // inventory texture id
                 ptr += 4;
-                this.mapTex = reader.ReadUInt32();
+                this.MapTex = reader.ReadUInt32();
                 // Get the minimap texture id
                 ptr += 4;
-                this.iUnk = reader.ReadUInt32();
+                this.IUnk = reader.ReadUInt32();
                 ptr += 4;
-                this.iUnk = reader.ReadUInt32();
+                this.IUnk = reader.ReadUInt32();
                 ptr += 4;
                 this.counter = reader.ReadUInt32();
                 // Counter for number of records of unknown data
@@ -100,27 +99,28 @@
 
                 // 4 bytes that seem to contain bool info
                 //memcpy(&bValue1, data+ptr, 1);
-                this.bValue1 = reader.ReadBoolean();
+                this.BValue1 = reader.ReadBoolean();
                 ptr++;
 
                 //memcpy(&bValue2, data+ptr, 1);
-                this.bValue2 = reader.ReadBoolean();
+                this.BValue2 = reader.ReadBoolean();
                 ptr++;
 
                 //memcpy(&bValue3, data+ptr, 1);
-                this.bValue3 = reader.ReadBoolean();
+                this.BValue3 = reader.ReadBoolean();
                 ptr++;
 
                 //memcpy(&bWalkData, data+ptr, 1);
-                this.bWalkData = reader.ReadBoolean();
+                this.BWalkData = reader.ReadBoolean();
                 ptr++;
 
                 // skip over more unknown data
                 ptr += 7;
+                reader.BaseStream.Position += 7;
 
                 // range check and if statement - some type 5 objects don't have any of this data - must be a bool value somewhere !?
                 // possible in the above 119 bytes
-                if (this.bWalkData)
+                if (this.BWalkData)
                 {
                     // Counter
                     //memcpy(&counter, data + ptr, 4);
@@ -284,6 +284,7 @@
                 // Number of meshes
                 //memcpy(&counter, data + ptr, 4);
                 this.counter = reader.ReadUInt32();
+                this.NumberOfMeshes = this.counter;
                 ptr += 4;
 
                 // output some debug info
@@ -354,8 +355,8 @@
             {
                 reader.BaseStream.Position = this.CursorOffset;
                 this.RenderId = reader.ReadUInt32();
-                this.inventoryTextureId = reader.ReadUInt32();
-                this.mapTex = reader.ReadUInt32();
+                this.InventoryTextureId = reader.ReadUInt32();
+                this.MapTex = reader.ReadUInt32();
 
                 // unknown data
                 reader.ReadUInt32();
@@ -380,10 +381,10 @@
                 */
                 reader.BaseStream.Position += 48 * unknownDataCounter;
                 reader.BaseStream.Position += 108;
-                this.bValue1 = reader.ReadBoolean();
-                this.bValue2 = reader.ReadBoolean();
-                this.bValue3 = reader.ReadBoolean();
-                this.bWalkData = reader.ReadBoolean();
+                this.BValue1 = reader.ReadBoolean();
+                this.BValue2 = reader.ReadBoolean();
+                this.BValue3 = reader.ReadBoolean();
+                this.BWalkData = reader.ReadBoolean();
 
                 // skip over more unknown data
                 // ptr += 7;
@@ -392,7 +393,7 @@
                 // range check and if statement - some type 5 objects don't have any of 
                 // this data - must be a bool value somewhere !?
                 // possible in the above 119 bytes
-                if (this.bWalkData)
+                if (this.BWalkData)
                 {
                     unknownDataCounter = reader.ReadUInt32();
 
@@ -475,14 +476,14 @@
                 }
 
                 // --
-                this.numberOfMeshes = reader.ReadUInt32();
+                this.NumberOfMeshes = reader.ReadUInt32();
 
-                if (this.numberOfMeshes > 5000)
+                if (this.NumberOfMeshes > 5000)
                 {
                     throw new ArgumentOutOfRangeException(DomainMessages.The_number_of_meshes_exceeded_5000);
                 }
 
-                for (uint i = 0; i < this.numberOfMeshes; i++)
+                for (uint i = 0; i < this.NumberOfMeshes; i++)
                 {
                     // Error handler
                     reader.BaseStream.Position += 9;

@@ -22,7 +22,7 @@
             var decompressor = new Inflater();
             decompressor.SetInput(input);
 
-            // Create an expandable byte array to hold the decompressed data  
+            // CreateAndParse an expandable byte array to hold the decompressed data  
             using (var bos = new MemoryStream(input.Length))
             {
                 // Decompress the data  

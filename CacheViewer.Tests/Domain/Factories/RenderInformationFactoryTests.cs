@@ -53,7 +53,7 @@
             //{
             //    try
             //    {
-            //        var renderInfo = this.renderInformationFactory.Create(this.renderInformationFactory.Indexes[i].Identity, addByteData: true);
+            //        var renderInfo = this.renderInformationFactory.CreateAndParse(this.renderInformationFactory.Indexes[i].Identity, addByteData: true);
             //    }
             //    catch (Exception e)
             //    {

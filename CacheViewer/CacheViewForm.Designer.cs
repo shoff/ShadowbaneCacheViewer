@@ -39,6 +39,7 @@
             this.formsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEntityFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PropertiesLabel = new System.Windows.Forms.Label();
             this.LoadingPictureBox = new System.Windows.Forms.PictureBox();
             this.CacheSaveButton = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@
             this.StatusLabel = new System.Windows.Forms.Label();
             this.renderControl1 = new CacheViewer.Controls.RenderControl();
             this.CacheIndexListView = new CacheViewer.Controls.CObjectViewControl();
-            this.databaseFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +63,7 @@
             // 
             // CacheObjectTreeView
             // 
-            this.CacheObjectTreeView.Location = new System.Drawing.Point(103, 47);
+            this.CacheObjectTreeView.Location = new System.Drawing.Point(175, 47);
             this.CacheObjectTreeView.Name = "CacheObjectTreeView";
             this.CacheObjectTreeView.Size = new System.Drawing.Size(217, 481);
             this.CacheObjectTreeView.TabIndex = 1;
@@ -72,7 +72,7 @@
             // LoadLabel
             // 
             this.LoadLabel.AutoSize = true;
-            this.LoadLabel.Location = new System.Drawing.Point(100, 23);
+            this.LoadLabel.Location = new System.Drawing.Point(172, 23);
             this.LoadLabel.Name = "LoadLabel";
             this.LoadLabel.Size = new System.Drawing.Size(112, 13);
             this.LoadLabel.TabIndex = 2;
@@ -94,7 +94,7 @@
             this.PropertiesColumn});
             this.PropertiesListView.FullRowSelect = true;
             this.PropertiesListView.GridLines = true;
-            this.PropertiesListView.Location = new System.Drawing.Point(330, 47);
+            this.PropertiesListView.Location = new System.Drawing.Point(402, 47);
             this.PropertiesListView.Margin = new System.Windows.Forms.Padding(2);
             this.PropertiesListView.Name = "PropertiesListView";
             this.PropertiesListView.Size = new System.Drawing.Size(241, 180);
@@ -115,7 +115,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(859, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(978, 24);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -143,10 +143,17 @@
             this.logViewerToolStripMenuItem.Text = "Log Viewer";
             this.logViewerToolStripMenuItem.Click += new System.EventHandler(this.LogViewerToolStripMenuItemClick);
             // 
+            // databaseFormToolStripMenuItem
+            // 
+            this.databaseFormToolStripMenuItem.Name = "databaseFormToolStripMenuItem";
+            this.databaseFormToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.databaseFormToolStripMenuItem.Text = "Database Form";
+            this.databaseFormToolStripMenuItem.Click += new System.EventHandler(this.DatabaseFormToolStripMenuItemClick);
+            // 
             // PropertiesLabel
             // 
             this.PropertiesLabel.AutoSize = true;
-            this.PropertiesLabel.Location = new System.Drawing.Point(327, 23);
+            this.PropertiesLabel.Location = new System.Drawing.Point(402, 23);
             this.PropertiesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PropertiesLabel.Name = "PropertiesLabel";
             this.PropertiesLabel.Size = new System.Drawing.Size(87, 13);
@@ -181,7 +188,7 @@
             // TotalCacheLabel
             // 
             this.TotalCacheLabel.AutoSize = true;
-            this.TotalCacheLabel.Location = new System.Drawing.Point(100, 531);
+            this.TotalCacheLabel.Location = new System.Drawing.Point(172, 531);
             this.TotalCacheLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TotalCacheLabel.Name = "TotalCacheLabel";
             this.TotalCacheLabel.Size = new System.Drawing.Size(151, 13);
@@ -191,7 +198,7 @@
             // StatusLabel
             // 
             this.StatusLabel.AutoSize = true;
-            this.StatusLabel.Location = new System.Drawing.Point(330, 531);
+            this.StatusLabel.Location = new System.Drawing.Point(402, 531);
             this.StatusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(0, 13);
@@ -199,7 +206,7 @@
             // 
             // renderControl1
             // 
-            this.renderControl1.Location = new System.Drawing.Point(323, 227);
+            this.renderControl1.Location = new System.Drawing.Point(395, 227);
             this.renderControl1.Margin = new System.Windows.Forms.Padding(1);
             this.renderControl1.Name = "renderControl1";
             this.renderControl1.Size = new System.Drawing.Size(497, 306);
@@ -207,24 +214,17 @@
             // 
             // CacheIndexListView
             // 
-            this.CacheIndexListView.Location = new System.Drawing.Point(582, 24);
+            this.CacheIndexListView.Location = new System.Drawing.Point(654, 47);
             this.CacheIndexListView.Margin = new System.Windows.Forms.Padding(1);
             this.CacheIndexListView.Name = "CacheIndexListView";
-            this.CacheIndexListView.Size = new System.Drawing.Size(239, 194);
+            this.CacheIndexListView.Size = new System.Drawing.Size(239, 171);
             this.CacheIndexListView.TabIndex = 16;
-            // 
-            // databaseFormToolStripMenuItem
-            // 
-            this.databaseFormToolStripMenuItem.Name = "databaseFormToolStripMenuItem";
-            this.databaseFormToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.databaseFormToolStripMenuItem.Text = "Database Form";
-            this.databaseFormToolStripMenuItem.Click += new System.EventHandler(this.DatabaseFormToolStripMenuItemClick);
             // 
             // CacheViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(859, 551);
+            this.ClientSize = new System.Drawing.Size(978, 551);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.TotalCacheLabel);
             this.Controls.Add(this.CacheSaveButton);

@@ -151,6 +151,12 @@
     <Compile Include="Controls\RenderInfoControl.Designer.cs">
       <DependentUpon>RenderInfoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SlimRenderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SlimRenderControl.Designer.cs">
+      <DependentUpon>SlimRenderControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SoundControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -213,6 +219,12 @@
     <Content Include="triangle.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Controls\RenderDxControl.resx">
+      <DependentUpon>RenderDxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SlimRenderControl.resx">
+      <DependentUpon>SlimRenderControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SoundControl.resx">
       <DependentUpon>SoundControl.cs</DependentUpon>
     </EmbeddedResource>

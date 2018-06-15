@@ -94,7 +94,7 @@
                 foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectsCache.Create(ci);
+                    ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
                         ci.Identity.ToString(CultureInfo.InvariantCulture) :

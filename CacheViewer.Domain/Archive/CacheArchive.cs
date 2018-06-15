@@ -265,17 +265,6 @@
         }
 
         /// <summary>
-        ///     Gets the name.
-        /// </summary>
-        /// <param name="buffer">The buffer.</param>
-        /// <param name="index">Index of the cache.</param>
-        /// <returns></returns>
-        protected virtual string GetName(byte[] buffer, CacheIndex index)
-        {
-            return string.Empty;
-        }
-
-        /// <summary>
         ///     Sets the file location.
         /// </summary>
         protected void SetFileLocation()

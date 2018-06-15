@@ -53,9 +53,39 @@
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         /// <exception cref="IndexNotFoundException">Condition. </exception>
         /// <exception cref="IOException">An I/O error occurs. </exception>
-        public async Task<ICacheObject> CreateAsync(CacheIndex cacheIndex)
+        public async Task<ICacheObject> CreateAndParseAsync(CacheIndex cacheIndex)
         {
-            return await Task.FromResult(this.Create(cacheIndex));
+            return await Task.FromResult(this.CreateAndParse(cacheIndex));
+        }
+
+
+        /// <summary>
+        /// Returns and UnknownCacheObject used to discover WTF is going on 
+        /// </summary>
+        /// <param name="cacheIndex"></param>
+        /// <returns></returns>
+        internal ICacheObject Create(CacheIndex cacheIndex)
+        {
+            var asset = this.cobjects[cacheIndex.Identity];
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                // reader.skip(4); // ignore "TNLC" tag
+                // ReSharper disable once UnusedVariable
+                int tnlc = reader.ReadInt32();
+
+                // 4
+                var flag = (ObjectType)reader.ReadInt32();
+                var nameLength = reader.ReadUInt32();
+                var name = reader.ReadAsciiString(nameLength);
+
+                // why are we using this inner offset?
+                var innerOffset = (int)reader.BaseStream.Position;
+
+                // what are we doing with the offset here??
+                // so I think this must be the bug? 
+                var offset = (int)reader.BaseStream.Position + 25;
+                return new UnknownObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+            }
         }
 
         /// <summary>
@@ -67,29 +97,33 @@
         /// <exception cref="IOException">An I/O error occurs. </exception>
         /// <exception cref="IndexNotFoundException">Condition. </exception>
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
-        public ICacheObject Create(CacheIndex cacheIndex)
+        public ICacheObject CreateAndParse(CacheIndex cacheIndex)
         {
             var asset = this.cobjects[cacheIndex.Identity];
-
+            int innerOffset;
+            int offset;
+            ObjectType flag;
+            string name;
             using (var reader = asset.Item1.CreateBinaryReaderUtf32())
             {
                 // reader.skip(4); // ignore "TNLC" tag
                 // ReSharper disable once UnusedVariable
-                var tnlc = reader.ReadInt32();
+                int tnlc = reader.ReadInt32();
 
                 // 4
-                var flag = (ObjectType) reader.ReadInt32();
+                flag = (ObjectType) reader.ReadInt32();
                 var nameLength = reader.ReadUInt32();
-                var name = reader.ReadAsciiString(nameLength);
+                name = reader.ReadAsciiString(nameLength);
 
                 // why are we using this inner offset?
-                var innerOffset = (int) reader.BaseStream.Position;
+                innerOffset = (int) reader.BaseStream.Position;
 
                 // what are we doing with the offset here??
                 // so I think this must be the bug? 
-                var offset = (int) reader.BaseStream.Position + 25;
+                offset = (int) reader.BaseStream.Position + 25;
+            }
 
-                try
+            try
                 {
                     // TODO this can be optimized by passing the reader to the parse method.
                     switch (flag)
@@ -145,12 +179,11 @@
                     logger.Error(e);
                     throw;
                 }
-            }
+            
 
             return null;
         }
-
-
+        
         internal CObjects CacheObjects => this.cobjects;
     }
 }

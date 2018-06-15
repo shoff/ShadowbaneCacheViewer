@@ -269,7 +269,7 @@ namespace CacheViewer
                     string.Format("Now finding RenderIds for CObject at Index {0}",
                     cacheIndex.Identity));
 
-                ICacheObject cacheObject = this.cacheObjectsCache.Create(cacheIndex);
+                ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
 
                 this.dataContext.CacheObjectEntities.Add(new CacheObjectEntity
                 {

@@ -28,7 +28,7 @@ namespace CacheViewer.Tests.Domain.Models
         public void Parse_Should_Correctly_Identify_Data_For_CacheIndex_24000()
         {
             //var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.identity == 24000);
-            //var treeOfLife = this.cacheObjectFactory.Create(cacheIndex);
+            //var treeOfLife = this.cacheObjectFactory.CreateAndParse(cacheIndex);
             var treeOfLife = this.cobjects[24000];
             var length = treeOfLife.Item1.Count;
             Find_Where_The_RenderId_Is_Hiding(24000, treeOfLife.Item1);

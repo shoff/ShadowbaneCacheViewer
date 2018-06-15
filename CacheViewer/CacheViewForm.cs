@@ -41,7 +41,7 @@ namespace CacheViewer
 
         public CacheViewForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
@@ -85,7 +85,7 @@ namespace CacheViewer
                 foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
                     // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectsCache.Create(ci);
+                    ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
                         ci.Identity.ToString(CultureInfo.InvariantCulture) :
@@ -131,15 +131,15 @@ namespace CacheViewer
                 }
             });
 
-            simpleNode.Nodes.AddRange(simpleNodes.ToArray());
-            structureNode.Nodes.AddRange(structureNodes.ToArray());
-            interactiveNode.Nodes.AddRange(interactiveNodes.ToArray());
-            equipmentNode.Nodes.AddRange(equipmentNodes.ToArray());
-            mobileNode.Nodes.AddRange(mobileNodes.ToArray());
-            deedNode.Nodes.AddRange(deedNodes.ToArray());
-            unknownNode.Nodes.AddRange(unknownNodes.ToArray());
-            warrantNode.Nodes.AddRange(warrantNodes.ToArray());
-            particleNode.Nodes.AddRange(particleNodes.ToArray());
+            this.simpleNode.Nodes.AddRange(simpleNodes.ToArray());
+            this.structureNode.Nodes.AddRange(structureNodes.ToArray());
+            this.interactiveNode.Nodes.AddRange(interactiveNodes.ToArray());
+            this.equipmentNode.Nodes.AddRange(equipmentNodes.ToArray());
+            this.mobileNode.Nodes.AddRange(mobileNodes.ToArray());
+            this.deedNode.Nodes.AddRange(deedNodes.ToArray());
+            this.unknownNode.Nodes.AddRange(unknownNodes.ToArray());
+            this.warrantNode.Nodes.AddRange(warrantNodes.ToArray());
+            this.particleNode.Nodes.AddRange(particleNodes.ToArray());
 
             // what a pain in the ass this is Microsoft.
             this.LoadingPictureBox.Visible = false;
@@ -148,22 +148,22 @@ namespace CacheViewer
             // never re-enable the load cache button!
             // this.LoadCacheButton.Enabled = true;
             // this.LoadCacheButton.Refresh();
-            ResetSaveButtons();
+            this.ResetSaveButtons();
             logger.Info("CacheViewForm completed loading all cache archives.");
             this.archivesLoaded = true;
         }
 
         private void CacheViewFormLoad(object sender, EventArgs e)
         {
-            this.CacheObjectTreeView.Nodes.Add(simpleNode);
-            this.CacheObjectTreeView.Nodes.Add(structureNode);
-            this.CacheObjectTreeView.Nodes.Add(interactiveNode);
-            this.CacheObjectTreeView.Nodes.Add(equipmentNode);
-            this.CacheObjectTreeView.Nodes.Add(mobileNode);
-            this.CacheObjectTreeView.Nodes.Add(deedNode);
-            this.CacheObjectTreeView.Nodes.Add(unknownNode);
-            this.CacheObjectTreeView.Nodes.Add(warrantNode);
-            this.CacheObjectTreeView.Nodes.Add(particleNode);
+            this.CacheObjectTreeView.Nodes.Add(this.simpleNode);
+            this.CacheObjectTreeView.Nodes.Add(this.structureNode);
+            this.CacheObjectTreeView.Nodes.Add(this.interactiveNode);
+            this.CacheObjectTreeView.Nodes.Add(this.equipmentNode);
+            this.CacheObjectTreeView.Nodes.Add(this.mobileNode);
+            this.CacheObjectTreeView.Nodes.Add(this.deedNode);
+            this.CacheObjectTreeView.Nodes.Add(this.unknownNode);
+            this.CacheObjectTreeView.Nodes.Add(this.warrantNode);
+            this.CacheObjectTreeView.Nodes.Add(this.particleNode);
         }
 
         private async void SaveButtonClick(object sender, EventArgs e)
@@ -203,7 +203,7 @@ namespace CacheViewer
                 }
 
                 //var renderCacheIndex = this.renderFactory.Indexes[item.RenderId];
-                //var render = this.renderFactory.Create(renderCacheIndex);
+                //var render = this.renderFactory.CreateAndParse(renderCacheIndex);
 
                 var render = this.renderInformationFactory.Create((int)item.RenderId);
 
@@ -218,14 +218,16 @@ namespace CacheViewer
                 }
 
                 await this.meshExporter.ExportAsync(render.Mesh, item.Name);
+                this.ResetSaveButtons();
+                this.DisplayItemInformation(item);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
                 throw;
             }
-            ResetSaveButtons();
-            this.DisplayItemInformation(item);
+
+
         }
         private async void CacheObjectTreeViewAfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -317,6 +319,7 @@ namespace CacheViewer
             this.CacheSaveButton.Enabled = false;
 
             // this.PropertiesListView.Items.Clear();
+            await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
 
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
             await this.CacheIndexListView.Display(item);
@@ -353,7 +356,7 @@ namespace CacheViewer
                 if (item.RenderId == 0)
                 {
                     logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
-                    ResetSaveButtons();
+                    this.ResetSaveButtons();
                     return;
                 }
 
@@ -361,22 +364,24 @@ namespace CacheViewer
 
                 if (render.BinaryAsset.Item1.Count > 0)
                 {
-                    await SaveBinaryData(directory + "\\render.cache", render.BinaryAsset.Item1);
+                    await this.SaveBinaryData(directory + "\\" + render.CacheIndex.Name, render.BinaryAsset.Item1);
                 }
                 if (render.BinaryAsset.Item2.Count > 0)
                 {
-                    await SaveBinaryData(directory + "\\render_1.cache", render.BinaryAsset.Item1);
+                    await this.SaveBinaryData(directory + "\\" + render.BinaryAsset.CacheIndex2.Name, render.BinaryAsset.Item1);
                }
-                
-               // await this.meshExporter.ExportAsync(render.Mesh, item.Name);
+                // what a pain in the ass this is Microsoft.
+                this.LoadingPictureBox.Visible = false;
+                this.LoadingPictureBox.Refresh();
+                this.ResetSaveButtons();
+
+                // await this.meshExporter.ExportAsync(render.Mesh, item.Name);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
-                //throw;
+                throw;
             }
-
-            ResetSaveButtons();
         }
 
         private void ResetSaveButtons()
