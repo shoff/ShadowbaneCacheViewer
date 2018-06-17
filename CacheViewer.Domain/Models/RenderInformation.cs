@@ -40,6 +40,7 @@
         public DateTime? CreateDate { get; set; }
         public byte B34 { get; set; }
         public byte B11 { get; set; }
+
         public override string ToString()
         {
             var sb = new StringBuilder();

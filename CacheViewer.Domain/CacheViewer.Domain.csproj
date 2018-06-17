@@ -116,6 +116,8 @@
     <Compile Include="Data\Entities\MobileEntity.cs" />
     <Compile Include="Data\Entities\MotionEntity.cs" />
     <Compile Include="Data\Entities\RenderAndOffset.cs" />
+    <Compile Include="Data\Entities\RenderTexture.cs" />
+    <Compile Include="Data\Entities\TextureEntity.cs" />
     <Compile Include="Exceptions\HeaderFileSizeException.cs" />
     <Compile Include="Exceptions\InvalidAssetException.cs" />
     <Compile Include="Exceptions\InvalidCompressionSizeException.cs" />
@@ -150,7 +152,6 @@
     <Compile Include="Data\Entities\RenderEntity.cs" />
     <Compile Include="Data\Entities\Vector2Entity.cs" />
     <Compile Include="Data\Entities\Vector3Entity.cs" />
-    <Compile Include="Data\EntityContextInitializer.cs" />
     <Compile Include="Data\EntityRepository.cs" />
     <Compile Include="Data\IDataContext.cs" />
     <Compile Include="Data\IEntityRepository.cs" />
@@ -187,6 +188,22 @@
     <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.cs" />
     <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.Designer.cs">
       <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806171831539_FixingTextures.cs" />
+    <Compile Include="Migrations\201806171831539_FixingTextures.Designer.cs">
+      <DependentUpon>201806171831539_FixingTextures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806171846188_RenderTexture.cs" />
+    <Compile Include="Migrations\201806171846188_RenderTexture.Designer.cs">
+      <DependentUpon>201806171846188_RenderTexture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806171851157_RenderTextureOffset.cs" />
+    <Compile Include="Migrations\201806171851157_RenderTextureOffset.Designer.cs">
+      <DependentUpon>201806171851157_RenderTextureOffset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.cs" />
+    <Compile Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.Designer.cs">
+      <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bone.cs" />
@@ -279,6 +296,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806152053257_FixingRenderAndOffset.resx">
       <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171831539_FixingTextures.resx">
+      <DependentUpon>201806171831539_FixingTextures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171846188_RenderTexture.resx">
+      <DependentUpon>201806171846188_RenderTexture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171851157_RenderTextureOffset.resx">
+      <DependentUpon>201806171851157_RenderTextureOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.resx">
+      <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

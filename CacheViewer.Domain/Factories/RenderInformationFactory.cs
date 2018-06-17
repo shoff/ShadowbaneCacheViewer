@@ -4,10 +4,10 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Exceptions;
-    using CacheViewer.Domain.Extensions;
-    using CacheViewer.Domain.Models;
+    using Archive;
+    using Exceptions;
+    using Extensions;
+    using Models;
     using NLog;
     
     public class RenderInformationFactory
@@ -26,7 +26,7 @@
         {
             try
             {
-                return Create(cacheIndex.Identity, order);
+                return this.Create(cacheIndex.Identity, order);
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@
 
                 if (!renderInfo.HasJoint)
                 {
-                    logger?.Warn($"This is not a 'join' type render info we don't know how to handle this type yet.");
+                    logger?.Warn("This is not a \'join\' type render info we don\'t know how to handle this type yet.");
                     return renderInfo;
                 }
 
@@ -162,13 +162,13 @@
 
                 if (renderInfo.HasMesh)
                 {
-                    renderInfo.ValidMeshFound = HandleMesh(renderInfo);
+                    renderInfo.ValidMeshFound = this.HandleMesh(renderInfo);
                 }
             }
 
             if (asset.CacheIndex2.Identity > 0 && renderInfo.Order == 0)
             {
-                renderInfo.SharedId = Create(asset.CacheIndex2, 1);
+                renderInfo.SharedId = this.Create(asset.CacheIndex2, 1);
             }
 
             return renderInfo;
@@ -202,7 +202,7 @@
             {
                 if (this.AppendModel)
                 {
-                    if (IsValidId(renderInfo.MeshId))
+                    if (this.IsValidId(renderInfo.MeshId))
                     {
                         renderInfo.Mesh = MeshFactory.Instance.Create(renderInfo.MeshId);
                     }

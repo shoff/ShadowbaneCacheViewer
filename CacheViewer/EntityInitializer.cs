@@ -77,34 +77,16 @@ namespace CacheViewer
                     this.dataContext.RenderEntities.Add(re1);
                 }
 
-                this.SetMessage(this.RenderLabel, string.Format("Processed RenderId {0}", cacheIndex.Identity));
+                this.SetMessage(this.RenderLabel, $"Processed RenderId {cacheIndex.Identity}");
                 if (i > 1000)
                 {
-                    this.SetMessage(this.TotalRenderLabel, string.Format("Render Count: {0}", count));
+                    this.SetMessage(this.TotalRenderLabel, $"Render Count: {count}");
 
                     await this.dataContext.CommitAsync();
                     i = 0;
                 }
             }
             await this.dataContext.CommitAsync();
-        }
-
-        private void AddTextureEntities(DataContext context)
-        {
-            int i = 0;
-            foreach (var cacheIndex in this.textureFactory.Indexes)
-            {
-                i++;
-                Texture texture = this.textureFactory.Build(cacheIndex.Identity, false);
-                context.Textures.Add(texture);
-
-                if (i > 1000)
-                {
-                    context.Commit();
-                    i = 0;
-                }
-            }
-            context.Commit();
         }
 
         private const string Vertice = "v {0} {1} {2}\r\n";

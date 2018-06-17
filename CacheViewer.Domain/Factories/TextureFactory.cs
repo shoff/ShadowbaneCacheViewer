@@ -1,9 +1,7 @@
 ﻿namespace CacheViewer.Domain.Factories
 {
-    using System;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using System.IO;
     using System.Linq;
     using Archive;
     using Models;
@@ -75,9 +73,6 @@
         /// </param>
         /// <returns>
         /// </returns>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="NotSupportedException">The stream does not support seeking. </exception>
-        /// <exception cref="ObjectDisposedException">Methods were called after the stream was closed. </exception>
         public Bitmap TextureMap(int identity)
         {
             var buffer = this.textureArchive[identity].Item1;

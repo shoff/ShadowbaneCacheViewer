@@ -5,11 +5,11 @@ namespace CacheViewer.Tests.Domain.Factories
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Data;
     using CacheViewer.Domain.Data.Entities;
     using CacheViewer.Domain.Extensions;
@@ -83,75 +83,84 @@ namespace CacheViewer.Tests.Domain.Factories
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Name,CacheId,RenderIds Found,");
-
+            var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
+            var totalCacheItems = 0;
             using (var context = new DataContext())
             {
+                var save = 0;
                 foreach (var i in this.cacheObjectsCache.Indexes)
                 {
+                    save++;
+                    totalCacheItems++;
+
                     var cobject = this.cacheObjectsCache.CreateAndParse(i);
 
-                    if (cobject.Flag == ObjectType.Structure)
+                    //if (cobject.Flag == ObjectType.Structure)
+                    //{
+                    var centity = (from c in context.CacheObjectEntities
+                                   where c.CacheIndexIdentity == cobject.CacheIndex.Identity
+                                   select c).AsNoTracking().FirstOrDefault();
+
+                    if (centity == null)
                     {
-                        var centity = (from c in context.CacheObjectEntities
-                                       where c.CacheIndexIdentity == i.Identity
-                                       select c).FirstOrDefault();
-
-                        if (centity == null)
+                        centity = new CacheObjectEntity
                         {
-                            centity = new CacheObjectEntity
-                            {
-                                CacheIndexIdentity = i.Identity,
-                                CompressedSize = (int)i.CompressedSize,
-                                FileOffset = (int)i.Offset,
-                                Name = cobject.Name,
-                                ObjectType = ObjectType.Structure,
-                                ObjectTypeDescription = "Structure",
-                                UncompressedSize = (int)i.UnCompressedSize
-                            };
-                            context.CacheObjectEntities.Add(centity);
-                        }
+                            CacheIndexIdentity = cobject.CacheIndex.Identity,
+                            CompressedSize = (int)cobject.CacheIndex.CompressedSize,
+                            FileOffset = (int)cobject.CacheIndex.Offset,
+                            Name = cobject.Name,
+                            ObjectType = cobject.Flag,
+                            ObjectTypeDescription = objectTypeDicitonary[cobject.Flag],
+                            UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
+                        };
+                        context.CacheObjectEntities.Add(centity);
+                    }
 
-                        Dictionary<long, int> ids = new Dictionary<long, int>();
-                        Structure structure = (Structure)cobject;
-                        using (var reader = structure.Data.CreateBinaryReaderUtf32())
+                    Dictionary<long, int> ids = new Dictionary<long, int>();
+                    var structure = cobject;
+                    using (var reader = structure.Data.CreateBinaryReaderUtf32())
+                    {
+                        reader.BaseStream.Position =
+                            57; // this is common to all cache files and doesn't contain any render ids
+
+                        while (reader.BaseStream.Position + 4 <= structure.Data.Count)
                         {
-                            reader.BaseStream.Position =
-                                57; // this is common to all cache files and doesn't contain any render ids
+                            int renderId = reader.ReadInt32();
 
-                            while (reader.BaseStream.Position + 4 <= structure.Data.Count)
+                            if (renderId > 300 &&
+                                Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray,
+                                    renderId) > -1)
                             {
-                                int renderId = reader.ReadInt32();
-
-                                if (renderId > 300 &&
-                                    Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray,
-                                        renderId) > -1)
+                                ids.Add(reader.BaseStream.Position, renderId);
+                                centity.RenderAndOffsets.Add(new RenderAndOffset
                                 {
-                                    ids.Add(reader.BaseStream.Position, renderId);
-                                    centity.RenderAndOffsets.Add(new RenderAndOffset
-                                    {
-                                        RenderId = renderId,
-                                        OffSet = reader.BaseStream.Position
-                                    });
-                                }
-
-                                reader.BaseStream.Position -= 3;
+                                    RenderId = renderId,
+                                    OffSet = reader.BaseStream.Position
+                                });
                             }
-                        }
 
-                        sb.Append($"{structure.Name},{i.Identity},{ids.Count}");
-                        ids.Each(x => sb.Append($",{x.Key},{x.Value}"));
-                        sb.Append(Environment.NewLine);
+                            reader.BaseStream.Position -= 3;
+                        }
+                    }
+
+                    sb.Append($"{structure.Name},{i.Identity},{ids.Count}");
+                    ids.Each(x => sb.Append($",{x.Key},{x.Value}"));
+                    sb.Append(Environment.NewLine);
+
+                    if (save == 1000)
+                    {
+                        context.SaveChanges();
+                        File.AppendAllText($"{folder}\\cache-render-ids.csv", sb.ToString());
+                        sb.Clear();
+                        save = 0;
                     }
                 }
 
                 context.SaveChanges();
-                var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
-                File.WriteAllText($"{folder}\\cache-render-ids.csv", sb.ToString());
+                sb.AppendLine($"TotalCacheItems,{totalCacheItems}");
+                File.AppendAllText($"{folder}\\cache-render-ids.csv", sb.ToString());
             }
         }
-
-
-
         private static string CreateFolders()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";

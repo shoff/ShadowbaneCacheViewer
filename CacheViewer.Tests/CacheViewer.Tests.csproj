@@ -54,6 +54,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +76,7 @@
     <Compile Include="Domain\Factories\CacheObjectFactoryTests.cs" />
     <Compile Include="Domain\Factories\MeshFactoryTests.cs" />
     <Compile Include="Domain\Factories\RenderInformationFactoryTests.cs" />
+    <Compile Include="Domain\Factories\TextureFactoryTests.cs" />
     <Compile Include="Domain\Models\InteractiveTests.cs" />
     <Compile Include="Domain\Models\SimpleTests.cs" />
     <Compile Include="Domain\Parsers\WavefrontReaderTests.cs" />

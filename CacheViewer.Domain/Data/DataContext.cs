@@ -327,6 +327,8 @@
         public DbSet<RenderAndOffset> RenderAndOffsets { get; set; }
         public DbSet<RenderEntity> RenderEntities { get; set; }
         public DbSet<SkeletonEntity> SkeletonEntities { get; set; }
-        public DbSet<Texture> Textures { get; set; }
+        public DbSet<TextureEntity> Textures { get; set; }
+        public DbSet<RenderTexture> RenderTextures { get; set; }
+
     }
 }
