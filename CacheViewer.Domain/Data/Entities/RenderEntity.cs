@@ -7,11 +7,6 @@
     [Table("RenderEntities")]
     public class RenderEntity
     {
-        public RenderEntity()
-        {
-            this.Children = new List<RenderChild>();
-        }
-
         [Key]
         public int RenderEntityId { get; set; }
 
@@ -45,6 +40,6 @@
 
         public string Notes { get; set; }
 
-        public List<RenderChild> Children { get; set; }
+        public virtual ICollection<RenderChild> Children { get; set; } = new List<RenderChild>();
     }
 }

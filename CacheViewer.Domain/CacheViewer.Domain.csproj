@@ -205,7 +205,12 @@
     <Compile Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.Designer.cs">
       <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806180116260_AddRenderTexture.cs" />
+    <Compile Include="Migrations\201806180116260_AddRenderTexture.Designer.cs">
+      <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AssembledObject.cs" />
     <Compile Include="Models\Bone.cs" />
     <Compile Include="Models\CollisionInfo.cs" />
     <Compile Include="Models\DeedObject.cs" />
@@ -308,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.resx">
       <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806180116260_AddRenderTexture.resx">
+      <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

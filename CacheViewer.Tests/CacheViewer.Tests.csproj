@@ -70,6 +70,8 @@
     <Compile Include="Domain\Archive\SkeletonCacheTests.cs" />
     <Compile Include="Domain\Archive\SoundCacheTests.cs" />
     <Compile Include="Domain\Archive\TextureTests.cs" />
+    <Compile Include="Domain\Assembled\ConfessorShrineTests.cs" />
+    <Compile Include="Domain\Assembled\ElvenChurchTests.cs" />
     <Compile Include="Domain\Extensions\BinaryReaderExtensionsTests.cs" />
     <Compile Include="Domain\Extensions\Vector3ExtensionsTests.cs" />
     <Compile Include="Domain\Factories\ArchiveFactoryTests.cs" />

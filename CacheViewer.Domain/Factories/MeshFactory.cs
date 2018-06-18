@@ -40,8 +40,11 @@
         /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(CacheIndex cacheIndex)
         {
-            var mesh = new Mesh {CacheIndex = cacheIndex};
-
+            var mesh = new Mesh
+            {
+                CacheIndex = cacheIndex,
+                Id = cacheIndex.Identity
+            };
             var cacheAsset = MeshArchive[cacheIndex.Identity];
             using (var reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {

@@ -38,7 +38,7 @@
         private const string MaterialDefaultIllumination = "illum 2\r\n";
         private const string MapTo = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-        private readonly string modelDirectory = FileLocations.Instance.GetExportFolder();
+        public string ModelDirectory { get; set; } = FileLocations.Instance.GetExportFolder();
         private string name;
 
         /// <summary>
@@ -54,10 +54,13 @@
         /// <cref>DirectoryNotFoundException</cref>
         public MeshOnlyObjExporter()
         {
-            if (!Directory.Exists(this.modelDirectory))
+            if (!string.IsNullOrEmpty(this.ModelDirectory))
             {
-                // ReSharper disable once ExceptionNotDocumented
-                Directory.CreateDirectory(this.modelDirectory);
+                if (!Directory.Exists(this.ModelDirectory))
+                {
+                    // ReSharper disable once ExceptionNotDocumented
+                    Directory.CreateDirectory(this.ModelDirectory);
+                }
             }
         }
 
@@ -99,11 +102,11 @@
                 mainStringBuilder.Append(DefaultGroup);
 
                 // save the obj
-                this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.modelDirectory);
+                this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.ModelDirectory);
 
                 using (
                     var fs = new FileStream(
-                        this.modelDirectory + "\\" + this.name + ".obj",
+                        this.ModelDirectory + "\\" + this.name + ".obj",
                         FileMode.Create,
                         FileAccess.ReadWrite,
                         FileShare.ReadWrite))
@@ -115,7 +118,7 @@
                 }
 
                 // save the material
-                var mtlFile = this.modelDirectory + "\\" + this.name + ".mtl";
+                var mtlFile = this.ModelDirectory + "\\" + this.name + ".mtl";
                 if (File.Exists(mtlFile))
                 {
                     File.Delete(mtlFile);
@@ -123,7 +126,7 @@
 
                 using (
                     var fs1 = new FileStream(
-                        this.modelDirectory + "\\" + this.name + ".mtl",
+                        this.ModelDirectory + "\\" + this.name + ".mtl",
                         FileMode.Create,
                         FileAccess.ReadWrite,
                         FileShare.ReadWrite))
@@ -153,8 +156,8 @@
         /// </param>
         /// <param name="directory">
         /// </param>
-        private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, StringBuilder materialBuilder,
-            string directory)
+        private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
+            StringBuilder materialBuilder, string directory)
         {
             var mapFiles = new List<string>();
 
