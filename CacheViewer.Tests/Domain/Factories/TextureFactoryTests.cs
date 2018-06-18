@@ -46,36 +46,5 @@
             File.WriteAllText($"{folder}\\badids.csv", sb.ToString());
         }
 
-
-        [Test, Explicit]
-        public void Save_To_Sql()
-        {
-
-            using(var context = new DataContext())
-            {
-                int i = 0;
-                foreach (var cacheIndex in TextureFactory.Instance.Indexes)
-                {
-                    i++;
-                    Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
-                    //context.Textures.Add(texture);
-                    var entity = new TextureEntity
-                    {
-                        Depth = texture.Depth,
-                        Height = texture.Height,
-                        TextureId = cacheIndex.Identity,
-                        Width = texture.Width
-                    };
-                    context.Textures.Add(entity);
-
-                    if (i > 1000)
-                    {
-                        context.Commit();
-                        i = 0;
-                    }
-                }
-                context.Commit();
-            }
-        }
     }
 }

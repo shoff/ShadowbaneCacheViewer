@@ -86,9 +86,12 @@
                 // see if this has a joint
                 renderInfo.HasJoint = reader.ReadUInt32() == 1;
 
-                // null bytes
+                // previously I thought this was always a null short, but it is not always null actually.
                 reader.ReadUInt16();
+                
+                // not all render info objects have a date time!
                 DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
                 long seconds = reader.ReadInt32();
                 if (seconds > 0)
                 {
@@ -116,28 +119,36 @@
                 renderInfo.Unknown[0] = reader.ReadUInt32();
                 // Debug.Assert(nullInt == 0);
 
+                // TODO this seems to be correct up to this point.
+                // offset 43
                 renderInfo.MeshId = reader.ReadInt32();
 
+                // offset 45
                 renderInfo.Unknown[1] = reader.ReadUInt16();
                 //Debug.Assert(nullShort == 0);
+                renderInfo.LastOffset = reader.BaseStream.Position;
 
                 // testing
                 var jointNameSize = reader.ReadUInt32();
+
                 if (reader.BaseStream.Position + jointNameSize <= renderInfo.ByteCount)
                 {
                     renderInfo.JointName = reader.ReadAsciiString(jointNameSize);
+                    renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
                 if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
                 {
                     // object scale ?
                     renderInfo.Scale = reader.ReadToVector3();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
                 if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
                 {
                     // I think this is probably a bool or flag of some kind
                     renderInfo.Unknown[2] = reader.ReadUInt32();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
                 if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
@@ -145,20 +156,40 @@
                     // TODO this is where it gets fucked. 
                     // object position ?
                     renderInfo.Position = reader.ReadToVector3();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
                 }
-                // TODO
-                // this is incorrect
-                //// Render object count
-                //renderInfo.RenderCount = reader.ReadInt32();
-                //HandleChildren(reader, renderInfo);
 
-                //var hasTexture = reader.ReadBoolean();
+                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+                {
+                    renderInfo.ChildCount = reader.ReadInt32();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
+                }
 
-                //if (hasTexture)
-                //{
-                //    // skip over unknown data to the texture id another vector3 ?
-                //    HandleTexture(reader, ref renderInfo);
-                //}
+                if (reader.BaseStream.Position + 1 <= renderInfo.ByteCount)
+                {
+                    var ht = reader.ReadByte();
+                    renderInfo.HasTexture = ht == 1;
+                    renderInfo.LastOffset = reader.BaseStream.Position;
+                }
+
+                // garbage vector 2 maybe?
+                if (reader.BaseStream.Position + 8 <= renderInfo.ByteCount)
+                {
+                    renderInfo.LastOffset = reader.BaseStream.Position;
+                    renderInfo.TextureVector = reader.ReadToVector2();
+                }
+
+                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+                {
+                    reader.ReadInt32();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
+                }
+
+                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+                {
+                    renderInfo.TextureId = reader.ReadInt32();
+                    renderInfo.LastOffset = reader.BaseStream.Position;
+                }
 
                 if (renderInfo.HasMesh)
                 {
@@ -299,6 +330,7 @@
         public CacheIndex[] Indexes => this.RenderArchive.CacheIndices.ToArray();
 
         internal Render RenderArchive { get; }
+
         public bool AppendModel { get; set; }
 
         public Tuple<int, int> IdentityRange =>

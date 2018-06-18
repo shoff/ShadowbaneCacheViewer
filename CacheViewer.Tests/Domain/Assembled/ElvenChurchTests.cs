@@ -44,7 +44,7 @@
             {
                 this.indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
-                    where c.Name == "Elven Church" && c.ObjectType == CacheViewer.Domain.Models.ObjectType.Structure
+                    where c.Name == "Elven Church" && c.ObjectType == ObjectType.Structure
                     select c).ToList();
 
                 foreach (var re in this.indexes)
@@ -122,19 +122,8 @@
                 Directory.CreateDirectory(folder);
             }
             this.meshExporter.ModelDirectory = folder;
-            using (var context = new DataContext())
-            {
-                var i = this.cacheObjectsCache.Indexes.FirstOrDefault(x => x.Identity == 424000);
-                var cobject = this.cacheObjectsCache.CreateAndParse(i);
-
-                //if (cobject.Flag == ObjectType.Structure)
-                //{
-                var centity = (from c in context.CacheObjectEntities
-                               where c.CacheIndexIdentity == cobject.CacheIndex.Identity
-                               select c).AsNoTracking().FirstOrDefault();
-
-                // foreach (var re in centity.RenderAndOffsets)
-            }
+            var i = this.cacheObjectsCache.Indexes.FirstOrDefault(x => x.Identity == 424000);
+            var cobject = this.cacheObjectsCache.CreateAndParse(i);
 
             foreach (var mesh in this.mesheEntities)
             {

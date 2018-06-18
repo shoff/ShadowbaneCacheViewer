@@ -31,6 +31,7 @@
         private const string Normal = "vn {0} {1} {2}\r\n";
         private const string Texture = "vt {0} {1}\r\n";
         private const string MaterialName = "newmtl {0}\r\n";
+        private const string UseMaterial = "usemtl {0}\r\n";
         private const string MaterialWhite = "Ka 1.000 1.000 1.000\r\n";
         private const string MaterialDiffuse = "Kd 1.000 1.000 1.000\r\n";
         private const string MaterialSpecular = "Ks 0.000 0.000 0.000\r\n ";
@@ -172,9 +173,11 @@
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {
                         var mapName = directory + "\\" +
-                            mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".jpg";
+                            mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
                         mapFiles.Add(mapName);
-                        map.Save(mapName, ImageFormat.Jpeg);
+                        map.Save(mapName, ImageFormat.Png);
+
+                        mainStringBuilder.AppendFormat(UseMaterial, mapName);
                     }
                 }
             }

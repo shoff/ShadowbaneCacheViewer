@@ -22,6 +22,17 @@ string tVector3fRead( tVector3f &v ) {
  return s;
 };
 
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
 // --------------------------------------------------
 int renderType;
 ushort null_a;
@@ -38,13 +49,13 @@ int jointNameSize;              // can be 0
 wchar_t name[jointNameSize];    // can be empty
 
 // unknown float
-tVector3f scale;
+tVector3f scale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
 
 // no clue int
 uint unknown2;
 
 // texture scale?
-tVector3f position;
+tVector3f position <fgcolor=cBlack, bgcolor=0xE2E4E5>;
 
 int childRenderCount;
 // TODO loop through children
@@ -53,6 +64,6 @@ byte hasTexture;
 
 // scale of texture?
 // this seems to be simply garbage
-tVector3f textureScale;
-
-uint textureId;
+tVector2f textureScale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
+uint unknown3;
+uint textureId <fgcolor=cBlack, bgcolor=0xC0C0C0>;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheViewer", "CacheViewer\CacheViewer.csproj", "{17D5C0EC-16A9-4887-AD40-6D743F2853C8}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheViewer.Console", "CacheViewer.Console\CacheViewer.Console.csproj", "{41903DCF-1395-4740-BEF8-8D2E87ED94C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,8 +76,27 @@ Global
 		{111FE4A4-B975-43A3-938D-05F463919CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{111FE4A4-B975-43A3-938D-05F463919CD8}.Release|x86.ActiveCfg = Release|x86
 		{111FE4A4-B975-43A3-938D-05F463919CD8}.Release|x86.Build.0 = Release|x86
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Documentation|x86.Build.0 = Debug|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Nsis|x86.ActiveCfg = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Nsis|x86.Build.0 = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{41903DCF-1395-4740-BEF8-8D2E87ED94C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46A65E40-C499-4957-9DBB-E513FEA3FFA2}
 	EndGlobalSection
 EndGlobal

@@ -28,18 +28,22 @@
         public int RenderCount { get; set; }
         public CacheIndex[] ChildRenderIds { get; set; }
         public int TextureId { get; set; }
+        public bool HasTexture { get; set; }
         [JsonIgnore]
         public Texture Texture { get; set; }
+        public Vector2 TextureVector { get; set; }
         public CacheIndex CacheIndex { get; set; }
         public string Notes { get; set; }
         [JsonIgnore]
         public RenderInformation SharedId { get; set; }
+        public int ChildCount { get; set; }
         public List<int> ChildRenderIdList { get; set; } = new List<int>();
         public List<RenderInformation> Children { get; } = new List<RenderInformation>();
         public CacheAsset BinaryAsset { get; set; }
         public DateTime? CreateDate { get; set; }
         public byte B34 { get; set; }
         public byte B11 { get; set; }
+        public long LastOffset { get; set; }
 
         public override string ToString()
         {

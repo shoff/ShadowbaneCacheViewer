@@ -23,6 +23,7 @@ namespace CacheViewer.Tests.Domain.Factories
         // this breaks testing in isolation, but the alternative is to start passing this as an interface
         // which would impact performance HUGELY so ...
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
         [Test, Explicit]
         public async Task Temp_OutPut_All_To_Files()
@@ -77,10 +78,117 @@ namespace CacheViewer.Tests.Domain.Factories
             {ObjectType.Particle, "Particle"}
         };
 
-
-        [Test]
-        public void Lets_Find_All_Offsets_That_Match_A_RenderId_In_Type_4s()
+        [Test, Explicit]
+        public void Save_Textures_To_Sql()
         {
+            using (var context = new DataContext())
+            {
+                int i = 0;
+                foreach (var cacheIndex in TextureFactory.Instance.Indexes)
+                {
+                    i++;
+                    Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
+                    //context.Textures.Add(texture);
+                    var entity = new TextureEntity
+                    {
+                        Depth = texture.Depth,
+                        Height = texture.Height,
+                        TextureId = cacheIndex.Identity,
+                        Width = texture.Width
+                    };
+                    context.Textures.Add(entity);
+
+                    if (i > 1000)
+                    {
+                        context.Commit();
+                        i = 0;
+                    }
+                }
+                context.Commit();
+            }
+        }
+
+        [Test, Explicit]
+        public void Save_Mesh_To_Sql()
+        {
+            using (var context = new DataContext())
+            {
+                int save = 0;
+                foreach (var index in MeshFactory.Instance.Indexes)
+                {
+                    save++;
+                    var mesh = MeshFactory.Instance.Create(index);
+                    var ent = new MeshEntity
+                    {
+                        CacheIndexIdentity = mesh.CacheIndex.Identity,
+                        CompressedSize = (int)mesh.CacheIndex.CompressedSize,
+                        NormalsCount = (int)mesh.NormalsCount,
+                        FileOffset = (int)mesh.CacheIndex.Offset,
+                        Id = mesh.Id,
+                        Normals = string.Join(";", mesh.Normals.Map(v => $"{v.X}:{v.Y}:{v.Z}").ToArray()),
+                        TexturesCount = mesh.Textures?.Count() ?? 0,
+                        TextureVectors = string.Join(";", mesh.TextureVectors.Map(v => $"{v.X}:{v.Y}").ToArray()),
+                        UncompressedSize = (int)mesh.CacheIndex.UnCompressedSize,
+                        VertexCount = mesh.Vertices?.Count ?? 0,
+                        Vertices = string.Join(";", mesh.Vertices.Map(v => $"{v.X}:{v.Y}:{v.Z}").ToArray())
+                    };
+                    context.MeshEntities.Add(ent);
+
+
+                    if (save == 1000)
+                    {
+                        context.SaveChanges();
+                        save = 0;
+                    }
+                }
+
+                context.SaveChanges();
+            }
+        }
+
+        [Test, Explicit]
+        public void Save_RenderInformation_To_Sql()
+        {
+            using (var context = new DataContext())
+            {
+                var save = 0;
+                foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
+                {
+                    save++;
+                    // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                    var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
+                    var entity = new RenderEntity
+                    {
+                        ByteCount = render.ByteCount,
+                        CacheIndexIdentity = render.CacheIndex.Identity,
+                        CompressedSize = (int)render.CacheIndex.CompressedSize,
+                        FileOffset = (int)render.CacheIndex.Offset,
+                        HasMesh = render.HasMesh,
+                        JointName = render.JointName,
+                        MeshId = render.MeshId,
+                        Order = render.Order,
+                        Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
+                        TextureId = render.TextureId,
+                        UncompressedSize = (int)render.CacheIndex.UnCompressedSize
+                    };
+                    context.RenderEntities.Add(entity);
+
+                    if (save == 1000)
+                    {
+                        save = 0;
+                        context.SaveChanges();
+                    }
+                }
+
+                context.SaveChanges();
+            }
+        }
+
+        [Test, Explicit]
+        public void Save_All_Cache_Files_To_Sql()
+        {
+
+            var folders = CreateFolders();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Name,CacheId,RenderIds Found,");
             var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
@@ -120,16 +228,17 @@ namespace CacheViewer.Tests.Domain.Factories
                     var structure = cobject;
                     using (var reader = structure.Data.CreateBinaryReaderUtf32())
                     {
-                        reader.BaseStream.Position =
-                            57; // this is common to all cache files and doesn't contain any render ids
+                        reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
 
                         while (reader.BaseStream.Position + 4 <= structure.Data.Count)
                         {
                             int renderId = reader.ReadInt32();
 
-                            if (renderId > 300 &&
-                                Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray,
-                                    renderId) > -1)
+                            int range = renderId > centity.CacheIndexIdentity ? 
+                                Math.Abs(renderId - centity.CacheIndexIdentity) : 
+                                Math.Abs(centity.CacheIndexIdentity-renderId);
+
+                            if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
                             {
                                 ids.Add(reader.BaseStream.Position, renderId);
                                 centity.RenderAndOffsets.Add(new RenderAndOffset
@@ -138,7 +247,6 @@ namespace CacheViewer.Tests.Domain.Factories
                                     OffSet = reader.BaseStream.Position
                                 });
                             }
-
                             reader.BaseStream.Position -= 3;
                         }
                     }

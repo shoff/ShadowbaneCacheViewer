@@ -68,6 +68,8 @@
                         CompressedSize = (int) render.CacheIndex.CompressedSize,
                         FileOffset = (int) render.CacheIndex.Offset,
                         HasMesh = render.HasMesh,
+                        HasTexture = render.HasTexture,
+                        RenderCount = render.ChildCount,
                         JointName = render.JointName,
                         MeshId = render.MeshId,
                         Order = render.Order,

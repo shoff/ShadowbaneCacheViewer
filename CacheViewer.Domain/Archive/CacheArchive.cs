@@ -95,7 +95,8 @@
             {
                 // set the offset.
                 reader.BaseStream.Position = this.cacheHeader.indexOffset;
-
+                int previousIdentity = 0;
+                int previousOrder = 0;
                 for (var i = 0; i < this.cacheHeader.indexCount; i++)
                 {
                     var index = new CacheIndex
@@ -106,6 +107,17 @@
                         UnCompressedSize = reader.ReadUInt32(),
                         CompressedSize = reader.ReadUInt32()
                     };
+                    // so we can easily correctly determine the cache order
+                    if (previousIdentity == index.Identity)
+                    {
+                        index.Order = ++previousOrder;
+                    }
+                    else
+                    {
+                        previousOrder = 0;
+                    }
+
+                    previousIdentity = index.Identity;
                     this.IdentityArray[i] = index.Identity;
                     this.CacheIndices[i] = index;
                 }

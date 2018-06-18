@@ -35,6 +35,7 @@
         public int UncompressedSize { get; set; }
 
         public int FileOffset { get; set; }
+        public bool HasTexture { get; set; }
 
         public int? TextureId { get; set; }
 

@@ -209,6 +209,10 @@
     <Compile Include="Migrations\201806180116260_AddRenderTexture.Designer.cs">
       <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806182031363_CorrectingRenderData.cs" />
+    <Compile Include="Migrations\201806182031363_CorrectingRenderData.Designer.cs">
+      <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AssembledObject.cs" />
     <Compile Include="Models\Bone.cs" />
@@ -316,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806180116260_AddRenderTexture.resx">
       <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806182031363_CorrectingRenderData.resx">
+      <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
