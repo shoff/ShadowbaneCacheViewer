@@ -10,10 +10,9 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+    using CacheViewer.Data;
     using Code;
     using Domain.Archive;
-    using Domain.Data;
-    using Domain.Data.Entities;
     using Domain.Exporters;
     using Domain.Extensions;
     using Domain.Factories;
@@ -446,25 +445,6 @@
         {
             LogViewer logViewer = new LogViewer();
             logViewer.Show();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            using (DataContext context = new DataContext())
-            {
-                var entities = context.Set<CacheIndexEntity>();
-                foreach (var cache in this.renderInformationFactory.Indexes)
-                {
-                    entities.Add(new CacheIndexEntity
-                    {
-                        CompressedSize = (int)cache.CompressedSize,
-                        Offset = (int)cache.Offset,
-                        UnCompressedSize = (int)cache.UnCompressedSize,
-                        File = CacheFile.Render
-                    });
-                }
-                context.Commit();
-            }
         }
     }
 }

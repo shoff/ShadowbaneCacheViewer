@@ -10,9 +10,9 @@ namespace CacheViewer.Tests.Domain.Factories
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Models;
     using CacheViewer.Domain.Models.Exportable;
@@ -24,7 +24,6 @@ namespace CacheViewer.Tests.Domain.Factories
         // this breaks testing in isolation, but the alternative is to start passing this as an interface
         // which would impact performance HUGELY so ...
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
-        private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
         [Test, Explicit]
         public async Task Temp_OutPut_All_To_Files()
@@ -79,100 +78,21 @@ namespace CacheViewer.Tests.Domain.Factories
             {ObjectType.Particle, "Particle"}
         };
 
-        [Test, Explicit]
-        public void Save_Textures_To_Sql()
-        {
-            using (var context = new DataContext())
-            {
-                int i = 0;
-                foreach (var cacheIndex in TextureFactory.Instance.Indexes)
-                {
-                    i++;
-                    Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
-                    //context.Textures.Add(texture);
-                    var entity = new TextureEntity
-                    {
-                        Depth = texture.Depth,
-                        Height = texture.Height,
-                        TextureId = cacheIndex.Identity,
-                        Width = texture.Width
-                    };
-                    context.Textures.Add(entity);
 
-                    if (i > 1000)
-                    {
-                        context.Commit();
-                        i = 0;
-                    }
-                }
-                context.Commit();
-            }
-        }
-
-        [Test, Explicit]
-        public void Save_Mesh_To_Sql()
-        {
-            using (var context = new DataContext())
-            {
-                int save = 0;
-                foreach (var index in MeshFactory.Instance.Indexes)
-                {
-                    save++;
-                    var mesh = MeshFactory.Instance.Create(index);
-                    var ent = new MeshEntity
-                    {
-                        CacheIndexIdentity = mesh.CacheIndex.Identity,
-                        CompressedSize = (int)mesh.CacheIndex.CompressedSize,
-                        NormalsCount = (int)mesh.NormalsCount,
-                        FileOffset = (int)mesh.CacheIndex.Offset,
-                        Id = mesh.Id,
-                        Normals = string.Join(";", mesh.Normals.Map(v => $"{v.X}:{v.Y}:{v.Z}").ToArray()),
-                        TexturesCount = mesh.Textures?.Count() ?? 0,
-                        TextureVectors = string.Join(";", mesh.TextureVectors.Map(v => $"{v.X}:{v.Y}").ToArray()),
-                        UncompressedSize = (int)mesh.CacheIndex.UnCompressedSize,
-                        VertexCount = mesh.Vertices?.Count ?? 0,
-                        Vertices = string.Join(";", mesh.Vertices.Map(v => $"{v.X}:{v.Y}:{v.Z}").ToArray())
-                    };
-
-                    var render = (from r in context.RenderEntities
-                        where r.MeshId == mesh.Id
-                        select r).FirstOrDefault();
-
-                    if (render != null && render.HasTexture)
-                    {
-                        var texture = (from t in context.Textures where t.TextureId == render.TextureId select t)
-                            .FirstOrDefault();
-                        if (texture != null)
-                        {
-                            ent.Textures.Add(texture);
-                        }
-                    }
-
-                    context.MeshEntities.Add(ent);
-
-
-                    if (save == 1000)
-                    {
-                        context.SaveChanges();
-                        save = 0;
-                    }
-                }
-
-                context.SaveChanges();
-            }
-        }
 
         [Test, Explicit]
         public void Save_RenderInformation_To_Sql()
         {
+             RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
+
             using (var context = new DataContext())
             {
                 var save = 0;
-                foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
+                foreach (var index in renderInformationFactory.RenderArchive.CacheIndices)
                 {
                     save++;
                     // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
-                    var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
+                    var render = renderInformationFactory.Create(index.Identity, index.Order, true);
                     var entity = new RenderEntity
                     {
                         ByteCount = render.ByteCount,

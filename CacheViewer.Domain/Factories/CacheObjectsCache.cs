@@ -6,6 +6,7 @@
     using System.IO;
     using System.Threading.Tasks;
     using Archive;
+    using CacheViewer.Data;
     using Exceptions;
     using Extensions;
     using Models;

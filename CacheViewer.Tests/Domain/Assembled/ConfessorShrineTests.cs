@@ -6,8 +6,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using CacheViewer.Domain.Exporters;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
@@ -33,7 +33,7 @@
             {
                 this.indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
-                    where c.Name == "Confessor Shrine" && c.ObjectType == CacheViewer.Domain.Models.ObjectType.Interactive
+                    where c.Name == "Confessor Shrine" && c.ObjectType == ObjectType.Interactive
                     select c).ToList();
 
                 foreach (var re in this.indexes)

@@ -2,6 +2,7 @@
 {
     using System;
     using Archive;
+    using CacheViewer.Data;
     using Exportable;
 
     public class Sun : CacheObject

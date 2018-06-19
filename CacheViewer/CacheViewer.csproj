@@ -292,6 +292,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CacheViewer.Data\CacheViewer.Data.csproj">
+      <Project>{6cbdfb6b-edcd-4b87-9009-cad1bcb23a33}</Project>
+      <Name>CacheViewer.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CacheViewer.Domain\CacheViewer.Domain.csproj">
       <Project>{e679dfb5-302e-488e-98f2-4a0838a4a222}</Project>
       <Name>CacheViewer.Domain</Name>

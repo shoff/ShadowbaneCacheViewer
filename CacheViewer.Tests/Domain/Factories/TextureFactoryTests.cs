@@ -5,10 +5,11 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Text;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
+    using EntityFramework.BulkInsert.Extensions;
     using NUnit.Framework;
 
     [TestFixture]
@@ -46,5 +47,33 @@
             File.WriteAllText($"{folder}\\badids.csv", sb.ToString());
         }
 
+
+
+        [Test, Explicit]
+        public void Save_Textures_To_Sql()
+        {
+            var textureFactory = TextureFactory.Instance;
+            List<TextureEntity> entities = new List<TextureEntity>();
+
+            int i = 0;
+            foreach (var cacheIndex in textureFactory.Indexes)
+            {
+                i++;
+                Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
+                //context.Textures.Add(texture);
+                var entity = new TextureEntity
+                {
+                    Depth = texture.Depth,
+                    Height = texture.Height,
+                    TextureId = cacheIndex.Identity,
+                    Width = texture.Width
+                };
+                entities.Add(entity);
+            }
+            using (var context = new DataContext())
+            {
+                context.BulkInsert(entities);
+            }
+        }
     }
 }

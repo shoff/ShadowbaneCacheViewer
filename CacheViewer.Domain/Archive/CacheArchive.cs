@@ -26,7 +26,6 @@
             }
 
             this.Name = name;
-            //this.cacheIndex = new List<CacheIndex>();
             this.cacheHeader = new CacheHeader();
             this.fileLocations = FileLocations.Instance;
             this.UseCache = true;

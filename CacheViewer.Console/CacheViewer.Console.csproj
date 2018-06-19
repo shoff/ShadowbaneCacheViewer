@@ -62,5 +62,11 @@
       <Version>4.5.6</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CacheViewer.Data\CacheViewer.Data.csproj">
+      <Project>{6cbdfb6b-edcd-4b87-9009-cad1bcb23a33}</Project>
+      <Name>CacheViewer.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

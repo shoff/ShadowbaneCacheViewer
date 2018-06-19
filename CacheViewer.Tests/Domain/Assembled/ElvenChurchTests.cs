@@ -7,8 +7,8 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using CacheViewer.Domain.Exporters;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;

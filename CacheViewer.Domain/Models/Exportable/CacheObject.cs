@@ -2,6 +2,7 @@
 {
     using System;
     using Archive;
+    using CacheViewer.Data;
 
     /// <summary>
     /// </summary>

@@ -1,8 +1,7 @@
-﻿namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Data.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Models;
 
     public class MotionEntity
     {
@@ -31,21 +30,5 @@
 
         public ICollection<MotionEntity> MotionEntities { get; set; }
 
-        public static implicit operator SkeletonEntity(Skeleton skeleton)
-        {
-            var se = new SkeletonEntity();
-            se.SkeletonText = skeleton.SkeletonText;
-            se.MotionIdCounter = (int) skeleton.MotionCount;
-            se.DistinctMotionCounter = skeleton.DistinctMotionIdCount;
-            foreach (var mi in skeleton.MotionIds)
-            {
-                se.MotionEntities.Add(new MotionEntity
-                {
-                    CacheIdentity = (int) mi
-                });
-            }
-
-            return se;
-        }
     }
 }

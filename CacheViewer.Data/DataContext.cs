@@ -1,16 +1,15 @@
-﻿namespace CacheViewer.Domain.Data
+﻿namespace CacheViewer.Data
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
     using System.Data.Entity.ModelConfiguration.Conventions;
-    using System.Data.SqlClient;
+    using System.Data.Entity.Validation;
     using System.Threading;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Data.Entities;
-    using CacheViewer.Domain.Models;
+    using CacheViewer.Data.Entities;
     using NLog;
-    using Utility;
 
     public class DataContext : DbContext, IDataContext
     {
@@ -177,7 +176,7 @@
             {
                 return this.Database.ExecuteSqlCommand(sqlCommand, parameters);
             }
-            catch (SqlException sql)
+            catch (Exception sql)
             {
                 logger.Error(sql.Message, sql);
                 if (this.ReThrowExceptions)
@@ -317,8 +316,7 @@
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             this.OnModelCreation(modelBuilder);
         }
-
-        public DbSet<CacheIndexEntity> CacheIndexes { get; set; }
+        
         public DbSet<CacheObjectEntity> CacheObjectEntities { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<MeshEntity> MeshEntities { get; set; }

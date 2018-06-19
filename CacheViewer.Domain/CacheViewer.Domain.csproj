@@ -111,13 +111,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Entities\CacheIndexEntity.cs" />
-    <Compile Include="Data\Entities\Log.cs" />
-    <Compile Include="Data\Entities\MobileEntity.cs" />
-    <Compile Include="Data\Entities\MotionEntity.cs" />
-    <Compile Include="Data\Entities\RenderAndOffset.cs" />
-    <Compile Include="Data\Entities\RenderTexture.cs" />
-    <Compile Include="Data\Entities\TextureEntity.cs" />
     <Compile Include="Exceptions\HeaderFileSizeException.cs" />
     <Compile Include="Exceptions\InvalidAssetException.cs" />
     <Compile Include="Exceptions\InvalidCompressionSizeException.cs" />
@@ -145,17 +138,6 @@
     <Compile Include="Archive\Tile.cs" />
     <Compile Include="Archive\Unknown.cs" />
     <Compile Include="Archive\Visual.cs" />
-    <Compile Include="Data\DataContext.cs" />
-    <Compile Include="Data\Entities\CacheObjectEntity.cs" />
-    <Compile Include="Data\Entities\MeshEntity.cs" />
-    <Compile Include="Data\Entities\RenderChild.cs" />
-    <Compile Include="Data\Entities\RenderEntity.cs" />
-    <Compile Include="Data\Entities\Vector2Entity.cs" />
-    <Compile Include="Data\Entities\Vector3Entity.cs" />
-    <Compile Include="Data\EntityRepository.cs" />
-    <Compile Include="Data\IDataContext.cs" />
-    <Compile Include="Data\IEntityRepository.cs" />
-    <Compile Include="Data\IQueryableDataContext.cs" />
     <Compile Include="DomainMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -345,6 +327,12 @@
     <EmbeddedResource Include="Migrations\201806190406450_AddingMeshesToTextures.resx">
       <DependentUpon>201806190406450_AddingMeshesToTextures.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CacheViewer.Data\CacheViewer.Data.csproj">
+      <Project>{6cbdfb6b-edcd-4b87-9009-cad1bcb23a33}</Project>
+      <Name>CacheViewer.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,9 +8,9 @@ namespace CacheViewer
     using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
     using CacheViewer.Domain.Models.Exportable;
@@ -64,7 +64,26 @@ namespace CacheViewer
             foreach (var mobile in this.mobiles)
             {
                 mobile.Parse(mobile.Data);
-                MobileEntity me = (Mobile)mobile;
+                Mobile m = (Mobile) mobile;
+                MobileEntity me = new MobileEntity
+                {
+                    AiDescription = m.AiDescription,
+                    Gender = m.Gender,
+                    IsPetOrRune = (int) m.IsPetOrRune,
+                    LevelRequired = m.LevelRequired,
+                    MinRequiredLevel = m.MinRequiredLevel,
+                    MobToken = m.MobToken,
+                    Name = m.Name,
+                    NameSize = m.NameSize,
+                    NumberOfSkillsRequired = m.NumberOfSkillsRequired,
+                    ObjectId = (int) m.ObjId,
+                    PetNameCount = m.PetNameCount,
+                    PowerId = m.PowerId,
+                    ProhibitsRaceToggle = m.ProhibitsRaceToggle,
+                    RequiredGender = m.RequiredGender,
+                    RuneCategory = (int)m.RuneCategory,
+                    RuneCost = m.RuneCost
+                };
                 this.dataContext.MobileEntities.Add(me);
                 this.dataContext.SaveChanges();
             }
@@ -110,7 +129,15 @@ namespace CacheViewer
                 // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
                 FileWriter.Writer.Write(buffer, directory + "\\skeleton_" + skel.Identity + ".cache");
 
-                this.dataContext.SkeletonEntities.Add(new Skeleton(buffer, skel.Identity));
+                var skelt = new Skeleton(buffer, skel.Identity);
+                var skelEnt = new SkeletonEntity
+                {
+                    DistinctMotionCounter = skelt.DistinctMotionIdCount,
+                    MotionIdCounter = (int) skelt.MotionCount,
+                    SkeletonText = skelt.SkeletonText
+                    // TODO Handle motion entities
+                };
+                this.dataContext.SkeletonEntities.Add(skelEnt);
                 this.dataContext.SaveChanges();
             }
 

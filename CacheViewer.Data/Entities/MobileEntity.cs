@@ -1,8 +1,7 @@
-﻿namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Data.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Models;
 
     /// <summary>
     /// </summary>
@@ -127,30 +126,5 @@
         ///     Gets or sets the wolfpack create date.
         /// </summary>
         public DateTime WolfpackCreateDate { get; set; }
-
-        /// <summary>
-        ///     Performs an implicit conversion from <see cref="Mobile" /> to <see cref="MobileEntity" />.
-        /// </summary>
-        /// <param name="mobile">The mobile.</param>
-        public static implicit operator MobileEntity(Mobile mobile)
-        {
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var entity = new MobileEntity();
-
-            entity.ObjectId = (int) mobile.ObjId;
-            entity.AiDescription = mobile.AiDescription;
-            entity.Gender = mobile.Gender;
-            entity.LevelRequired = mobile.LevelRequired;
-            entity.MinRequiredLevel = mobile.MinRequiredLevel;
-            entity.MobToken = mobile.MobToken;
-            entity.NumberOfSkillsRequired = mobile.NumberOfSkillsRequired;
-            entity.Name = mobile.Name;
-            entity.SomeKindOfTypeHash = mobile.SomeKindOfTypeHash;
-            entity.RuneCategory = (int) mobile.RuneCategory;
-            entity.WolfpackCreateDate = mobile.WolfpackCreateDate;
-            entity.SecondNameSize = (int) mobile.SecondNameSize;
-            entity.IsPetOrRune = (int) mobile.IsPetOrRune;
-            return entity;
-        }
     }
 }

@@ -9,8 +9,8 @@ namespace CacheViewer
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Data;
-    using CacheViewer.Domain.Data.Entities;
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
     using LinqKit;
 
     public partial class LogViewer : Form

@@ -2,6 +2,7 @@
 {
     using System;
     using Archive;
+    using CacheViewer.Data;
 
     public interface ICacheObject : IComparable<ICacheObject>
     {

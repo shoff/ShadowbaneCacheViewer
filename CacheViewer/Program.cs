@@ -6,7 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using CacheViewer.Domain.Data;
+    using CacheViewer.Data;
 
     /// <summary>
     /// </summary>

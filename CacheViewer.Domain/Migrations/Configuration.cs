@@ -4,15 +4,16 @@ namespace CacheViewer.Domain.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using CacheViewer.Data;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CacheViewer.Domain.Data.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CacheViewer.Domain.Data.DataContext context)
+        protected override void Seed(DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

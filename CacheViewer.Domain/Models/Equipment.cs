@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using Archive;
+    using CacheViewer.Data;
     using Exportable;
     using Extensions;
     using NLog;

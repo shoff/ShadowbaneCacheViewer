@@ -9,18 +9,38 @@
     internal class ArchiveFactory
     {
         private static Textures textures;
+        public static bool TexturesLoaded { get; private set; }
+
         private static CObjects cobjects;
+        public static bool CObjectsLoaded { get; private set; }
+
         private static Render render;
+        public static bool RenderLoaded { get; private set; }
+
         private static MeshArchive meshArchive;
+        public static bool MeshLoaded { get; private set; }
+
         private static SoundCache soundCache;
+        public static bool SoundLoaded { get; private set; }
+
         private static CZone czone;
+        public static bool CZoneLoaded { get; private set; }
+
         private static SkeletonCache skeletonCache;
+        public static bool SkeletonLoaded { get; private set; }
+
         private static Motion motion;
+        public static bool MotionLoaded { get; private set; }
 
         private static readonly object syncRoot = new object();
         
         internal static ArchiveFactory Instance { get; } = new ArchiveFactory();
-        
+
+        internal static void BuildAll()
+        {
+
+        }
+
         internal CacheArchive Build(CacheFile cacheFile, bool preCacheData = false, bool loadIndexes = true)
         {
             lock (syncRoot)
@@ -41,7 +61,7 @@
                         {
                             cobjects.LoadIndexes();
                         }
-
+                        CObjectsLoaded = true;
                         return cobjects;
 
                     case CacheFile.Render:
@@ -57,7 +77,7 @@
                         {
                             render.LoadIndexes();
                         }
-
+                        RenderLoaded = true;
                         return render;
 
                     case CacheFile.CZone:
@@ -73,7 +93,7 @@
                         {
                             czone.LoadIndexes();
                         }
-
+                        CZoneLoaded = true;
                         return czone;
 
                     case CacheFile.Mesh:
@@ -89,7 +109,7 @@
                         {
                             meshArchive.LoadIndexes();
                         }
-
+                        MeshLoaded = true;
                         return meshArchive;
 
                     case CacheFile.Motion:
@@ -104,7 +124,7 @@
                         {
                             motion.LoadIndexes();
                         }
-
+                        MotionLoaded = true;
                         return motion;
 
                     case CacheFile.Palette:
@@ -126,7 +146,7 @@
                         {
                             skeletonCache.LoadIndexes();
                         }
-
+                        SkeletonLoaded = true;
                         return skeletonCache;
 
                     case CacheFile.Sound:
@@ -142,7 +162,7 @@
                         {
                             soundCache.LoadIndexes();
                         }
-
+                        SoundLoaded = true;
                         return soundCache;
 
                     case CacheFile.TerrainAlpha:
@@ -153,7 +173,7 @@
                         {
                             terrainAlpha.LoadIndexes();
                         }
-
+                        
                         return terrainAlpha;
 
                     case CacheFile.Textures:
@@ -170,6 +190,7 @@
                             textures.LoadIndexes();
                         }
 
+                        TexturesLoaded = true;
                         return textures;
 
                     case CacheFile.Tile:
@@ -180,6 +201,7 @@
                         {
                             tile.LoadIndexes();
                         }
+
 
                         return tile;
 

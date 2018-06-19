@@ -1,4 +1,4 @@
-﻿namespace CacheViewer.Domain.Data.Entities
+﻿namespace CacheViewer.Data.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

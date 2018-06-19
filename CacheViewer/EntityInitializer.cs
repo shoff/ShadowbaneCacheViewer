@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CacheViewer.Domain.Data;
-using CacheViewer.Domain.Data.Entities;
 using CacheViewer.Domain.Extensions;
 using CacheViewer.Domain.Factories;
 using CacheViewer.Domain.Models;
@@ -14,6 +12,9 @@ using CacheViewer.Domain.Models.Exportable;
 
 namespace CacheViewer
 {
+    using CacheViewer.Data;
+    using CacheViewer.Data.Entities;
+
     public partial class EntityInitializer : Form
     {
         private readonly DataContext dataContext;
