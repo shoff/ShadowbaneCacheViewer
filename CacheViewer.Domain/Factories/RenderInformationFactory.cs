@@ -101,10 +101,10 @@
                 if (!renderInfo.HasJoint)
                 {
                     logger?.Warn("This is not a \'join\' type render info we don\'t know how to handle this type yet.");
-                    return renderInfo;
+                    //return renderInfo;
                 }
 
-                Debug.Assert(reader.BaseStream.Position == 10);
+                //Debug.Assert(reader.BaseStream.Position == 10);
                 renderInfo.B11 = reader.ReadByte();
 
                 // let's play with the first 35 bytes

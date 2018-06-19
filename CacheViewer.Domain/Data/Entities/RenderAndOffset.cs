@@ -7,11 +7,9 @@ namespace CacheViewer.Domain.Data.Entities
     {
         [Key]
         public int RenderAndOffsetId { get; set; }
-
         public int RenderId { get; set; }
-
         public long OffSet { get; set; }
-
+        public int CacheIndexId { get; set; }
     }
 
 

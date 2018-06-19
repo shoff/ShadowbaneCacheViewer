@@ -106,7 +106,6 @@
 
                     using (var reader = data1.CreateBinaryReaderUtf32())
                     {
-                        // now we output shit tons of entities to find all posible texture id locations
                         reader.BaseStream.Position = 39;
                         while (reader.BaseStream.Position + 4 <= data1.Count)
                         {
@@ -184,6 +183,14 @@
             //        Console.WriteLine(e.Message);
             //    }
             //}
+        }
+
+        [Test]
+        public void Render_424060_Should_Have_A_TextureId()
+        {
+            var ci = this.renderInformationFactory.RenderArchive.CacheIndices.FirstOrDefault(i => i.Identity == 424060);
+            var render = this.renderInformationFactory.Create(ci);
+            Assert.AreEqual(424003, render.TextureId);
         }
     }
 }

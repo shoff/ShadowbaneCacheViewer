@@ -59,5 +59,7 @@
         public string TextureVectors { get; set; }
 
         public virtual ICollection<RenderTexture> RenderTextures { get; set; } = new List<RenderTexture>();
+
+        public virtual ICollection<TextureEntity> Textures { get; set; } = new List<TextureEntity>();
     }
 }

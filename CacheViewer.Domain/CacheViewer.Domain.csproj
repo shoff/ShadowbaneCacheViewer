@@ -213,6 +213,18 @@
     <Compile Include="Migrations\201806182031363_CorrectingRenderData.Designer.cs">
       <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806190106001_AddTexturesToMesh.cs" />
+    <Compile Include="Migrations\201806190106001_AddTexturesToMesh.Designer.cs">
+      <DependentUpon>201806190106001_AddTexturesToMesh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806190332561_AddingCacheIndexId.cs" />
+    <Compile Include="Migrations\201806190332561_AddingCacheIndexId.Designer.cs">
+      <DependentUpon>201806190332561_AddingCacheIndexId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806190406450_AddingMeshesToTextures.cs" />
+    <Compile Include="Migrations\201806190406450_AddingMeshesToTextures.Designer.cs">
+      <DependentUpon>201806190406450_AddingMeshesToTextures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AssembledObject.cs" />
     <Compile Include="Models\Bone.cs" />
@@ -323,6 +335,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806182031363_CorrectingRenderData.resx">
       <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190106001_AddTexturesToMesh.resx">
+      <DependentUpon>201806190106001_AddTexturesToMesh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190332561_AddingCacheIndexId.resx">
+      <DependentUpon>201806190332561_AddingCacheIndexId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190406450_AddingMeshesToTextures.resx">
+      <DependentUpon>201806190406450_AddingMeshesToTextures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

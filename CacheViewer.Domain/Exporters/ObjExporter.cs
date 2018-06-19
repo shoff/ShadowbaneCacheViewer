@@ -23,6 +23,7 @@
         private const string Normal = "vn {0} {1} {2}\r\n";
         private const string Texture = "vt {0} {1}\r\n";
         private const string MaterialName = "newmtl {0}\r\n";
+        private const string GroupName = "g {0}\r\n";
         private const string MaterialWhite = "Ka 1.000 1.000 1.000\r\n";
         private const string MaterialDiffuse = "Kd 1.000 1.000 1.000\r\n";
         private const string MaterialSpecular = "Ks 0.000 0.000 0.000\r\n ";
@@ -48,7 +49,7 @@
         {
             if (cacheObject == null)
             {
-                throw new ArgumentNullException("cacheObject");
+                throw new ArgumentNullException(nameof(cacheObject));
             }
 
             var mainStringBuilder = new StringBuilder();
@@ -85,8 +86,7 @@
                 File.Delete(mtlFile);
             }
 
-            using (
-                var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create,
+            using (var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create,
                     FileAccess.ReadWrite,
                     FileShare.ReadWrite))
             {
@@ -102,22 +102,22 @@
         {
             if (mesh == null)
             {
-                throw new ArgumentNullException("mesh");
+                throw new ArgumentNullException(nameof(mesh));
             }
 
             if (mainStringBuilder == null)
             {
-                throw new ArgumentNullException("mainStringBuilder");
+                throw new ArgumentNullException(nameof(mainStringBuilder));
             }
 
             if (materialBuilder == null)
             {
-                throw new ArgumentNullException("materialBuilder");
+                throw new ArgumentNullException(nameof(materialBuilder));
             }
 
             if (string.IsNullOrWhiteSpace(directory))
             {
-                throw new ArgumentNullException("directory");
+                throw new ArgumentNullException(nameof(directory));
             }
 
             mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);

@@ -1,5 +1,6 @@
 ﻿namespace CacheViewer.Domain.Data.Entities
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Archive;
@@ -12,5 +13,6 @@
         public int Width { get; set; }
         public int Height { get; set; }
         public int Depth { get; set; }
+        public virtual ICollection<MeshEntity> Meshes { get; set; } = new List<MeshEntity>();
     }
 }

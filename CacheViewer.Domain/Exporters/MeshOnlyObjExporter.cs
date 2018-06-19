@@ -177,7 +177,7 @@
                         mapFiles.Add(mapName);
                         map.Save(mapName, ImageFormat.Png);
 
-                        mainStringBuilder.AppendFormat(UseMaterial, mapName);
+                        mainStringBuilder.AppendFormat(UseMaterial, $"Mesh_{mesh.Id}");
                     }
                 }
             }
