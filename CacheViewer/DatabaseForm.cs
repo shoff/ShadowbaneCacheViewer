@@ -1,6 +1,4 @@
 ﻿
-using System.IO;
-
 namespace CacheViewer
 {
     using System;
@@ -8,21 +6,17 @@ namespace CacheViewer
     using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
-    using CacheViewer.Domain.Archive;
-    using CacheViewer.Domain.Factories;
-    using CacheViewer.Domain.Models;
-    using CacheViewer.Domain.Models.Exportable;
-    using CacheViewer.Domain.Services;
+    using ControlExtensions;
+    using Domain.Models.Exportable;
+    using Domain.Services;
+    using Domain.Services.Prefabs;
     using NLog;
 
     public partial class DatabaseForm : Form
     {
-        private readonly List<CacheObject> mobiles;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private CacheObjectsCache cacheObjectsCache;
-        private readonly DataContext dataContext;
+        private static bool rendersSaved;
+        private static bool cacheSaved;
 
         /// <summary>
         /// </summary>
@@ -30,138 +24,140 @@ namespace CacheViewer
         /// </param>
         public DatabaseForm(List<CacheObject> mobiles)
         {
-            this.mobiles = mobiles;
-            InitializeComponent();
+            this.InitializeComponent();
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
                 logger.Debug("DatabaseForm created.");
-                this.cacheObjectsCache = CacheObjectsCache.Instance;
-                this.dataContext = new DataContext();
-                this.dataContext.Configuration.AutoDetectChangesEnabled = false;
-                this.dataContext.ValidateOnSave = false;
             }
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void SaveAllToDatabaseButtonClick(object sender, EventArgs e)
-        {
 
+        private async void SaveTexturesButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                TextureDatabaseService service = new TextureDatabaseService();
+                service.TexturesSaved += this.UpdateLabel;
+                this.SaveTexturesButton.SetEnabled(false);
+                await service.SaveToDatabase();
+                this.SaveTexturesButton.SetEnabled(true);
+                service.TexturesSaved -= this.UpdateLabel;
+            });
+            this.TextureSaveLabel.SetText("Textures saved to database");
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void SaveMobilesButtonClick(object sender, EventArgs e)
+        private void UpdateLabel(object sender, TextureSaveEventArgs e)
         {
-            foreach (var mobile in this.mobiles)
-            {
-                mobile.Parse(mobile.Data);
-                Mobile m = (Mobile) mobile;
-                MobileEntity me = new MobileEntity
-                {
-                    AiDescription = m.AiDescription,
-                    Gender = m.Gender,
-                    IsPetOrRune = (int) m.IsPetOrRune,
-                    LevelRequired = m.LevelRequired,
-                    MinRequiredLevel = m.MinRequiredLevel,
-                    MobToken = m.MobToken,
-                    Name = m.Name,
-                    NameSize = m.NameSize,
-                    NumberOfSkillsRequired = m.NumberOfSkillsRequired,
-                    ObjectId = (int) m.ObjId,
-                    PetNameCount = m.PetNameCount,
-                    PowerId = m.PowerId,
-                    ProhibitsRaceToggle = m.ProhibitsRaceToggle,
-                    RequiredGender = m.RequiredGender,
-                    RuneCategory = (int)m.RuneCategory,
-                    RuneCost = m.RuneCost
-                };
-                this.dataContext.MobileEntities.Add(me);
-                this.dataContext.SaveChanges();
-            }
-            this.SaveMobilesLabel.Text = "done";
+            this.TextureSaveLabel.SetText($"Count: {e.Count}");
         }
 
-        private void SaveSkelButtonClick(object sender, EventArgs e)
+        private async void SaveMeshesButton_Click(object sender, EventArgs e)
         {
-            var motionArchive = ArchiveFactory.Instance.Build(CacheFile.Motion, true);
-            var archive = ArchiveFactory.Instance.Build(CacheFile.Skeleton, true);
-
-            var directory = AppDomain.CurrentDomain.BaseDirectory + "\\Skeleton";
-            if (!Directory.Exists(directory))
+            await Task.Run(async () =>
             {
-                Directory.CreateDirectory(directory);
-            }
+                MeshDatabaseService service = new MeshDatabaseService();
+                service.MeshesSaved += this.UpdateMeshesLabel;
+                this.SaveMeshesButton.SetEnabled(false);
+                await service.SaveToDatabase();
+                this.SaveMeshesButton.SetEnabled(true);
+                service.MeshesSaved -= this.UpdateMeshesLabel;
+            });
 
-            var motionDirectory = AppDomain.CurrentDomain.BaseDirectory + "\\Motion";
-            if (!Directory.Exists(motionDirectory))
+            this.SaveMeshesLabel.SetText("Meshes saved to database");
+        }
+
+        private void UpdateMeshesLabel(object sender, MeshSaveEventArgs e)
+        {
+            this.SaveMeshesLabel.SetText($"Count: {e.Count}");
+        }
+
+        private async void SaveCacheButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
             {
-                Directory.CreateDirectory(motionDirectory);
-            }
+                CacheObjectsDatabaseService service = new CacheObjectsDatabaseService();
+                service.CacheObjectsSaved += this.UpdateCachesLabel;
+                this.SaveCacheButton.SetEnabled(false);
+                await service.SaveToDatabase();
+                this.SaveCacheButton.SetEnabled(true);
+                service.CacheObjectsSaved -= this.UpdateCachesLabel;
+            });
+            this.SaveCacheLabel.SetText("Cache objects saved to database");
+            this.SetStatus("cache", true);
+        }
 
-            foreach (var motion in motionArchive.CacheIndices)
-            {
-                ArraySegment<byte> buffer = motionArchive[motion.Identity].Item1;
-
-                // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
-                FileWriter.Writer.Write(buffer, motionDirectory + "\\motion_" + motion.Identity + ".cache");
-
-                this.dataContext.MotionEntities.Add(new MotionEntity
-                {
-                    CacheIdentity = motion.Identity
-                });
-                this.dataContext.SaveChanges();
-            }
-            this.SkeletonLabel.Text = "Saved all motion files";
-
-            foreach (var skel in archive.CacheIndices)
-            {
-                ArraySegment<byte> buffer = archive[skel.Identity].Item1;
-
-                // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
-                FileWriter.Writer.Write(buffer, directory + "\\skeleton_" + skel.Identity + ".cache");
-
-                var skelt = new Skeleton(buffer, skel.Identity);
-                var skelEnt = new SkeletonEntity
-                {
-                    DistinctMotionCounter = skelt.DistinctMotionIdCount,
-                    MotionIdCounter = (int) skelt.MotionCount,
-                    SkeletonText = skelt.SkeletonText
-                    // TODO Handle motion entities
-                };
-                this.dataContext.SkeletonEntities.Add(skelEnt);
-                this.dataContext.SaveChanges();
-            }
-
-            this.SkeletonLabel.Text = "Saved all skeletons.";
+        private void UpdateCachesLabel(object sender, CacheObjectSaveEventArgs e)
+        {
+            this.SaveCacheLabel.SetText($"CacheObjects Count: {e.CacheObjectsCount} - RenderAndOffsets Count: {e.RenderOffsetsCount}");
         }
 
 
-        private async Task SaveBinaryData(string fileName, ArraySegment<byte> data)
+
+        private async void RenderButton_Click(object sender, EventArgs e)
         {
-
-            if (data.Count > 0)
+            await Task.Run(async () =>
             {
-                await FileWriter.Writer.WriteAsync(data, fileName);
+                RenderInfoDatabaseService service = new RenderInfoDatabaseService();
+                service.RendersSaved += this.UpdateRendersLabel;
+                this.RenderButton.SetEnabled(false);
+                await service.SaveToDatabase();
+                this.RenderButton.SetEnabled(true);
+                service.RendersSaved -= this.UpdateRendersLabel;
+            });
+            this.RenderLabel.SetText("Render objects saved to database");
+            this.SetStatus("render", true);
+        }
 
-                //if (asset.Item2.Count > 0)
-                //{
-                //    await
-                //        FileWriter.Writer.WriteAsync(
-                //            asset.Item2,
-                //            Path.Combine(
-                //                path,
-                //                this.saveName + asset.CacheIndex2.identity.ToString(CultureInfo.InvariantCulture) + "_1.cache"));
-                //}
+        private void UpdateRendersLabel(object sender, RenderInfoSaveEventArgs e)
+        {
+            this.RenderLabel.SetText($"Count: {e.Count}");
+        }
+
+        private void SetStatus(string name, bool value)
+        {
+            if (name == "cache")
+            {
+                cacheSaved = value;
             }
+
+            if (name == "render")
+            {
+                rendersSaved = value;
+            }
+
+            this.AssociateRenderButton.Enabled = cacheSaved && rendersSaved;
+        }
+
+        private async  void AssociateRenderButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                AssociateRenderOffsetsDatabaseService service = new AssociateRenderOffsetsDatabaseService();
+                service.RenderOffsetsSaved += this.UpdateAssociateLabel;
+                this.AssociateRenderButton.SetEnabled(false);
+                await service.SaveToDatabase();
+                this.AssociateRenderButton.SetEnabled(true);
+                service.RenderOffsetsSaved -= this.UpdateAssociateLabel;
+            });
+            this.AssociateRenderLabel.SetText("Render objects saved to database");
+        }
+
+        private void UpdateAssociateLabel(object sender, RenderOffsetEventArgs e)
+        {
+            this.AssociateRenderLabel.SetText($"Count: {e.Count}");
+        }
+
+        private async void CreateElvenChurchButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                this.CreateChurchLabel.SetText("Creating structure");
+                ElvenChurchService service = new ElvenChurchService();
+                this.CreateElvenChurchButton.SetEnabled(false);
+                await service.SaveAll();
+                this.CreateElvenChurchButton.SetEnabled(true);
+            });
+            this.CreateChurchLabel.SetText("Finished saving");
         }
     }
 }

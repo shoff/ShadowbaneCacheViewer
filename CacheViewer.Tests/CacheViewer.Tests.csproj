@@ -90,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CacheViewer.Data\CacheViewer.Data.csproj">
-      <Project>{6cbdfb6b-edcd-4b87-9009-cad1bcb23a33}</Project>
+      <Project>{c5066998-047b-43f5-b7d4-62c2bc7a5fbc}</Project>
       <Name>CacheViewer.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\CacheViewer.Domain\CacheViewer.Domain.csproj">

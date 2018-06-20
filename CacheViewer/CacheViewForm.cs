@@ -15,6 +15,7 @@ namespace CacheViewer
     using Domain.Models.Exportable;
     using NLog;
     using System.IO;
+    using Data;
     using Domain.Services;
 
     public partial class CacheViewForm : Form

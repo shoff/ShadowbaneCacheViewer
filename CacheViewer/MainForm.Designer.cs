@@ -41,6 +41,7 @@ namespace CacheViewer
             this.PropertiesColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CacheIndexListView = new CacheViewer.Controls.CObjectViewControl();
             this.CObjectTreeView = new System.Windows.Forms.TreeView();
+            this.RenderInfoTab = new System.Windows.Forms.TabPage();
             this.SoundPage = new System.Windows.Forms.TabPage();
             this.soundControl1 = new CacheViewer.Controls.SoundControl();
             this.LoadLabel = new System.Windows.Forms.Label();
@@ -48,13 +49,10 @@ namespace CacheViewer
             this.formsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RenderInfoTab = new System.Windows.Forms.TabPage();
-            this.slimRenderControl1 = new CacheViewer.Controls.SlimRenderControl();
             this.MainTabControl.SuspendLayout();
             this.CObjectsTab.SuspendLayout();
             this.SoundPage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.RenderInfoTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -156,6 +154,16 @@ namespace CacheViewer
             this.CObjectTreeView.TabIndex = 0;
             this.CObjectTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CObjectTreeViewAfterSelect);
             // 
+            // RenderInfoTab
+            // 
+            this.RenderInfoTab.Location = new System.Drawing.Point(4, 22);
+            this.RenderInfoTab.Name = "RenderInfoTab";
+            this.RenderInfoTab.Padding = new System.Windows.Forms.Padding(3);
+            this.RenderInfoTab.Size = new System.Drawing.Size(904, 645);
+            this.RenderInfoTab.TabIndex = 1;
+            this.RenderInfoTab.Text = "Render Information";
+            this.RenderInfoTab.UseVisualStyleBackColor = true;
+            // 
             // SoundPage
             // 
             this.SoundPage.Controls.Add(this.soundControl1);
@@ -207,7 +215,7 @@ namespace CacheViewer
             // databaseToolStripMenuItem
             // 
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.databaseToolStripMenuItem.Text = "&Database";
             this.databaseToolStripMenuItem.Click += new System.EventHandler(this.databaseToolStripMenuItem_Click);
             // 
@@ -217,25 +225,6 @@ namespace CacheViewer
             this.logViewerToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.logViewerToolStripMenuItem.Text = "&LogViewer";
             this.logViewerToolStripMenuItem.Click += new System.EventHandler(this.logViewerToolStripMenuItem_Click);
-            // 
-            // RenderInfoTab
-            // 
-            this.RenderInfoTab.Controls.Add(this.slimRenderControl1);
-            this.RenderInfoTab.Location = new System.Drawing.Point(4, 22);
-            this.RenderInfoTab.Name = "RenderInfoTab";
-            this.RenderInfoTab.Padding = new System.Windows.Forms.Padding(3);
-            this.RenderInfoTab.Size = new System.Drawing.Size(904, 645);
-            this.RenderInfoTab.TabIndex = 1;
-            this.RenderInfoTab.Text = "Render Information";
-            this.RenderInfoTab.UseVisualStyleBackColor = true;
-            // 
-            // slimRenderControl1
-            // 
-            this.slimRenderControl1.Location = new System.Drawing.Point(367, 27);
-            this.slimRenderControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.slimRenderControl1.Name = "slimRenderControl1";
-            this.slimRenderControl1.Size = new System.Drawing.Size(483, 374);
-            this.slimRenderControl1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -254,7 +243,6 @@ namespace CacheViewer
             this.SoundPage.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.RenderInfoTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,6 +269,5 @@ namespace CacheViewer
         private SoundControl soundControl1;
         private System.Windows.Forms.ToolStripMenuItem logViewerToolStripMenuItem;
         private System.Windows.Forms.TabPage RenderInfoTab;
-        private SlimRenderControl slimRenderControl1;
     }
 }

@@ -19,18 +19,15 @@
         {
             if (sender == null)
             {
-                throw new ArgumentNullException("sender");
+                throw new ArgumentNullException(nameof(sender));
             }
 
             if (args == null)
             {
-                throw new ArgumentNullException("args");
+                throw new ArgumentNullException(nameof(args));
             }
 
-            if (handler != null)
-            {
-                handler(sender, args);
-            }
+            handler?.Invoke(sender, args);
         }
 
         /// <summary>
@@ -50,18 +47,15 @@
         {
             if (sender == null)
             {
-                throw new ArgumentNullException("sender");
+                throw new ArgumentNullException(nameof(sender));
             }
 
             if (args == null)
             {
-                throw new ArgumentNullException("args");
+                throw new ArgumentNullException(nameof(args));
             }
 
-            if (handler != null)
-            {
-                handler(sender, args);
-            }
+            handler?.Invoke(sender, args);
         }
 
         /// <summary>

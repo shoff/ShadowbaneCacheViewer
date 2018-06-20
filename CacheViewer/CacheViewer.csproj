@@ -139,23 +139,11 @@
     <Compile Include="Controls\RenderControl.Designer.cs">
       <DependentUpon>RenderControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RenderDxControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RenderDxControl.Designer.cs">
-      <DependentUpon>RenderDxControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\RenderInfoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\RenderInfoControl.Designer.cs">
       <DependentUpon>RenderInfoControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SlimRenderControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\SlimRenderControl.Designer.cs">
-      <DependentUpon>SlimRenderControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SoundControl.cs">
       <SubType>UserControl</SubType>
@@ -219,12 +207,6 @@
     <Content Include="triangle.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Controls\RenderDxControl.resx">
-      <DependentUpon>RenderDxControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SlimRenderControl.resx">
-      <DependentUpon>SlimRenderControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SoundControl.resx">
       <DependentUpon>SoundControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +222,19 @@
     <EmbeddedResource Include="TexturesForm.resx">
       <DependentUpon>TexturesForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.CacheObjectEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.Log.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.MeshEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.MobileEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.MotionEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.RenderAndOffset.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.RenderChild.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.RenderEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.RenderTexture.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.SkeletonEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.TextureEntity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.Vector2Entity.datasource" />
+    <None Include="Properties\DataSources\CacheViewer.Data.Entities.Vector3Entity.datasource" />
     <None Include="Resources\alt.bmp" />
     <EmbeddedResource Include="CacheViewForm.resx">
       <DependentUpon>CacheViewForm.cs</DependentUpon>
@@ -293,12 +288,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CacheViewer.Data\CacheViewer.Data.csproj">
-      <Project>{6cbdfb6b-edcd-4b87-9009-cad1bcb23a33}</Project>
+      <Project>{c5066998-047b-43f5-b7d4-62c2bc7a5fbc}</Project>
       <Name>CacheViewer.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\CacheViewer.Domain\CacheViewer.Domain.csproj">
       <Project>{e679dfb5-302e-488e-98f2-4a0838a4a222}</Project>
       <Name>CacheViewer.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ControlExtensions\ControlExtensions.csproj">
+      <Project>{d7e86899-d38e-4b8c-85ad-ed3da7b64c41}</Project>
+      <Name>ControlExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
