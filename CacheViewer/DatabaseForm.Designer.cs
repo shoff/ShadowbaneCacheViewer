@@ -43,6 +43,10 @@
             this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.CreateElvenChurchButton = new System.Windows.Forms.Button();
             this.CreateChurchLabel = new System.Windows.Forms.Label();
+            this.RangerBlindButton = new System.Windows.Forms.Button();
+            this.RangerBlindLabel = new System.Windows.Forms.Label();
+            this.LizardManTempleLabel = new System.Windows.Forms.Label();
+            this.LizardManTempleButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -153,9 +157,9 @@
             // 
             // CreateElvenChurchButton
             // 
-            this.CreateElvenChurchButton.Location = new System.Drawing.Point(14, 249);
+            this.CreateElvenChurchButton.Location = new System.Drawing.Point(12, 249);
             this.CreateElvenChurchButton.Name = "CreateElvenChurchButton";
-            this.CreateElvenChurchButton.Size = new System.Drawing.Size(189, 34);
+            this.CreateElvenChurchButton.Size = new System.Drawing.Size(191, 34);
             this.CreateElvenChurchButton.TabIndex = 16;
             this.CreateElvenChurchButton.Text = "Create Elven Church (validates data)";
             this.CreateElvenChurchButton.UseVisualStyleBackColor = true;
@@ -170,11 +174,53 @@
             this.CreateChurchLabel.TabIndex = 17;
             this.CreateChurchLabel.Text = "Not Started";
             // 
+            // RangerBlindButton
+            // 
+            this.RangerBlindButton.Location = new System.Drawing.Point(12, 299);
+            this.RangerBlindButton.Name = "RangerBlindButton";
+            this.RangerBlindButton.Size = new System.Drawing.Size(189, 34);
+            this.RangerBlindButton.TabIndex = 18;
+            this.RangerBlindButton.Text = "Create Ranger Blind";
+            this.RangerBlindButton.UseVisualStyleBackColor = true;
+            this.RangerBlindButton.Click += new System.EventHandler(this.RangerBlindButton_Click);
+            // 
+            // RangerBlindLabel
+            // 
+            this.RangerBlindLabel.AutoSize = true;
+            this.RangerBlindLabel.Location = new System.Drawing.Point(210, 310);
+            this.RangerBlindLabel.Name = "RangerBlindLabel";
+            this.RangerBlindLabel.Size = new System.Drawing.Size(61, 13);
+            this.RangerBlindLabel.TabIndex = 19;
+            this.RangerBlindLabel.Text = "Not Started";
+            // 
+            // LizardManTempleLabel
+            // 
+            this.LizardManTempleLabel.AutoSize = true;
+            this.LizardManTempleLabel.Location = new System.Drawing.Point(208, 356);
+            this.LizardManTempleLabel.Name = "LizardManTempleLabel";
+            this.LizardManTempleLabel.Size = new System.Drawing.Size(61, 13);
+            this.LizardManTempleLabel.TabIndex = 21;
+            this.LizardManTempleLabel.Text = "Not Started";
+            // 
+            // LizardManTempleButton
+            // 
+            this.LizardManTempleButton.Location = new System.Drawing.Point(12, 345);
+            this.LizardManTempleButton.Name = "LizardManTempleButton";
+            this.LizardManTempleButton.Size = new System.Drawing.Size(189, 34);
+            this.LizardManTempleButton.TabIndex = 20;
+            this.LizardManTempleButton.Text = "Create Lizardman Temple";
+            this.LizardManTempleButton.UseVisualStyleBackColor = true;
+            this.LizardManTempleButton.Click += new System.EventHandler(this.LizardManTempleButton_Click);
+            // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(553, 345);
+            this.ClientSize = new System.Drawing.Size(553, 443);
+            this.Controls.Add(this.LizardManTempleLabel);
+            this.Controls.Add(this.LizardManTempleButton);
+            this.Controls.Add(this.RangerBlindLabel);
+            this.Controls.Add(this.RangerBlindButton);
             this.Controls.Add(this.CreateChurchLabel);
             this.Controls.Add(this.CreateElvenChurchButton);
             this.Controls.Add(this.RenderLabel);
@@ -211,5 +257,9 @@
         private System.Windows.Forms.Label RenderLabel;
         private System.Windows.Forms.Button CreateElvenChurchButton;
         private System.Windows.Forms.Label CreateChurchLabel;
+        private System.Windows.Forms.Button RangerBlindButton;
+        private System.Windows.Forms.Label RangerBlindLabel;
+        private System.Windows.Forms.Label LizardManTempleLabel;
+        private System.Windows.Forms.Button LizardManTempleButton;
     }
 }

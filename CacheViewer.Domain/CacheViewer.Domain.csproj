@@ -204,6 +204,9 @@
     <Compile Include="Services\MeshDatabaseService.cs" />
     <Compile Include="Services\ModelIdService.cs" />
     <Compile Include="Services\Prefabs\ElvenChurchService.cs" />
+    <Compile Include="Services\Prefabs\LizardManTempleService.cs" />
+    <Compile Include="Services\Prefabs\RangerBlindService.cs" />
+    <Compile Include="Services\Prefabs\StructureService.cs" />
     <Compile Include="Services\RenderIdService.cs" />
     <Compile Include="Services\RenderInfoDatabaseService.cs" />
     <Compile Include="Services\RenderListViewMeshItem.cs" />

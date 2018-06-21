@@ -159,5 +159,31 @@ namespace CacheViewer
             });
             this.CreateChurchLabel.SetText("Finished saving");
         }
+
+        private async void RangerBlindButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                this.RangerBlindLabel.SetText("Creating structure");
+                RangerBlindService service = new RangerBlindService();
+                this.RangerBlindButton.SetEnabled(false);
+                await service.SaveAll();
+                this.RangerBlindButton.SetEnabled(true);
+            });
+            this.RangerBlindLabel.SetText("Finished saving");
+        }
+
+        private async void LizardManTempleButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                this.LizardManTempleLabel.SetText("Creating structure");
+                LizardManTempleService service = new LizardManTempleService();
+                this.LizardManTempleButton.SetEnabled(false);
+                await service.SaveAll();
+                this.LizardManTempleButton.SetEnabled(true);
+            });
+            this.LizardManTempleLabel.SetText("Finished saving");
+        }
     }
 }

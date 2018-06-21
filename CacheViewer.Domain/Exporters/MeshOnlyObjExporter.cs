@@ -20,7 +20,7 @@
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class MeshOnlyObjExporter
     {
-        private const string SbRenderId = "# RenderId: {0}\r\n";
+        private const string SbMeshId = "# MeshId: {0}\r\n";
 
         private const string UsesCentimeters =
             "# This file uses centimeters as units for non-parametric coordinates.\r\n";
@@ -35,24 +35,13 @@
         private const string MaterialWhite = "Ka 1.000 1.000 1.000\r\n";
         private const string MaterialDiffuse = "Kd 1.000 1.000 1.000\r\n";
         private const string MaterialSpecular = "Ks 0.000 0.000 0.000\r\n ";
-        private const string MaterialSpecualrNs = "Ns 10.000";
-        private const string MaterialDefaultIllumination = "illum 2\r\n";
+        private const string MaterialSpecualrNs = "Ns 10.000\r\n";
+        private const string MaterialDefaultIllumination = "illum 4\r\n";
         private const string MapTo = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public string ModelDirectory { get; set; } = FileLocations.Instance.GetExportFolder();
         private string name;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ObjExporter" /> class.
-        /// </summary>
-        /// The directory specified by
-        /// <paramref>
-        ///     <name>path</name>
-        /// </paramref>
-        /// is a file.-or-The network name is not known.
-        /// The caller does not have the required permission.
-        /// The specified path is invalid (for example, it is on an unmapped drive).
-        /// <cref>DirectoryNotFoundException</cref>
         public MeshOnlyObjExporter()
         {
             if (!string.IsNullOrEmpty(this.ModelDirectory))
@@ -65,27 +54,9 @@
             }
         }
 
-        /// <summary>
-        ///     Gets the instance.
-        /// </summary>
         public static MeshOnlyObjExporter Instance => new MeshOnlyObjExporter();
 
-        private void ObjectVariant()
-        {
-        }
-
-        /// <summary>
-        ///     Exports the specified Mesh.
-        /// </summary>
-        /// <param name="mesh">
-        ///     The Mesh.
-        /// </param>
-        /// <param name="name">
-        ///     The name.
-        /// </param>
-        /// <returns>
-        /// </returns>
-        public async Task<bool> ExportAsync(Mesh mesh, string name = null)
+        public async Task<bool> ExportAsync(Mesh mesh, string meshName = null)
         {
             try
             {
@@ -94,11 +65,11 @@
                 mainStringBuilder.Append(UsesCentimeters);
 
                 // todo - not all objects seem to have names
-                this.name = name ?? string.Join(string.Empty, "Mesh_",
+                this.name = meshName ?? string.Join(string.Empty, "Mesh_",
                     mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
 
                 mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(mesh.CacheIndex.Identity));
-                mainStringBuilder.AppendFormat(SbRenderId, mesh.CacheIndex.Identity);
+                mainStringBuilder.AppendFormat(SbMeshId, mesh.CacheIndex.Identity);
                 mainStringBuilder.AppendFormat(MaterialLib, this.name);
                 mainStringBuilder.Append(DefaultGroup);
 
@@ -147,18 +118,77 @@
             return true;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="mesh">
-        /// </param>
-        /// <param name="mainStringBuilder">
-        /// </param>
-        /// <param name="materialBuilder">
-        /// </param>
-        /// <param name="directory">
-        /// </param>
-        private void CreateObject(Mesh mesh, StringBuilder mainStringBuilder, 
-            StringBuilder materialBuilder, string directory)
+        public async Task CreateCombinedObjectAsync(List<Mesh> meshModels, string modelName)
+        {
+            StringBuilder complex = new StringBuilder();
+            complex.Append(MayaObjHeaderFactory.Instance.Create(modelName));
+            complex.AppendFormat(MaterialLib, modelName);
+
+            StringBuilder material = new StringBuilder();
+            foreach (var mesh in meshModels)
+            {
+                try
+                {
+                    var mainStringBuilder = new StringBuilder();
+                    var materialBuilder = new StringBuilder();
+                    mainStringBuilder.Append(UsesCentimeters);
+
+                    // todo - not all objects seem to have names
+                    var meshName = string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
+                    //mainStringBuilder.AppendFormat(SbMeshId, mesh.CacheIndex.Identity);
+                    //mainStringBuilder.Append(DefaultGroup);
+
+                    // fill the stringbuilders
+                    this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.ModelDirectory, meshName);
+                    complex.Append(mainStringBuilder);
+                    material.Append(materialBuilder);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e);
+                }
+
+                using (
+                    var fs = new FileStream(
+                        this.ModelDirectory + "\\" + modelName + ".obj",
+                        FileMode.Create,
+                        FileAccess.ReadWrite,
+                        FileShare.ReadWrite))
+                {
+                    using (var writer = new StreamWriter(fs))
+                    {
+                        await writer.WriteAsync(complex.ToString());
+                    }
+                }
+
+                // save the material
+                var mtlFile = this.ModelDirectory + "\\" + modelName + ".mtl";
+                if (File.Exists(mtlFile))
+                {
+                    File.Delete(mtlFile);
+                }
+
+                //File.WriteAllText(mtlFile, material.ToString());
+                using (var fs1 = new FileStream(
+                    this.ModelDirectory + "\\" + modelName + ".mtl",
+                    FileMode.Create,
+                    FileAccess.ReadWrite,
+                    FileShare.ReadWrite))
+                {
+                    using (var writer = new StreamWriter(fs1))
+                    {
+                        await writer.WriteAsync(material.ToString());
+                    }
+                }
+            }
+        }
+
+        private void CreateObject(
+            Mesh mesh, 
+            StringBuilder mainStringBuilder, 
+            StringBuilder materialBuilder, 
+            string directory,
+            string meshName = null)
         {
             var mapFiles = new List<string>();
 
@@ -172,8 +202,7 @@
                     var asset = archive[texture.TextureId];
                     using (var map = mesh.Textures[i].TextureMap(asset.Item1))
                     {
-                        var mapName = directory + "\\" +
-                            mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
+                        var mapName = directory + "\\" + mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
                         mapFiles.Add(mapName);
                         map.Save(mapName, ImageFormat.Png);
 
@@ -185,7 +214,7 @@
 
             if (mapFiles.Count > 0)
             {
-                this.CreateMaterial(mapFiles[0], materialBuilder);
+                this.CreateMaterial(mapFiles[0], materialBuilder, meshName);
             }
 
             foreach (var v in mesh.Vertices)
@@ -194,18 +223,23 @@
                     v[2].ToString("0.0#####"));
             }
 
-            foreach (var vn in mesh.Normals)
-            {
-                mainStringBuilder.AppendFormat(Normal, vn[0].ToString("0.0#####"), vn[1].ToString("0.0#####"),
-                    vn[2].ToString("0.0#####"));
-            }
-
             foreach (var t in mesh.TextureVectors)
             {
-                mainStringBuilder.AppendFormat(Texture, t[0].ToString("0.0#####"), t[1].ToString("0.0#####"));
+                mainStringBuilder.AppendFormat(Texture, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
+            }
+
+            foreach (var vn in mesh.Normals)
+            {
+                mainStringBuilder.AppendFormat(Normal, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"),
+                    vn[2].ToString("0.000000"));
             }
 
             // TODO this does not spit out the faces the same as the exporter from Maya does
+            // g Mesh_124163:default1
+            // usemtl initialShadingGroup
+            mainStringBuilder.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
+            mainStringBuilder.AppendLine($"usemtl Mesh_{mesh.Id}");
+
             foreach (var wavefrontVertex in mesh.Indices)
             {
                 var a = (ushort) (wavefrontVertex.Position + 1);
@@ -245,15 +279,10 @@
         // map_d lenna_alpha.tga      # the alpha texture map
         // map_bump lenna_bump.tga    # the bump map
         // bump lenna_bump.tga        # some implementations use 'bump' instead of 'map_Bump'
-        /// <summary>
-        /// </summary>
-        /// <param name="mapName">
-        /// </param>
-        /// <param name="materialBuilder">
-        /// </param>
-        private void CreateMaterial(string mapName, StringBuilder materialBuilder)
+
+        private void CreateMaterial(string mapName, StringBuilder materialBuilder, string materialName = null)
         {
-            materialBuilder.AppendFormat(MaterialName, this.name);
+            materialBuilder.AppendFormat(MaterialName, materialName??this.name);
             materialBuilder.Append(MaterialWhite);
             materialBuilder.Append(MaterialDiffuse);
             materialBuilder.Append(MaterialSpecular);

@@ -17,6 +17,7 @@ namespace CacheViewer
     using System.IO;
     using Data;
     using Domain.Services;
+    using Domain.Services.Prefabs;
 
     public partial class CacheViewForm : Form
     {
@@ -178,47 +179,11 @@ namespace CacheViewer
 
             try
             {
-                if (item.Flag == ObjectType.Structure)
+                await Task.Run(async () =>
                 {
-                    Structure structure = (Structure)item;
-                    structure.Parse(item.Data);
-                }
-
-                if (item.Flag == ObjectType.Mobile)
-                {
-                    // let's try parsing it
-                    Mobile mobile = (Mobile)item;
-                    mobile.Parse(item.Data);
-                }
-
-                if (item.Flag == ObjectType.Simple)
-                {
-                    Simple simple = (Simple)item;
-                    simple.Parse(item.Data);
-                }
-
-                if (item.RenderId == 0)
-                {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
-                    return;
-                }
-
-                //var renderCacheIndex = this.renderFactory.Indexes[item.RenderId];
-                //var render = this.renderFactory.CreateAndParse(renderCacheIndex);
-
-                var render = this.renderInformationFactory.Create((int)item.RenderId);
-
-                if (render.TextureId == 0)
-                {
-                    logger.Error(Messages.RenderTextureId0);
-                }
-                else
-                {
-                    // TODO export textures and meshes.
-                    render.Mesh.Textures.Add(this.textureFactory.Build(render.TextureId));
-                }
-
-                await this.meshExporter.ExportAsync(render.Mesh, item.Name);
+                    StructureService service = new StructureService();
+                    await service.SaveAll(item.Name.Replace(" ", ""), item.Name, item.Flag);
+                });
                 this.ResetSaveButtons();
                 this.DisplayItemInformation(item);
             }
