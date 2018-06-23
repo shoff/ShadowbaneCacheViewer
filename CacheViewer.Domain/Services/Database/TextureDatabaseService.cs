@@ -1,12 +1,12 @@
-﻿namespace CacheViewer.Domain.Services
+﻿namespace CacheViewer.Domain.Services.Database
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Extensions;
     using Data;
     using Data.Entities;
     using EntityFramework.BulkInsert.Extensions;
+    using Extensions;
     using Factories;
     using Models;
 

@@ -118,71 +118,6 @@
             return true;
         }
 
-        public async Task CreateCombinedObjectAsync(List<Mesh> meshModels, string modelName)
-        {
-            StringBuilder complex = new StringBuilder();
-            complex.Append(MayaObjHeaderFactory.Instance.Create(modelName));
-            complex.AppendFormat(MaterialLib, modelName);
-
-            StringBuilder material = new StringBuilder();
-            foreach (var mesh in meshModels)
-            {
-                try
-                {
-                    var mainStringBuilder = new StringBuilder();
-                    var materialBuilder = new StringBuilder();
-                    mainStringBuilder.Append(UsesCentimeters);
-
-                    // todo - not all objects seem to have names
-                    var meshName = string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
-                    //mainStringBuilder.AppendFormat(SbMeshId, mesh.CacheIndex.Identity);
-                    //mainStringBuilder.Append(DefaultGroup);
-
-                    // fill the stringbuilders
-                    this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.ModelDirectory, meshName);
-                    complex.Append(mainStringBuilder);
-                    material.Append(materialBuilder);
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e);
-                }
-
-                using (
-                    var fs = new FileStream(
-                        this.ModelDirectory + "\\" + modelName + ".obj",
-                        FileMode.Create,
-                        FileAccess.ReadWrite,
-                        FileShare.ReadWrite))
-                {
-                    using (var writer = new StreamWriter(fs))
-                    {
-                        await writer.WriteAsync(complex.ToString());
-                    }
-                }
-
-                // save the material
-                var mtlFile = this.ModelDirectory + "\\" + modelName + ".mtl";
-                if (File.Exists(mtlFile))
-                {
-                    File.Delete(mtlFile);
-                }
-
-                //File.WriteAllText(mtlFile, material.ToString());
-                using (var fs1 = new FileStream(
-                    this.ModelDirectory + "\\" + modelName + ".mtl",
-                    FileMode.Create,
-                    FileAccess.ReadWrite,
-                    FileShare.ReadWrite))
-                {
-                    using (var writer = new StreamWriter(fs1))
-                    {
-                        await writer.WriteAsync(material.ToString());
-                    }
-                }
-            }
-        }
-
         private void CreateObject(
             Mesh mesh, 
             StringBuilder mainStringBuilder, 
@@ -207,6 +142,7 @@
                         map.Save(mapName, ImageFormat.Png);
 
                         mainStringBuilder.AppendFormat(UseMaterial, $"Mesh_{mesh.Id}");
+                        mainStringBuilder.AppendLine("s off");
                     }
                 }
             }

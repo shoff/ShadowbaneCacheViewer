@@ -1,4 +1,4 @@
-﻿namespace CacheViewer.Domain.Services
+﻿namespace CacheViewer.Domain.Services.Database
 {
     using System;
     using System.Collections.Generic;

@@ -1,10 +1,11 @@
-﻿namespace CacheViewer.Domain.Services
+﻿namespace CacheViewer.Domain.Services.Database
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Data;
     using Extensions;
+    using NLog;
 
     public class RenderOffsetEventArgs : EventArgs
     {
@@ -14,10 +15,11 @@
 
     public class AssociateRenderOffsetsDatabaseService
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         public event EventHandler<RenderOffsetEventArgs> RenderOffsetsSaved;
 
-
-        public async Task SaveToDatabaseAsync()
+        public async Task AssociateRenderAndOffsets()
         {
             using (var context = new DataContext())
             {
@@ -27,6 +29,7 @@
                 var renderOffsets = (from r in context.RenderAndOffsets select r).ToList();
                 var cacheObjects = (from c in context.CacheObjectEntities select c).ToList();
 
+                // fuck am I doing lol I need to go to bed
                 foreach (var ro in renderOffsets)
                 {
                     count++;
@@ -50,6 +53,7 @@
                 {
                     Count = total
                 };
+
                 this.RenderOffsetsSaved.Raise(this, eventArgs1);
                 await context.SaveChangesAsync();
             }

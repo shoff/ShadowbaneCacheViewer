@@ -1,4 +1,4 @@
-﻿namespace CacheViewer.Domain.Services
+﻿namespace CacheViewer.Domain.Services.Database
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@
     using EntityFramework.BulkInsert.Extensions;
     using Extensions;
     using Factories;
-
 
     public class MeshSaveEventArgs : EventArgs
     {

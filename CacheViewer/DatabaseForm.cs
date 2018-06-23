@@ -7,6 +7,7 @@ namespace CacheViewer
     using System.Windows.Forms;
     using ControlExtensions;
     using Domain.Services;
+    using Domain.Services.Database;
     using Domain.Services.Prefabs;
     using NLog;
 
@@ -127,20 +128,44 @@ namespace CacheViewer
                 service.RenderOffsetsSaved += this.UpdateAssociateLabel;
                 this.AssociateRenderButton.SetEnabled(false);
                 this.ClearDataButton.SetEnabled(false);
-                await service.SaveToDatabaseAsync();
+                await service.AssociateRenderAndOffsets();
                 this.ClearDataButton.SetEnabled(true);
                 this.AssociateRenderButton.SetEnabled(true);
                 service.RenderOffsetsSaved -= this.UpdateAssociateLabel;
             });
-            this.AssociateRenderLabel.SetText("Render objects saved to database");
-            this.LizardManTempleButton.SetEnabled(true);
-            this.CreateElvenChurchButton.SetEnabled(true);
-            this.RangerBlindButton.SetEnabled(true);
+            this.AssociateTexturesButton.Enabled = true;
+            this.AssociateRenderLabel.SetText("Render objects association completed");
+            this.AssociateTexturesButton.Focus();
         }
 
         private void UpdateAssociateLabel(object sender, RenderOffsetEventArgs e)
         {
             this.AssociateRenderLabel.SetText($"Count: {e.Count}");
+        }
+
+        private async void AssociateTexturesButton_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                AssociateTexturesDatabaseService service = new AssociateTexturesDatabaseService();
+                service.TextureMeshSaved += this.UpdateAssociateTexturesLabel;
+                this.AssociateTexturesButton.SetEnabled(false);
+                this.ClearDataButton.SetEnabled(false);
+                await service.AssociateTextures();
+                this.ClearDataButton.SetEnabled(true);
+                this.AssociateTexturesButton.SetEnabled(true);
+
+                service.TextureMeshSaved -= this.UpdateAssociateTexturesLabel;
+            });
+            this.AssociateTexturesLabel.SetText("Texture objects association completed");
+            this.LizardManTempleButton.SetEnabled(true);
+            this.CreateElvenChurchButton.SetEnabled(true);
+            this.RangerBlindButton.SetEnabled(true);
+        }
+        
+        private void UpdateAssociateTexturesLabel(object sender, TextureMeshEventArgs e)
+        {
+            this.AssociateTexturesLabel.SetText($"Count: {e.Count}");
         }
 
         private async void CreateElvenChurchButton_Click(object sender, EventArgs e)
@@ -235,5 +260,7 @@ namespace CacheViewer
             this.ClearDatabaseLabel.SetText("");
             this.SaveTexturesButton.Focus();
         }
+
+
     }
 }

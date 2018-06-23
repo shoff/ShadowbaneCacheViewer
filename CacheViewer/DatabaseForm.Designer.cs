@@ -49,11 +49,13 @@
             this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.RangeTextBox = new System.Windows.Forms.TextBox();
-            this.RangeLabel = new System.Windows.Forms.Label();
             this.ValidRangeValidationLabel = new System.Windows.Forms.Label();
+            this.RangeLabel = new System.Windows.Forms.Label();
+            this.RangeTextBox = new System.Windows.Forms.TextBox();
             this.ClearDatabaseLabel = new System.Windows.Forms.Label();
             this.ClearDataButton = new System.Windows.Forms.Button();
+            this.AssociateTexturesButton = new System.Windows.Forms.Button();
+            this.AssociateTexturesLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -233,7 +235,7 @@
             this.groupBox1.Controls.Add(this.RangerBlindButton);
             this.groupBox1.Controls.Add(this.RangerBlindLabel);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox1.Location = new System.Drawing.Point(12, 411);
+            this.groupBox1.Location = new System.Drawing.Point(12, 433);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(590, 192);
             this.groupBox1.TabIndex = 22;
@@ -242,6 +244,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.AssociateTexturesLabel);
+            this.groupBox2.Controls.Add(this.AssociateTexturesButton);
             this.groupBox2.Controls.Add(this.ValidRangeValidationLabel);
             this.groupBox2.Controls.Add(this.RangeLabel);
             this.groupBox2.Controls.Add(this.RangeTextBox);
@@ -257,19 +261,19 @@
             this.groupBox2.Controls.Add(this.SaveCacheLabel);
             this.groupBox2.Location = new System.Drawing.Point(12, 93);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(590, 302);
+            this.groupBox2.Size = new System.Drawing.Size(590, 334);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data Importers";
             // 
-            // RangeTextBox
+            // ValidRangeValidationLabel
             // 
-            this.RangeTextBox.Location = new System.Drawing.Point(145, 157);
-            this.RangeTextBox.Name = "RangeTextBox";
-            this.RangeTextBox.Size = new System.Drawing.Size(69, 20);
-            this.RangeTextBox.TabIndex = 16;
-            this.RangeTextBox.Text = "5000";
-            this.RangeTextBox.TextChanged += new System.EventHandler(this.RangeTextBox_TextChanged);
+            this.ValidRangeValidationLabel.AutoSize = true;
+            this.ValidRangeValidationLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.ValidRangeValidationLabel.Location = new System.Drawing.Point(223, 160);
+            this.ValidRangeValidationLabel.Name = "ValidRangeValidationLabel";
+            this.ValidRangeValidationLabel.Size = new System.Drawing.Size(0, 13);
+            this.ValidRangeValidationLabel.TabIndex = 18;
             // 
             // RangeLabel
             // 
@@ -281,14 +285,14 @@
             this.RangeLabel.Text = "Valid Range Difference";
             this.RangeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // ValidRangeValidationLabel
+            // RangeTextBox
             // 
-            this.ValidRangeValidationLabel.AutoSize = true;
-            this.ValidRangeValidationLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.ValidRangeValidationLabel.Location = new System.Drawing.Point(223, 160);
-            this.ValidRangeValidationLabel.Name = "ValidRangeValidationLabel";
-            this.ValidRangeValidationLabel.Size = new System.Drawing.Size(0, 13);
-            this.ValidRangeValidationLabel.TabIndex = 18;
+            this.RangeTextBox.Location = new System.Drawing.Point(145, 157);
+            this.RangeTextBox.Name = "RangeTextBox";
+            this.RangeTextBox.Size = new System.Drawing.Size(69, 20);
+            this.RangeTextBox.TabIndex = 16;
+            this.RangeTextBox.Text = "5000";
+            this.RangeTextBox.TextChanged += new System.EventHandler(this.RangeTextBox_TextChanged);
             // 
             // ClearDatabaseLabel
             // 
@@ -307,6 +311,26 @@
             this.ClearDataButton.Text = "Clear Data";
             this.ClearDataButton.UseVisualStyleBackColor = true;
             this.ClearDataButton.Click += new System.EventHandler(this.ClearDataButton_Click);
+            // 
+            // AssociateTexturesButton
+            // 
+            this.AssociateTexturesButton.Enabled = false;
+            this.AssociateTexturesButton.Location = new System.Drawing.Point(25, 269);
+            this.AssociateTexturesButton.Name = "AssociateTexturesButton";
+            this.AssociateTexturesButton.Size = new System.Drawing.Size(189, 34);
+            this.AssociateTexturesButton.TabIndex = 19;
+            this.AssociateTexturesButton.Text = "Associate Textures";
+            this.AssociateTexturesButton.UseVisualStyleBackColor = true;
+            this.AssociateTexturesButton.Click += new System.EventHandler(this.AssociateTexturesButton_Click);
+            // 
+            // AssociateTexturesLabel
+            // 
+            this.AssociateTexturesLabel.AutoSize = true;
+            this.AssociateTexturesLabel.Location = new System.Drawing.Point(223, 280);
+            this.AssociateTexturesLabel.Name = "AssociateTexturesLabel";
+            this.AssociateTexturesLabel.Size = new System.Drawing.Size(61, 13);
+            this.AssociateTexturesLabel.TabIndex = 20;
+            this.AssociateTexturesLabel.Text = "Not Started";
             // 
             // DatabaseForm
             // 
@@ -357,5 +381,7 @@
         private System.Windows.Forms.Label ValidRangeValidationLabel;
         private System.Windows.Forms.Label ClearDatabaseLabel;
         private System.Windows.Forms.Button ClearDataButton;
+        private System.Windows.Forms.Label AssociateTexturesLabel;
+        private System.Windows.Forms.Button AssociateTexturesButton;
     }
 }

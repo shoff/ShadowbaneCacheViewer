@@ -15,28 +15,14 @@
     public class ElvenChurchService
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
-
-        // private readonly List<RenderTexture> renderTextures = new List<RenderTexture>();
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
-        // private readonly List<TextureEntity> texures = new List<TextureEntity>();
-        private readonly MeshOnlyObjExporter meshExporter;
+        private MeshOnlyObjExporter meshExporter;
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
-        // private readonly List<Mesh> meshes = new List<Mesh>();
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\ElvenChurch";
-        //424005
-        //424011
-        //424020
-        //424017
-        //424022
-        //424004
-        //424018
-        //424014
-        //424006
-        //424009
-        //424010
-        //424019
-        public ElvenChurchService()
+
+        public async Task SaveAllAsync()
         {
+
             if (!Directory.Exists(this.folder))
             {
                 Directory.CreateDirectory(this.folder);
@@ -68,12 +54,6 @@
                     sb.AppendLine(
                         $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: {r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
 
-                    //var rt = (from x in context.RenderTextures
-                    //          where x.RenderId == r.CacheIndexIdentity
-                    //          select x).ToList();
-
-                    //this.renderTextures.AddRange(rt);
-
                     var m = (from x in context.MeshEntities.Include(rte => rte.Textures)
                              where x.CacheIndexIdentity == r.MeshId
                              select x).FirstOrDefault();
@@ -86,20 +66,9 @@
                     File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
                 }
 
-                //foreach (var text in this.renderTextures)
-                //{
-                //    var texture = (from t in context.Textures
-                //                   where t.TextureId == text.TextureId
-                //                   select t).FirstOrDefault();
 
-                //    this.texures.Add(texture);
-                //}
+                await this.AssociateTexturesAsync(context);
             }
-        }
-
-        public async Task SaveAllAsync()
-        {
-            await this.AssociateTexturesAsync();
             // only ones currently working correctly
             //TextureEntityId TextureId   Width Height  Depth MeshEntity_MeshEntityId
             //5410    424004  128 256 3   6629
@@ -131,31 +100,30 @@
             }
         }
 
-        private async Task AssociateTexturesAsync()
+        private async Task AssociateTexturesAsync(DataContext context)
         {
-            using (var context = new DataContext())
+
+            foreach (var re in this.renderEntities)
             {
-                foreach (var re in this.renderEntities)
+                if (re.HasMesh && re.MeshId > 0 && re.HasTexture && re.TextureId > 0)
                 {
-                    if (re.HasMesh && re.MeshId > 0 && re.HasTexture && re.TextureId > 0)
+                    // var rt = this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
+                    // var rte = context.RenderTextures.FirstOrDefault(i => i.RenderTextureId == rt.RenderTextureId && i.TextureId == re.TextureId);
+                    //this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
+                    //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
+
+                    var mesh = context.MeshEntities.Include(t => t.Textures).FirstOrDefault(i => i.CacheIndexIdentity == re.MeshId);
+                    var texture = context.Textures.FirstOrDefault(i => i.TextureId == re.TextureId);
+
+                    if (mesh != null && texture != null && !mesh.Textures.Contains(texture))
                     {
-                        // var rt = this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
-                        // var rte = context.RenderTextures.FirstOrDefault(i => i.RenderTextureId == rt.RenderTextureId && i.TextureId == re.TextureId);
-                        //this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
-                        //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
-
-                        var mesh = context.MeshEntities.Include(t => t.Textures).FirstOrDefault(i => i.CacheIndexIdentity == re.MeshId);
-                        var texture = context.Textures.FirstOrDefault(i => i.TextureId == re.TextureId);
-
-                        if (mesh != null && texture != null && !mesh.Textures.Contains(texture))
-                        {
-                            mesh.Textures.Add(texture);
-                            mesh.TexturesCount = mesh.RenderTextures.Count;
-                            await context.SaveChangesAsync();
-                        }
+                        mesh.Textures.Add(texture);
+                        mesh.TexturesCount = mesh.RenderTextures.Count;
+                        await context.SaveChangesAsync();
                     }
                 }
             }
+
         }
     }
 }
