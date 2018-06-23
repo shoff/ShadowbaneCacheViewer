@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Extensions;
+    using Extensions;
     using Data;
     using Data.Entities;
     using EntityFramework.BulkInsert.Extensions;
@@ -19,7 +19,7 @@
     {
         public event EventHandler<TextureSaveEventArgs> TexturesSaved;
 
-        public async Task SaveToDatabase()
+        public async Task SaveToDatabaseAsync()
         {
             var textureFactory = TextureFactory.Instance;
             List<TextureEntity> entities = new List<TextureEntity>();
@@ -29,7 +29,6 @@
             {
                 i++;
                 Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
-                //context.Textures.Add(texture);
                 var entity = new TextureEntity
                 {
                     Depth = texture.Depth,
@@ -37,8 +36,10 @@
                     TextureId = cacheIndex.Identity,
                     Width = texture.Width
                 };
+
                 entities.Add(entity);
-                if (i == 100)
+
+                if (i == 20)
                 {
                     i = 0;
                     var eventArgs = new TextureSaveEventArgs

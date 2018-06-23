@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
     using Archive;
     using Exceptions;
@@ -19,25 +18,14 @@
             MeshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
         }
 
-        /// <summary>Gets the instance.</summary>
         public static MeshFactory Instance => new MeshFactory();
 
-        /// <summary>Gets the indexes.</summary>
         public CacheIndex[] Indexes => MeshArchive.CacheIndices.ToArray();
 
-        /// <summary>Gets the identity range.</summary>
         public Tuple<int, int> IdentityRange => new Tuple<int, int>(MeshArchive.LowestId, MeshArchive.HighestId);
 
-        /// <summary>Gets the identity array.</summary>
         public int[] IdentityArray => MeshArchive.IdentityArray;
 
-        /// <summary>Creates the specified buffer.</summary>
-        /// <param name="cacheIndex">Index of the cache.</param>
-        /// <returns></returns>
-        /// <exception cref="IndexNotFoundException">Condition. </exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(CacheIndex cacheIndex)
         {
             var mesh = new Mesh
@@ -118,14 +106,6 @@
             return mesh;
         }
 
-
-        /// <summary>Creates the specified index identifier.</summary>
-        /// <param name="indexId">The index identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="IndexNotFoundException">When cache does not contain item with matching indexId.</exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        /// <exception cref="OutOfDataException">Condition.</exception>
         public Mesh Create(int indexId)
         {
             var cacheIndex = MeshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);

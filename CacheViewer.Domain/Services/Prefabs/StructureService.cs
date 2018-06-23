@@ -17,17 +17,13 @@
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
 
-        // private readonly List<RenderTexture> renderTextures = new List<RenderTexture>();
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
-        // private readonly List<TextureEntity> texures = new List<TextureEntity>();
-        private readonly MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
-        // private readonly List<Mesh> meshes = new List<Mesh>();
+        private readonly PrefabObjExporter meshExporter;
         private string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\{0}";
 
         public StructureService()
         {
-            this.meshExporter = new MeshOnlyObjExporter();
+            this.meshExporter = new PrefabObjExporter();
         }
 
         public async Task SaveAll(string saveFolder, string name, ObjectType objectType)
@@ -100,12 +96,10 @@
                     var tex = TextureFactory.Instance.Build(rt.TextureId);
                     m.Textures.Add(tex);
                 }
-
                 meshModels.Add(m);
-                // await this.meshExporter.ExportAsync(m);
             }
 
-            await this.meshExporter.CreateCombinedObjectAsync(meshModels, name.Replace(" ", ""));
+            await this.meshExporter.CreatePrefabAsync(meshModels, name.Replace(" ", ""));
         }
 
         private async Task AssociateTexturesAsync(DataContext context)

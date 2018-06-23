@@ -105,6 +105,14 @@
     <Compile Include="Migrations\201806200035365_Shit.Designer.cs">
       <DependentUpon>201806200035365_Shit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806230210064_InvalidValues.cs" />
+    <Compile Include="Migrations\201806230210064_InvalidValues.Designer.cs">
+      <DependentUpon>201806230210064_InvalidValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.cs" />
+    <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.Designer.cs">
+      <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +161,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806200035365_Shit.resx">
       <DependentUpon>201806200035365_Shit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806230210064_InvalidValues.resx">
+      <DependentUpon>201806230210064_InvalidValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.resx">
+      <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

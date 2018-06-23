@@ -115,7 +115,9 @@
     <Compile Include="Exceptions\InvalidAssetException.cs" />
     <Compile Include="Exceptions\InvalidCompressionSizeException.cs" />
     <Compile Include="Exceptions\InvalidCounterException.cs" />
+    <Compile Include="Exceptions\ModelDirectoryNotSetException.cs" />
     <Compile Include="Exporters\MeshData.cs" />
+    <Compile Include="Exporters\PrefabObjExporter.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Archive\CacheArchive.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AssociateRenderOffsetsDatabaseService.cs" />
     <Compile Include="Services\CacheObjectsDatabaseService.cs" />
+    <Compile Include="Services\ClearDatabaseService.cs" />
     <Compile Include="Services\FileWriter.cs" />
     <Compile Include="Services\FindRenderIdService.cs" />
     <Compile Include="Services\IModelIdService.cs" />
@@ -260,6 +263,7 @@
     <EmbeddedResource Include="DomainMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DomainMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -327,6 +327,7 @@
         public DbSet<SkeletonEntity> SkeletonEntities { get; set; }
         public DbSet<TextureEntity> Textures { get; set; }
         public DbSet<RenderTexture> RenderTextures { get; set; }
+        public DbSet<InvalidValue> InvalidValues { get; set; }
 
     }
 }

@@ -39,23 +39,32 @@
             this.AssociateRenderLabel = new System.Windows.Forms.Label();
             this.RenderButton = new System.Windows.Forms.Button();
             this.RenderLabel = new System.Windows.Forms.Label();
-            this.vector3EntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.CreateElvenChurchButton = new System.Windows.Forms.Button();
             this.CreateChurchLabel = new System.Windows.Forms.Label();
             this.RangerBlindButton = new System.Windows.Forms.Button();
             this.RangerBlindLabel = new System.Windows.Forms.Label();
             this.LizardManTempleLabel = new System.Windows.Forms.Label();
             this.LizardManTempleButton = new System.Windows.Forms.Button();
+            this.vector3EntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RangeTextBox = new System.Windows.Forms.TextBox();
+            this.RangeLabel = new System.Windows.Forms.Label();
+            this.ValidRangeValidationLabel = new System.Windows.Forms.Label();
+            this.ClearDatabaseLabel = new System.Windows.Forms.Label();
+            this.ClearDataButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // SaveTexturesButton
             // 
-            this.SaveTexturesButton.Location = new System.Drawing.Point(14, 12);
+            this.SaveTexturesButton.Location = new System.Drawing.Point(25, 31);
             this.SaveTexturesButton.Name = "SaveTexturesButton";
-            this.SaveTexturesButton.Size = new System.Drawing.Size(190, 34);
+            this.SaveTexturesButton.Size = new System.Drawing.Size(189, 34);
             this.SaveTexturesButton.TabIndex = 6;
             this.SaveTexturesButton.Text = "Save Textures To Database";
             this.SaveTexturesButton.UseVisualStyleBackColor = true;
@@ -64,7 +73,7 @@
             // TextureSaveLabel
             // 
             this.TextureSaveLabel.AutoSize = true;
-            this.TextureSaveLabel.Location = new System.Drawing.Point(210, 23);
+            this.TextureSaveLabel.Location = new System.Drawing.Point(223, 42);
             this.TextureSaveLabel.Name = "TextureSaveLabel";
             this.TextureSaveLabel.Size = new System.Drawing.Size(61, 13);
             this.TextureSaveLabel.TabIndex = 7;
@@ -72,7 +81,8 @@
             // 
             // SaveMeshesButton
             // 
-            this.SaveMeshesButton.Location = new System.Drawing.Point(14, 59);
+            this.SaveMeshesButton.Enabled = false;
+            this.SaveMeshesButton.Location = new System.Drawing.Point(25, 74);
             this.SaveMeshesButton.Name = "SaveMeshesButton";
             this.SaveMeshesButton.Size = new System.Drawing.Size(189, 34);
             this.SaveMeshesButton.TabIndex = 8;
@@ -83,7 +93,7 @@
             // SaveMeshesLabel
             // 
             this.SaveMeshesLabel.AutoSize = true;
-            this.SaveMeshesLabel.Location = new System.Drawing.Point(210, 70);
+            this.SaveMeshesLabel.Location = new System.Drawing.Point(223, 82);
             this.SaveMeshesLabel.Name = "SaveMeshesLabel";
             this.SaveMeshesLabel.Size = new System.Drawing.Size(61, 13);
             this.SaveMeshesLabel.TabIndex = 9;
@@ -91,7 +101,8 @@
             // 
             // SaveCacheButton
             // 
-            this.SaveCacheButton.Location = new System.Drawing.Point(14, 106);
+            this.SaveCacheButton.Enabled = false;
+            this.SaveCacheButton.Location = new System.Drawing.Point(25, 183);
             this.SaveCacheButton.Name = "SaveCacheButton";
             this.SaveCacheButton.Size = new System.Drawing.Size(189, 34);
             this.SaveCacheButton.TabIndex = 10;
@@ -102,7 +113,7 @@
             // SaveCacheLabel
             // 
             this.SaveCacheLabel.AutoSize = true;
-            this.SaveCacheLabel.Location = new System.Drawing.Point(210, 117);
+            this.SaveCacheLabel.Location = new System.Drawing.Point(223, 194);
             this.SaveCacheLabel.Name = "SaveCacheLabel";
             this.SaveCacheLabel.Size = new System.Drawing.Size(61, 13);
             this.SaveCacheLabel.TabIndex = 11;
@@ -111,7 +122,7 @@
             // AssociateRenderButton
             // 
             this.AssociateRenderButton.Enabled = false;
-            this.AssociateRenderButton.Location = new System.Drawing.Point(12, 200);
+            this.AssociateRenderButton.Location = new System.Drawing.Point(25, 226);
             this.AssociateRenderButton.Name = "AssociateRenderButton";
             this.AssociateRenderButton.Size = new System.Drawing.Size(189, 34);
             this.AssociateRenderButton.TabIndex = 12;
@@ -122,7 +133,7 @@
             // AssociateRenderLabel
             // 
             this.AssociateRenderLabel.AutoSize = true;
-            this.AssociateRenderLabel.Location = new System.Drawing.Point(208, 211);
+            this.AssociateRenderLabel.Location = new System.Drawing.Point(223, 237);
             this.AssociateRenderLabel.Name = "AssociateRenderLabel";
             this.AssociateRenderLabel.Size = new System.Drawing.Size(61, 13);
             this.AssociateRenderLabel.TabIndex = 13;
@@ -130,9 +141,10 @@
             // 
             // RenderButton
             // 
-            this.RenderButton.Location = new System.Drawing.Point(14, 153);
+            this.RenderButton.Enabled = false;
+            this.RenderButton.Location = new System.Drawing.Point(25, 117);
             this.RenderButton.Name = "RenderButton";
-            this.RenderButton.Size = new System.Drawing.Size(187, 34);
+            this.RenderButton.Size = new System.Drawing.Size(189, 34);
             this.RenderButton.TabIndex = 14;
             this.RenderButton.Text = "Save RenderInfo To Database";
             this.RenderButton.UseVisualStyleBackColor = true;
@@ -141,25 +153,17 @@
             // RenderLabel
             // 
             this.RenderLabel.AutoSize = true;
-            this.RenderLabel.Location = new System.Drawing.Point(210, 164);
+            this.RenderLabel.Location = new System.Drawing.Point(223, 128);
             this.RenderLabel.Name = "RenderLabel";
             this.RenderLabel.Size = new System.Drawing.Size(61, 13);
             this.RenderLabel.TabIndex = 15;
             this.RenderLabel.Text = "Not Started";
             // 
-            // vector3EntityBindingSource
-            // 
-            this.vector3EntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.Vector3Entity);
-            // 
-            // cacheObjectEntityBindingSource
-            // 
-            this.cacheObjectEntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.CacheObjectEntity);
-            // 
             // CreateElvenChurchButton
             // 
-            this.CreateElvenChurchButton.Location = new System.Drawing.Point(12, 249);
+            this.CreateElvenChurchButton.Location = new System.Drawing.Point(25, 38);
             this.CreateElvenChurchButton.Name = "CreateElvenChurchButton";
-            this.CreateElvenChurchButton.Size = new System.Drawing.Size(191, 34);
+            this.CreateElvenChurchButton.Size = new System.Drawing.Size(189, 34);
             this.CreateElvenChurchButton.TabIndex = 16;
             this.CreateElvenChurchButton.Text = "Create Elven Church (validates data)";
             this.CreateElvenChurchButton.UseVisualStyleBackColor = true;
@@ -168,7 +172,7 @@
             // CreateChurchLabel
             // 
             this.CreateChurchLabel.AutoSize = true;
-            this.CreateChurchLabel.Location = new System.Drawing.Point(210, 260);
+            this.CreateChurchLabel.Location = new System.Drawing.Point(223, 49);
             this.CreateChurchLabel.Name = "CreateChurchLabel";
             this.CreateChurchLabel.Size = new System.Drawing.Size(61, 13);
             this.CreateChurchLabel.TabIndex = 17;
@@ -176,7 +180,7 @@
             // 
             // RangerBlindButton
             // 
-            this.RangerBlindButton.Location = new System.Drawing.Point(12, 299);
+            this.RangerBlindButton.Location = new System.Drawing.Point(25, 85);
             this.RangerBlindButton.Name = "RangerBlindButton";
             this.RangerBlindButton.Size = new System.Drawing.Size(189, 34);
             this.RangerBlindButton.TabIndex = 18;
@@ -187,7 +191,7 @@
             // RangerBlindLabel
             // 
             this.RangerBlindLabel.AutoSize = true;
-            this.RangerBlindLabel.Location = new System.Drawing.Point(210, 310);
+            this.RangerBlindLabel.Location = new System.Drawing.Point(223, 96);
             this.RangerBlindLabel.Name = "RangerBlindLabel";
             this.RangerBlindLabel.Size = new System.Drawing.Size(61, 13);
             this.RangerBlindLabel.TabIndex = 19;
@@ -196,7 +200,7 @@
             // LizardManTempleLabel
             // 
             this.LizardManTempleLabel.AutoSize = true;
-            this.LizardManTempleLabel.Location = new System.Drawing.Point(208, 356);
+            this.LizardManTempleLabel.Location = new System.Drawing.Point(221, 143);
             this.LizardManTempleLabel.Name = "LizardManTempleLabel";
             this.LizardManTempleLabel.Size = new System.Drawing.Size(61, 13);
             this.LizardManTempleLabel.TabIndex = 21;
@@ -204,7 +208,7 @@
             // 
             // LizardManTempleButton
             // 
-            this.LizardManTempleButton.Location = new System.Drawing.Point(12, 345);
+            this.LizardManTempleButton.Location = new System.Drawing.Point(25, 132);
             this.LizardManTempleButton.Name = "LizardManTempleButton";
             this.LizardManTempleButton.Size = new System.Drawing.Size(189, 34);
             this.LizardManTempleButton.TabIndex = 20;
@@ -212,31 +216,116 @@
             this.LizardManTempleButton.UseVisualStyleBackColor = true;
             this.LizardManTempleButton.Click += new System.EventHandler(this.LizardManTempleButton_Click);
             // 
+            // vector3EntityBindingSource
+            // 
+            this.vector3EntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.Vector3Entity);
+            // 
+            // cacheObjectEntityBindingSource
+            // 
+            this.cacheObjectEntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.CacheObjectEntity);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CreateElvenChurchButton);
+            this.groupBox1.Controls.Add(this.LizardManTempleLabel);
+            this.groupBox1.Controls.Add(this.CreateChurchLabel);
+            this.groupBox1.Controls.Add(this.LizardManTempleButton);
+            this.groupBox1.Controls.Add(this.RangerBlindButton);
+            this.groupBox1.Controls.Add(this.RangerBlindLabel);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.groupBox1.Location = new System.Drawing.Point(12, 411);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(590, 192);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Test Objects";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ValidRangeValidationLabel);
+            this.groupBox2.Controls.Add(this.RangeLabel);
+            this.groupBox2.Controls.Add(this.RangeTextBox);
+            this.groupBox2.Controls.Add(this.RenderButton);
+            this.groupBox2.Controls.Add(this.SaveTexturesButton);
+            this.groupBox2.Controls.Add(this.RenderLabel);
+            this.groupBox2.Controls.Add(this.TextureSaveLabel);
+            this.groupBox2.Controls.Add(this.SaveMeshesButton);
+            this.groupBox2.Controls.Add(this.AssociateRenderLabel);
+            this.groupBox2.Controls.Add(this.SaveMeshesLabel);
+            this.groupBox2.Controls.Add(this.AssociateRenderButton);
+            this.groupBox2.Controls.Add(this.SaveCacheButton);
+            this.groupBox2.Controls.Add(this.SaveCacheLabel);
+            this.groupBox2.Location = new System.Drawing.Point(12, 93);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(590, 302);
+            this.groupBox2.TabIndex = 23;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Data Importers";
+            // 
+            // RangeTextBox
+            // 
+            this.RangeTextBox.Location = new System.Drawing.Point(145, 157);
+            this.RangeTextBox.Name = "RangeTextBox";
+            this.RangeTextBox.Size = new System.Drawing.Size(69, 20);
+            this.RangeTextBox.TabIndex = 16;
+            this.RangeTextBox.Text = "5000";
+            this.RangeTextBox.TextChanged += new System.EventHandler(this.RangeTextBox_TextChanged);
+            // 
+            // RangeLabel
+            // 
+            this.RangeLabel.AutoSize = true;
+            this.RangeLabel.Location = new System.Drawing.Point(22, 160);
+            this.RangeLabel.Name = "RangeLabel";
+            this.RangeLabel.Size = new System.Drawing.Size(117, 13);
+            this.RangeLabel.TabIndex = 17;
+            this.RangeLabel.Text = "Valid Range Difference";
+            this.RangeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // ValidRangeValidationLabel
+            // 
+            this.ValidRangeValidationLabel.AutoSize = true;
+            this.ValidRangeValidationLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.ValidRangeValidationLabel.Location = new System.Drawing.Point(223, 160);
+            this.ValidRangeValidationLabel.Name = "ValidRangeValidationLabel";
+            this.ValidRangeValidationLabel.Size = new System.Drawing.Size(0, 13);
+            this.ValidRangeValidationLabel.TabIndex = 18;
+            // 
+            // ClearDatabaseLabel
+            // 
+            this.ClearDatabaseLabel.AutoSize = true;
+            this.ClearDatabaseLabel.Location = new System.Drawing.Point(235, 47);
+            this.ClearDatabaseLabel.Name = "ClearDatabaseLabel";
+            this.ClearDatabaseLabel.Size = new System.Drawing.Size(0, 13);
+            this.ClearDatabaseLabel.TabIndex = 24;
+            // 
+            // ClearDataButton
+            // 
+            this.ClearDataButton.Location = new System.Drawing.Point(37, 36);
+            this.ClearDataButton.Name = "ClearDataButton";
+            this.ClearDataButton.Size = new System.Drawing.Size(178, 34);
+            this.ClearDataButton.TabIndex = 25;
+            this.ClearDataButton.Text = "Clear Data";
+            this.ClearDataButton.UseVisualStyleBackColor = true;
+            this.ClearDataButton.Click += new System.EventHandler(this.ClearDataButton_Click);
+            // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(553, 443);
-            this.Controls.Add(this.LizardManTempleLabel);
-            this.Controls.Add(this.LizardManTempleButton);
-            this.Controls.Add(this.RangerBlindLabel);
-            this.Controls.Add(this.RangerBlindButton);
-            this.Controls.Add(this.CreateChurchLabel);
-            this.Controls.Add(this.CreateElvenChurchButton);
-            this.Controls.Add(this.RenderLabel);
-            this.Controls.Add(this.RenderButton);
-            this.Controls.Add(this.AssociateRenderLabel);
-            this.Controls.Add(this.AssociateRenderButton);
-            this.Controls.Add(this.SaveCacheLabel);
-            this.Controls.Add(this.SaveCacheButton);
-            this.Controls.Add(this.SaveMeshesLabel);
-            this.Controls.Add(this.SaveMeshesButton);
-            this.Controls.Add(this.TextureSaveLabel);
-            this.Controls.Add(this.SaveTexturesButton);
+            this.ClientSize = new System.Drawing.Size(626, 637);
+            this.Controls.Add(this.ClearDataButton);
+            this.Controls.Add(this.ClearDatabaseLabel);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Name = "DatabaseForm";
             this.Text = "DatabaseForm";
+            this.Load += new System.EventHandler(this.DatabaseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -261,5 +350,12 @@
         private System.Windows.Forms.Label RangerBlindLabel;
         private System.Windows.Forms.Label LizardManTempleLabel;
         private System.Windows.Forms.Button LizardManTempleButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label RangeLabel;
+        private System.Windows.Forms.TextBox RangeTextBox;
+        private System.Windows.Forms.Label ValidRangeValidationLabel;
+        private System.Windows.Forms.Label ClearDatabaseLabel;
+        private System.Windows.Forms.Button ClearDataButton;
     }
 }

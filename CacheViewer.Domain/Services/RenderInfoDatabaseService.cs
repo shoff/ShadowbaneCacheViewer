@@ -20,7 +20,7 @@
         public event EventHandler<RenderInfoSaveEventArgs> RendersSaved;
 
 
-        public async Task SaveToDatabase()
+        public async Task SaveToDatabaseAsync()
         {
             List<RenderEntity> entities = new List<RenderEntity>();
 

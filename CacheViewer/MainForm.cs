@@ -431,13 +431,7 @@
 
         private void databaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<CacheObject> mobiles = new List<CacheObject>();
-
-            foreach (TreeNode mobile in this.mobileNode.Nodes)
-            {
-                mobiles.Add((CacheObject)mobile.Tag);
-            }
-            DatabaseForm dbf = new DatabaseForm(mobiles);
+            DatabaseForm dbf = new DatabaseForm();
             dbf.Show();
         }
 

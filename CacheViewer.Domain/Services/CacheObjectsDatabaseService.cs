@@ -2,16 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Data;
     using Data.Entities;
     using EntityFramework.BulkInsert.Extensions;
     using Extensions;
     using Factories;
+    using NLog;
 
     public class CacheObjectSaveEventArgs : EventArgs
     {
@@ -23,6 +20,7 @@
     public class CacheObjectsDatabaseService
     {
 
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
         public event EventHandler<CacheObjectSaveEventArgs> CacheObjectsSaved;
 
@@ -41,12 +39,11 @@
         };
 
 
-        public async Task SaveToDatabase()
+        public async Task SaveToDatabaseAsync(int validRange)
         {
             List<CacheObjectEntity> cacheObjectEntities = new List<CacheObjectEntity>();
             List<RenderAndOffset> renderAndOffsets = new List<RenderAndOffset>();
-
-
+            List<InvalidValue> invalidValues = new List<InvalidValue>();
             var save = 0;
             foreach (var i in this.cacheObjectsCache.Indexes)
             {
@@ -62,8 +59,8 @@
                     ObjectType = cobject.Flag,
                     ObjectTypeDescription = objectTypeDicitonary[cobject.Flag],
                     UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
-
                 };
+
                 cacheObjectEntities.Add(centity);
 
                 var structure = cobject;
@@ -75,20 +72,36 @@
                     {
                         int renderId = reader.ReadInt32();
 
-                        int range = renderId > centity.CacheIndexIdentity ?
-                            Math.Abs(renderId - centity.CacheIndexIdentity) :
-                            Math.Abs(centity.CacheIndexIdentity - renderId);
-
-                        if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
+                        if (renderId > 0)
                         {
-                            var rao = new RenderAndOffset
+                            int range = renderId > centity.CacheIndexIdentity ?
+                                Math.Abs(renderId - centity.CacheIndexIdentity) :
+                                Math.Abs(centity.CacheIndexIdentity - renderId);
+
+                            if (range < validRange && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) >
+                                -1)
                             {
-                                RenderId = renderId,
-                                OffSet = reader.BaseStream.Position,
-                                CacheIndexId = centity.CacheIndexIdentity
-                            };
-                            renderAndOffsets.Add(rao);
+                                logger?.Debug($"Found render id {renderId} for {centity.CacheIndexIdentity}");
+                                var rao = new RenderAndOffset
+                                {
+                                    RenderId = renderId,
+                                    OffSet = reader.BaseStream.Position,
+                                    CacheIndexId = centity.CacheIndexIdentity
+                                };
+                                renderAndOffsets.Add(rao);
+                            }
+                            else
+                            {
+                                var iv = new InvalidValue
+                                {
+                                    RenderId = renderId,
+                                    OffSet = reader.BaseStream.Position,
+                                    CacheIndexId = centity.CacheIndexIdentity
+                                };
+                                invalidValues.Add(iv);
+                            }
                         }
+
                         reader.BaseStream.Position -= 3;
                     }
                 }
@@ -107,8 +120,10 @@
 
             using (var context = new DataContext())
             {
+                context.ExecuteCommand("delete from dbo.InvalidValues");
                 context.ExecuteCommand("delete from dbo.RenderAndOffsets");
                 context.ExecuteCommand("delete from dbo.CacheObjectEntities");
+                await context.BulkInsertAsync(invalidValues);
                 await context.BulkInsertAsync(cacheObjectEntities);
                 await context.BulkInsertAsync(renderAndOffsets);
             }

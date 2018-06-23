@@ -9,9 +9,7 @@ namespace CacheViewer
     using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using Domain.Exporters;
     using Domain.Factories;
-    using Domain.Models;
     using Domain.Models.Exportable;
     using NLog;
     using System.IO;
@@ -33,9 +31,7 @@ namespace CacheViewer
 
         // Archives
         private readonly CacheObjectsCache cacheObjectsCache;
-        private readonly MeshOnlyObjExporter meshExporter;
         private readonly RenderInformationFactory renderInformationFactory;
-        private readonly TextureFactory textureFactory;
         private bool archivesLoaded;
 
         // data
@@ -50,10 +46,8 @@ namespace CacheViewer
             {
                 logger.Debug("CacheViewForm created.");
                 this.AcceptButton = this.CacheSaveButton;
-                this.textureFactory = TextureFactory.Instance;
                 this.cacheObjectsCache = CacheObjectsCache.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
-                this.meshExporter = MeshOnlyObjExporter.Instance;
                 this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectsCache.Indexes.Count;
                 this.TotalCacheLabel.Refresh();
             }
@@ -147,11 +141,8 @@ namespace CacheViewer
             this.LoadingPictureBox.Visible = false;
             this.LoadingPictureBox.Refresh();
 
-            // never re-enable the load cache button!
-            // this.LoadCacheButton.Enabled = true;
-            // this.LoadCacheButton.Refresh();
             this.ResetSaveButtons();
-            logger.Info("CacheViewForm completed loading all cache archives.");
+            logger?.Info("CacheViewForm completed loading all cache archives.");
             this.archivesLoaded = true;
         }
 
@@ -189,12 +180,11 @@ namespace CacheViewer
             }
             catch (Exception ex)
             {
-                logger.Error(ex);
+                logger?.Error(ex);
                 throw;
             }
-
-
         }
+
         private async void CacheObjectTreeViewAfterSelect(object sender, TreeViewEventArgs e)
         {
             if (!this.archivesLoaded)
@@ -219,12 +209,12 @@ namespace CacheViewer
 
                 if (item.RenderId == 0)
                 {
-                    logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
+                    logger?.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
             }
             catch (Exception ex)
             {
-                logger.Error(ex, ex.Message);
+                logger?.Error(ex, ex.Message);
             }
 
             this.DisplayItemInformation(item);
@@ -391,13 +381,7 @@ namespace CacheViewer
 
         private void DatabaseFormToolStripMenuItemClick(object sender, EventArgs e)
         {
-            List<CacheObject> mobiles = new List<CacheObject>();
-
-            foreach (TreeNode mobile in this.mobileNode.Nodes)
-            {
-                mobiles.Add((CacheObject)mobile.Tag);
-            }
-            DatabaseForm dbf = new DatabaseForm(mobiles);
+            DatabaseForm dbf = new DatabaseForm();
             dbf.Show();
         }
 

@@ -20,7 +20,7 @@
     {
         public event EventHandler<MeshSaveEventArgs> MeshesSaved;
 
-        public async Task SaveToDatabase()
+        public async Task SaveToDatabaseAsync()
         {
             int count = 0;
             List<MeshEntity> entities = new List<MeshEntity>();

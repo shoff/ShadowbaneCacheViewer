@@ -28,5 +28,7 @@
         public string ObjectTypeDescription { get; set; }
 
         public virtual ICollection<RenderAndOffset> RenderAndOffsets { get; set; } = new HashSet<RenderAndOffset>();
+
+        public virtual ICollection<RenderEntity> RenderEntities { get; set; } = new HashSet<RenderEntity>();
     }
 }

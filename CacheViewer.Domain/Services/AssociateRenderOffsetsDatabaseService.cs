@@ -17,7 +17,7 @@
         public event EventHandler<RenderOffsetEventArgs> RenderOffsetsSaved;
 
 
-        public async Task SaveToDatabase()
+        public async Task SaveToDatabaseAsync()
         {
             using (var context = new DataContext())
             {

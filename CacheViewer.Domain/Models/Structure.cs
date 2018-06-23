@@ -2,12 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using Archive;
     using CacheViewer.Data;
+    using Data.Entities;
     using Exportable;
     using Extensions;
+    using Factories;
     using NLog;
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -20,6 +25,7 @@
         private readonly CollisionInfo collisionData1 = new CollisionInfo();
         protected readonly List<CollisionInfo> collisionInfo = new List<CollisionInfo>();
         public readonly List<uint> renderIds = new List<uint>();
+        public int BytesOfZeroData { get; private set; }
         public bool BValue1 { get; private set; }
         public bool BValue2 { get; private set; }
         public bool BValue3 { get; private set; }
@@ -32,6 +38,9 @@
         public uint NumberOfMeshes { get; private set; }
         private uint renderId;
 
+        private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
+
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Structure" /> class.
         /// </summary>
@@ -41,17 +50,27 @@
         /// <param name="offset">The offset.</param>
         /// <param name="data">The data.</param>
         /// <param name="innerOffset">The inner offset.</param>
-        public Structure(CacheIndex cacheIndex, ObjectType flag, string name, int offset, ArraySegment<byte> data,
-            int innerOffset)
+        public Structure(CacheIndex cacheIndex, ObjectType flag, 
+            string name, int offset, ArraySegment<byte> data, int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
+            using (var context = new DataContext())
+            {
+                var re = (from c in context.CacheObjectEntities.Include(x => x.RenderAndOffsets)
+                    where c.CacheIndexIdentity == cacheIndex.Identity
+                    select c.CacheObjectEntityId).FirstOrDefault();
+                
+            }
         }
+
 
         /// <summary>Parses the specified buffer.</summary>
         /// <param name="data">The buffer.</param>
         public override void Parse(ArraySegment<byte> data)
         {
-            var ptr = this.CursorOffset;
+            var ptr = this.CursorOffset; // this should be 37 + this.name.length * 2
+            Debug.Assert(ptr == 37 + (this.Name.Length * 2));
+
             this.IUnk = 0;
             //unknownData1 unkData1;
             var info = new CollisionInfo();
@@ -59,7 +78,20 @@
             {
                 var reader = data.CreateBinaryReaderUtf32();
                 reader.BaseStream.Position = ptr;
-                this.renderId = reader.ReadUInt32();
+
+                while (this.renderId == 0 && reader.BaseStream.Position + 4 <= reader.BaseStream.Length)
+                    // || !renderFactory.RenderArchive.Contains((int)this.renderId))
+                {
+                    this.renderId = reader.ReadUInt32();
+                    this.BytesOfZeroData += this.renderId == 0 ? 4 : 0;
+                }
+
+                // TODO we should just precache the render ids rather than reloading this like this. oh well perfect world and all that
+                if (this.renderId == 0) // || !renderFactory.RenderArchive.Contains((int)this.renderId))
+                {
+                    throw new ApplicationException($"No render Id found for {this.Name}");
+                }
+
                 // world texture id
                 ptr += 4;
                 var invTex = reader.ReadUInt32();

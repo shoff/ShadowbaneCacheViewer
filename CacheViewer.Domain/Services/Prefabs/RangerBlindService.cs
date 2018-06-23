@@ -98,7 +98,7 @@ namespace CacheViewer.Domain.Services.Prefabs
             }
         }
 
-        public async Task SaveAll()
+        public async Task SaveAllAsync()
         {
             await this.AssociateTexturesAsync();
             // only ones currently working correctly
