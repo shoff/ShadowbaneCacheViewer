@@ -1,7 +1,7 @@
 ﻿namespace CacheViewer.Domain.Models
 {
     using System.Collections.Generic;
-    using SlimDX;
+    using OpenTK;
 
     public class CollisionInfo
     {

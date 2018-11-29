@@ -57,6 +57,44 @@
 
         public static MeshOnlyObjExporter Instance => new MeshOnlyObjExporter();
 
+        public async Task CreatePrefabIndividualFiles(List<Mesh> meshModels, string modelName)
+        {
+            if (meshModels == null || meshModels.Count == 0)
+            {
+                logger?.Error(
+                    $"An empty or null mesh collection passed to CreatePrefabAsync for model {modelName ?? "no-name"} aborting creation.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(modelName))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(modelName));
+            }
+
+            if (string.IsNullOrWhiteSpace(this.ModelDirectory))
+            {
+                throw new ModelDirectoryNotSetException(modelName);
+            }
+
+            foreach (var mesh in meshModels)
+            {
+                if (mesh == null)
+                {
+                    continue;
+                }
+                var cindex = MeshFactory.Instance.Indexes.FirstOrDefault(c => c.Identity == mesh.CacheIndex.Identity);
+                var m = MeshFactory.Instance.Create(cindex);
+
+                foreach (var rt in mesh.Textures)
+                {
+                    var tex = TextureFactory.Instance.Build(rt.TextureId);
+                    m.Textures.Add(tex);
+                }
+
+                await Instance.ExportAsync(m, $"{modelName}_{m.Id}", this.ModelDirectory);
+            }
+        }
+
         public async Task CreatePrefabAsync(List<Mesh> meshModels, string modelName)
         {
             if (meshModels == null || meshModels.Count == 0)
@@ -118,7 +156,7 @@
             this.prefab.AppendLine(normalsBuilder.ToString());
 
             // now build the faces
-            this.BuildFaces(meshModels);
+            this.BuildFaces(meshModels, this.prefab);
 
             using (var fs = new FileStream(this.ModelDirectory + "\\" + modelName + ".obj",
                     FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
@@ -182,7 +220,7 @@
             return sb.ToString();
         }
 
-        private void BuildFaces(List<Mesh> meshes)
+        private void BuildFaces(List<Mesh> meshes, StringBuilder sb)
         {
             int currentIndexCount = 0;
 
@@ -193,8 +231,8 @@
                 // TODO this does not spit out the faces the same as the exporter from Maya does
                 // g Mesh_124163:default1
                 // usemtl initialShadingGroup
-                this.prefab.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
-                this.prefab.AppendLine($"usemtl Mesh_{mesh.Id}");
+                sb.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
+                sb.AppendLine($"usemtl Mesh_{mesh.Id}");
 
                 foreach (var wavefrontVertex in mesh.Indices)
                 {
@@ -202,7 +240,7 @@
                     var b = (ushort)(wavefrontVertex.TextureCoordinate + currentIndexCount);
                     var c = (ushort)(wavefrontVertex.Normal + currentIndexCount);
 
-                    this.prefab.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+                    sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
                 }
             }
         }
@@ -220,6 +258,7 @@
                     using (var bitmap = mesh.Textures[i].TextureMap(asset.Item1))
                     {
                         var textureDirectory = this.ModelDirectory + "\\" + mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
+                        logger?.Info($"TextureDirectory: {textureDirectory}");
                         bitmap.Save(textureDirectory, ImageFormat.Png);
 
                         // TODO figure this shit out right here

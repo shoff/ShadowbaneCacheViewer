@@ -7,10 +7,13 @@
     using Exceptions;
     using Extensions;
     using Models;
+    using NLog;
     using Parsers;
 
     public class MeshFactory : IModelFactory
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         internal static MeshArchive MeshArchive { get; private set; }
 
         private MeshFactory()
@@ -51,9 +54,8 @@
                 Debug.Assert(reader.BaseStream.Position == 46);
 
                 mesh.VertexCount = reader.ReadUInt32();
+                mesh.VerticesOffset = (ulong) reader.BaseStream.Position;
                 mesh.VertexBufferSize = mesh.VertexCount * sizeof(float) * 3;
-
-                //mesh.Vertices = new Vector3[mesh.VertexCount];
 
                 for (var i = 0; i < mesh.VertexCount; i++)
                 {
@@ -62,8 +64,7 @@
 
                 mesh.NormalsCount = reader.ReadUInt32();
                 mesh.NormalsBufferSize = mesh.NormalsCount * sizeof(float) * 3;
-
-                //mesh.Normals = new Vector3[mesh.NormalsCount];
+                mesh.NormalsOffset = (ulong) reader.BaseStream.Position;
 
                 for (var i = 0; i < mesh.NormalsCount; i++)
                 {
@@ -72,7 +73,7 @@
 
                 // should be the same as the vertices, normals count.
                 mesh.TextureCoordinatesCount = reader.ReadUInt32();
-
+                mesh.TextureOffset = (ulong) reader.BaseStream.Position;
                 for (var i = 0; i < mesh.TextureCoordinatesCount; i++)
                 {
                     mesh.TextureVectors.Add(reader.ReadToVector2());
@@ -86,6 +87,7 @@
                 // if they aren't dividable by 3 then something is borked.
                 if (mesh.NumberOfIndices > 0 && mesh.NumberOfIndices % 3 == 0)
                 {
+                    mesh.IndicesOffset = (ulong) mesh.IndicesOffset;
                     var dataLength = mesh.NumberOfIndices * 2;
 
                     if (reader.BaseStream.Position - dataLength < 0)
@@ -103,6 +105,7 @@
                 }
             }
 
+            logger.Info(mesh.GetMeshInformation());
             return mesh;
         }
 

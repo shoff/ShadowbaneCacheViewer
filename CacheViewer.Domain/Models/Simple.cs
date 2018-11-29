@@ -44,6 +44,7 @@
                     try
                     {
                         this.RenderId = reader.ReadUInt32();
+                        logger.Info($"Simple object model parsed render id {this.RenderId}");
                     }
                     catch (EndOfStreamException endOfStreamException)
                     {
@@ -53,14 +54,16 @@
                     }
 
                     this.UnParsedBytes = data.Count - (int) reader.BaseStream.Position;
+                    logger.Info(
+                        $"{this.RenderId} of type {this.GetType().FullName} had {this.UnParsedBytes} unparsed bytes.");
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(ioException, "Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity);
+                    logger?.Error(ioException, "Exception in Simple for CacheIndex {0}", this.CacheIndex.Identity);
                     throw;
                 }
 
-                logger.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.Identity,
+                logger?.Info("CacheIndex {0} in Simple contained {1} unparsed bytes.", this.CacheIndex.Identity,
                     this.UnParsedBytes);
             }
         }

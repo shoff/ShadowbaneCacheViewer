@@ -26,7 +26,7 @@
             this.meshExporter = new PrefabObjExporter();
         }
 
-        public async Task SaveAll(string saveFolder, string name, ObjectType objectType)
+        public async Task SaveAll(string saveFolder, string name, ObjectType objectType, bool saveAsOneFile)
         {
             this.folder = string.Format(this.folder, saveFolder);
             if (!Directory.Exists(this.folder))
@@ -99,7 +99,14 @@
                 meshModels.Add(m);
             }
 
-            await this.meshExporter.CreatePrefabAsync(meshModels, name.Replace(" ", ""));
+            if (saveAsOneFile)
+            {
+                await this.meshExporter.CreatePrefabAsync(meshModels, name.Replace(" ", ""));
+            }
+            else
+            {
+                await this.meshExporter.CreatePrefabIndividualFiles(meshModels, name.Replace(" ", ""));
+            }
         }
 
         private async Task AssociateTexturesAsync(DataContext context)

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using Archive;
     using Data;
@@ -47,8 +48,7 @@
         {
             return await Task.FromResult(this.CreateAndParse(cacheIndex));
         }
-
-
+        
         internal ICacheObject Create(CacheIndex cacheIndex)
         {
             var asset = this.CacheObjects[cacheIndex.Identity];
@@ -71,6 +71,13 @@
                 var offset = (int) reader.BaseStream.Position + 25;
                 return new UnknownObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
             }
+        }
+
+        public ICacheObject CreateAndParse(int identity)
+        {
+            // TODO there is still the shit with multiple cache objects having the same Identity
+            var asset = this.CacheObjects[identity];
+            return this.CreateAndParse(asset.CacheIndex1);
         }
 
         public ICacheObject CreateAndParse(CacheIndex cacheIndex)
@@ -105,6 +112,7 @@
                 switch (flag)
                 {
                     case ObjectType.Simple:
+
                         var simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                         simple.Parse(asset.Item1);
                         return simple;
@@ -139,9 +147,9 @@
                         return new Sun(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
 
                     case ObjectType.Warrant:
-                        var warrent = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        warrent.Parse(asset.Item1);
-                        return warrent;
+                        var warrant = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        warrant.Parse(asset.Item1);
+                        return warrant;
 
                     case ObjectType.Unknown:
                         return new UnknownObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
@@ -152,7 +160,7 @@
             }
             catch (Exception e)
             {
-                logger.Error(e);
+                logger?.Error(e, e.Message);
                 throw;
             }
 

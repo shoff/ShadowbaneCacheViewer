@@ -6,14 +6,15 @@ namespace CacheViewer
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
-    using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Domain.Factories;
     using Domain.Models.Exportable;
     using NLog;
     using System.IO;
+    using ControlExtensions;
     using Data;
+    using Domain.Models;
     using Domain.Services;
     using Domain.Services.Prefabs;
 
@@ -33,7 +34,9 @@ namespace CacheViewer
         private readonly CacheObjectsCache cacheObjectsCache;
         private readonly RenderInformationFactory renderInformationFactory;
         private bool archivesLoaded;
+        private static float angle = 0.0f;
 
+        private Mesh mesh;
         // data
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -63,66 +66,75 @@ namespace CacheViewer
                 TimeSpan.FromTicks(this.cacheObjectsCache.LoadTime).Seconds + Messages.Seconds;
             this.LoadLabel.Refresh();
 
-            List<TreeNode> simpleNodes = new List<TreeNode>();
-            List<TreeNode> structureNodes = new List<TreeNode>();
-            List<TreeNode> interactiveNodes = new List<TreeNode>();
-            List<TreeNode> equipmentNodes = new List<TreeNode>();
-            List<TreeNode> mobileNodes = new List<TreeNode>();
-            List<TreeNode> deedNodes = new List<TreeNode>();
-            List<TreeNode> warrantNodes = new List<TreeNode>();
-            List<TreeNode> unknownNodes = new List<TreeNode>();
-            List<TreeNode> particleNodes = new List<TreeNode>();
+            var simpleNodes = new List<TreeNode>();
+            var structureNodes = new List<TreeNode>();
+            var interactiveNodes = new List<TreeNode>();
+            var equipmentNodes = new List<TreeNode>();
+            var mobileNodes = new List<TreeNode>();
+            var deedNodes = new List<TreeNode>();
+            var warrantNodes = new List<TreeNode>();
+            var unknownNodes = new List<TreeNode>();
+            var particleNodes = new List<TreeNode>();
 
             // ReSharper disable once CSharpWarnings::CS4014
             await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
 
             await Task.Run(() =>
             {
+                logger?.Info($"In LoadCacheButtonClick found {this.cacheObjectsCache.Indexes.Count}");
                 foreach (var ci in this.cacheObjectsCache.Indexes)
                 {
-                    // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
-
-                    string title = string.IsNullOrEmpty(cacheObject.Name) ?
-                        ci.Identity.ToString(CultureInfo.InvariantCulture) :
-                        $"{ci.Identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
-
-                    var node = new TreeNode(title)
+                    try
                     {
-                        Tag = cacheObject,
-                    };
+                        // this is not populating the cache array?
+                        ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+                        logger?.Debug($"Loaded cachObject {cacheObject.Name}");
+                        string title = string.IsNullOrEmpty(cacheObject.Name) ?
+                            ci.Identity.ToString(CultureInfo.InvariantCulture) :
+                            $"{ci.Identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
 
-                    switch (cacheObject.Flag)
+                        var node = new TreeNode(title)
+                        {
+                            Tag = cacheObject,
+                        };
+
+                        switch (cacheObject.Flag)
+                        {
+                            case ObjectType.Sun:
+                                break;
+                            case ObjectType.Simple:
+                                simpleNodes.Add(node);
+                                break;
+                            case ObjectType.Structure:
+                                structureNodes.Add(node);
+                                break;
+                            case ObjectType.Interactive:
+                                interactiveNodes.Add(node);
+                                break;
+                            case ObjectType.Equipment:
+                                equipmentNodes.Add(node);
+                                break;
+                            case ObjectType.Mobile:
+                                mobileNodes.Add(node);
+                                break;
+                            case ObjectType.Deed:
+                                deedNodes.Add(node);
+                                break;
+                            case ObjectType.Unknown:
+                                unknownNodes.Add(node);
+                                break;
+                            case ObjectType.Warrant:
+                                warrantNodes.Add(node);
+                                break;
+                            case ObjectType.Particle:
+                                particleNodes.Add(node);
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
                     {
-                        case ObjectType.Sun:
-                            break;
-                        case ObjectType.Simple:
-                            simpleNodes.Add(node);
-                            break;
-                        case ObjectType.Structure:
-                            structureNodes.Add(node);
-                            break;
-                        case ObjectType.Interactive:
-                            interactiveNodes.Add(node);
-                            break;
-                        case ObjectType.Equipment:
-                            equipmentNodes.Add(node);
-                            break;
-                        case ObjectType.Mobile:
-                            mobileNodes.Add(node);
-                            break;
-                        case ObjectType.Deed:
-                            deedNodes.Add(node);
-                            break;
-                        case ObjectType.Unknown:
-                            unknownNodes.Add(node);
-                            break;
-                        case ObjectType.Warrant:
-                            warrantNodes.Add(node);
-                            break;
-                        case ObjectType.Particle:
-                            particleNodes.Add(node);
-                            break;
+                        logger?.Error(ex, ex.Message);
+                        continue;
                     }
                 }
             });
@@ -138,7 +150,7 @@ namespace CacheViewer
             this.particleNode.Nodes.AddRange(particleNodes.ToArray());
 
             // what a pain in the ass this is Microsoft.
-            this.LoadingPictureBox.Visible = false;
+            this.LoadingPictureBox.SetVisible(false);
             this.LoadingPictureBox.Refresh();
 
             this.ResetSaveButtons();
@@ -157,6 +169,59 @@ namespace CacheViewer
             this.CacheObjectTreeView.Nodes.Add(this.unknownNode);
             this.CacheObjectTreeView.Nodes.Add(this.warrantNode);
             this.CacheObjectTreeView.Nodes.Add(this.particleNode);
+
+            //GL.ClearColor(Color.Black);
+            //GL.Enable(EnableCap.DepthTest);
+            //Application.Idle += this.Application_Idle;
+        }
+
+        void Application_Idle(object sender, EventArgs e)
+        {
+            //while (this.glControl1.IsIdle)
+            //{
+            //    this.Render();
+            //}
+        }
+
+        private void Render()
+        {
+            //Matrix4 lookat = Matrix4.LookAt(0, 5, 5, 0, 0, 0, 0, 1, 0);
+            //GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadMatrix(ref lookat);
+
+            //GL.Rotate(angle, 0.0f, 1.0f, 0.0f);
+            //angle += 0.01f;
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            //if (this.mesh == null)
+            //{
+            //    this.DrawCube();
+            //}
+            //else
+            //{
+            //    this.DrawMesh();
+            //}
+
+            //this.glControl1.SwapBuffers();
+        }
+
+        private void DrawMesh()
+        {
+            //GL.Begin(PrimitiveType.Triangles);
+            //int id = GL.GenTexture();
+            //GL.BindTexture(TextureTarget.Texture3D, id);
+            //var bmp = this.mesh.Textures[0].Image;
+            //BitmapData bitmapData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bitmapData.Width, bitmapData.Height, 0,OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
+            //bmp.UnlockBits(bitmapData);
+
+            //for (var i = 0; i < this.mesh.Vertices.Count; i++)
+            //{
+            //    GL.TexCoord2(this.mesh.TextureVectors[i].X, this.mesh.TextureVectors[i].Y);
+            //    GL.Vertex3(this.mesh.Vertices[i].X, this.mesh.Vertices[i].Y, this.mesh.Vertices[i].Z);
+            //    GL.Normal3(this.mesh.Normals[i].X, this.mesh.Normals[i].Y, this.mesh.Normals[i].Z);
+            //}
+            //GL.End();
         }
 
         private async void SaveButtonClick(object sender, EventArgs e)
@@ -164,19 +229,19 @@ namespace CacheViewer
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
 
-            this.PropertiesListView.Items.Clear();
+            //this.PropertiesListView.Items.Clear();
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-            await this.CacheIndexListView.Display(item);
+            //await this.CacheIndexListView.Display(item);
 
             try
             {
                 await Task.Run(async () =>
                 {
                     StructureService service = new StructureService();
-                    await service.SaveAll(item.Name.Replace(" ", ""), item.Name, item.Flag);
+                    await service.SaveAll(item.Name.Replace(" ", ""), item.Name, item.Flag, this.SaveTypeRadioButton1.Checked);
                 });
                 this.ResetSaveButtons();
-                this.DisplayItemInformation(item);
+                // this.DisplayItemInformation(item);
             }
             catch (Exception ex)
             {
@@ -192,67 +257,31 @@ namespace CacheViewer
                 return;
             }
 
-            this.PropertiesListView.Items.Clear();
-            
+            //this.PropertiesListView.Items.Clear();
+
             // ok so right here, I need to determine what the type of object is 
             // well ok its going to be a cache object, but find the renderId and the
             // pertinent information from the renderId by validating the information
             // against the other archives. I will give each "archive" portion for each 
-            // cahceObject a listView that ties all the information together at once.
+            // cacheObject a listView that ties all the information together at once.
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
 
-            await this.CacheIndexListView.Display(item);
+            //await this.CacheIndexListView.Display(item);
 
             try
             {
                 item.Parse(item.Data);
-
                 if (item.RenderId == 0)
                 {
                     logger?.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);
                 }
+                var realTimeModelService = new RealTimeModelService();
+                var models = await realTimeModelService.GenerateModelAsync(item.CacheIndex.Identity);
+                this.mesh = models[0];
             }
             catch (Exception ex)
             {
                 logger?.Error(ex, ex.Message);
-            }
-
-            this.DisplayItemInformation(item);
-            // goes and tries to discover the possible renderId's when this cache item is selected.
-            // this REALLY should be a core part of the parser and NOT in the render control which 
-            // should only have the responsibility of displaying the information.
-
-            await this.renderControl1.FindRenderIds(item);
-        }
-
-        private void DisplayItemInformation(ICacheObject item)
-        {
-            if (item == null)
-            {
-                // just ignore
-                return;
-            }
-
-            PropertyInfo[] pi = item.GetType().GetProperties();
-
-            for (int i = 0; i < pi.Length; i++)
-            {
-                if (pi[i].Name == "CacheIndex")
-                {
-                    continue;
-                }
-                string info;
-                if (pi[i].Name == "Data")
-                {
-                    info = pi[i].Name + " : Length: " + ((ArraySegment<byte>)pi[i].GetValue(item, null)).Count + "\r\n";
-                }
-
-                else
-                {
-                    info = pi[i].Name + " : " + pi[i].GetValue(item, null) + "\r\n";
-                }
-                var lvi = new ListViewItem(new[] { info });
-                this.PropertiesListView.Items.Add(lvi);
             }
         }
 
@@ -271,31 +300,39 @@ namespace CacheViewer
 
         private async void CacheSaveButtonClick(object sender, EventArgs e)
         {
+            string selectedFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+            using (this.folderBrowserDialog1 = new FolderBrowserDialog())
+            {
+                DialogResult result = folderBrowserDialog1.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
+                {
+                    selectedFolder = folderBrowserDialog1.SelectedPath;
+                }
+            }
+
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
 
             // this.PropertiesListView.Items.Clear();
             await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
-
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-            await this.CacheIndexListView.Display(item);
 
             if (item.Data.Count == 0)
             {
                 throw new ApplicationException();
             }
             // make the directory
-
             // TODO extract to it's own method
             string directory;
 
             if (string.IsNullOrEmpty(item.Name))
             {
-                directory = AppDomain.CurrentDomain.BaseDirectory +"\\ObjectCache\\"+ item.CacheIndex.Identity;
+                directory = selectedFolder + "\\ObjectCache\\" + item.CacheIndex.Identity;
             }
             else
             {
-                directory = AppDomain.CurrentDomain.BaseDirectory + "\\ObjectCache\\" + item.Name + "_" + item.CacheIndex.Identity;
+                directory = selectedFolder + "\\ObjectCache\\" + item.Name + "_" + item.CacheIndex.Identity;
             }
 
             if (Directory.Exists(directory))
@@ -304,7 +341,6 @@ namespace CacheViewer
             }
 
             Directory.CreateDirectory(directory);
-            // await SaveBinaryData(directory + "\\cobject.cache", item.Data);
             FileWriter.Writer.Write(item.Data, directory + "\\cobject.cache");
 
             try
@@ -322,16 +358,18 @@ namespace CacheViewer
                 {
                     await this.SaveBinaryData(directory + "\\" + render.CacheIndex.Name, render.BinaryAsset.Item1);
                 }
+
                 if (render.BinaryAsset.Item2.Count > 0)
                 {
-                    await this.SaveBinaryData(directory + "\\" + render.BinaryAsset.CacheIndex2.Name, render.BinaryAsset.Item1);
-               }
+                    await this.SaveBinaryData(directory + "\\" + render.BinaryAsset.CacheIndex2.Name,
+                        render.BinaryAsset.Item1);
+                }
+
                 // what a pain in the ass this is Microsoft.
+                await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, false));
                 this.LoadingPictureBox.Visible = false;
                 this.LoadingPictureBox.Refresh();
                 this.ResetSaveButtons();
-
-                // await this.meshExporter.ExportAsync(render.Mesh, item.Name);
             }
             catch (Exception ex)
             {
@@ -342,9 +380,9 @@ namespace CacheViewer
 
         private void ResetSaveButtons()
         {
-            this.SaveButton.Enabled = true;
+            this.SaveButton.SetEnabled(true);
             this.SaveButton.Refresh();
-            this.CacheSaveButton.Enabled = true;
+            this.CacheSaveButton.SetEnabled(true);
             this.CacheSaveButton.Refresh();
         }
 
@@ -384,6 +422,60 @@ namespace CacheViewer
             DatabaseForm dbf = new DatabaseForm();
             dbf.Show();
         }
+
+
+        //private void glControl1_Load(object sender, EventArgs e)
+        //{
+        //    //GL.ClearColor(Color.Black);
+        //    //GLControl c = sender as GLControl;
+
+        //    //if (c.ClientSize.Height == 0)
+        //    //{
+        //    //    c.ClientSize = new Size(c.ClientSize.Width, 1);
+        //    //}
+
+        //    //GL.Viewport(0, 0, c.ClientSize.Width, c.ClientSize.Height);
+
+        //    //float aspectRatio = this.glControl1.Width / (float)this.glControl1.Height;
+        //    //Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 1, 64);
+        //    //GL.MatrixMode(MatrixMode.Projection);
+        //    //GL.LoadIdentity();
+        //    //GL.LoadMatrix(ref perpective);
+        //}
+
+        //private void glControl1_Paint(object sender, PaintEventArgs e)
+        //{
+        //    //GL.ClearColor(Color.FromArgb(5, 5, 25));
+        //    //GL.Clear(ClearBufferMask.ColorBufferBit);
+        //    //this.Render();
+        //    //this.glControl1.MakeCurrent();
+        //    //this.glControl1.SwapBuffers();
+        //}
+
+        //static int LoadTexture(string filename)
+        //{
+        //    if (String.IsNullOrEmpty(filename))
+        //    {
+        //        throw new ArgumentException(filename);
+        //    }
+
+        //    int id = GL.GenTexture();
+        //    GL.BindTexture(TextureTarget.Texture2D, id);
+
+        //    Bitmap bmp = new Bitmap(filename);
+        //    BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+        //    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
+        //        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+
+        //    bmp.UnlockBits(bmp_data);
+
+
+        //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+        //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+        //    return id;
+        //}
 
     }
 }

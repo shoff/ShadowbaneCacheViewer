@@ -41,6 +41,8 @@
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public string ModelDirectory { get; set; } = FileLocations.Instance.GetExportFolder();
         private string name;
+        private readonly Dictionary<string, string> indexMaterialDictionary = new Dictionary<string, string>();
+        private readonly Textures texturesArchive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
 
         public MeshOnlyObjExporter()
         {
@@ -56,72 +58,195 @@
 
         public static MeshOnlyObjExporter Instance => new MeshOnlyObjExporter();
 
-        public async Task<bool> ExportAsync(Mesh mesh, string meshName = null)
+        public async Task<bool> ExportAsync(Mesh mesh, string modelName = null, string modelDirectory=null)
         {
             try
             {
+                if (!string.IsNullOrWhiteSpace(modelDirectory))
+                {
+                    this.ModelDirectory = modelDirectory;
+                }
                 var mainStringBuilder = new StringBuilder();
                 var materialBuilder = new StringBuilder();
-                mainStringBuilder.Append(UsesCentimeters);
-
                 // todo - not all objects seem to have names
-                this.name = meshName ?? string.Join(string.Empty, "Mesh_",
-                    mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
+                this.name = modelName ?? string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
+                modelName = this.name;
 
-                mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(mesh.CacheIndex.Identity));
+                mainStringBuilder.AppendLine(MayaObjHeaderFactory.Instance.Create(this.name));
                 mainStringBuilder.AppendFormat(SbMeshId, mesh.CacheIndex.Identity);
                 mainStringBuilder.AppendFormat(MaterialLib, this.name);
                 mainStringBuilder.Append(DefaultGroup);
+                mainStringBuilder.Append(UsesCentimeters);
 
-                // save the obj
-                this.CreateObject(mesh, mainStringBuilder, materialBuilder, this.ModelDirectory);
-
-                using (
-                    var fs = new FileStream(
-                        this.ModelDirectory + "\\" + this.name + ".obj",
-                        FileMode.Create,
-                        FileAccess.ReadWrite,
-                        FileShare.ReadWrite))
+                try
                 {
-                    using (var writer = new StreamWriter(fs))
+                    var meshName = string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
+                    this.indexMaterialDictionary.Add(meshName, string.Empty);
+                    // do the textures first because this is the most likely place to have an exception thrown. Die young leave a beautiful corpse.
+                    this.SaveTextures(mesh, meshName);
+
+                    // now create the matrial entry for the mesh
+                    // TODO handle extra maps?
+                    this.AppendMaterial(this.indexMaterialDictionary[meshName], $"Mesh_{mesh.Id}", materialBuilder);
+
+                    // v 
+                    mainStringBuilder.AppendLine(this.BuildVerts(mesh));
+
+                    // vt
+                    mainStringBuilder.AppendLine(this.BuildTextures(mesh));
+
+                    // vn
+                    mainStringBuilder.AppendLine(this.BuildNormals(mesh));
+
+                    // now build the faces
+                    this.BuildFaces(mesh, mainStringBuilder);
+
+                    using (var fs = new FileStream(modelDirectory + "\\" + modelName + ".obj",
+                        FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                     {
-                        await writer.WriteAsync(mainStringBuilder.ToString());
+                        using (var writer = new StreamWriter(fs))
+                        {
+                            await writer.WriteAsync(mainStringBuilder.ToString());
+                        }
+                    }
+
+                    // save the material
+                    var mtlFile = modelDirectory + "\\" + modelName + ".mtl";
+                    if (File.Exists(mtlFile))
+                    {
+                        File.Delete(mtlFile);
+                    }
+
+                    //File.WriteAllText(mtlFile, material.ToString());
+                    using (var fs1 = new FileStream(modelDirectory + "\\" + modelName + ".mtl",
+                        FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                    {
+                        using (var writer = new StreamWriter(fs1))
+                        {
+                            await writer.WriteAsync(materialBuilder.ToString());
+                        }
                     }
                 }
-
-                // save the material
-                var mtlFile = this.ModelDirectory + "\\" + this.name + ".mtl";
-                if (File.Exists(mtlFile))
+                catch (Exception e)
                 {
-                    File.Delete(mtlFile);
-                }
-
-                using (
-                    var fs1 = new FileStream(
-                        this.ModelDirectory + "\\" + this.name + ".mtl",
-                        FileMode.Create,
-                        FileAccess.ReadWrite,
-                        FileShare.ReadWrite))
-                {
-                    using (var writer = new StreamWriter(fs1))
-                    {
-                        await writer.WriteAsync(materialBuilder.ToString());
-                    }
+                    logger?.Error(e);
                 }
             }
             catch (Exception e)
             {
-                logger.Error(e);
+                logger?.Error(e);
                 return false;
             }
 
             return true;
         }
 
+        private void AppendMaterial(string mapName, string materialName, StringBuilder sb)
+        {
+            sb.AppendFormat(MaterialName, materialName);
+            sb.Append(MaterialWhite);
+            sb.Append(MaterialDiffuse);
+            sb.Append(MaterialSpecular);
+            sb.Append(MaterialSpecualrNs);
+            sb.Append(MaterialDefaultIllumination);
+            sb.AppendFormat(MapTo, mapName.Substring(mapName.LastIndexOf('\\') + 1));
+        }
+
+        private string BuildVerts(Mesh mesh)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var v in mesh.Vertices)
+            {
+                sb.AppendFormat(Vertice, v[0].ToString("0.0#####"), v[1].ToString("0.0#####"), v[2].ToString("0.0#####"));
+            }
+
+            return sb.ToString();
+        }
+
+        private string BuildTextures(Mesh mesh)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var t in mesh.TextureVectors)
+            {
+                sb.AppendFormat(Texture, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
+            }
+
+            return sb.ToString();
+        }
+
+        private string BuildNormals(Mesh mesh)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var vn in mesh.Normals)
+            {
+                sb.AppendFormat(Normal, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"), vn[2].ToString("0.000000"));
+            }
+
+            return sb.ToString();
+        }
+
+        private void BuildFaces(Mesh mesh, StringBuilder sb)
+        {
+            int currentIndexCount = 0;
+
+            currentIndexCount++;
+
+            // TODO this does not spit out the faces the same as the exporter from Maya does
+            // g Mesh_124163:default1
+            // usemtl initialShadingGroup
+            sb.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
+            sb.AppendLine($"usemtl Mesh_{mesh.Id}");
+
+            foreach (var wavefrontVertex in mesh.Indices)
+            {
+                var a = (ushort)(wavefrontVertex.Position + currentIndexCount);
+                var b = (ushort)(wavefrontVertex.TextureCoordinate + currentIndexCount);
+                var c = (ushort)(wavefrontVertex.Normal + currentIndexCount);
+
+               sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+            }
+
+        }
+
+        private void SaveTextures(Mesh mesh, string meshName)
+        {
+            if (mesh.Textures.Any())
+            {
+                for (var i = 0; i < mesh.Textures.Count; i++)
+                {
+                    // Debug.Assert(mesh.Textures.Count == 1);
+                    var texture = mesh.Textures[i];
+                    var asset = this.texturesArchive[texture.TextureId];
+
+                    using (var bitmap = mesh.Textures[i].TextureMap(asset.Item1))
+                    {
+                        var textureFile = this.ModelDirectory + "\\" + mesh.Id.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
+                        logger?.Debug($"Save texture file {textureFile}");
+                        bitmap.Save(textureFile, ImageFormat.Png);
+
+                        // TODO figure this shit out right here
+                        var usmtl = string.Format(UseMaterial, $"Mesh_{mesh.Id}");
+                        if (this.indexMaterialDictionary[meshName] != string.Empty)
+                        {
+                            // we're on more than one texture here ... shit
+                            this.indexMaterialDictionary.Add($"{meshName}_{i}", textureFile);
+                        }
+                        else
+                        {
+                            this.indexMaterialDictionary[meshName] = textureFile;
+                        }
+
+                        // this should go before each set of faces.
+                        // sb.AppendFormat(UseMaterial, $"Mesh_{mesh.Id}");
+                    }
+                }
+            }
+        }
+
         private void CreateObject(
-            Mesh mesh, 
-            StringBuilder mainStringBuilder, 
-            StringBuilder materialBuilder, 
+            Mesh mesh,
+            StringBuilder mainStringBuilder,
+            StringBuilder materialBuilder,
             string directory,
             string meshName = null)
         {
@@ -129,7 +254,7 @@
 
             if (mesh.Textures.Any())
             {
-                var archive = (Textures) ArchiveFactory.Instance.Build(CacheFile.Textures);
+                var archive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
 
                 for (var i = 0; i < mesh.Textures.Count(); i++)
                 {
@@ -178,9 +303,9 @@
 
             foreach (var wavefrontVertex in mesh.Indices)
             {
-                var a = (ushort) (wavefrontVertex.Position + 1);
-                var b = (ushort) (wavefrontVertex.TextureCoordinate + 1);
-                var c = (ushort) (wavefrontVertex.Normal + 1);
+                var a = (ushort)(wavefrontVertex.Position + 1);
+                var b = (ushort)(wavefrontVertex.TextureCoordinate + 1);
+                var c = (ushort)(wavefrontVertex.Normal + 1);
 
                 mainStringBuilder.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c +
                     @"/" + c +
@@ -218,7 +343,7 @@
 
         private void CreateMaterial(string mapName, StringBuilder materialBuilder, string materialName = null)
         {
-            materialBuilder.AppendFormat(MaterialName, materialName??this.name);
+            materialBuilder.AppendFormat(MaterialName, materialName ?? this.name);
             materialBuilder.Append(MaterialWhite);
             materialBuilder.Append(MaterialDiffuse);
             materialBuilder.Append(MaterialSpecular);

@@ -8,12 +8,12 @@
     public class FileWriter
     {
         /// <summary>
-        ///     Gets the writer.
+        /// Gets the writer.
         /// </summary>
         public static FileWriter Writer { get; } = new FileWriter();
 
         /// <summary>
-        ///     Writes the asynchronous.
+        /// Writes the asynchronous.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="path">The path.</param>
@@ -25,6 +25,11 @@
                 throw new ArgumentException(DomainMessages.Cannot_Be_An_Empty_Collection, nameof(data));
             }
 
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
+            }
+
             await Task.Run(() =>
             {
                 FileStream fs = null;
@@ -34,7 +39,10 @@
                     fs = new FileStream(path, FileMode.Create, FileAccess.Write);
                     using (var writer = new BinaryWriter(fs))
                     {
-                        writer.Write(data.Array);
+                        if (data.Array != null)
+                        {
+                            writer.Write(data.Array);
+                        }
                     }
                 }
                 finally

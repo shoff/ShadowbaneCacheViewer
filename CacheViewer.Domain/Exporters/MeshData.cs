@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models;
+    using OpenTK;
     using Parsers;
-    using SlimDX;
 
     public class MeshData
     {

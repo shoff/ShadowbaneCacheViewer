@@ -7,6 +7,20 @@
     /// </summary>
     public static class PictureBoxExtensions
     {
+
+        public static void SetVisible(this PictureBox pictureBox, bool visible)
+        {
+            if (pictureBox.InvokeRequired)
+            {
+                pictureBox.BeginInvoke(new MethodInvoker(() => pictureBox.Visible = visible));
+            }
+            else
+            {
+                pictureBox.Visible = visible;
+                pictureBox.Refresh();
+            }
+        }
+
         /// <summary>
         /// Sets the border style.
         /// </summary>

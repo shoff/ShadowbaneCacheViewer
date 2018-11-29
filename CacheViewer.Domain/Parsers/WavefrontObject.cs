@@ -1,8 +1,8 @@
 namespace CacheViewer.Domain.Parsers
 {
     using System.Collections.Generic;
-    using SlimDX;
-
+    using OpenTK;
+    
     /// <summary>
     ///     Class representing a Wavefront OBJ 3D mesh.
     /// </summary>

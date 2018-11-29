@@ -1,6 +1,6 @@
 ﻿namespace CacheViewer.Domain.Models
 {
-    using SlimDX;
+    using OpenTK;
 
     public struct MeshHeader
     {

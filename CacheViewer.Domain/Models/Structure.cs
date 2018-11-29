@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using Archive;
@@ -12,12 +11,8 @@
     using Data.Entities;
     using Exportable;
     using Extensions;
-    using Factories;
     using NLog;
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-    [SuppressMessage("ReSharper", "UnusedVariable")]
     public class Structure : ModelObject
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -348,7 +343,6 @@
                         ptr += 4;
 
                         //wxLogMessage(_T("Render ID: %i"), renderID);
-
                         // no point adding it to the stack, unless we actually have an id - basic error check
                         if (this.renderId > 0)
                         {

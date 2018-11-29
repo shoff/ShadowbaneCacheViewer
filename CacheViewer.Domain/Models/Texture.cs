@@ -28,97 +28,24 @@
                 this.Height = reader.ReadInt32();
                 this.Depth = reader.ReadInt32();
             }
+
+            this.Image = this.TextureMap(data);
         }
 
-        //private void BuildGlTexture(byte[] buffer, int id)
-        //{
-        //    this.InitDevIl();
-
-        //    using (MemoryStream ms = new MemoryStream(buffer))
-        //    {
-        //        using (BinaryReader reader = new BinaryReader(ms))
-        //        {
-        //            // memcpy(&width, data, 4);
-        //            // memcpy(&height, data + 4, 4);
-        //            // memcpy(&bytes, data + 8, 4);
-        //            this.width = reader.ReadInt32();
-        //            this.height = reader.ReadInt32();
-        //            this.bytes = reader.ReadInt32();
-
-        //            // Get the image data
-        //            // bufSize = (size - 26);
-        //            // buffer = new unsigned char[ bufSize];
-        //            // memcpy(buffer, data + 26, bufSize);
-
-        //            int format;
-        //            if (this.bytes == 1)
-        //            {
-        //                format = Gl.GL_LUMINANCE;
-        //            }
-        //            else if (this.bytes == 4)
-        //            {
-        //                format = Gl.GL_RGBA;
-        //            }
-        //            else
-        //            {
-        //                format = Gl.GL_RGB;
-        //            }
-
-        //            // CreateAndParse the texture 
-        //            Gl.glGenTextures(1, new[]
-        //            {
-        //                id
-        //            });
-        //            Gl.glBindTexture(Gl.GL_TEXTURE_2D, id);
-        //            Gl.glTexImage2D(Gl.GL_TEXTURE_2D, 0, Gl.GL_RGBA, this.Width, this.Height, 0, format, Gl.GL_UNSIGNED_BYTE,
-        //                buffer);
-        //            //glTexImage2D(GL_TEXTURE_2D, 0, bytes, width, height, 0, format, GL_UNSIGNED_BYTE, buffer);
-        //            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MIN_FILTER, Gl.GL_LINEAR);
-        //            Gl.glTexParameteri(Gl.GL_TEXTURE_2D, Gl.GL_TEXTURE_MAG_FILTER, Gl.GL_LINEAR);
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        ///     Gets or sets the texture id.
-        /// </summary>
-        /// <value>The texture id.</value>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Bitmap Image { get; private set; }
+        
         public int TextureId { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the id.
-        /// </summary>
-        /// <value>The id.</value>
-        [NotMapped]
         public CacheIndex CacheIndexIdentity { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the width.
-        /// </summary>
-        /// <value>The width.</value>
         public int Width { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the height.
-        /// </summary>
-        /// <value>The height.</value>
         public int Height { get; set; }
 
-        /// <summary>
-        ///     Gets the depth.
-        /// </summary>
-        /// <value>
-        ///     The depth.
-        /// </value>
         public int Depth { get; set; }
 
-        /// <summary>
-        ///     Textures the map.
-        /// </summary>
-        /// <param name="buffer">The buffer.</param>
-        /// <returns></returns>
+        public PixelFormat PixelFormat { get; private set; }
+
         public Bitmap TextureMap(ArraySegment<byte> buffer)
         {
             using (var reader = buffer.CreateBinaryReader())
@@ -182,9 +109,6 @@
             }
         }
 
-        /// <summary>
-        ///     Binds this instance.
-        /// </summary>
         public void Bind()
         {
             //Gl.glBindTexture(Gl.GL_TEXTURE_2D, this.TextureId);

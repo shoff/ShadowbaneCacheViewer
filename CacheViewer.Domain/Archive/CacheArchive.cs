@@ -14,8 +14,6 @@
     using Services;
     using Utility;
 
-    /// <summary>
-    /// </summary>
     public abstract class CacheArchive
     {
         protected CacheArchive(string name)
@@ -33,13 +31,6 @@
             this.bufferData = File.ReadAllBytes(this.fileInfo.FullName).AsArraySegment();
         }
 
-        /// <summary>
-        ///     Loads the cache header.
-        /// </summary>
-        /// <exception cref="CacheViewer.Domain.Exceptions.HeaderFileSizeException"></exception>
-        /// <exception cref="System.ApplicationException"></exception>
-        /// <exception cref="IOException">An I/O error occurs.</exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
         public virtual void LoadCacheHeader()
         {
             using (var reader = this.bufferData.CreateBinaryReaderUtf32())
@@ -74,20 +65,11 @@
             }
         }
 
-        /// <summary>
-        ///     Loads the indexes.
-        /// </summary>
-        /// <returns></returns>
         public virtual async Task LoadIndexesAsync()
         {
             await Task.Run(() => this.LoadIndexes());
         }
 
-        /// <summary>
-        ///     Loads the indexes.
-        /// </summary>
-        /// <exception cref="IOException">An I/O error occurs.</exception>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
         public virtual void LoadIndexes()
         {
             using (var reader = this.bufferData.CreateBinaryReaderUtf32())
@@ -147,15 +129,6 @@
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        ///     Gets the <see cref="CacheViewer.Domain.Archive.CacheAsset" /> with the specified cache index.
-        /// </summary>
-        /// <value>
-        ///     The <see cref="CacheViewer.Domain.Archive.CacheAsset" />.
-        /// </value>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="IndexNotFoundException">no name</exception>
         public virtual CacheAsset this[int id]
         {
             get
@@ -228,23 +201,11 @@
             }
         }
 
-        /// <summary>
-        ///     Determines whether [contains] [the specified identifier].
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
         public virtual bool Contains(int id)
         {
             return this.CacheIndices.Any(x => x.Identity == id);
         }
 
-        /// <summary>
-        ///  Saves to file.
-        /// </summary>
-        /// <param name="index">Index of the cache.</param>
-        /// <param name="path">The path.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">path</exception>
         public async Task SaveToFile(CacheIndex index, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -275,25 +236,12 @@
             }
         }
 
-        /// <summary>
-        ///     Sets the file location.
-        /// </summary>
         protected void SetFileLocation()
         {
             var folderName = this.fileLocations.GetCacheFolder();
             this.fileInfo = new FileInfo(Path.Combine(folderName, this.Name));
         }
 
-        /// <summary>
-        ///     Decompresses the specified uncompressed size.
-        /// </summary>
-        /// <param name="uncompressedSize">Size of the uncompressed.</param>
-        /// <param name="file">The file.</param>
-        /// <returns></returns>
-        /// <exception cref="CacheViewer.Domain.Exceptions.InvalidCompressionSizeException">
-        ///     Index raw size should be  +
-        ///     uncompressedSize +  , but was  + item.Length
-        /// </exception>
         protected ArraySegment<byte> Decompress(uint uncompressedSize, byte[] file)
         {
             if (file.Length == uncompressedSize)
@@ -319,12 +267,6 @@
             return new ArraySegment<byte>(item);
         }
 
-        /// <summary>
-        ///     Gets or sets the name.
-        /// </summary>
-        /// <value>
-        ///     The name.
-        /// </value>
         public string Name
         {
             get => this.name;
@@ -335,60 +277,18 @@
             }
         }
 
-        /// <summary>
-        ///     Gets the cache header.
-        /// </summary>
-        /// <value>
-        ///     The cache header.
-        /// </value>
         public CacheHeader CacheHeader => this.cacheHeader;
 
-        /// <summary>
-        ///     Gets the indexes.
-        /// </summary>
-        /// <value>
-        ///     The cache indices.
-        /// </value>
         public CacheIndex[] CacheIndices { get; private set; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether [cache on index load].
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if [cache on index load]; otherwise, <c>false</c>.
-        /// </value>
         public bool CacheOnIndexLoad { get; set; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether [use cache].
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if [use cache]; otherwise, <c>false</c>.
-        /// </value>
         public bool UseCache { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the lowest identifier.
-        /// </summary>
-        /// <value>
-        ///     The lowest identifier.
-        /// </value>
         public int LowestId { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the highest identifier.
-        /// </summary>
-        /// <value>
-        ///     The highest identifier.
-        /// </value>
         public int HighestId { get; set; }
 
-        /// <summary>
-        ///     Gets the identity array.
-        /// </summary>
-        /// <value>
-        ///     The identity array.
-        /// </value>
         public int[] IdentityArray { get; private set; }
     }
 }

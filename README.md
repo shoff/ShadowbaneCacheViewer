@@ -5,3 +5,10 @@ The actual .cache files that were contained in the game are the property of the 
 not contained in this repository. Don't bother asking me for them because I will not send them to you. Sorry.
 
 This project makes heavy use of [ArraySegments (by ) Stephen Cleary](http://arraysegments.codeplex.com/)
+
+
+Nuget packages to try
+
+Install-Package Opentribe.gl.Winforms
+
+Install-Package OpenGL.Net.Math

@@ -1,10 +1,11 @@
 ﻿using System;
 using CacheViewer.Domain.Extensions;
 using NUnit.Framework;
-using SlimDX;
 
 namespace CacheViewer.Tests.Domain.Extensions
 {
+    using OpenTK;
+
     [TestFixture]
     public class Vector3ExtensionsTests
     {

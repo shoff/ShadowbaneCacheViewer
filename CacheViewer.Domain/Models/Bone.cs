@@ -1,7 +1,8 @@
 ﻿namespace CacheViewer.Domain.Models
 {
     using System;
-    using SlimDX;
+    using OpenTK;
+    using OpenTK.Graphics.OpenGL4;
 
     public class Bone
     {
@@ -28,8 +29,8 @@
             this.Rot = Quaternion.Identity;
             this.Scale = new Vector3(1, 1, 1);
 
-            this.Mat = Matrix.Identity;
-            this.RMat = Matrix.Identity;
+            this.Mat = Matrix4.Zero;// not sure here
+            this.RMat = Matrix4.Identity;
             this.Setup = false;
             this.Flip = false;
         }
@@ -48,7 +49,7 @@
         /// <value>
         ///     The r mat.
         /// </value>
-        public Matrix RMat { get; set; }
+        public Matrix4 RMat { get; set; }
 
         /// <summary>
         ///     Gets or sets the mat.
@@ -56,7 +57,7 @@
         /// <value>
         ///     The mat.
         /// </value>
-        public Matrix Mat { get; set; }
+        public Matrix4 Mat { get; set; }
 
         /// <summary>
         ///     Gets or sets the scale.

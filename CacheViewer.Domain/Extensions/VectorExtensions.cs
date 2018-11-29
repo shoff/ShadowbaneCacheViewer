@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    using SlimDX;
+    using OpenTK;
 
     public static class VectorExtensions
     {

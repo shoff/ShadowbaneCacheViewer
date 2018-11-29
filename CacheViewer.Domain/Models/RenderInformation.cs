@@ -6,7 +6,7 @@
     using System.Text;
     using Archive;
     using Newtonsoft.Json;
-    using SlimDX;
+    using OpenTK;
 
     public class RenderInformation
     {
