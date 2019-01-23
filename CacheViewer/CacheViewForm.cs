@@ -1,10 +1,10 @@
-﻿
-
+﻿// ReSharper disable LocalizableElement
 namespace CacheViewer
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Configuration;
     using System.Globalization;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -34,9 +34,7 @@ namespace CacheViewer
         private readonly CacheObjectsCache cacheObjectsCache;
         private readonly RenderInformationFactory renderInformationFactory;
         private bool archivesLoaded;
-        private static float angle = 0.0f;
 
-        private Mesh mesh;
         // data
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -134,7 +132,6 @@ namespace CacheViewer
                     catch (Exception ex)
                     {
                         logger?.Error(ex, ex.Message);
-                        continue;
                     }
                 }
             });
@@ -169,59 +166,6 @@ namespace CacheViewer
             this.CacheObjectTreeView.Nodes.Add(this.unknownNode);
             this.CacheObjectTreeView.Nodes.Add(this.warrantNode);
             this.CacheObjectTreeView.Nodes.Add(this.particleNode);
-
-            //GL.ClearColor(Color.Black);
-            //GL.Enable(EnableCap.DepthTest);
-            //Application.Idle += this.Application_Idle;
-        }
-
-        void Application_Idle(object sender, EventArgs e)
-        {
-            //while (this.glControl1.IsIdle)
-            //{
-            //    this.Render();
-            //}
-        }
-
-        private void Render()
-        {
-            //Matrix4 lookat = Matrix4.LookAt(0, 5, 5, 0, 0, 0, 0, 1, 0);
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadMatrix(ref lookat);
-
-            //GL.Rotate(angle, 0.0f, 1.0f, 0.0f);
-            //angle += 0.01f;
-            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            //if (this.mesh == null)
-            //{
-            //    this.DrawCube();
-            //}
-            //else
-            //{
-            //    this.DrawMesh();
-            //}
-
-            //this.glControl1.SwapBuffers();
-        }
-
-        private void DrawMesh()
-        {
-            //GL.Begin(PrimitiveType.Triangles);
-            //int id = GL.GenTexture();
-            //GL.BindTexture(TextureTarget.Texture3D, id);
-            //var bmp = this.mesh.Textures[0].Image;
-            //BitmapData bitmapData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bitmapData.Width, bitmapData.Height, 0,OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
-            //bmp.UnlockBits(bitmapData);
-
-            //for (var i = 0; i < this.mesh.Vertices.Count; i++)
-            //{
-            //    GL.TexCoord2(this.mesh.TextureVectors[i].X, this.mesh.TextureVectors[i].Y);
-            //    GL.Vertex3(this.mesh.Vertices[i].X, this.mesh.Vertices[i].Y, this.mesh.Vertices[i].Z);
-            //    GL.Normal3(this.mesh.Normals[i].X, this.mesh.Normals[i].Y, this.mesh.Normals[i].Z);
-            //}
-            //GL.End();
         }
 
         private async void SaveButtonClick(object sender, EventArgs e)
@@ -277,7 +221,7 @@ namespace CacheViewer
                 }
                 var realTimeModelService = new RealTimeModelService();
                 var models = await realTimeModelService.GenerateModelAsync(item.CacheIndex.Identity);
-                this.mesh = models[0];
+                //this.mesh = models[0];
             }
             catch (Exception ex)
             {
@@ -300,16 +244,18 @@ namespace CacheViewer
 
         private async void CacheSaveButtonClick(object sender, EventArgs e)
         {
-            string selectedFolder = AppDomain.CurrentDomain.BaseDirectory;
+            string selectedFolder = ConfigurationManager.AppSettings["CacheExport"];
+                
+            //    = AppDomain.CurrentDomain.BaseDirectory;
 
-            using (this.folderBrowserDialog1 = new FolderBrowserDialog())
-            {
-                DialogResult result = folderBrowserDialog1.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
-                {
-                    selectedFolder = folderBrowserDialog1.SelectedPath;
-                }
-            }
+            //using (this.folderBrowserDialog1 = new FolderBrowserDialog())
+            //{
+            //    DialogResult result = folderBrowserDialog1.ShowDialog();
+            //    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
+            //    {
+            //        selectedFolder = folderBrowserDialog1.SelectedPath;
+            //    }
+            //}
 
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
@@ -345,6 +291,8 @@ namespace CacheViewer
 
             try
             {
+
+                // now try to create each render id if any are found
                 if (item.RenderId == 0)
                 {
                     logger.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);

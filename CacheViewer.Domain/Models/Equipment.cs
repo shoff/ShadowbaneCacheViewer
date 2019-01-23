@@ -3,9 +3,10 @@
     using System;
     using System.IO;
     using Archive;
-    using CacheViewer.Data;
+    using Data;
     using Exportable;
     using Extensions;
+    using Factories;
     using NLog;
 
     public class Equipment : ModelObject
@@ -47,9 +48,7 @@
                 }
                 catch (IOException ioException)
                 {
-                    logger.Error(
-                        string.Format("Exception thrown in Equipment parsing CacheIndex {0}", this.CacheIndex.Identity),
-                        ioException);
+                    logger?.Error($"Exception thrown in Equipment parsing CacheIndex {this.CacheIndex.Identity}", ioException);
                     throw;
                 }
 
@@ -57,7 +56,11 @@
                 try
                 {
                     this.RenderId = reader.ReadUInt32();
-
+#if DEBUG
+                    long tempOffset = reader.BaseStream.Position;
+                    this.ValidateRenderId(reader);
+                    reader.BaseStream.Position = tempOffset;
+#endif
                     // skip null bytes.
                     reader.BaseStream.Position += 24;
 
@@ -101,6 +104,32 @@
                 catch (Exception e)
                 {
                     logger.Error(e, "Error parsing Equipment for CacheIndex {0}", this.CacheIndex.Identity);
+                }
+            }
+        }
+
+        private void ValidateRenderId(BinaryReader reader)
+        {
+            if (this.RenderId == 0 || this.RenderId > 1000000)
+            {
+                logger?.Debug($"Invalid RenderId generated, experimenting to try to find a valid one.");
+
+                // how many variations do we want to try?
+                // probably should be sticking these in the DB so we
+                // can figure out what the pattern is here on invalid offsets
+                // let's try 10
+                int i = 0;
+                reader.BaseStream.Position = this.CursorOffset - 4; // back up 4? 
+                while (i <= 10)
+                {
+                    var tempRenderId = reader.ReadUInt32();
+                    if (ArchiveFactory.Instance.Build(CacheFile.Render).Contains((int) this.RenderId))
+                    {
+                        // TODO add this to the db
+                        logger?.Debug($"Found a valid RenderId of {tempRenderId}");
+                    }
+
+                    i++;
                 }
             }
         }

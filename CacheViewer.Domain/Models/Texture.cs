@@ -1,16 +1,16 @@
 ﻿namespace CacheViewer.Domain.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Drawing;
     using System.Drawing.Imaging;
     using Archive;
     using Factories;
     using Nito.ArraySegments;
+    using NLog;
 
     public class Texture
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         ///     Creates the texture.
         /// </summary>
@@ -55,13 +55,22 @@
                 if (this.Depth == 1)
                 {
                     format = PixelFormat.Alpha; /* Gl.GL_LUMINANCE;*/
+                    // for now just return as this is not valid for GDI bitmaps :(
+                    return null;
                 }
                 else
                 {
                     format = this.Depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
                 }
-
-                var myBitmap = new Bitmap(this.Width, this.Height, format);
+                Bitmap myBitmap = null;
+                try
+                {
+                    myBitmap = new Bitmap(this.Width, this.Height, format);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, e.Message);
+                }
 
                 Color clr;
                 var pd = new PixelData();

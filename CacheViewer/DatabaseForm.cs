@@ -261,6 +261,18 @@ namespace CacheViewer
             this.SaveTexturesButton.Focus();
         }
 
+        private async void SaveRawButton_Click(object sender, EventArgs e)
+        {
+            var rawService = new CObjectsRawService();
 
+            await rawService.SaveCObjectsToDbAsync();
+
+        }
+
+        private async void SaveRendersButton_Click(object sender, EventArgs e)
+        {
+            var renderService = new RenderRawService();
+            await renderService.SaveRendersToDbAsync();
+        }
     }
 }

@@ -36,7 +36,9 @@
                 CacheIndex = cacheIndex,
                 Id = cacheIndex.Identity
             };
+
             var cacheAsset = MeshArchive[cacheIndex.Identity];
+
             using (var reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {
                 mesh.Header = new MeshHeader
@@ -105,7 +107,7 @@
                 }
             }
 
-            logger.Info(mesh.GetMeshInformation());
+            logger?.Info(mesh.GetMeshInformation());
             return mesh;
         }
 

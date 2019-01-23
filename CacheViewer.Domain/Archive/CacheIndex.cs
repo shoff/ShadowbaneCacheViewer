@@ -5,6 +5,7 @@
 
     public struct CacheIndex : IComparable<CacheIndex>, IEquatable<CacheIndex>
     {
+        public int Index;
         public int Identity;
         public uint Junk1;
         public uint Offset;

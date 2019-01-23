@@ -377,6 +377,7 @@
                     }
 
                     var thirtyTwo = reader.ReadUInt32();
+                    Debug.Assert(thirtyTwo == 32);
 
                     reader.ReadUInt32();
                     reader.ReadUInt32();

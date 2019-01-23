@@ -328,6 +328,7 @@
         public DbSet<TextureEntity> Textures { get; set; }
         public DbSet<RenderTexture> RenderTextures { get; set; }
         public DbSet<InvalidValue> InvalidValues { get; set; }
-
+        public DbSet<CObjects> CObjects { get; set; }
+        public DbSet<RenderRaw> Renders { get; set; }
     }
 }

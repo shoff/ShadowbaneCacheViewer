@@ -5,7 +5,6 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Security;
     using System.Threading.Tasks;
     using Exceptions;
     using Extensions;
@@ -28,14 +27,24 @@
             this.fileLocations = FileLocations.Instance;
             this.UseCache = true;
             this.SetFileLocation();
+#if DEBUG
+            var sw = new Stopwatch();
+            sw.Start();
+#endif
             this.bufferData = File.ReadAllBytes(this.fileInfo.FullName).AsArraySegment();
+#if DEBUG
+            sw.Stop();
+            this.ReadTime = sw.ElapsedTicks;
+#endif
         }
+
+        public long ReadTime { get; }
 
         public virtual void LoadCacheHeader()
         {
             using (var reader = this.bufferData.CreateBinaryReaderUtf32())
             {
-                // fill in the CachecacheHeader struct for this file.
+                // fill in the CacheHeader struct for this file.
                 // number of entries in this stream?
                 reader.BaseStream.Position = 0;
                 this.cacheHeader.indexCount = reader.ReadUInt32();
@@ -82,6 +91,7 @@
                 {
                     var index = new CacheIndex
                     {
+                        Index = i,
                         Junk1 = reader.ReadUInt32(),
                         Identity = reader.ReadInt32(),
                         Offset = reader.ReadUInt32(),
@@ -121,10 +131,10 @@
         } // ReSharper disable InconsistentNaming
         protected ArraySegment<byte> bufferData;
         protected FileInfo fileInfo;
-        private CacheHeader cacheHeader;
-        private readonly FileLocations fileLocations;
-        private string name;
-        private string saveName;
+        protected CacheHeader cacheHeader;
+        protected readonly FileLocations fileLocations;
+        protected string name;
+        protected string saveName;
 
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         // ReSharper restore InconsistentNaming
@@ -133,6 +143,11 @@
         {
             get
             {
+                if (id == 0)
+                {
+                    throw new IndexNotFoundException("no name", id);
+                }
+
                 var count = this.CacheIndices.Count(x => x.Identity == id);
 
                 var asset = new CacheAsset
@@ -141,17 +156,13 @@
                     CacheIndex1 = this.CacheIndices.First(x => x.Identity == id)
                 };
 
-                if (asset.CacheIndex1.Identity == 0)
-                {
-                    throw new IndexNotFoundException("no name", id);
-                }
-
                 // do we have two with the same id?
                 if (count > 1)
                 {
-                    logger.Info("{0} found {1} entries for identity {2}", this.Name, count, id);
+                    logger?.Info("{0} found {1} entries for identity {2}", this.Name, count, id);
 
                     // don't think there are any that have more than 3
+                    // I really don't think this is necessary anymore 1/23/2019
                     Debug.Assert(count < 4);
                     for (int i = 1; i < count; i++)
                     {
@@ -179,12 +190,16 @@
                     // render.cache didn't need to be unique... brilliant...
                     if (count > 1)
                     {
+                        logger?.Debug(
+                            $"Setting reader to offset{asset.CacheIndex2.Offset} to read second item with id {id}");
                         reader.BaseStream.Position = asset.CacheIndex2.Offset;
                         asset.Item2 = this.Decompress(asset.CacheIndex2.UnCompressedSize, reader.ReadBytes((int) asset.CacheIndex2.CompressedSize));
                     }
 
                     if (count > 2)
                     {
+                        logger?.Debug(
+                            $"Setting reader to offset{asset.CacheIndex2.Offset} to read third item with id {id}");
                         reader.BaseStream.Position = asset.CacheIndex3.Offset;
                         asset.Item2 = this.Decompress(asset.CacheIndex3.UnCompressedSize, reader.ReadBytes((int)asset.CacheIndex3.CompressedSize));
                     }

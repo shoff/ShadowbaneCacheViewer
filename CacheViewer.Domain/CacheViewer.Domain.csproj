@@ -201,6 +201,8 @@
     <Compile Include="Services\Database\AssociateTexturesDatabaseService.cs" />
     <Compile Include="Services\Database\CacheObjectsDatabaseService.cs" />
     <Compile Include="Services\Database\ClearDatabaseService.cs" />
+    <Compile Include="Services\Database\CObjectsRawService.cs" />
+    <Compile Include="Services\Database\RenderRawService.cs" />
     <Compile Include="Services\FileWriter.cs" />
     <Compile Include="Services\FindRenderIdService.cs" />
     <Compile Include="Services\IModelIdService.cs" />
