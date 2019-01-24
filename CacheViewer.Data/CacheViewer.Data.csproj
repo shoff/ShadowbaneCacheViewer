@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DataContext.cs" />
     <Compile Include="Entities\CacheObjectEntity.cs" />
+    <Compile Include="Entities\CObjects.cs" />
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\MeshEntity.cs" />
     <Compile Include="Entities\MobileEntity.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Entities\RenderAndOffset.cs" />
     <Compile Include="Entities\RenderChild.cs" />
     <Compile Include="Entities\RenderEntity.cs" />
+    <Compile Include="Entities\RenderRaw.cs" />
     <Compile Include="Entities\RenderTexture.cs" />
     <Compile Include="Entities\TextureEntity.cs" />
     <Compile Include="Entities\Vector2Entity.cs" />
@@ -114,6 +116,14 @@
     <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.Designer.cs">
       <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812252041298_AddingRawCobjects.cs" />
+    <Compile Include="Migrations\201812252041298_AddingRawCobjects.Designer.cs">
+      <DependentUpon>201812252041298_AddingRawCobjects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812252107190_AddingRawRenders.cs" />
+    <Compile Include="Migrations\201812252107190_AddingRawRenders.Designer.cs">
+      <DependentUpon>201812252107190_AddingRawRenders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201901220308482_AddParseError.cs" />
     <Compile Include="Migrations\201901220308482_AddParseError.Designer.cs">
       <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>
@@ -175,6 +185,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.resx">
       <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812252041298_AddingRawCobjects.resx">
+      <DependentUpon>201812252041298_AddingRawCobjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812252107190_AddingRawRenders.resx">
+      <DependentUpon>201812252107190_AddingRawRenders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901220308482_AddParseError.resx">
       <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>

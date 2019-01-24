@@ -9,6 +9,7 @@
     using Extensions;
     using Factories;
     using Models;
+    using NLog;
 
     public class TextureSaveEventArgs : EventArgs
     {
@@ -17,6 +18,7 @@
 
     public class TextureDatabaseService
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public event EventHandler<TextureSaveEventArgs> TexturesSaved;
 
         public async Task SaveToDatabaseAsync()
@@ -29,6 +31,12 @@
             {
                 i++;
                 Texture texture = TextureFactory.Instance.Build(cacheIndex.Identity, false);
+                if (texture == null)
+                {
+                    logger.Error(
+                        $"Texture factory returned null texture for cacheIndex.Identity {cacheIndex.Identity}");
+                    continue;
+                }
                 var entity = new TextureEntity
                 {
                     Depth = texture.Depth,

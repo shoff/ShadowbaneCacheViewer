@@ -1,12 +1,13 @@
 ﻿namespace CacheViewer.Domain.Factories
 {
+    using System.Diagnostics;
     using Archive;
 
     /// <summary>
-    ///     Just simply maintains a collection of types to enums and
-    ///     returns a new instance for the given type.
+    /// Just simply maintains a collection of types to enums and
+    /// returns a new instance for the given type.
     /// </summary>
-    internal class ArchiveFactory
+    public class ArchiveFactory
     {
         private static Textures textures;
         public static bool TexturesLoaded { get; private set; }
@@ -38,7 +39,6 @@
 
         internal static void BuildAll()
         {
-
         }
 
         internal CacheArchive Build(CacheFile cacheFile, bool preCacheData = false, bool loadIndexes = true)

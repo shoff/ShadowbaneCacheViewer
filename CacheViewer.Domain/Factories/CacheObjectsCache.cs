@@ -16,9 +16,6 @@
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        ///     Prevents a default instance of the <see cref="CacheObjectsCache" /> class from being created.
-        /// </summary>
         private CacheObjectsCache()
         {
 #if DEBUG
@@ -92,14 +89,16 @@
                 // reader.skip(4); // ignore "TNLC" tag
                 // ReSharper disable once UnusedVariable
                 var tnlc = reader.ReadInt32();
-
                 // 4
                 flag = (ObjectType) reader.ReadInt32();
+
                 var nameLength = reader.ReadUInt32();
                 name = reader.ReadAsciiString(nameLength);
 
                 // why are we using this inner offset?
                 innerOffset = (int) reader.BaseStream.Position;
+
+                logger.Debug($"Createing cacheObject flag {flag}, name {name}, inner offset {innerOffset}");
 
                 // what are we doing with the offset here??
                 // so I think this must be the bug? 

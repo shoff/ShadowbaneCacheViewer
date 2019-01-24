@@ -49,13 +49,15 @@
             this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SaveRawButton = new System.Windows.Forms.Button();
+            this.AssociateTexturesLabel = new System.Windows.Forms.Label();
+            this.AssociateTexturesButton = new System.Windows.Forms.Button();
             this.ValidRangeValidationLabel = new System.Windows.Forms.Label();
             this.RangeLabel = new System.Windows.Forms.Label();
             this.RangeTextBox = new System.Windows.Forms.TextBox();
             this.ClearDatabaseLabel = new System.Windows.Forms.Label();
             this.ClearDataButton = new System.Windows.Forms.Button();
-            this.AssociateTexturesButton = new System.Windows.Forms.Button();
-            this.AssociateTexturesLabel = new System.Windows.Forms.Label();
+            this.SaveRendersButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -143,7 +145,6 @@
             // 
             // RenderButton
             // 
-            this.RenderButton.Enabled = false;
             this.RenderButton.Location = new System.Drawing.Point(25, 117);
             this.RenderButton.Name = "RenderButton";
             this.RenderButton.Size = new System.Drawing.Size(189, 34);
@@ -228,6 +229,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.CreateElvenChurchButton);
             this.groupBox1.Controls.Add(this.LizardManTempleLabel);
             this.groupBox1.Controls.Add(this.CreateChurchLabel);
@@ -244,6 +248,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.SaveRendersButton);
+            this.groupBox2.Controls.Add(this.SaveRawButton);
             this.groupBox2.Controls.Add(this.AssociateTexturesLabel);
             this.groupBox2.Controls.Add(this.AssociateTexturesButton);
             this.groupBox2.Controls.Add(this.ValidRangeValidationLabel);
@@ -261,10 +270,40 @@
             this.groupBox2.Controls.Add(this.SaveCacheLabel);
             this.groupBox2.Location = new System.Drawing.Point(12, 93);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(590, 334);
+            this.groupBox2.Size = new System.Drawing.Size(591, 334);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data Importers";
+            // 
+            // SaveRawButton
+            // 
+            this.SaveRawButton.Location = new System.Drawing.Point(327, 31);
+            this.SaveRawButton.Name = "SaveRawButton";
+            this.SaveRawButton.Size = new System.Drawing.Size(189, 33);
+            this.SaveRawButton.TabIndex = 21;
+            this.SaveRawButton.Text = "Save raw cobjects";
+            this.SaveRawButton.UseVisualStyleBackColor = true;
+            this.SaveRawButton.Click += new System.EventHandler(this.SaveRawButton_Click);
+            // 
+            // AssociateTexturesLabel
+            // 
+            this.AssociateTexturesLabel.AutoSize = true;
+            this.AssociateTexturesLabel.Location = new System.Drawing.Point(223, 280);
+            this.AssociateTexturesLabel.Name = "AssociateTexturesLabel";
+            this.AssociateTexturesLabel.Size = new System.Drawing.Size(61, 13);
+            this.AssociateTexturesLabel.TabIndex = 20;
+            this.AssociateTexturesLabel.Text = "Not Started";
+            // 
+            // AssociateTexturesButton
+            // 
+            this.AssociateTexturesButton.Enabled = false;
+            this.AssociateTexturesButton.Location = new System.Drawing.Point(25, 269);
+            this.AssociateTexturesButton.Name = "AssociateTexturesButton";
+            this.AssociateTexturesButton.Size = new System.Drawing.Size(189, 34);
+            this.AssociateTexturesButton.TabIndex = 19;
+            this.AssociateTexturesButton.Text = "Associate Textures";
+            this.AssociateTexturesButton.UseVisualStyleBackColor = true;
+            this.AssociateTexturesButton.Click += new System.EventHandler(this.AssociateTexturesButton_Click);
             // 
             // ValidRangeValidationLabel
             // 
@@ -312,31 +351,21 @@
             this.ClearDataButton.UseVisualStyleBackColor = true;
             this.ClearDataButton.Click += new System.EventHandler(this.ClearDataButton_Click);
             // 
-            // AssociateTexturesButton
+            // SaveRendersButton
             // 
-            this.AssociateTexturesButton.Enabled = false;
-            this.AssociateTexturesButton.Location = new System.Drawing.Point(25, 269);
-            this.AssociateTexturesButton.Name = "AssociateTexturesButton";
-            this.AssociateTexturesButton.Size = new System.Drawing.Size(189, 34);
-            this.AssociateTexturesButton.TabIndex = 19;
-            this.AssociateTexturesButton.Text = "Associate Textures";
-            this.AssociateTexturesButton.UseVisualStyleBackColor = true;
-            this.AssociateTexturesButton.Click += new System.EventHandler(this.AssociateTexturesButton_Click);
-            // 
-            // AssociateTexturesLabel
-            // 
-            this.AssociateTexturesLabel.AutoSize = true;
-            this.AssociateTexturesLabel.Location = new System.Drawing.Point(223, 280);
-            this.AssociateTexturesLabel.Name = "AssociateTexturesLabel";
-            this.AssociateTexturesLabel.Size = new System.Drawing.Size(61, 13);
-            this.AssociateTexturesLabel.TabIndex = 20;
-            this.AssociateTexturesLabel.Text = "Not Started";
+            this.SaveRendersButton.Location = new System.Drawing.Point(327, 72);
+            this.SaveRendersButton.Name = "SaveRendersButton";
+            this.SaveRendersButton.Size = new System.Drawing.Size(189, 33);
+            this.SaveRendersButton.TabIndex = 22;
+            this.SaveRendersButton.Text = "Save renders";
+            this.SaveRendersButton.UseVisualStyleBackColor = true;
+            this.SaveRendersButton.Click += new System.EventHandler(this.SaveRendersButton_Click);
             // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 637);
+            this.ClientSize = new System.Drawing.Size(627, 637);
             this.Controls.Add(this.ClearDataButton);
             this.Controls.Add(this.ClearDatabaseLabel);
             this.Controls.Add(this.groupBox2);
@@ -383,5 +412,7 @@
         private System.Windows.Forms.Button ClearDataButton;
         private System.Windows.Forms.Label AssociateTexturesLabel;
         private System.Windows.Forms.Button AssociateTexturesButton;
+        private System.Windows.Forms.Button SaveRawButton;
+        private System.Windows.Forms.Button SaveRendersButton;
     }
 }

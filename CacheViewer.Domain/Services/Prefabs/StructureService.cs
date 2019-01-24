@@ -17,7 +17,7 @@
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
 
-        private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
+        private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
         private readonly PrefabObjExporter meshExporter;
         private string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\{0}";
 
@@ -65,7 +65,7 @@
 
                     if (m != null)
                     {
-                        this.mesheEntities.Add(m);
+                        this.meshEntities.Add(m);
                     }
 
                     File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
@@ -80,7 +80,7 @@
 
             // let's try combining them :)
             var meshModels = new List<Mesh>();
-            foreach (var mesh in this.mesheEntities)
+            foreach (var mesh in this.meshEntities)
             {
                 if (mesh == null)
                 {
@@ -121,7 +121,7 @@
                     //this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
                     //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
 
-                    var mesh = this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
+                    var mesh = this.meshEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
                     // context.MeshEntities.Include(t => t.Textures).FirstOrDefault(i => i.CacheIndexIdentity == re.MeshId);
                     var texture = context.Textures.FirstOrDefault(i => i.TextureId == re.TextureId);
 
