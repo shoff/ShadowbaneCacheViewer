@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext.cs" />
+    <Compile Include="SbCacheViewerContext.cs" />
     <Compile Include="Entities\CacheObjectEntity.cs" />
     <Compile Include="Entities\CObjects.cs" />
     <Compile Include="Entities\Log.cs" />

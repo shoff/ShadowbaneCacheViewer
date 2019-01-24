@@ -29,7 +29,7 @@
         {
             this.meshExporter = new MeshOnlyObjExporter();
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 this.indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)

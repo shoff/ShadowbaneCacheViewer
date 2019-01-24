@@ -185,7 +185,7 @@ namespace CacheViewer
                 await Task.Run(async () =>
                 {
                     StructureService service = new StructureService();
-                    await service.SaveAll(item.Name.Replace(" ", ""), item.Name, item.Flag, this.SaveTypeRadioButton1.Checked);
+                    await service.SaveAllAsync(item.Name.Replace(" ", ""), item.Name, item.Flag, this.SaveTypeRadioButton1.Checked);
                 });
                 this.ResetSaveButtons();
                 // this.DisplayItemInformation(item);
@@ -239,7 +239,7 @@ namespace CacheViewer
                         ObjectType = item.Flag,
                         RenderId = (int) item.RenderId
                     };
-                    using (var context = new DataContext())
+                    using (var context = new SbCacheViewerContext())
                     {
                         context.ParseErrors.Add(parseError);
                         await context.SaveChangesAsync();

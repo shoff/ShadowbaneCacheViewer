@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
@@ -18,8 +16,8 @@
     using Utility;
 
     /// <summary>
+    /// Attempts to create a wavefront obj from multiple meshes/textures.
     /// </summary>
-    [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public class PrefabObjExporter
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
@@ -131,7 +129,7 @@
                     // do the textures first because this is the most likely place to have an exception thrown. Die young leave a beautiful corpse.
                     this.SaveTextures(mesh, meshName);
 
-                    // now create the matrial entry for the mesh
+                    // now create the material entry for the mesh
                     // TODO handle extra maps?
                     this.AppendMaterial(this.indexMaterialDictionary[meshName], $"Mesh_{mesh.Id}");
 

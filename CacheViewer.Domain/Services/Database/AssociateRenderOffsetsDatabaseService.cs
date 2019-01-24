@@ -21,7 +21,7 @@
 
         public async Task AssociateRenderAndOffsets()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 int total = 0;
                 int count = 0;

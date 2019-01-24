@@ -56,7 +56,7 @@ namespace CacheViewer.Tests.Domain.Factories
         [Test, Explicit, Category("Integration")]
         public void Save_Mesh_To_Sql()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 int save = 0;
 
@@ -114,7 +114,7 @@ namespace CacheViewer.Tests.Domain.Factories
         {
             var expected = this.factory.Indexes.Count();
             int actual;
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 actual = context.MeshEntities.Count();
             }

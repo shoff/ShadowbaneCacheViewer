@@ -31,6 +31,7 @@
         public bool HasTexture { get; set; }
         [JsonIgnore]
         public Texture Texture { get; set; }
+        [JsonIgnore]
         public Vector2 TextureVector { get; set; }
         public CacheIndex CacheIndex { get; set; }
         public string Notes { get; set; }

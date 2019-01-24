@@ -11,6 +11,7 @@
     using Data.Entities;
     using Exportable;
     using Extensions;
+    using Factories;
     using NLog;
 
     public class Structure : ModelObject
@@ -45,17 +46,10 @@
         /// <param name="offset">The offset.</param>
         /// <param name="data">The data.</param>
         /// <param name="innerOffset">The inner offset.</param>
-        public Structure(CacheIndex cacheIndex, ObjectType flag, 
+        public Structure(CacheIndex cacheIndex, ObjectType flag,
             string name, int offset, ArraySegment<byte> data, int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
-            using (var context = new DataContext())
-            {
-                var re = (from c in context.CacheObjectEntities.Include(x => x.RenderAndOffsets)
-                    where c.CacheIndexIdentity == cacheIndex.Identity
-                    select c.CacheObjectEntityId).FirstOrDefault();
-                
-            }
         }
 
 
@@ -63,9 +57,11 @@
         /// <param name="data">The buffer.</param>
         public override void Parse(ArraySegment<byte> data)
         {
-            var ptr = this.CursorOffset; // this should be 37 + this.name.length * 2
-            Debug.Assert(ptr == 37 + (this.Name.Length * 2));
 
+            // I don't believe that CursorOffset + name is correct 
+            //var ptr = this.CursorOffset; // this should be 37 + this.name.length * 2
+            //Debug.Assert(ptr == 37 + (this.Name.Length * 2));
+            var ptr = this.InnerOffset;
             this.IUnk = 0;
             //unknownData1 unkData1;
             var info = new CollisionInfo();
@@ -75,14 +71,23 @@
                 {
                     reader.BaseStream.Position = ptr;
 
-                    while (this.renderId == 0 && reader.BaseStream.Position + 4 <= reader.BaseStream.Length)
-                        // || !renderFactory.RenderArchive.Contains((int)this.renderId))
+                    while (this.renderId == 0 && reader.BaseStream.Position + 1 <= reader.BaseStream.Length)
                     {
                         this.renderId = reader.ReadUInt32();
-                        this.BytesOfZeroData += this.renderId == 0 ? 4 : 0;
+                        if (this.renderId == 0)
+                        {
+                            this.BytesOfZeroData++;
+                            reader.BaseStream.Position -= 3; // go back 3 bytes and try to read again.
+                        }
+                        else if (!RenderInformationFactory.Instance.IsValidRenderId((int) this.renderId))
+                        {
+                            // invalid
+                            this.renderId = 0;
+                            reader.BaseStream.Position -= 3; // go back 3 bytes and try to read again.
+                        }
                     }
 
-                    // TODO we should just precache the render ids rather than reloading this like this. oh well perfect world and all that
+                    // TODO we should just pre-cache the render ids rather than reloading this like this. oh well perfect world and all that
                     if (this.renderId == 0) // || !renderFactory.RenderArchive.Contains((int)this.renderId))
                     {
                         throw new ApplicationException($"No render Id found for {this.Name}");

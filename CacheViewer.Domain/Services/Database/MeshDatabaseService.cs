@@ -68,7 +68,7 @@
                 }
             }
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 context.ExecuteCommand("delete from dbo.MeshEntities");
                 await context.BulkInsertAsync(entities);

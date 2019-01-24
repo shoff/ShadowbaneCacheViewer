@@ -30,7 +30,6 @@
 #endif
         }
 
-        /// <summary>Gets the indexes.</summary>
         public ICollection<CacheIndex> Indexes => this.CacheObjects.CacheIndices;
 
         public CacheIndex FindById(int id)
@@ -38,10 +37,13 @@
             return (from c in Indexes where c.Identity == id select c).FirstOrDefault();
         }
 
-        /// <summary>Gets the instance.</summary>
         public static CacheObjectFactory Instance { get; } = new CacheObjectFactory();
 
-        /// <summary>Gets the load time.</summary>
+        public async Task SaveToFileAsync(CacheIndex index, string path)
+        {
+            await CacheObjects.SaveToFileAsync(index, path);
+        }
+
         public long LoadTime { get; }
 
         internal CObjects CacheObjects { get; }

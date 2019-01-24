@@ -24,7 +24,7 @@ float unknownFloat1;
 float unknownFloat2;
 float unknownFloat3;
 
-int crap[42];
+int crap[11];
 
 int unk1; // 1  ?
 int unk2; // 4  ?

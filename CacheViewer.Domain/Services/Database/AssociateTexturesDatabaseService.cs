@@ -18,7 +18,7 @@
 
         public async Task AssociateTextures()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var renderEntities = (from r in context.RenderEntities select r).ToList();
                 var cacheObjects = (from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets) select c)

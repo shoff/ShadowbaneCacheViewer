@@ -20,7 +20,7 @@
 
         public async Task SaveCObjectsToDbAsync()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 foreach (var c in cobjects.CacheIndices)
                 {

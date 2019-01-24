@@ -47,7 +47,7 @@
 
             this.meshExporter = new MeshOnlyObjExporter();
             StringBuilder sb = new StringBuilder();
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
@@ -103,7 +103,7 @@
         [Test, Explicit]
         public void Find_Elven_Church_Structure()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 foreach (var re in this.renderEntities)
                 {

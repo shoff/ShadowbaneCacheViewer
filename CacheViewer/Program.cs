@@ -22,7 +22,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SbCacheViewerContext>());
 
             var status = CheckForCacheFiles();
             if (!status.AllFound)

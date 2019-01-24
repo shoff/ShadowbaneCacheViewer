@@ -30,7 +30,7 @@
 
             this.meshExporter = new MeshOnlyObjExporter();
             StringBuilder sb = new StringBuilder();
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
@@ -100,7 +100,7 @@
             }
         }
 
-        private async Task AssociateTexturesAsync(DataContext context)
+        private async Task AssociateTexturesAsync(SbCacheViewerContext context)
         {
 
             foreach (var re in this.renderEntities)

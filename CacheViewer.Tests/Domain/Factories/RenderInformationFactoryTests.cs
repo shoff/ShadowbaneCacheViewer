@@ -53,7 +53,7 @@
         [Test, Explicit]
         public void Save_To_Sql()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var save = 0;
                 foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
@@ -93,7 +93,7 @@
         [Test, Explicit]
         public void Discover_Render_Textures()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var textureIds = (from t in context.Textures
                     select t.TextureId).ToList();

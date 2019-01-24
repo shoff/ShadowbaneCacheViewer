@@ -11,7 +11,7 @@
     using CacheViewer.Data.Entities;
     using NLog;
 
-    public class DataContext : DbContext, IDataContext
+    public class SbCacheViewerContext : DbContext, IDataContext
     {
         /// <summary>
         /// </summary>
@@ -20,18 +20,18 @@
         // MultipleActiveResultSets=true
         /// <summary>
         /// </summary>
-        public DataContext()
+        public SbCacheViewerContext()
             : this("DefaultConnection")
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DataContext" /> class.
+        ///     Initializes a new instance of the <see cref="SbCacheViewerContext" /> class.
         /// </summary>
         /// <param name="connectionString">
         ///     The connection string.
         /// </param>
-        public DataContext(string connectionString)
+        public SbCacheViewerContext(string connectionString)
             : base(connectionString)
         {
             this.ReThrowExceptions = true;

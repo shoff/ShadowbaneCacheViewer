@@ -7,7 +7,7 @@
     {
         public async Task ClearDataAsync()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 context.ExecuteCommand("delete from dbo.RenderAndOffsets");
                 context.ExecuteCommand("delete from dbo.CacheObjectEntities");

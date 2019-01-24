@@ -16,7 +16,6 @@
     public class StructureService
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
-
         private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
         private readonly PrefabObjExporter meshExporter;
         private string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\{0}";
@@ -26,7 +25,7 @@
             this.meshExporter = new PrefabObjExporter();
         }
 
-        public async Task SaveAll(string saveFolder, string name, ObjectType objectType, bool saveAsOneFile)
+        public async Task SaveAllAsync(string saveFolder, string name, ObjectType objectType, bool saveAsOneFile)
         {
             this.folder = string.Format(this.folder, saveFolder);
             if (!Directory.Exists(this.folder))
@@ -35,7 +34,7 @@
             }
 
             StringBuilder sb = new StringBuilder();
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
@@ -109,9 +108,8 @@
             }
         }
 
-        private async Task AssociateTexturesAsync(DataContext context)
+        private async Task AssociateTexturesAsync(SbCacheViewerContext context)
         {
-
             foreach (var re in this.renderEntities)
             {
                 if (re.HasMesh && re.MeshId > 0 && re.HasTexture && re.TextureId > 0)

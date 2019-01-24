@@ -58,7 +58,7 @@
                 }
             }
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 await context.BulkInsertAsync(entities);
             }
