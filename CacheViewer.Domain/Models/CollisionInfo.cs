@@ -1,14 +1,13 @@
 ﻿namespace CacheViewer.Domain.Models
 {
     using System.Collections.Generic;
-    using OpenTK;
+    using Geometry;
 
     public class CollisionInfo
     {
         /// <summary>
         /// </summary>
-        public List<Vector3>
-            bounds = new List<Vector3>(); // make it a static array of 4 for now,  if all 4 aren't used - who cares.
+        public List<Vector3> bounds = new List<Vector3>(); // make it a static array of 4 for now,  if all 4 aren't used - who cares.
 
         /// <summary>
         /// </summary>

@@ -1,6 +1,6 @@
 ﻿namespace CacheViewer.Domain.Models
 {
-    using OpenTK;
+    using Geometry;
 
     public struct MeshHeader
     {

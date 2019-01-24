@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    using OpenTK;
+    using Geometry;
 
     public static class VectorExtensions
     {

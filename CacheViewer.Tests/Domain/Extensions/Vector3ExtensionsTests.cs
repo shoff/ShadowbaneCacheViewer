@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace CacheViewer.Tests.Domain.Extensions
 {
-    using OpenTK;
+    using CacheViewer.Domain.Geometry;
 
     [TestFixture]
     public class Vector3ExtensionsTests

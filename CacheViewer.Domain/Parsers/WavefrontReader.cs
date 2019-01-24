@@ -6,7 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using OpenTK;
+    using Geometry;
 
     /// <summary>
     ///     Class for reading a 3D mesh in the Wavefront OBJ format from a stream.

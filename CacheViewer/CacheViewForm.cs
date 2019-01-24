@@ -88,7 +88,9 @@ namespace CacheViewer
                     {
                         // this is not populating the cache array?
                         var cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+
                         logger?.Debug($"Loaded cachObject {cacheObject.Name}");
+
                         string title = string.IsNullOrEmpty(cacheObject.Name) ?
                             ci.Identity.ToString(CultureInfo.InvariantCulture) :
                             $"{ci.Identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";

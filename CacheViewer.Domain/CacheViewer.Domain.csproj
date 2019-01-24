@@ -164,6 +164,12 @@
     <Compile Include="Factories\PixelData.cs" />
     <Compile Include="Factories\RenderInformationFactory.cs" />
     <Compile Include="Factories\TextureFactory.cs" />
+    <Compile Include="Geometry\MathHelper.cs" />
+    <Compile Include="Geometry\Matrix3.cs" />
+    <Compile Include="Geometry\Quaternion.cs" />
+    <Compile Include="Geometry\Vector2.cs" />
+    <Compile Include="Geometry\Vector3.cs" />
+    <Compile Include="Geometry\Vector4.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Bone.cs" />
     <Compile Include="Models\CollisionInfo.cs" />
@@ -252,14 +258,8 @@
     <PackageReference Include="NLog.Schema">
       <Version>4.5.11</Version>
     </PackageReference>
-    <PackageReference Include="OpenTK">
-      <Version>3.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="OpenTK.GLControl">
-      <Version>3.0.1</Version>
-    </PackageReference>
     <PackageReference Include="SharpZipLib">
-      <Version>1.0.0</Version>
+      <Version>1.1.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

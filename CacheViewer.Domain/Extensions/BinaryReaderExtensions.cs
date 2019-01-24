@@ -3,7 +3,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
-    using OpenTK;
+    using Geometry;
 
     [SuppressMessage("ReSharper", "ExceptionNotDocumented")]
     public static class BinaryReaderExtensions

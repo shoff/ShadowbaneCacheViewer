@@ -60,73 +60,9 @@
     <Compile Include="IDataContext.cs" />
     <Compile Include="IEntityRepository.cs" />
     <Compile Include="IQueryableDataContext.cs" />
-    <Compile Include="Migrations\201806152050220_InitialCreate.cs" />
-    <Compile Include="Migrations\201806152050220_InitialCreate.Designer.cs">
-      <DependentUpon>201806152050220_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.cs" />
-    <Compile Include="Migrations\201806152053257_FixingRenderAndOffset.Designer.cs">
-      <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806171831539_FixingTextures.cs" />
-    <Compile Include="Migrations\201806171831539_FixingTextures.Designer.cs">
-      <DependentUpon>201806171831539_FixingTextures.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806171846188_RenderTexture.cs" />
-    <Compile Include="Migrations\201806171846188_RenderTexture.Designer.cs">
-      <DependentUpon>201806171846188_RenderTexture.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806171851157_RenderTextureOffset.cs" />
-    <Compile Include="Migrations\201806171851157_RenderTextureOffset.Designer.cs">
-      <DependentUpon>201806171851157_RenderTextureOffset.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.cs" />
-    <Compile Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.Designer.cs">
-      <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806180116260_AddRenderTexture.cs" />
-    <Compile Include="Migrations\201806180116260_AddRenderTexture.Designer.cs">
-      <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806182031363_CorrectingRenderData.cs" />
-    <Compile Include="Migrations\201806182031363_CorrectingRenderData.Designer.cs">
-      <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806190106001_AddTexturesToMesh.cs" />
-    <Compile Include="Migrations\201806190106001_AddTexturesToMesh.Designer.cs">
-      <DependentUpon>201806190106001_AddTexturesToMesh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806190332561_AddingCacheIndexId.cs" />
-    <Compile Include="Migrations\201806190332561_AddingCacheIndexId.Designer.cs">
-      <DependentUpon>201806190332561_AddingCacheIndexId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806190406450_AddingMeshesToTextures.cs" />
-    <Compile Include="Migrations\201806190406450_AddingMeshesToTextures.Designer.cs">
-      <DependentUpon>201806190406450_AddingMeshesToTextures.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806200035365_Shit.cs" />
-    <Compile Include="Migrations\201806200035365_Shit.Designer.cs">
-      <DependentUpon>201806200035365_Shit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806230210064_InvalidValues.cs" />
-    <Compile Include="Migrations\201806230210064_InvalidValues.Designer.cs">
-      <DependentUpon>201806230210064_InvalidValues.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.cs" />
-    <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.Designer.cs">
-      <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812252041298_AddingRawCobjects.cs" />
-    <Compile Include="Migrations\201812252041298_AddingRawCobjects.Designer.cs">
-      <DependentUpon>201812252041298_AddingRawCobjects.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812252107190_AddingRawRenders.cs" />
-    <Compile Include="Migrations\201812252107190_AddingRawRenders.Designer.cs">
-      <DependentUpon>201812252107190_AddingRawRenders.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901220308482_AddParseError.cs" />
-    <Compile Include="Migrations\201901220308482_AddParseError.Designer.cs">
-      <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>
+    <Compile Include="Migrations\201901240332403_InitialCreate.cs" />
+    <Compile Include="Migrations\201901240332403_InitialCreate.Designer.cs">
+      <DependentUpon>201901240332403_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ObjectType.cs" />
@@ -144,56 +80,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806152050220_InitialCreate.resx">
-      <DependentUpon>201806152050220_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806152053257_FixingRenderAndOffset.resx">
-      <DependentUpon>201806152053257_FixingRenderAndOffset.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806171831539_FixingTextures.resx">
-      <DependentUpon>201806171831539_FixingTextures.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806171846188_RenderTexture.resx">
-      <DependentUpon>201806171846188_RenderTexture.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806171851157_RenderTextureOffset.resx">
-      <DependentUpon>201806171851157_RenderTextureOffset.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806171908122_RenderTextureOffsetToBigInt.resx">
-      <DependentUpon>201806171908122_RenderTextureOffsetToBigInt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806180116260_AddRenderTexture.resx">
-      <DependentUpon>201806180116260_AddRenderTexture.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806182031363_CorrectingRenderData.resx">
-      <DependentUpon>201806182031363_CorrectingRenderData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806190106001_AddTexturesToMesh.resx">
-      <DependentUpon>201806190106001_AddTexturesToMesh.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806190332561_AddingCacheIndexId.resx">
-      <DependentUpon>201806190332561_AddingCacheIndexId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806190406450_AddingMeshesToTextures.resx">
-      <DependentUpon>201806190406450_AddingMeshesToTextures.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806200035365_Shit.resx">
-      <DependentUpon>201806200035365_Shit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806230210064_InvalidValues.resx">
-      <DependentUpon>201806230210064_InvalidValues.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.resx">
-      <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812252041298_AddingRawCobjects.resx">
-      <DependentUpon>201812252041298_AddingRawCobjects.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812252107190_AddingRawRenders.resx">
-      <DependentUpon>201812252107190_AddingRawRenders.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901220308482_AddParseError.resx">
-      <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901240332403_InitialCreate.resx">
+      <DependentUpon>201901240332403_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

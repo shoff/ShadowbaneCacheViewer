@@ -6,7 +6,6 @@ namespace CacheViewer
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using ControlExtensions;
-    using Domain.Services;
     using Domain.Services.Database;
     using Domain.Services.Prefabs;
     using NLog;

@@ -5,8 +5,8 @@
     using System.Globalization;
     using System.Text;
     using Archive;
+    using Geometry;
     using Newtonsoft.Json;
-    using OpenTK;
 
     public class RenderInformation
     {
