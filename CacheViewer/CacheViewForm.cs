@@ -14,9 +14,11 @@ namespace CacheViewer
     using System.IO;
     using ControlExtensions;
     using Data;
+    using Data.Entities;
     using Domain.Models;
     using Domain.Services;
     using Domain.Services.Prefabs;
+    using Nito.ArraySegments;
 
     public partial class CacheViewForm : Form
     {
@@ -34,7 +36,7 @@ namespace CacheViewer
         private readonly CacheObjectsCache cacheObjectsCache;
         private readonly RenderInformationFactory renderInformationFactory;
         private bool archivesLoaded;
-        private static float angle = 0.0f;
+        // private static float angle = 0.0f;
 
         private Mesh mesh;
         // data
@@ -87,7 +89,7 @@ namespace CacheViewer
                     try
                     {
                         // this is not populating the cache array?
-                        ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+                        var cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
                         logger?.Debug($"Loaded cachObject {cacheObject.Name}");
                         string title = string.IsNullOrEmpty(cacheObject.Name) ?
                             ci.Identity.ToString(CultureInfo.InvariantCulture) :
@@ -277,6 +279,28 @@ namespace CacheViewer
                 }
                 var realTimeModelService = new RealTimeModelService();
                 var models = await realTimeModelService.GenerateModelAsync(item.CacheIndex.Identity);
+
+                if (models == null || models.Count == 0)
+                {
+                    logger?.Error($"Unable to parse model for {item.CacheIndex.Identity}: {item.Name}");
+                    ParseError parseError = new ParseError
+                    {
+                        CacheIndexIdentity = item.CacheIndex.Identity,
+                        CacheIndexOffset = (int) item.CacheIndex.Offset,
+                        CursorOffset = item.CursorOffset,
+                        Data = item.Data.ToArray(),
+                        InnerOffset = item.InnerOffset,
+                        Name = item.Name,
+                        ObjectType = item.Flag,
+                        RenderId = (int) item.RenderId
+                    };
+                    using (var context = new DataContext())
+                    {
+                        context.ParseErrors.Add(parseError);
+                        await context.SaveChangesAsync();
+                    }
+                    return;
+                }
                 this.mesh = models[0];
             }
             catch (Exception ex)

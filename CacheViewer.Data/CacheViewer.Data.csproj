@@ -46,6 +46,7 @@
     <Compile Include="Entities\MeshEntity.cs" />
     <Compile Include="Entities\MobileEntity.cs" />
     <Compile Include="Entities\MotionEntity.cs" />
+    <Compile Include="Entities\ParseError.cs" />
     <Compile Include="Entities\RenderAndOffset.cs" />
     <Compile Include="Entities\RenderChild.cs" />
     <Compile Include="Entities\RenderEntity.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.Designer.cs">
       <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901220308482_AddParseError.cs" />
+    <Compile Include="Migrations\201901220308482_AddParseError.Designer.cs">
+      <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806230242449_AddingRenderEntityToCacheObjects.resx">
       <DependentUpon>201806230242449_AddingRenderEntityToCacheObjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901220308482_AddParseError.resx">
+      <DependentUpon>201901220308482_AddParseError.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
