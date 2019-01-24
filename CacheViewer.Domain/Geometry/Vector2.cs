@@ -1,9 +1,11 @@
-﻿namespace CacheViewer.Domain.Geometry
+﻿// ReSharper disable InconsistentNaming
+namespace CacheViewer.Domain.Geometry
 {
     using System;
     using System.Globalization;
     using System.Runtime.InteropServices;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
 
     /// <summary>Represents a 2D vector using two single-precision floating-point numbers.</summary>
     /// <remarks>
@@ -26,7 +28,7 @@
         public static readonly Vector2 One = new Vector2(1f, 1f);
         /// <summary>Defines the size of the Vector2 struct in bytes.</summary>
         public static readonly int SizeInBytes = Marshal.SizeOf((object)new Vector2());
-        private static string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+        private static readonly string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
         /// <summary>The X component of the Vector2.</summary>
         public float X;
         /// <summary>The Y component of the Vector2.</summary>
@@ -64,7 +66,7 @@
                     return this.Y;
                 }
 
-                throw new IndexOutOfRangeException("You tried to access this vector at index: " + (object)index);
+                throw new IndexOutOfRangeException("You tried to access this vector at index: " + index);
             }
             set
             {
@@ -76,7 +78,7 @@
                 {
                     if (index != 1)
                     {
-                        throw new IndexOutOfRangeException("You tried to set this vector at index: " + (object)index);
+                        throw new IndexOutOfRangeException("You tried to set this vector at index: " + index);
                     }
 
                     this.Y = value;
@@ -128,24 +130,14 @@
         /// <summary>
         /// Gets the perpendicular vector on the right side of this vector.
         /// </summary>
-        public Vector2 PerpendicularRight
-        {
-            get
-            {
-                return new Vector2(this.Y, -this.X);
-            }
-        }
+        [JsonIgnore]
+        public Vector2 PerpendicularRight => new Vector2(this.Y, -this.X);
 
         /// <summary>
         /// Gets the perpendicular vector on the left side of this vector.
         /// </summary>
-        public Vector2 PerpendicularLeft
-        {
-            get
-            {
-                return new Vector2(-this.Y, this.X);
-            }
-        }
+        [JsonIgnore]
+        public Vector2 PerpendicularLeft => new Vector2(-this.Y, this.X);
 
         /// <summary>Returns a copy of the Vector2 scaled to unit length.</summary>
         /// <returns></returns>
@@ -178,7 +170,7 @@
         /// <returns>Result of operation.</returns>
         public static Vector2 Add(Vector2 a, Vector2 b)
         {
-            Vector2.Add(ref a, ref b, out a);
+            Add(ref a, ref b, out a);
             return a;
         }
 
@@ -198,7 +190,7 @@
         /// <returns>Result of subtraction</returns>
         public static Vector2 Subtract(Vector2 a, Vector2 b)
         {
-            Vector2.Subtract(ref a, ref b, out a);
+            Subtract(ref a, ref b, out a);
             return a;
         }
 
@@ -238,7 +230,7 @@
         /// <returns>Result of the operation.</returns>
         public static Vector2 Multiply(Vector2 vector, Vector2 scale)
         {
-            Vector2.Multiply(ref vector, ref scale, out vector);
+            Multiply(ref vector, ref scale, out vector);
             return vector;
         }
 
@@ -260,7 +252,7 @@
         /// <returns>Result of the operation.</returns>
         public static Vector2 Divide(Vector2 vector, float scale)
         {
-            Vector2.Divide(ref vector, scale, out vector);
+            Divide(ref vector, scale, out vector);
             return vector;
         }
 
@@ -280,7 +272,7 @@
         /// <returns>Result of the operation.</returns>
         public static Vector2 Divide(Vector2 vector, Vector2 scale)
         {
-            Vector2.Divide(ref vector, ref scale, out vector);
+            Divide(ref vector, ref scale, out vector);
             return vector;
         }
 
@@ -464,7 +456,7 @@
         public static float Distance(Vector2 vec1, Vector2 vec2)
         {
             float result;
-            Vector2.Distance(ref vec1, ref vec2, out result);
+            Distance(ref vec1, ref vec2, out result);
             return result;
         }
 
@@ -486,7 +478,7 @@
         public static float DistanceSquared(Vector2 vec1, Vector2 vec2)
         {
             float result;
-            Vector2.DistanceSquared(ref vec1, ref vec2, out result);
+            DistanceSquared(ref vec1, ref vec2, out result);
             return result;
         }
 
@@ -633,13 +625,13 @@
         {
             result = a;
             Vector2 result1 = b;
-            Vector2.Subtract(ref result1, ref a, out result1);
-            Vector2.Multiply(ref result1, u, out result1);
-            Vector2.Add(ref result, ref result1, out result);
+            Subtract(ref result1, ref a, out result1);
+            Multiply(ref result1, u, out result1);
+            Add(ref result, ref result1, out result);
             Vector2 result2 = c;
-            Vector2.Subtract(ref result2, ref a, out result2);
-            Vector2.Multiply(ref result2, v, out result2);
-            Vector2.Add(ref result, ref result2, out result);
+            Subtract(ref result2, ref a, out result2);
+            Multiply(ref result2, v, out result2);
+            Add(ref result, ref result2, out result);
         }
 
         /// <summary>Transforms a vector by a quaternion rotation.</summary>
@@ -649,7 +641,7 @@
         public static Vector2 Transform(Vector2 vec, Quaternion quat)
         {
             Vector2 result;
-            Vector2.Transform(ref vec, ref quat, out result);
+            Transform(ref vec, ref quat, out result);
             return result;
         }
 
@@ -788,7 +780,7 @@
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("({0}{2} {1})", (object)this.X, (object)this.Y, (object)Vector2.listSeparator);
+            return string.Format("({0}{2} {1})", (object)this.X, (object)this.Y, (object)listSeparator);
         }
 
         /// <summary>Returns the hashcode for this instance.</summary>

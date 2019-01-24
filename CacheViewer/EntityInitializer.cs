@@ -18,7 +18,7 @@ namespace CacheViewer
     public partial class EntityInitializer : Form
     {
         private readonly DataContext dataContext;
-        private readonly CacheObjectsCache cacheObjectsCache;// = CacheObjectFactory.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory;// = CacheObjectFactory.Instance;
         private readonly RenderInformationFactory renderInformationFactory;// = RenderFactory.Instance;
         private readonly MeshFactory meshFactory;// = MeshFactory.Instance;
         private readonly TextureFactory textureFactory;// = TextureFactory.Instance;
@@ -34,7 +34,7 @@ namespace CacheViewer
                 this.dataContext.Configuration.AutoDetectChangesEnabled = false;
                 this.dataContext.ValidateOnSave = false;
 
-                this.cacheObjectsCache = CacheObjectsCache.Instance;
+                this.cacheObjectFactory = CacheObjectFactory.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshFactory = MeshFactory.Instance;
                 this.textureFactory = TextureFactory.Instance;
@@ -246,13 +246,13 @@ namespace CacheViewer
 
         private async void CObjectsButtonClick(object sender, EventArgs e)
         {
-            foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
+            foreach (var cacheIndex in this.cacheObjectFactory.Indexes)
             {
                 this.SetMessage(this.CurrentCObjectLabel,
                     string.Format("Now finding RenderIds for CObject at Index {0}",
                     cacheIndex.Identity));
 
-                ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
+                ICacheObject cacheObject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
 
                 this.dataContext.CacheObjectEntities.Add(new CacheObjectEntity
                 {

@@ -58,10 +58,8 @@
                     // for now just return as this is not valid for GDI bitmaps :(
                     return null;
                 }
-                else
-                {
-                    format = this.Depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
-                }
+
+                format = this.Depth == 4 ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
                 Bitmap myBitmap = null;
                 try
                 {
@@ -69,7 +67,7 @@
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, e.Message);
+                    logger?.Error(e, e.Message);
                 }
 
                 Color clr;
@@ -78,7 +76,7 @@
                 switch (format)
                 {
                     case PixelFormat.Format24bppRgb:
-                        for (var y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap?.Height; y++)
                         {
                             for (var x = 0; x < myBitmap.Width; x++)
                             {
@@ -95,7 +93,7 @@
 
                         break;
                     case PixelFormat.Format32bppArgb:
-                        for (var y = 0; y < myBitmap.Height; y++)
+                        for (var y = 0; y < myBitmap?.Height; y++)
                         {
                             for (var x = 0; x < myBitmap.Width; x++)
                             {
@@ -113,22 +111,9 @@
                         break;
                 }
 
-                myBitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
+                myBitmap?.RotateFlip(RotateFlipType.Rotate180FlipX);
                 return myBitmap;
             }
-        }
-
-        public void Bind()
-        {
-            //Gl.glBindTexture(Gl.GL_TEXTURE_2D, this.TextureId);
-        }
-
-        /// <summary>
-        ///     Un-Binds the texture.
-        /// </summary>
-        public void UnBind()
-        {
-            // Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
         }
     }
 }

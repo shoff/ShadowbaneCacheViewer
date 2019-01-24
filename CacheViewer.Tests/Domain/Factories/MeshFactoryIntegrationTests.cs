@@ -6,31 +6,43 @@ namespace CacheViewer.Tests.Domain.Factories
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
+    using Data;
+    using Data.Entities;
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Factories;
     using Newtonsoft.Json;
 
     [TestFixture]
-    public class MeshFactoryTests
+    public class MeshFactoryIntegrationTests
     {
-        [Test]
+        private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+        private MeshFactory factory;
+        private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "\\MeshIndexes";
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.factory = MeshFactory.Instance;
+        }
+
+        [Test, Explicit, Category("Integration")]
         public async Task Save_All_To_File()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "MeshIndexes";
-            foreach (var index in MeshFactory.Instance.Indexes)
+            CreateFolders();
+            foreach (var index in this.factory.Indexes)
             {
-                await MeshFactory.MeshArchive.SaveToFile(index, $"{folder}\\Caches");
-                var mesh = MeshFactory.Instance.Create(index);
-                var meshJson = JsonConvert.SerializeObject(mesh);
+                await this.factory.SaveToFile(index, $"{folder}\\Caches");
+
+                var mesh = this.factory.Create(index);
+
+                var meshJson = JsonConvert.SerializeObject(mesh, jsonSettings);
+
                 File.WriteAllText($"{folder}\\Meshes\\{index.Identity}.json", meshJson);
             }
         }
 
-        private static string CreateFolders()
+        private void CreateFolders()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "MeshIndexes";
 
             if (Directory.Exists(folder))
             {
@@ -39,21 +51,19 @@ namespace CacheViewer.Tests.Domain.Factories
             Directory.CreateDirectory(folder);
             Directory.CreateDirectory($"{folder}\\Meshes");
             Directory.CreateDirectory($"{folder}\\Caches");
-
-            return folder;
         }
 
-        [Test, Explicit]
+        [Test, Explicit, Category("Integration")]
         public void Save_Mesh_To_Sql()
         {
             using (var context = new DataContext())
             {
                 int save = 0;
 
-                foreach (var index in MeshFactory.Instance.Indexes)
+                foreach (var index in this.factory.Indexes)
                 {
                     save++;
-                    var mesh = MeshFactory.Instance.Create(index);
+                    var mesh = this.factory.Create(index);
 
                     var ent = (from m in context.MeshEntities
                                where m.Id == mesh.Id
@@ -97,6 +107,19 @@ namespace CacheViewer.Tests.Domain.Factories
 
                 context.SaveChanges();
             }
+        }
+
+        [Test, Explicit, Category("Integration")]
+        public void Database_Record_Count_Matches_Index_Count()
+        {
+            var expected = this.factory.Indexes.Count();
+            int actual;
+            using (var context = new DataContext())
+            {
+                actual = context.MeshEntities.Count();
+            }
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

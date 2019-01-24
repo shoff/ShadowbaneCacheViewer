@@ -76,11 +76,10 @@
     <Compile Include="Domain\Extensions\Vector3ExtensionsTests.cs" />
     <Compile Include="Domain\Factories\ArchiveFactoryTests.cs" />
     <Compile Include="Domain\Factories\CacheObjectFactoryTests.cs" />
-    <Compile Include="Domain\Factories\MeshFactoryTests.cs" />
+    <Compile Include="Domain\Factories\MeshFactoryIntegrationTests.cs" />
     <Compile Include="Domain\Factories\RenderInformationFactoryTests.cs" />
     <Compile Include="Domain\Factories\TextureFactoryTests.cs" />
     <Compile Include="Domain\Models\InteractiveTests.cs" />
-    <Compile Include="Domain\Models\SimpleTests.cs" />
     <Compile Include="Domain\Models\StructureTests.cs" />
     <Compile Include="Domain\Parsers\WavefrontReaderTests.cs" />
     <Compile Include="Domain\Services\ModelIdServiceTests.cs" />

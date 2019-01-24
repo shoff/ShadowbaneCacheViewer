@@ -159,7 +159,7 @@
     <Compile Include="Extensions\VectorExtensions.cs" />
     <Compile Include="Extensions\WindowsFormsExtensions.cs" />
     <Compile Include="Factories\ArchiveFactory.cs" />
-    <Compile Include="Factories\CacheObjectsCache.cs" />
+    <Compile Include="Factories\CacheObjectFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\PixelData.cs" />
     <Compile Include="Factories\RenderInformationFactory.cs" />

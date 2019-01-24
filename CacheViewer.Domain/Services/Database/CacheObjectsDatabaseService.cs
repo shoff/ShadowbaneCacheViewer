@@ -21,7 +21,7 @@
     {
 
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         public event EventHandler<CacheObjectSaveEventArgs> CacheObjectsSaved;
 
         private static readonly Dictionary<ObjectType, string> objectTypeDicitonary = new Dictionary<ObjectType, string>
@@ -45,11 +45,11 @@
             List<RenderAndOffset> renderAndOffsets = new List<RenderAndOffset>();
             List<InvalidValue> invalidValues = new List<InvalidValue>();
             var save = 0;
-            foreach (var i in this.cacheObjectsCache.Indexes)
+            foreach (var i in this.cacheObjectFactory.Indexes)
             {
                 save++;
 
-                var cobject = this.cacheObjectsCache.CreateAndParse(i);
+                var cobject = this.cacheObjectFactory.CreateAndParse(i);
                 var centity = new CacheObjectEntity
                 {
                     CacheIndexIdentity = cobject.CacheIndex.Identity,

@@ -15,7 +15,6 @@ namespace CacheViewer
     using ControlExtensions;
     using Data;
     using Data.Entities;
-    using Domain.Models;
     using Domain.Services;
     using Domain.Services.Prefabs;
     using Nito.ArraySegments;
@@ -33,7 +32,7 @@ namespace CacheViewer
         private readonly TreeNode particleNode = new TreeNode("Particles");
 
         // Archives
-        private readonly CacheObjectsCache cacheObjectsCache;
+        private readonly CacheObjectFactory cacheObjectFactory;
         private readonly RenderInformationFactory renderInformationFactory;
         private bool archivesLoaded;
 
@@ -49,9 +48,9 @@ namespace CacheViewer
             {
                 logger.Debug("CacheViewForm created.");
                 this.AcceptButton = this.CacheSaveButton;
-                this.cacheObjectsCache = CacheObjectsCache.Instance;
+                this.cacheObjectFactory = CacheObjectFactory.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
-                this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectsCache.Indexes.Count;
+                this.TotalCacheLabel.Text = "Total number of cache objects " + this.cacheObjectFactory.Indexes.Count;
                 this.TotalCacheLabel.Refresh();
             }
         }
@@ -63,7 +62,7 @@ namespace CacheViewer
 
             // ReSharper disable once LocalizableElement
             this.LoadLabel.Text = Messages.LoadTimeFromCache + " " +
-                TimeSpan.FromTicks(this.cacheObjectsCache.LoadTime).Seconds + Messages.Seconds;
+                TimeSpan.FromTicks(this.cacheObjectFactory.LoadTime).Seconds + Messages.Seconds;
             this.LoadLabel.Refresh();
 
             var simpleNodes = new List<TreeNode>();
@@ -81,13 +80,13 @@ namespace CacheViewer
 
             await Task.Run(() =>
             {
-                logger?.Info($"In LoadCacheButtonClick found {this.cacheObjectsCache.Indexes.Count}");
-                foreach (var ci in this.cacheObjectsCache.Indexes)
+                logger?.Info($"In LoadCacheButtonClick found {this.cacheObjectFactory.Indexes.Count}");
+                foreach (var ci in this.cacheObjectFactory.Indexes)
                 {
                     try
                     {
                         // this is not populating the cache array?
-                        var cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+                        var cacheObject = this.cacheObjectFactory.CreateAndParse(ci);
 
                         logger?.Debug($"Loaded cachObject {cacheObject.Name}");
 
@@ -245,9 +244,7 @@ namespace CacheViewer
                         context.ParseErrors.Add(parseError);
                         await context.SaveChangesAsync();
                     }
-                    return;
                 }
-                //this.mesh = models[0];
             }
             catch (Exception ex)
             {
@@ -313,7 +310,7 @@ namespace CacheViewer
             }
 
             Directory.CreateDirectory(directory);
-            FileWriter.Writer.Write(item.Data, directory + "\\cobject.cache");
+            await FileWriter.Writer.WriteAsync(item.Data.ToArray(), directory, "cobject.cache");
 
             try
             {
@@ -330,13 +327,12 @@ namespace CacheViewer
 
                 if (render.BinaryAsset.Item1.Count > 0)
                 {
-                    await this.SaveBinaryData(directory + "\\" + render.CacheIndex.Name, render.BinaryAsset.Item1);
+                    await this.SaveBinaryData(directory, render.CacheIndex.Name, render.BinaryAsset.Item1);
                 }
 
                 if (render.BinaryAsset.Item2.Count > 0)
                 {
-                    await this.SaveBinaryData(directory + "\\" + render.BinaryAsset.CacheIndex2.Name,
-                        render.BinaryAsset.Item1);
+                    await this.SaveBinaryData(directory, render.BinaryAsset.CacheIndex2.Name,render.BinaryAsset.Item1);
                 }
 
                 // what a pain in the ass this is Microsoft.
@@ -360,12 +356,12 @@ namespace CacheViewer
             this.CacheSaveButton.Refresh();
         }
 
-        private async Task SaveBinaryData(string fileName, ArraySegment<byte> data)
+        private async Task SaveBinaryData(string directory, string fileName, ArraySegment<byte> data)
         {
 
             if (data.Count > 0)
             {
-                await FileWriter.Writer.WriteAsync(data, fileName);
+                await FileWriter.Writer.WriteAsync(data.ToArray(), directory, fileName);
 
                 //if (asset.Item2.Count > 0)
                 //{

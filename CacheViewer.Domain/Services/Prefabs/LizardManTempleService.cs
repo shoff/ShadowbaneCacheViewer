@@ -21,7 +21,7 @@ namespace CacheViewer.Domain.Services.Prefabs
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
         // private readonly List<TextureEntity> texures = new List<TextureEntity>();
         private readonly MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         // private readonly List<Mesh> meshes = new List<Mesh>();
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\LizardManTemple";
         //424005

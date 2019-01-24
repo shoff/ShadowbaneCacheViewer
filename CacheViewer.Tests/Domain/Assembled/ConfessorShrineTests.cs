@@ -22,7 +22,7 @@
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
         private readonly List<TextureEntity> texures = new List<TextureEntity>();
         private readonly MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         private readonly List<Mesh> meshes = new List<Mesh>();
 
         public ConfessorShrineTests()
@@ -86,8 +86,8 @@
             this.meshExporter.ModelDirectory = folder;
             //using (var context = new DataContext())
             //{
-            //    var i = this.cacheObjectsCache.Indexes.FirstOrDefault(x => x.Identity == 424000);
-            //    var cobject = this.cacheObjectsCache.CreateAndParse(i);
+            //    var i = this.cacheObjectFactory.Indexes.FirstOrDefault(x => x.Identity == 424000);
+            //    var cobject = this.cacheObjectFactory.CreateAndParse(i);
 
             //    //if (cobject.Flag == ObjectType.Structure)
             //    //{

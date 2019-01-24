@@ -17,7 +17,7 @@
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
         private MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\ElvenChurch";
 
         public async Task SaveAllAsync()

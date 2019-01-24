@@ -126,7 +126,6 @@
       <DependentUpon>CacheViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Code\ListVIewColumnSorter.cs" />
-    <Compile Include="Code\XmlExporter.cs" />
     <Compile Include="Controls\CObjectViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -292,7 +291,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Code\ExampleCobjects.xml" />
     <Content Include="Effects.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

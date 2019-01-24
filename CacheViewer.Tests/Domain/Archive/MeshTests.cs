@@ -48,7 +48,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.meshArchive.CacheIndices)
             {
-                await this.meshArchive.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\MeshArchive\\");
+                await this.meshArchive.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\MeshArchive\\");
             }
         }
     }

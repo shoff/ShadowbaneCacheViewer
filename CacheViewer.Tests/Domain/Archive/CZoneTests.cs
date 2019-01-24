@@ -50,7 +50,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.czone.CacheIndices)
             {
-                await this.czone.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\CZone\\");
+                await this.czone.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\CZone\\");
             }
         }
     }
