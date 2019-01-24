@@ -245,7 +245,7 @@ namespace CacheViewer
                     }
                     return;
                 }
-                this.mesh = models[0];
+                //this.mesh = models[0];
             }
             catch (Exception ex)
             {
