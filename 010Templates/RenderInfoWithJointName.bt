@@ -64,6 +64,42 @@ byte hasTexture;
 
 // scale of texture?
 // this seems to be simply garbage
-tVector2f textureScale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
-uint unknown3;
-uint textureId <fgcolor=cBlack, bgcolor=0xC0C0C0>;
+// tVector2f textureScale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
+// actually I think this is really texture count.
+uint textureCount;
+
+// weird junk 
+uint sixOne;
+uint garb1;
+
+uint textureId;
+byte garb[34];
+
+uint textureId1;
+byte garb11[34];
+
+uint textureId2;
+byte garb12[34];
+
+uint textureId3;
+byte garb13[34];
+
+uint textureId4;
+byte garb14[34];
+
+uint textureId5;
+byte garb15[34];
+
+uint textureId6;
+byte garb16[34];
+
+uint textureId7;
+byte garb17[34];
+
+uint textureId8;
+byte garb18[34];
+
+uint textureId9;
+byte garb19[34];
+
+uint textureId10;
