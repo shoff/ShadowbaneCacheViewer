@@ -85,7 +85,7 @@ namespace CacheViewer
                 {
                     try
                     {
-                        var cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+                        var cacheObject = this.cacheObjectFactory.CreateOnly(ci);
                         logger?.Debug($"Loaded cachObject {cacheObject.Name}");
 
                         string title = string.IsNullOrEmpty(cacheObject.Name) ?
@@ -173,8 +173,6 @@ namespace CacheViewer
         {
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
-
-            //this.PropertiesListView.Items.Clear();
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
             //await this.CacheIndexListView.Display(item);
 
@@ -209,7 +207,7 @@ namespace CacheViewer
             // pertinent information from the renderId by validating the information
             // against the other archives. I will give each "archive" portion for each 
             // cacheObject a listView that ties all the information together at once.
-            ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+            var item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
 
             //await this.CacheIndexListView.Display(item);
 
@@ -390,60 +388,5 @@ namespace CacheViewer
             DatabaseForm dbf = new DatabaseForm();
             dbf.Show();
         }
-
-
-        //private void glControl1_Load(object sender, EventArgs e)
-        //{
-        //    //GL.ClearColor(Color.Black);
-        //    //GLControl c = sender as GLControl;
-
-        //    //if (c.ClientSize.Height == 0)
-        //    //{
-        //    //    c.ClientSize = new Size(c.ClientSize.Width, 1);
-        //    //}
-
-        //    //GL.Viewport(0, 0, c.ClientSize.Width, c.ClientSize.Height);
-
-        //    //float aspectRatio = this.glControl1.Width / (float)this.glControl1.Height;
-        //    //Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 1, 64);
-        //    //GL.MatrixMode(MatrixMode.Projection);
-        //    //GL.LoadIdentity();
-        //    //GL.LoadMatrix(ref perpective);
-        //}
-
-        //private void glControl1_Paint(object sender, PaintEventArgs e)
-        //{
-        //    //GL.ClearColor(Color.FromArgb(5, 5, 25));
-        //    //GL.Clear(ClearBufferMask.ColorBufferBit);
-        //    //this.Render();
-        //    //this.glControl1.MakeCurrent();
-        //    //this.glControl1.SwapBuffers();
-        //}
-
-        //static int LoadTexture(string filename)
-        //{
-        //    if (String.IsNullOrEmpty(filename))
-        //    {
-        //        throw new ArgumentException(filename);
-        //    }
-
-        //    int id = GL.GenTexture();
-        //    GL.BindTexture(TextureTarget.Texture2D, id);
-
-        //    Bitmap bmp = new Bitmap(filename);
-        //    BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-        //    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-        //        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
-
-        //    bmp.UnlockBits(bmp_data);
-
-
-        //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-        //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-        //    return id;
-        //}
-
     }
 }

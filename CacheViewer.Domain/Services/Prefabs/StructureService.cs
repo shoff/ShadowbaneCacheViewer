@@ -12,9 +12,14 @@
     using Exporters;
     using Factories;
     using Models;
+    using NLog;
 
+    /// <summary>
+    /// This service depends on the database having been updated correctly!
+    /// </summary>
     public class StructureService
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
         private readonly PrefabObjExporter meshExporter;
@@ -33,7 +38,8 @@
                 Directory.CreateDirectory(this.folder);
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
+
             using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
@@ -56,7 +62,9 @@
                 foreach (var r in this.renderEntities)
                 {
                     sb.AppendLine(
-                        $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: {r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
+                        $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: " +
+                        $"{r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, " +
+                        $"HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
 
                     var m = (from x in context.MeshEntities.Include(rte => rte.Textures)
                              where x.CacheIndexIdentity == r.MeshId
@@ -74,9 +82,7 @@
             }
 
             this.meshExporter.ModelDirectory = this.folder;
-            // var i = this.cacheObjectsCache.Indexes.FirstOrDefault(x => x.Identity == 424000);
-            // var cobject = this.cacheObjectsCache.CreateAndParse(i);
-
+   
             // let's try combining them :)
             var meshModels = new List<Mesh>();
             foreach (var mesh in this.meshEntities)
@@ -85,9 +91,7 @@
                 {
                     continue;
                 }
-                var cindex =
-                    MeshFactory.Instance.Indexes.FirstOrDefault(c => c.Identity == mesh.CacheIndexIdentity);
-
+                var cindex = MeshFactory.Instance.Indexes.FirstOrDefault(c => c.Identity == mesh.CacheIndexIdentity);
                 var m = MeshFactory.Instance.Create(cindex);
 
                 foreach (var rt in mesh.Textures)
@@ -120,8 +124,19 @@
                     //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
 
                     var mesh = this.meshEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
+                    if (mesh == null)
+                    {
+                        logger?.Warn(
+                            $"Unable to find a mesh for the listed meshId {re.MeshId} for RenderId {re.CacheIndexIdentity}");
+                    }
                     // context.MeshEntities.Include(t => t.Textures).FirstOrDefault(i => i.CacheIndexIdentity == re.MeshId);
                     var texture = context.Textures.FirstOrDefault(i => i.TextureId == re.TextureId);
+
+                    if (texture == null)
+                    {
+                        logger?.Warn(
+                            $"Unable to find a texture for the listed textureId {re.TextureId} for RenderId {re.CacheIndexIdentity}");
+                    }
 
                     if (mesh != null && texture != null && !mesh.Textures.Contains(texture))
                     {

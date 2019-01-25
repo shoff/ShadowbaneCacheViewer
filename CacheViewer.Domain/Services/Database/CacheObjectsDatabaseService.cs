@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Threading.Tasks;
     using Data;
     using Data.Entities;
@@ -23,6 +24,7 @@
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         public event EventHandler<CacheObjectSaveEventArgs> CacheObjectsSaved;
+        private bool saveInvalidData;
 
         private static readonly Dictionary<ObjectType, string> objectTypeDicitonary = new Dictionary<ObjectType, string>
         {
@@ -38,12 +40,17 @@
             {ObjectType.Particle, "Particle"}
         };
 
+        public CacheObjectsDatabaseService()
+        {
+            var configValue = ConfigurationManager.AppSettings["SaveInvalidData"];
+            bool.TryParse(configValue, out this.saveInvalidData);
+        }
 
         public async Task SaveToDatabaseAsync(int validRange)
         {
-            List<CacheObjectEntity> cacheObjectEntities = new List<CacheObjectEntity>();
-            List<RenderAndOffset> renderAndOffsets = new List<RenderAndOffset>();
-            List<InvalidValue> invalidValues = new List<InvalidValue>();
+            var cacheObjectEntities = new List<CacheObjectEntity>();
+            var renderAndOffsets = new List<RenderAndOffset>();
+            var invalidValues = new List<InvalidValue>();
             var save = 0;
             foreach (var i in this.cacheObjectFactory.Indexes)
             {
@@ -90,7 +97,7 @@
                                 };
                                 renderAndOffsets.Add(rao);
                             }
-                            else
+                            else if(this.saveInvalidData)
                             {
                                 var iv = new InvalidValue
                                 {
@@ -121,8 +128,14 @@
             using (var context = new SbCacheViewerContext())
             {
                 context.ExecuteCommand("delete from dbo.InvalidValues");
+                context.ExecuteCommand("DBCC CHECKIDENT ('InvalidValues', RESEED, 1)");
+
                 context.ExecuteCommand("delete from dbo.RenderAndOffsets");
+                context.ExecuteCommand("DBCC CHECKIDENT ('RenderAndOffsets', RESEED, 1)");
+
                 context.ExecuteCommand("delete from dbo.CacheObjectEntities");
+                context.ExecuteCommand("DBCC CHECKIDENT ('CacheObjectEntities', RESEED, 1)");
+
                 await context.BulkInsertAsync(invalidValues);
                 await context.BulkInsertAsync(cacheObjectEntities);
                 await context.BulkInsertAsync(renderAndOffsets);

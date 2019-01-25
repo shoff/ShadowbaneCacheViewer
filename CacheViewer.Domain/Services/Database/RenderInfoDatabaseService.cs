@@ -22,13 +22,13 @@
 
         public async Task SaveToDatabaseAsync()
         {
-            List<RenderEntity> entities = new List<RenderEntity>();
+            var entities = new List<RenderEntity>();
 
             var save = 0;
             foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
             {
                 save++;
-                // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
+                // read the data from the render cache file.
                 var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
                 var entity = new RenderEntity
                 {
@@ -42,10 +42,21 @@
                     JointName = render.JointName,
                     MeshId = render.MeshId,
                     Order = render.Order,
-                    Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
+                    Position = $"{render.Position.X:0.###}-{render.Position.Y:0.###}-{render.Position.Z:0.###}",
                     TextureId = render.TextureId,
                     UncompressedSize = (int)render.CacheIndex.UnCompressedSize
                 };
+
+                if (entity.HasMesh && entity.MeshId == 0)
+                {
+                    entity.InvalidData = true;
+                }
+
+                if (entity.HasTexture && entity.TextureId == 0)
+                {
+                    entity.InvalidData = true;
+                }
+
                 entities.Add(entity);
 
                 if (save == 20)
@@ -62,6 +73,8 @@
             using (var context = new SbCacheViewerContext())
             {
                 context.ExecuteCommand("delete from dbo.RenderEntities");
+                context.ExecuteCommand("DBCC CHECKIDENT ('RenderEntities', RESEED, 1)");
+
                 await context.BulkInsertAsync(entities);
             }
         }

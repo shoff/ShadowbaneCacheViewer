@@ -7,7 +7,7 @@
 
     public class RenderRawService
     {
-        private Render renderArchive;
+        private readonly Render renderArchive;
 
         public RenderRawService()
         {

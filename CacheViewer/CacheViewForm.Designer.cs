@@ -80,7 +80,7 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(12, 31);
+            this.SaveButton.Location = new System.Drawing.Point(35, 29);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(146, 34);
             this.SaveButton.TabIndex = 3;
@@ -113,21 +113,21 @@
             // showEntityFormToolStripMenuItem
             // 
             this.showEntityFormToolStripMenuItem.Name = "showEntityFormToolStripMenuItem";
-            this.showEntityFormToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.showEntityFormToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showEntityFormToolStripMenuItem.Text = "Show Entity Form";
             this.showEntityFormToolStripMenuItem.Click += new System.EventHandler(this.ShowEntityFormToolStripMenuItemClick);
             // 
             // logViewerToolStripMenuItem
             // 
             this.logViewerToolStripMenuItem.Name = "logViewerToolStripMenuItem";
-            this.logViewerToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.logViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logViewerToolStripMenuItem.Text = "Log Viewer";
             this.logViewerToolStripMenuItem.Click += new System.EventHandler(this.LogViewerToolStripMenuItemClick);
             // 
             // databaseFormToolStripMenuItem
             // 
             this.databaseFormToolStripMenuItem.Name = "databaseFormToolStripMenuItem";
-            this.databaseFormToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.databaseFormToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.databaseFormToolStripMenuItem.Text = "Database Form";
             this.databaseFormToolStripMenuItem.Click += new System.EventHandler(this.DatabaseFormToolStripMenuItemClick);
             // 
@@ -148,7 +148,7 @@
             // 
             // CacheSaveButton
             // 
-            this.CacheSaveButton.Location = new System.Drawing.Point(257, 47);
+            this.CacheSaveButton.Location = new System.Drawing.Point(25, 147);
             this.CacheSaveButton.Name = "CacheSaveButton";
             this.CacheSaveButton.Size = new System.Drawing.Size(164, 35);
             this.CacheSaveButton.TabIndex = 18;
@@ -199,25 +199,22 @@
             // 
             // SaveToObjGroupBox
             // 
+            this.SaveToObjGroupBox.Controls.Add(this.CacheSaveButton);
             this.SaveToObjGroupBox.Controls.Add(this.SaveTypeRadioButton1);
             this.SaveToObjGroupBox.Controls.Add(this.SaveTypeRadioButton2);
             this.SaveToObjGroupBox.Controls.Add(this.SaveButton);
-            this.SaveToObjGroupBox.Location = new System.Drawing.Point(257, 162);
+            this.SaveToObjGroupBox.Location = new System.Drawing.Point(267, 47);
             this.SaveToObjGroupBox.Name = "SaveToObjGroupBox";
-            this.SaveToObjGroupBox.Size = new System.Drawing.Size(164, 145);
+            this.SaveToObjGroupBox.Size = new System.Drawing.Size(228, 197);
             this.SaveToObjGroupBox.TabIndex = 23;
             this.SaveToObjGroupBox.TabStop = false;
             this.SaveToObjGroupBox.Text = "3d export";
-            // 
-            // folderBrowserDialog1
-            // 
             // 
             // CacheViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 650);
-            this.Controls.Add(this.CacheSaveButton);
             this.Controls.Add(this.SaveToObjGroupBox);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.TotalCacheLabel);

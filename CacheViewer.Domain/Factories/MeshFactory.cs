@@ -14,7 +14,6 @@
     public class MeshFactory : IModelFactory
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-
         private static MeshArchive meshArchive;
 
         private MeshFactory()
@@ -27,7 +26,7 @@
             await meshArchive.SaveToFileAsync(index, path);
         }
 
-        public static MeshFactory Instance => new MeshFactory();
+        public static MeshFactory Instance { get; } = new MeshFactory();
 
         public CacheIndex[] Indexes => meshArchive.CacheIndices.ToArray();
 

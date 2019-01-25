@@ -27,6 +27,7 @@
                 int count = 0;
 
                 var renderOffsets = (from r in context.RenderAndOffsets select r).ToList();
+
                 var cacheObjects = (from c in context.CacheObjectEntities select c).ToList();
 
                 // fuck am I doing lol I need to go to bed

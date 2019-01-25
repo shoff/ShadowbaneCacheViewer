@@ -119,7 +119,7 @@ namespace CacheViewer
             this.RenderLabel.SetText($"Count: {e.Count}");
         }
 
-        private async  void AssociateRenderButton_Click(object sender, EventArgs e)
+        private async void AssociateRenderButton_Click(object sender, EventArgs e)
         {
             await Task.Run(async () =>
             {
@@ -161,7 +161,7 @@ namespace CacheViewer
             this.CreateElvenChurchButton.SetEnabled(true);
             this.RangerBlindButton.SetEnabled(true);
         }
-        
+
         private void UpdateAssociateTexturesLabel(object sender, TextureMeshEventArgs e)
         {
             this.AssociateTexturesLabel.SetText($"Count: {e.Count}");
@@ -263,11 +263,16 @@ namespace CacheViewer
         private async void SaveRawButton_Click(object sender, EventArgs e)
         {
             var rawService = new CObjectsRawService();
-
+            rawService.RawCobjectsSaved += this.UpdatedRawLabel;
             await rawService.SaveCObjectsToDbAsync();
-
+            rawService.RawCobjectsSaved -= this.UpdatedRawLabel;
+            this.RawCobjectLabel.SetText("Raw cobjects saved to database");
         }
 
+        private void UpdatedRawLabel(object sender, RawCobjectEventArgs e)
+        {
+            this.RawCobjectLabel.SetText($"Count: {e.Count}");
+        }
         private async void SaveRendersButton_Click(object sender, EventArgs e)
         {
             var renderService = new RenderRawService();

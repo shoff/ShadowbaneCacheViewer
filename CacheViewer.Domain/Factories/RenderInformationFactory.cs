@@ -90,8 +90,7 @@
                 reader.ReadUInt16();
 
                 // not all render info objects have a date time!
-                DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
+                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 long seconds = reader.ReadInt32();
                 if (seconds > 0)
                 {
@@ -101,10 +100,8 @@
                 if (!renderInfo.HasJoint)
                 {
                     logger?.Warn("This is not a \'join\' type render info we don\'t know how to handle this type yet.");
-                    //return renderInfo;
                 }
 
-                //Debug.Assert(reader.BaseStream.Position == 10);
                 renderInfo.B11 = reader.ReadByte();
 
                 // let's play with the first 35 bytes

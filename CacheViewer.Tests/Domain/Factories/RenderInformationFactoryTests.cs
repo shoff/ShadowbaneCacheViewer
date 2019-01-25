@@ -4,8 +4,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
+    using Data;
+    using Data.Entities;
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Factories;
     using Newtonsoft.Json;

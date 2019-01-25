@@ -38,9 +38,10 @@
         public bool HasTexture { get; set; }
 
         public int? TextureId { get; set; }
-
+        
         public string Notes { get; set; }
 
+        public bool InvalidData { get; set; }
         public virtual ICollection<RenderChild> Children { get; set; } = new List<RenderChild>();
     }
 }

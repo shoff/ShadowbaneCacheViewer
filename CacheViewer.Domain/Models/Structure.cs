@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using Archive;
-    using CacheViewer.Data;
+    using Data;
     using Data.Entities;
     using Exportable;
     using Extensions;
@@ -34,6 +31,8 @@
         public uint NumberOfMeshes { get; private set; }
         private uint renderId;
 
+        private const int ValidRange = 5000;
+
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
 
 
@@ -50,14 +49,32 @@
             string name, int offset, ArraySegment<byte> data, int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
+            logger?.Debug($"Creating new Structure with id {cacheIndex.Identity}");
         }
 
+        private bool ValidRenderId(int id)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            if (!RenderInformationFactory.Instance.IsValidRenderId(id))
+            {
+                return false;
+            }
+
+            int range = id > this.CacheIndex.Identity ?
+                Math.Abs(id - this.CacheIndex.Identity) :
+                Math.Abs(this.CacheIndex.Identity - id);
+
+            return range <= ValidRange;
+        }
 
         /// <summary>Parses the specified buffer.</summary>
         /// <param name="data">The buffer.</param>
         public override void Parse(ArraySegment<byte> data)
         {
-
             // I don't believe that CursorOffset + name is correct 
             //var ptr = this.CursorOffset; // this should be 37 + this.name.length * 2
             //Debug.Assert(ptr == 37 + (this.Name.Length * 2));
@@ -70,8 +87,10 @@
                 using (var reader = data.CreateBinaryReaderUtf32())
                 {
                     reader.BaseStream.Position = ptr;
+                    this.renderId = reader.ReadUInt32();
 
-                    while (this.renderId == 0 && reader.BaseStream.Position + 1 <= reader.BaseStream.Length)
+                    while (!ValidRenderId((int)this.renderId) && 
+                        reader.BaseStream.Position + 1 <= reader.BaseStream.Length)
                     {
                         this.renderId = reader.ReadUInt32();
                         if (this.renderId == 0)
@@ -79,7 +98,21 @@
                             this.BytesOfZeroData++;
                             reader.BaseStream.Position -= 3; // go back 3 bytes and try to read again.
                         }
-                        else if (!RenderInformationFactory.Instance.IsValidRenderId((int) this.renderId))
+                        else if (RenderInformationFactory.Instance.IsValidRenderId((int) this.renderId))
+                        {
+                            int range = (int) renderId > this.CacheIndex.Identity ?
+                                Math.Abs((int) renderId - this.CacheIndex.Identity) :
+                                Math.Abs(this.CacheIndex.Identity - (int) renderId);
+
+                            if (range > ValidRange)
+                            {
+                                // almost certainly NOT a valid id
+                                // invalid
+                                this.renderId = 0;
+                                reader.BaseStream.Position -= 3; // go back 3 bytes and try to read again.
+                            }
+                        }
+                        else 
                         {
                             // invalid
                             this.renderId = 0;
@@ -87,7 +120,7 @@
                         }
                     }
 
-                    // TODO we should just pre-cache the render ids rather than reloading this like this. oh well perfect world and all that
+                    // TODO we should just pre-cache the render ids rather than reloading
                     if (this.renderId == 0) // || !renderFactory.RenderArchive.Contains((int)this.renderId))
                     {
                         throw new ApplicationException($"No render Id found for {this.Name}");

@@ -1,16 +1,23 @@
 ﻿namespace CacheViewer.Domain.Services.Database
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Archive;
     using Data;
+    using EntityFramework.BulkInsert.Extensions;
     using Extensions;
     using CObjectArchive = CacheViewer.Domain.Archive.CObjects;
 
+    public class RawCobjectEventArgs : EventArgs
+    {
+        public int Count { get; set; }
+    }
+
     public class CObjectsRawService
     {
-        private CObjectArchive cobjects;
-
+        private readonly CObjectArchive cobjects;
+        public event EventHandler<RawCobjectEventArgs> RawCobjectsSaved;
         public CObjectsRawService()
         {
             this.cobjects = new CObjectArchive();
@@ -20,25 +27,43 @@
 
         public async Task SaveCObjectsToDbAsync()
         {
-            using (var context = new SbCacheViewerContext())
+            int count = 0;
+            List<Data.Entities.CObjects> entities = new List<Data.Entities.CObjects>();
+
+            foreach (var c in cobjects.CacheIndices)
             {
-                foreach (var c in cobjects.CacheIndices)
+                entities.Add(
+                    new Data.Entities.CObjects
+                    {
+                        CompressedSize = (int)c.CompressedSize,
+                        Data = this.GetData(c),
+                        Identity = (int)c.Identity,
+                        Junk1 = (int)c.Junk1,
+                        Name = c.Name,
+                        Offset = (int)c.Offset,
+                        UnCompressedSize = (int)c.UnCompressedSize,
+                        Order = c.Order
+                    });
+                count++;
+
+                if (count == 20)
                 {
-                    context.CObjects.Add(
-                        new Data.Entities.CObjects
-                        {
-                            CompressedSize = (int) c.CompressedSize,
-                            Data = this.GetData(c),
-                            Identity = (int) c.Identity,
-                            Junk1 = (int) c.Junk1,
-                            Name = c.Name,
-                            Offset = (int) c.Offset,
-                            UnCompressedSize = (int) c.UnCompressedSize,
-                            Order = c.Order
-                        });
-                  await  context.SaveChangesAsync();
+                    count = 0;
+                    var eventArgs = new RawCobjectEventArgs
+                    {
+                        Count = entities.Count
+                    };
+                    this.RawCobjectsSaved.Raise(this, eventArgs);
                 }
             }
+
+            using (var context = new SbCacheViewerContext())
+            {
+                context.ExecuteCommand("delete from dbo.CObjects");
+                context.ExecuteCommand("DBCC CHECKIDENT ('CObjects', RESEED, 1)");
+                await context.BulkInsertAsync(entities);
+            }
+
         }
 
         public byte[] GetData(CacheIndex index)
@@ -47,7 +72,7 @@
             {
                 // ReSharper disable ExceptionNotDocumented
                 reader.BaseStream.Position = index.Offset;
-                var buffer = reader.ReadBytes((int) index.CompressedSize);
+                var buffer = reader.ReadBytes((int)index.CompressedSize);
                 var item1 = this.cobjects.Unzip(index.UnCompressedSize, buffer);
                 return item1.Array;
             }

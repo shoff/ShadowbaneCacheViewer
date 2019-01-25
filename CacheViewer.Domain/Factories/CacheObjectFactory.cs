@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,6 +16,8 @@
     public class CacheObjectFactory
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly CacheObjectFactory instance = new CacheObjectFactory();
+        private bool preCache; 
 
         private CacheObjectFactory()
         {
@@ -22,7 +25,10 @@
             var sw = new Stopwatch();
             sw.Start();
 #endif
-            this.CacheObjects = (CObjects) ArchiveFactory.Instance.Build(CacheFile.CObjects, true);
+
+            var preCacheData = ConfigurationManager.AppSettings["PreCacheData"];
+            bool.TryParse(preCacheData, out this.preCache);
+            this.CacheObjects = (CObjects) ArchiveFactory.Instance.Build(CacheFile.CObjects, this.preCache);
 
 #if DEBUG
             sw.Stop();
@@ -37,7 +43,7 @@
             return (from c in Indexes where c.Identity == id select c).FirstOrDefault();
         }
 
-        public static CacheObjectFactory Instance { get; } = new CacheObjectFactory();
+        public static CacheObjectFactory Instance { get; } = instance;
 
         public async Task SaveToFileAsync(CacheIndex index, string path)
         {
@@ -118,7 +124,6 @@
                 switch (flag)
                 {
                     case ObjectType.Simple:
-
                         var simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
                         simple.Parse(asset.Item1);
                         return simple;
@@ -171,6 +176,85 @@
             }
 
 
+            return null;
+        }
+
+        public ICacheObject CreateOnly(CacheIndex cacheIndex)
+        {
+            var asset = this.CacheObjects[cacheIndex.Identity];
+            int innerOffset;
+            int offset;
+            ObjectType flag;
+            string name;
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                // reader.skip(4); // ignore "TNLC" tag
+                // ReSharper disable once UnusedVariable
+                var tnlc = reader.ReadInt32();
+                // 4
+                flag = (ObjectType)reader.ReadInt32();
+
+                var nameLength = reader.ReadUInt32();
+                name = reader.ReadAsciiString(nameLength);
+
+                // why are we using this inner offset?
+                innerOffset = (int)reader.BaseStream.Position;
+
+                logger.Debug($"Creating cacheObject flag {flag}, name {name}, inner offset {innerOffset}");
+
+                // what are we doing with the offset here??
+                // so I think this must be the bug? 
+                offset = (int)reader.BaseStream.Position + 25;
+            }
+
+            try
+            {
+                // TODO this can be optimized by passing the reader to the parse method.
+                switch (flag)
+                {
+                    case ObjectType.Simple:
+                        var simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return simple;
+
+                    case ObjectType.Structure:
+                        var structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return structure;
+
+                    case ObjectType.Interactive:
+                        var interactive = new Interactive(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return interactive;
+
+                    case ObjectType.Equipment:
+                        var equipment = new Equipment(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return equipment;
+
+                    case ObjectType.Mobile:
+                        var mobile = new Mobile(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return mobile;
+
+                    case ObjectType.Deed:
+                        var deed = new DeedObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return deed;
+
+                    case ObjectType.Sun:
+                        return new Sun(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+
+                    case ObjectType.Warrant:
+                        var warrant = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                        return warrant;
+
+                    case ObjectType.Unknown:
+                        return new UnknownObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+
+                    case ObjectType.Particle:
+                        return new Particle(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
+                }
+            }
+            catch (Exception e)
+            {
+                logger?.Error(e, e.Message);
+                throw;
+            }
             return null;
         }
     }

@@ -15,16 +15,21 @@ int flag;
 int size;
 wchar_t name[size];  
 
-uchar someboolean; // always a 01 or 00
+char crap[25];
 
-float unknown; // 00 00 80 3F
+// Skip over this data that we currently have no interest in
+// ptr += 25;
 
-time_t lastUpdated;
-float unknownFloat1;
-float unknownFloat2;
-float unknownFloat3;
+//uchar someboolean; // always a 01 or 00
 
-int crap[11];
+//float unknown; // 00 00 80 3F
 
-int unk1; // 1  ?
-int unk2; // 4  ?
+//time_t lastUpdated;
+//float unknownFloat1;
+//float unknownFloat2;
+//float unknownFloat3;
+
+//int crap[11];
+//
+//int unk1; // 1  ?
+//int unk2; // 4  ?
