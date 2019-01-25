@@ -1,4 +1,5 @@
-﻿namespace CacheViewer.Domain.Archive
+﻿// ReSharper disable InconsistentNaming
+namespace CacheViewer.Domain.Archive
 {
     using System;
     using System.Text;
@@ -27,6 +28,7 @@
         {
             var sb = new StringBuilder();
             sb.Append("CacheIndex Object\r\n");
+            sb.Append($"index {this.Index}\r\n");
             sb.AppendFormat("identity {0}\r\n", this.Identity);
             sb.AppendFormat("junk1 {0}\r\n", this.Junk1);
             sb.AppendFormat("offset {0}\r\n", this.Offset);

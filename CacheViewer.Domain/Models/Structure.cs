@@ -49,13 +49,15 @@
             string name, int offset, ArraySegment<byte> data, int innerOffset)
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
-            using (var context = new DataContext())
-            {
-                var re = (from c in context.CacheObjectEntities.Include(x => x.RenderAndOffsets)
-                    where c.CacheIndexIdentity == cacheIndex.Identity
-                    select c.CacheObjectEntityId).FirstOrDefault();
+            // Why was this being looked up?
+
+            //using (var context = new DataContext())
+            //{
+            //    var re = (from c in context.CacheObjectEntities.Include(x => x.RenderAndOffsets)
+            //        where c.CacheIndexIdentity == cacheIndex.Identity
+            //        select c.CacheObjectEntityId).FirstOrDefault();
                 
-            }
+            //}
         }
 
 

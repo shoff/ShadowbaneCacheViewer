@@ -86,9 +86,7 @@ namespace CacheViewer
                 {
                     try
                     {
-                        // this is not populating the cache array?
                         var cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
-
                         logger?.Debug($"Loaded cachObject {cacheObject.Name}");
 
                         string title = string.IsNullOrEmpty(cacheObject.Name) ?
