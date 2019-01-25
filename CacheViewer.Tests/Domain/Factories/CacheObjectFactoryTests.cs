@@ -75,11 +75,11 @@ namespace CacheViewer.Tests.Domain.Factories
             {ObjectType.Unknown, "Unknown"},
             {ObjectType.Particle, "Particle"}
         };
-        
+
         [Test, Explicit]
         public void Save_RenderInformation_To_Sql()
         {
-             RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
+            RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
             using (var context = new SbCacheViewerContext())
             {
@@ -202,7 +202,6 @@ namespace CacheViewer.Tests.Domain.Factories
             }
         }
 
-        //[TestCase(424000)]
         [TestCase(585000)]
         [TestCase(300)]
         [TestCase(380)]
@@ -332,59 +331,59 @@ namespace CacheViewer.Tests.Domain.Factories
                 var cacheIndex = this.cacheObjectFactory.FindById(cacheIndexId);
                 await this.cacheObjectFactory.SaveToFileAsync(cacheIndex, AppDomain.CurrentDomain.BaseDirectory + "\\CObjects");
 
-            //    var cobject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
+                var cobject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
 
-            //    var centity = (from c in context.CacheObjectEntities
-            //                   where c.CacheIndexIdentity == cacheIndexId
-            //                   select c).FirstOrDefault();
+                var centity = (from c in context.CacheObjectEntities
+                               where c.CacheIndexIdentity == cacheIndexId
+                               select c).FirstOrDefault();
 
-            //    if (centity == null)
-            //    {
-            //        centity = new CacheObjectEntity
-            //        {
-            //            CacheIndexIdentity = cobject.CacheIndex.Identity,
-            //            CompressedSize = (int)cobject.CacheIndex.CompressedSize,
-            //            FileOffset = (int)cobject.CacheIndex.Offset,
-            //            Name = cobject.Name,
-            //            ObjectType = cobject.Flag,
-            //            ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
-            //            UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
+                if (centity == null)
+                {
+                    centity = new CacheObjectEntity
+                    {
+                        CacheIndexIdentity = cobject.CacheIndex.Identity,
+                        CompressedSize = (int)cobject.CacheIndex.CompressedSize,
+                        FileOffset = (int)cobject.CacheIndex.Offset,
+                        Name = cobject.Name,
+                        ObjectType = cobject.Flag,
+                        ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
+                        UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
 
-            //        };
-            //        context.CacheObjectEntities.Add(centity);
-            //    }
+                    };
+                    context.CacheObjectEntities.Add(centity);
+                }
 
-            //    var structure = cobject;
-            //    using (var reader = structure.Data.CreateBinaryReaderUtf32())
-            //    {
-            //        reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
+                var structure = cobject;
+                using (var reader = structure.Data.CreateBinaryReaderUtf32())
+                {
+                    reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
 
-            //        while (reader.BaseStream.Position + 4 <= structure.Data.Count)
-            //        {
-            //            int renderId = reader.ReadInt32();
+                    while (reader.BaseStream.Position + 4 <= structure.Data.Count)
+                    {
+                        int renderId = reader.ReadInt32();
 
-            //            if (renderId == 0)
-            //            {
-            //                continue;
-            //            }
+                        if (renderId == 0)
+                        {
+                            continue;
+                        }
 
-            //            int range = renderId > centity.CacheIndexIdentity ?
-            //                Math.Abs(renderId - centity.CacheIndexIdentity) :
-            //                Math.Abs(centity.CacheIndexIdentity - renderId);
+                        int range = renderId > centity.CacheIndexIdentity ?
+                            Math.Abs(renderId - centity.CacheIndexIdentity) :
+                            Math.Abs(centity.CacheIndexIdentity - renderId);
 
-            //            if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
-            //            {
-            //                centity.RenderAndOffsets.Add(new RenderAndOffset
-            //                {
-            //                    RenderId = renderId,
-            //                    OffSet = reader.BaseStream.Position,
-            //                    CacheIndexId = cacheIndexId
-            //                });
-            //            }
-            //            reader.BaseStream.Position -= 3;
-            //        }
-            //    }
-            //    context.SaveChanges();
+                        if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
+                        {
+                            centity.RenderAndOffsets.Add(new RenderAndOffset
+                            {
+                                RenderId = renderId,
+                                OffSet = reader.BaseStream.Position,
+                                CacheIndexId = cacheIndexId
+                            });
+                        }
+                        reader.BaseStream.Position -= 3;
+                    }
+                }
+                context.SaveChanges();
             }
         }
 
