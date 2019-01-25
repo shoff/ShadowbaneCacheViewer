@@ -1,4 +1,5 @@
-﻿namespace CacheViewer.Domain.Geometry
+﻿// ReSharper disable InconsistentNaming
+namespace CacheViewer.Domain.Geometry
 {
     using System;
     using System.Globalization;
@@ -26,7 +27,7 @@
         public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
         /// <summary>Defines the size of the Vector3 struct in bytes.</summary>
         public static readonly int SizeInBytes = Marshal.SizeOf((object)new Vector3());
-        private static string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+        private static readonly string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
         /// <summary>The X component of the Vector3.</summary>
         public float X;
         /// <summary>The Y component of the Vector3.</summary>

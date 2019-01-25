@@ -43,7 +43,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.motion.CacheIndices)
             {
-                await this.motion.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\Motion\\");
+                await this.motion.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\Motion\\");
             }
         }
     }

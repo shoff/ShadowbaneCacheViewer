@@ -11,7 +11,7 @@ namespace CacheViewer.Tests.Domain.Models
     [TestFixture]
     public class InteractiveTests
     {
-        private CacheObjectsCache cacheObjectsCache;
+        private CacheObjectFactory cacheObjectFactory;
         private CObjects cobjects;
         private Render renderArchive;
 
@@ -21,7 +21,7 @@ namespace CacheViewer.Tests.Domain.Models
         {
             this.renderArchive = (Render)ArchiveFactory.Instance.Build(CacheFile.Render);
             this.cobjects = (CObjects)ArchiveFactory.Instance.Build(CacheFile.CObjects);
-            this.cacheObjectsCache = CacheObjectsCache.Instance;
+            this.cacheObjectFactory = CacheObjectFactory.Instance;
         }
 
         [Test]

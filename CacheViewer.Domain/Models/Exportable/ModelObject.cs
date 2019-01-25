@@ -1,13 +1,14 @@
 ﻿namespace CacheViewer.Domain.Models.Exportable
 {
     using System;
+    using System.Collections.Generic;
     using Archive;
     using CacheViewer.Data;
 
     public abstract class ModelObject : CacheObject
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ModelObject" /> class.
+        /// Initializes a new instance of the <see cref="ModelObject" /> class.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="flag">The flag.</param>
@@ -20,5 +21,7 @@
             : base(cacheIndex, flag, name, offset, data, innerOffset)
         {
         }
+
+        public ICollection<Exception> Errors { get; } = new List<Exception>();
     }
 }

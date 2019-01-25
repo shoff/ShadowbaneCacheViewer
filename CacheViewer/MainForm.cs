@@ -26,7 +26,7 @@
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         // Archives
-        private readonly CacheObjectsCache cacheObjectsCache;
+        private readonly CacheObjectFactory cacheObjectFactory;
         private readonly ListViewColumnSorter columnSorter;
         private readonly TreeNode deedNode = new TreeNode("Deeds");
         private readonly TreeNode equipmentNode = new TreeNode("Equipment");
@@ -57,7 +57,7 @@
                 logger.Debug("CacheViewForm created.");
                 //this.AcceptButton = this.CacheSaveButton;
                 this.textureFactory = TextureFactory.Instance;
-                this.cacheObjectsCache = CacheObjectsCache.Instance;
+                this.cacheObjectFactory = CacheObjectFactory.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshExporter = MeshOnlyObjExporter.Instance;
                 this.meshFactory = MeshFactory.Instance;
@@ -90,10 +90,10 @@
 
             await Task.Run(() =>
             {
-                foreach (var ci in this.cacheObjectsCache.Indexes)
+                foreach (var ci in this.cacheObjectFactory.Indexes)
                 {
                     // this is not populating the cache array?
-                    ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(ci);
+                    ICacheObject cacheObject = this.cacheObjectFactory.CreateAndParse(ci);
 
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
                         ci.Identity.ToString(CultureInfo.InvariantCulture) :

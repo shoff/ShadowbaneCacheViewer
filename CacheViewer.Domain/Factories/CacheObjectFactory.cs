@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
     using Archive;
     using Data;
@@ -11,12 +12,11 @@
     using Models.Exportable;
     using NLog;
 
-    // TODO this is poorly named, it should just be the CObjects Cache or something
-    public class CacheObjectsCache
+    public class CacheObjectFactory
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        private CacheObjectsCache()
+        private CacheObjectFactory()
         {
 #if DEBUG
             var sw = new Stopwatch();
@@ -30,13 +30,20 @@
 #endif
         }
 
-        /// <summary>Gets the indexes.</summary>
         public ICollection<CacheIndex> Indexes => this.CacheObjects.CacheIndices;
 
-        /// <summary>Gets the instance.</summary>
-        public static CacheObjectsCache Instance { get; } = new CacheObjectsCache();
+        public CacheIndex FindById(int id)
+        {
+            return (from c in Indexes where c.Identity == id select c).FirstOrDefault();
+        }
 
-        /// <summary>Gets the load time.</summary>
+        public static CacheObjectFactory Instance { get; } = new CacheObjectFactory();
+
+        public async Task SaveToFileAsync(CacheIndex index, string path)
+        {
+            await CacheObjects.SaveToFileAsync(index, path);
+        }
+
         public long LoadTime { get; }
 
         internal CObjects CacheObjects { get; }
@@ -98,7 +105,7 @@
                 // why are we using this inner offset?
                 innerOffset = (int) reader.BaseStream.Position;
 
-                logger.Debug($"Createing cacheObject flag {flag}, name {name}, inner offset {innerOffset}");
+                logger.Debug($"Creating cacheObject flag {flag}, name {name}, inner offset {innerOffset}");
 
                 // what are we doing with the offset here??
                 // so I think this must be the bug? 

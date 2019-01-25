@@ -9,15 +9,15 @@
     using Extensions;
     using Models;
     using NLog;
-    
+
     public class RenderInformationFactory
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly MeshFactory meshFactory;
-
+        private static readonly RenderInformationFactory instance = new RenderInformationFactory();
         private RenderInformationFactory()
         {
-            this.RenderArchive = (Render) ArchiveFactory.Instance.Build(CacheFile.Render);
+            this.RenderArchive = (Render)ArchiveFactory.Instance.Build(CacheFile.Render);
             this.meshFactory = MeshFactory.Instance;
             this.AppendModel = true;
         }
@@ -88,7 +88,7 @@
 
                 // previously I thought this was always a null short, but it is not always null actually.
                 reader.ReadUInt16();
-                
+
                 // not all render info objects have a date time!
                 DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -233,7 +233,7 @@
             {
                 if (this.AppendModel)
                 {
-                    if (this.IsValidId(renderInfo.MeshId))
+                    if (this.IsValidMeshId(renderInfo.MeshId))
                     {
                         renderInfo.Mesh = MeshFactory.Instance.Create(renderInfo.MeshId);
                     }
@@ -314,7 +314,12 @@
             return this.RenderArchive[identity];
         }
 
-        internal bool IsValidId(int id)
+        public bool IsValidRenderId(int id)
+        {
+            return (from c in this.Indexes where c.Identity == id select c).Any();
+        }
+
+        internal bool IsValidMeshId(int id)
         {
             // TODO this does not belong here. 
             if (id.TestRange(this.meshFactory.IdentityRange.Item1, this.meshFactory.IdentityRange.Item2))
@@ -325,11 +330,13 @@
             return false;
         }
 
-        public static RenderInformationFactory Instance { get; } = new RenderInformationFactory();
+        public static RenderInformationFactory Instance { get; } = instance;
 
         public CacheIndex[] Indexes => this.RenderArchive.CacheIndices.ToArray();
 
         internal Render RenderArchive { get; }
+
+        public int TotalRenderItems => this.RenderArchive.CacheIndices.Length;
 
         public bool AppendModel { get; set; }
 

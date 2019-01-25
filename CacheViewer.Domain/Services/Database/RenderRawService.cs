@@ -18,7 +18,7 @@
 
         public async Task SaveRendersToDbAsync()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 foreach (var c in this.renderArchive.CacheIndices)
                 {

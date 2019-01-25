@@ -221,7 +221,7 @@
             return this.CacheIndices.Any(x => x.Identity == id);
         }
 
-        public async Task SaveToFile(CacheIndex index, string path)
+        public async Task SaveToFileAsync(CacheIndex index, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -238,15 +238,13 @@
 
             if (asset.Item1.Count > 0)
             {
-                await FileWriter.Writer.WriteAsync(asset.Item1,
-                    Path.Combine(path,
-                        this.saveName + asset.CacheIndex1.Identity.ToString(CultureInfo.InvariantCulture) + ".cache"));
+                await FileWriter.Writer.WriteAsync(asset.Item1.ToArray(), path,
+                        $"{this.saveName}{asset.CacheIndex1.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
 
                 if (asset.Item2.Count > 0)
                 {
-                    await FileWriter.Writer.WriteAsync(asset.Item2, Path.Combine(path,
-                        this.saveName + asset.CacheIndex2.Identity.ToString(CultureInfo.InvariantCulture) +
-                        "_1.cache"));
+                    await FileWriter.Writer.WriteAsync(asset.Item2.ToArray(), path,
+                        $"{this.saveName}{asset.CacheIndex2.Identity.ToString(CultureInfo.InvariantCulture)}_1.cache");
                 }
             }
         }

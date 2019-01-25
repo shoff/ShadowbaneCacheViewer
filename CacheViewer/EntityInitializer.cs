@@ -17,8 +17,8 @@ namespace CacheViewer
 
     public partial class EntityInitializer : Form
     {
-        private readonly DataContext dataContext;
-        private readonly CacheObjectsCache cacheObjectsCache;// = CacheObjectFactory.Instance;
+        private readonly SbCacheViewerContext sbCacheViewerContext;
+        private readonly CacheObjectFactory cacheObjectFactory;// = CacheObjectFactory.Instance;
         private readonly RenderInformationFactory renderInformationFactory;// = RenderFactory.Instance;
         private readonly MeshFactory meshFactory;// = MeshFactory.Instance;
         private readonly TextureFactory textureFactory;// = TextureFactory.Instance;
@@ -29,12 +29,12 @@ namespace CacheViewer
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
-                this.dataContext = new DataContext();
+                this.sbCacheViewerContext = new SbCacheViewerContext();
 
-                this.dataContext.Configuration.AutoDetectChangesEnabled = false;
-                this.dataContext.ValidateOnSave = false;
+                this.sbCacheViewerContext.Configuration.AutoDetectChangesEnabled = false;
+                this.sbCacheViewerContext.ValidateOnSave = false;
 
-                this.cacheObjectsCache = CacheObjectsCache.Instance;
+                this.cacheObjectFactory = CacheObjectFactory.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.meshFactory = MeshFactory.Instance;
                 this.textureFactory = TextureFactory.Instance;
@@ -69,13 +69,13 @@ namespace CacheViewer
                 RenderInformation ri = this.renderInformationFactory.Create(cacheIndex);
                 var re = BuildRenderEntity(ri);
 
-                this.dataContext.RenderEntities.Add(re);
+                this.sbCacheViewerContext.RenderEntities.Add(re);
 
                 if (ri.SharedId != null)
                 {
                     lastIdentity = cacheIndex.Identity;
                     var re1 = BuildRenderEntity(ri.SharedId);
-                    this.dataContext.RenderEntities.Add(re1);
+                    this.sbCacheViewerContext.RenderEntities.Add(re1);
                 }
 
                 this.SetMessage(this.RenderLabel, $"Processed RenderId {cacheIndex.Identity}");
@@ -83,18 +83,18 @@ namespace CacheViewer
                 {
                     this.SetMessage(this.TotalRenderLabel, $"Render Count: {count}");
 
-                    await this.dataContext.CommitAsync();
+                    await this.sbCacheViewerContext.CommitAsync();
                     i = 0;
                 }
             }
-            await this.dataContext.CommitAsync();
+            await this.sbCacheViewerContext.CommitAsync();
         }
 
         private const string Vertice = "v {0} {1} {2}\r\n";
         private const string Normal = "vn {0} {1} {2}\r\n";
         private const string Texture = "vt {0} {1}\r\n";
 
-        private void AddMeshEntities(DataContext context)
+        private void AddMeshEntities(SbCacheViewerContext context)
         {
             int i = 0;
 
@@ -246,15 +246,15 @@ namespace CacheViewer
 
         private async void CObjectsButtonClick(object sender, EventArgs e)
         {
-            foreach (var cacheIndex in this.cacheObjectsCache.Indexes)
+            foreach (var cacheIndex in this.cacheObjectFactory.Indexes)
             {
                 this.SetMessage(this.CurrentCObjectLabel,
                     string.Format("Now finding RenderIds for CObject at Index {0}",
                     cacheIndex.Identity));
 
-                ICacheObject cacheObject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
+                ICacheObject cacheObject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
 
-                this.dataContext.CacheObjectEntities.Add(new CacheObjectEntity
+                this.sbCacheViewerContext.CacheObjectEntities.Add(new CacheObjectEntity
                 {
                     CacheIndexIdentity = cacheIndex.Identity,
                     CompressedSize = (int)cacheIndex.CompressedSize,
@@ -276,7 +276,7 @@ namespace CacheViewer
                 //    await FindWhereTheRenderIdIsHiding(cacheObject);
                 //}
             }
-            await this.dataContext.CommitAsync();
+            await this.sbCacheViewerContext.CommitAsync();
         }
 
         private void EntityInitializerLoad(object sender, EventArgs e)

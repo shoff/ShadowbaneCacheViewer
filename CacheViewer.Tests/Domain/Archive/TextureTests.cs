@@ -41,7 +41,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.textures.CacheIndices)
             {
-                await this.textures.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\Texture\\");
+                await this.textures.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\Texture\\");
             }
         }
     }

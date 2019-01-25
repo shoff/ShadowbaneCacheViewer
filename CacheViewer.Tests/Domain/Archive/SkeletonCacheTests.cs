@@ -125,7 +125,7 @@ namespace CacheViewer.Tests.Domain.Archive
         {
             foreach (var item in this.skeletonCache.CacheIndices)
             {
-                await this.skeletonCache.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\Skeleton\\");
+                await this.skeletonCache.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\Skeleton\\");
             }
         }
     }

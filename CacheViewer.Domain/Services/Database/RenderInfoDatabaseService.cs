@@ -28,7 +28,7 @@
             foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
             {
                 save++;
-                // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                 var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
                 var entity = new RenderEntity
                 {
@@ -59,7 +59,7 @@
                 }
             }
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 context.ExecuteCommand("delete from dbo.RenderEntities");
                 await context.BulkInsertAsync(entities);

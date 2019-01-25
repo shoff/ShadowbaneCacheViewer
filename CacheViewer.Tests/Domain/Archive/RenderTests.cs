@@ -70,7 +70,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.render.CacheIndices)
             {
-               await this.render.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\Render\\");
+               await this.render.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\Render\\");
             }
         }
     }

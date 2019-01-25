@@ -70,7 +70,7 @@
                 };
                 entities.Add(entity);
             }
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 context.BulkInsert(entities);
             }

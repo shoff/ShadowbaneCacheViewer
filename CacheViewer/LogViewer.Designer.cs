@@ -16,7 +16,7 @@
             if (disposing && (components != null))
             {
                 this.logRepository.Dispose();
-                this.dataContext.Dispose();
+                this.sbCacheViewerContext.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);

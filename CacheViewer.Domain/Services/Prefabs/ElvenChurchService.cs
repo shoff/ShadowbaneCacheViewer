@@ -17,7 +17,7 @@
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
         private MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\ElvenChurch";
 
         public async Task SaveAllAsync()
@@ -30,7 +30,7 @@
 
             this.meshExporter = new MeshOnlyObjExporter();
             StringBuilder sb = new StringBuilder();
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
@@ -100,7 +100,7 @@
             }
         }
 
-        private async Task AssociateTexturesAsync(DataContext context)
+        private async Task AssociateTexturesAsync(SbCacheViewerContext context)
         {
 
             foreach (var re in this.renderEntities)

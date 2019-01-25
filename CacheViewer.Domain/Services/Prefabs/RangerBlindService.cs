@@ -21,7 +21,7 @@ namespace CacheViewer.Domain.Services.Prefabs
         private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
         // private readonly List<TextureEntity> texures = new List<TextureEntity>();
         private readonly MeshOnlyObjExporter meshExporter;
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         // private readonly List<Mesh> meshes = new List<Mesh>();
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\RangerBlind";
         //424005
@@ -45,7 +45,7 @@ namespace CacheViewer.Domain.Services.Prefabs
 
             this.meshExporter = new MeshOnlyObjExporter();
             StringBuilder sb = new StringBuilder();
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
@@ -134,7 +134,7 @@ namespace CacheViewer.Domain.Services.Prefabs
 
         private async Task AssociateTexturesAsync()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 foreach (var re in this.renderEntities)
                 {

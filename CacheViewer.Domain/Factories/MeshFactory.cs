@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
     using Archive;
     using Exceptions;
     using Extensions;
@@ -14,20 +15,25 @@
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        internal static MeshArchive MeshArchive { get; private set; }
+        private static MeshArchive meshArchive;
 
         private MeshFactory()
         {
-            MeshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
+            meshArchive = (MeshArchive) ArchiveFactory.Instance.Build(CacheFile.Mesh);
+        }
+
+        public async Task SaveToFile(CacheIndex index, string path)
+        {
+            await meshArchive.SaveToFileAsync(index, path);
         }
 
         public static MeshFactory Instance => new MeshFactory();
 
-        public CacheIndex[] Indexes => MeshArchive.CacheIndices.ToArray();
+        public CacheIndex[] Indexes => meshArchive.CacheIndices.ToArray();
 
-        public Tuple<int, int> IdentityRange => new Tuple<int, int>(MeshArchive.LowestId, MeshArchive.HighestId);
+        public Tuple<int, int> IdentityRange => new Tuple<int, int>(meshArchive.LowestId, meshArchive.HighestId);
 
-        public int[] IdentityArray => MeshArchive.IdentityArray;
+        public int[] IdentityArray => meshArchive.IdentityArray;
 
         public Mesh Create(CacheIndex cacheIndex)
         {
@@ -37,7 +43,7 @@
                 Id = cacheIndex.Identity
             };
 
-            var cacheAsset = MeshArchive[cacheIndex.Identity];
+            var cacheAsset = meshArchive[cacheIndex.Identity];
 
             using (var reader = cacheAsset.Item1.CreateBinaryReaderUtf32())
             {
@@ -89,7 +95,7 @@
                 // if they aren't dividable by 3 then something is borked.
                 if (mesh.NumberOfIndices > 0 && mesh.NumberOfIndices % 3 == 0)
                 {
-                    mesh.IndicesOffset = (ulong) mesh.IndicesOffset;
+                    mesh.IndicesOffset = mesh.IndicesOffset;
                     var dataLength = mesh.NumberOfIndices * 2;
 
                     if (reader.BaseStream.Position - dataLength < 0)
@@ -113,7 +119,7 @@
 
         public Mesh Create(int indexId)
         {
-            var cacheIndex = MeshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
+            var cacheIndex = meshArchive.CacheIndices.FirstOrDefault(x => x.Identity == indexId);
             if (cacheIndex.Identity > 0)
             {
                 return this.Create(cacheIndex);

@@ -18,7 +18,7 @@
             var renderEntities = new List<RenderEntity>();
             var meshEntities = new List<MeshEntity>();
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var indexes = await (
                     from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)

@@ -41,7 +41,7 @@ namespace CacheViewer.Tests.Domain.Archive
 
             foreach (var item in this.soundCache.CacheIndices)
             {
-                await this.soundCache.SaveToFile(item, AppDomain.CurrentDomain.BaseDirectory + "\\Sound\\");
+                await this.soundCache.SaveToFileAsync(item, AppDomain.CurrentDomain.BaseDirectory + "\\Sound\\");
             }
         }
     }

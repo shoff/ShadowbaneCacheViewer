@@ -5,49 +5,46 @@ namespace CacheViewer.Domain.Services
     using System.IO;
     using System.Threading.Tasks;
 
+
     public class FileWriter
     {
         public static FileWriter Writer { get; } = new FileWriter();
 
-        public async Task WriteAsync(ArraySegment<byte> data, string path, string filename)
+        public async Task WriteAsync(byte[] data, string folder, string filename)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            if (data.Length == 0)
+            {
+                throw new ArgumentException("Cannot write an empty collection", nameof(data));
+            }
+
             if (string.IsNullOrWhiteSpace(filename))
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(filename));
             }
 
-            await this.WriteAsync(data, $"{path}\\{filename}");
-        }
-
-        public async Task WriteAsync(ArraySegment<byte> data, string path)
-        {
-            if (data.Count == 0)
+            if (string.IsNullOrWhiteSpace(folder))
             {
-                throw new ArgumentException(DomainMessages.Cannot_Be_An_Empty_Collection, nameof(data));
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(folder));
             }
 
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
-            }
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            this.EnsureDirectory(folder);
             await Task.Run(() =>
             {
                 FileStream fs = null;
 
                 try
                 {
-                    fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+                    var file = $"{folder}\\{filename}";
+
+                    fs = new FileStream($"{folder}\\{filename}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
                     using (var writer = new BinaryWriter(fs))
                     {
-                        if (data.Array != null)
-                        {
-                            writer.Write(data.Array);
-                        }
+                        writer.Write(data);
                     }
                 }
                 finally
@@ -56,15 +53,45 @@ namespace CacheViewer.Domain.Services
                 }
             });
         }
-        
-        public void Write(ArraySegment<byte> data, string path)
+
+        public void Write(byte[] data, string folder, string filename)
         {
-            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            if (data.Length == 0)
+            {
+                throw new ArgumentException("Cannot write an empty collection", nameof(data));
+            }
+
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(filename));
+            }
+
+            if (string.IsNullOrWhiteSpace(folder))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(folder));
+            }
+
+            this.EnsureDirectory(folder);
+            using (var fs = new FileStream($"{folder}\\{filename}", FileMode.Create, FileAccess.Write))
             {
                 using (var writer = new BinaryWriter(fs))
                 {
-                    writer.Write(data.Array);
+                    writer.Write(data);
                 }
+            }
+        }
+
+        private void EnsureDirectory(string directory)
+        {
+            // TODO move to it's own object, this doesn't belong here.
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
             }
         }
     }

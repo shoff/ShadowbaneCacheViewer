@@ -27,7 +27,7 @@
 
             foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
             {
-                await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
             }
         }
 
@@ -42,7 +42,7 @@
 
             foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
             {
-                // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                 var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
                 var renderJson = JsonConvert.SerializeObject(render);
                 File.WriteAllText($"{folder}\\{this.renderInformationFactory.RenderArchive.Name}_{index.Identity}.json",
@@ -53,13 +53,13 @@
         [Test, Explicit]
         public void Save_To_Sql()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var save = 0;
                 foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
                 {
                     save++;
-                    // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                    // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                     var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
                     var entity = new RenderEntity
                     {
@@ -93,7 +93,7 @@
         [Test, Explicit]
         public void Discover_Render_Textures()
         {
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var textureIds = (from t in context.Textures
                     select t.TextureId).ToList();

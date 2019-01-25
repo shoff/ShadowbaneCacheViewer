@@ -21,20 +21,18 @@ namespace CacheViewer.Tests.Domain.Factories
     [TestFixture]
     public class CacheObjectFactoryTests
     {
-        // this breaks testing in isolation, but the alternative is to start passing this as an interface
-        // which would impact performance HUGELY so ...
-        private readonly CacheObjectsCache cacheObjectsCache = CacheObjectsCache.Instance;
+        private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
 
         [Test, Explicit]
         public async Task Temp_OutPut_All_To_Files()
         {
             var folder = CreateFolders();
 
-            foreach (var index in this.cacheObjectsCache.CacheObjects.CacheIndices)
+            foreach (var index in this.cacheObjectFactory.CacheObjects.CacheIndices)
             {
-                var cobject = this.cacheObjectsCache.Create(index);
+                var cobject = this.cacheObjectFactory.Create(index);
                 var saveFolder = this.GetFolderName(folder, cobject);
-                await this.cacheObjectsCache.CacheObjects.SaveToFile(index, saveFolder);
+                await this.cacheObjectFactory.CacheObjects.SaveToFileAsync(index, saveFolder);
             }
         }
 
@@ -43,9 +41,9 @@ namespace CacheViewer.Tests.Domain.Factories
         {
             var folder = CreateFolders();
 
-            foreach (var index in this.cacheObjectsCache.CacheObjects.CacheIndices)
+            foreach (var index in this.cacheObjectFactory.CacheObjects.CacheIndices)
             {
-                var cobject = this.cacheObjectsCache.Create(index);
+                var cobject = this.cacheObjectFactory.Create(index);
                 var cobjectJson = JsonConvert.SerializeObject(cobject);
                 string fileName = this.GetFileName(folder, cobject, index.Identity);
                 File.WriteAllText(fileName, cobjectJson);
@@ -54,17 +52,17 @@ namespace CacheViewer.Tests.Domain.Factories
 
         private string GetFolderName(string folder, ICacheObject cacheObject)
         {
-            return $"{folder}\\{objectTypeDicitonary[cacheObject.Flag]}";
+            return $"{folder}\\{objectTypeDictionary[cacheObject.Flag]}";
         }
 
         private string GetFileName(string folder, ICacheObject cobject, int indexIdentity)
         {
             var objectName = string.Join("_", $"{cobject.Name}".Split(Path.GetInvalidFileNameChars()));
-            return $"{folder}\\{objectTypeDicitonary[cobject.Flag]}\\{objectName}_{indexIdentity}.json";
-            // $"{folder}\\{objectTypeDicitonary[cobject.Flag]}\\{cobject.Name}_{indexIdentity}.json";
+            return $"{folder}\\{objectTypeDictionary[cobject.Flag]}\\{objectName}_{indexIdentity}.json";
+            // $"{folder}\\{objectTypeDictionary[cobject.Flag]}\\{cobject.Name}_{indexIdentity}.json";
         }
 
-        private static readonly Dictionary<ObjectType, string> objectTypeDicitonary = new Dictionary<ObjectType, string>
+        private static readonly Dictionary<ObjectType, string> objectTypeDictionary = new Dictionary<ObjectType, string>
         {
             {ObjectType.Sun, "Sun"},
             {ObjectType.Simple, "Simple"},
@@ -77,21 +75,19 @@ namespace CacheViewer.Tests.Domain.Factories
             {ObjectType.Unknown, "Unknown"},
             {ObjectType.Particle, "Particle"}
         };
-
-
-
+        
         [Test, Explicit]
         public void Save_RenderInformation_To_Sql()
         {
              RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var save = 0;
                 foreach (var index in renderInformationFactory.RenderArchive.CacheIndices)
                 {
                     save++;
-                    // await this.renderInformationFactory.RenderArchive.SaveToFile(index, folder);
+                    // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                     var render = renderInformationFactory.Create(index.Identity, index.Order, true);
                     var entity = new RenderEntity
                     {
@@ -130,18 +126,16 @@ namespace CacheViewer.Tests.Domain.Factories
             var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
             var totalCacheItems = 0;
 
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
                 var save = 0;
-                foreach (var i in this.cacheObjectsCache.Indexes)
+                foreach (var i in this.cacheObjectFactory.Indexes)
                 {
                     save++;
                     totalCacheItems++;
 
-                    var cobject = this.cacheObjectsCache.CreateAndParse(i);
+                    var cobject = this.cacheObjectFactory.CreateAndParse(i);
 
-                    //if (cobject.Flag == ObjectType.Structure)
-                    //{
                     var centity = (from c in context.CacheObjectEntities
                                    where c.CacheIndexIdentity == cobject.CacheIndex.Identity
                                    select c).AsNoTracking().FirstOrDefault();
@@ -155,7 +149,7 @@ namespace CacheViewer.Tests.Domain.Factories
                             FileOffset = (int)cobject.CacheIndex.Offset,
                             Name = cobject.Name,
                             ObjectType = cobject.Flag,
-                            ObjectTypeDescription = objectTypeDicitonary[cobject.Flag],
+                            ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
                             UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
 
                         };
@@ -208,85 +202,189 @@ namespace CacheViewer.Tests.Domain.Factories
             }
         }
 
+        //[TestCase(424000)]
+        [TestCase(585000)]
+        [TestCase(300)]
+        [TestCase(380)]
+        [TestCase(44000)]
+        [TestCase(64000)]
+        [TestCase(64014)]
+        [TestCase(64035)]
+        [TestCase(64072)]
+        [TestCase(64124)]
+        [TestCase(64148)]
+        [TestCase(64160)]
+        [TestCase(64500)]
+        [TestCase(64600)]
+        [TestCase(64700)]
+        [TestCase(64800)]
+        [TestCase(124000)]
+        [TestCase(124300)]
+        [TestCase(144000)]
+        [TestCase(144063)]
+        [TestCase(144109)]
+        [TestCase(144500)]
+        [TestCase(162014)]
+        [TestCase(162025)]
+        [TestCase(162035)]
+        [TestCase(402001)]
+        [TestCase(402004)]
+        [TestCase(402011)]
+        [TestCase(404016)]
+        [TestCase(404031)]
+        [TestCase(404048)]
+        [TestCase(422600)]
+        [TestCase(422700)]
+        [TestCase(423300)]
+        [TestCase(423400)]
+        [TestCase(423500)]
+        [TestCase(423600)]
         [TestCase(424000)]
-        public void Update_One_Cache_File_In_Sql(int cacheIndexId)
+        [TestCase(424082)]
+        [TestCase(424128)]
+        [TestCase(424180)]
+        [TestCase(424285)]
+        [TestCase(424367)]
+        [TestCase(424484)]
+        [TestCase(424554)]
+        [TestCase(424581)]
+        [TestCase(460126)]
+        [TestCase(460152)]
+        [TestCase(460173)]
+        [TestCase(460189)]
+        [TestCase(460314)]
+        [TestCase(460338)]
+        [TestCase(460374)]
+        [TestCase(460600)]
+        [TestCase(460610)]
+        [TestCase(460620)]
+        [TestCase(460700)]
+        [TestCase(460861)]
+        [TestCase(460886)]
+        [TestCase(460900)]
+        [TestCase(460999)]
+        [TestCase(461000)]
+        [TestCase(461800)]
+        [TestCase(461900)]
+        [TestCase(462000)]
+        [TestCase(462100)]
+        [TestCase(462200)]
+        [TestCase(462500)]
+        [TestCase(482128)]
+        [TestCase(482136)]
+        [TestCase(482144)]
+        [TestCase(484000)]
+        [TestCase(484016)]
+        [TestCase(484032)]
+        [TestCase(484100)]
+        [TestCase(484120)]
+        [TestCase(484140)]
+        [TestCase(484160)]
+        [TestCase(484180)]
+        [TestCase(484200)]
+        [TestCase(484220)]
+        [TestCase(484240)]
+        [TestCase(484260)]
+        [TestCase(484280)]
+        [TestCase(484300)]
+        [TestCase(484320)]
+        [TestCase(484500)]
+        [TestCase(564000)]
+        [TestCase(564100)]
+        [TestCase(564200)]
+        [TestCase(564300)]
+        [TestCase(564400)]
+        [TestCase(564500)]
+        [TestCase(564600)]
+        [TestCase(585000)]
+        [TestCase(585200)]
+        [TestCase(585400)]
+        [TestCase(585600)]
+        [TestCase(585800)]
+        [TestCase(586000)]
+        [TestCase(586400)]
+        [TestCase(586600)]
+        [TestCase(622670)]
+        [TestCase(622718)]
+        [TestCase(622770)]
+        [TestCase(804000)]
+        [TestCase(814000)]
+        [TestCase(1500000)]
+        [TestCase(1600500)]
+        [TestCase(1610000)]
+        [TestCase(1612900)]
+        [TestCase(5000400)]
+        [TestCase(5000700)]
+        [TestCase(5000800)]
+        [TestCase(5001100)]
+        [TestCase(5001500)]
+        [TestCase(5010000)]
+        [TestCase(5010100)]
+        [TestCase(5010200)]
+        [TestCase(5031000)]
+        [TestCase(5031200)]
+        [TestCase(5031400)]
+        [TestCase(5050000)]
+        public async Task Update_One_Cache_File_In_Sql(int cacheIndexId)
         {
-            //var sb = new StringBuilder();
-            //foreach (var index in this.cacheObjectsCache.Indexes)
-            //{
-            //    sb.AppendLine($"{index.Identity}");
-            //}
-
-            //var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
-            //File.WriteAllText($"{folder}\\AllRenderIds.txt", sb.ToString());
-            using (var context = new DataContext())
+            using (var context = new SbCacheViewerContext())
             {
-                CacheIndex cacheIndex = new CacheIndex();
-                foreach (var c in this.cacheObjectsCache.Indexes)
-                {
-                    cacheIndex = c;
+                var cacheIndex = this.cacheObjectFactory.FindById(cacheIndexId);
+                await this.cacheObjectFactory.SaveToFileAsync(cacheIndex, AppDomain.CurrentDomain.BaseDirectory + "\\CObjects");
 
-                    if (cacheIndex.Identity.ToString() == cacheIndexId.ToString())
-                    {
-                        break;
-                    }
-                }
- 
+            //    var cobject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
 
-                // cacheIndex = this.cacheObjectsCache.Indexes.FirstOrDefault(i => i.Identity == cacheIndexId);
-                var cobject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
+            //    var centity = (from c in context.CacheObjectEntities
+            //                   where c.CacheIndexIdentity == cacheIndexId
+            //                   select c).FirstOrDefault();
 
-                var centity = (from c in context.CacheObjectEntities
-                               where c.CacheIndexIdentity == cacheIndexId
-                               select c).FirstOrDefault();
+            //    if (centity == null)
+            //    {
+            //        centity = new CacheObjectEntity
+            //        {
+            //            CacheIndexIdentity = cobject.CacheIndex.Identity,
+            //            CompressedSize = (int)cobject.CacheIndex.CompressedSize,
+            //            FileOffset = (int)cobject.CacheIndex.Offset,
+            //            Name = cobject.Name,
+            //            ObjectType = cobject.Flag,
+            //            ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
+            //            UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
 
-                if (centity == null)
-                {
-                    centity = new CacheObjectEntity
-                    {
-                        CacheIndexIdentity = cobject.CacheIndex.Identity,
-                        CompressedSize = (int)cobject.CacheIndex.CompressedSize,
-                        FileOffset = (int)cobject.CacheIndex.Offset,
-                        Name = cobject.Name,
-                        ObjectType = cobject.Flag,
-                        ObjectTypeDescription = objectTypeDicitonary[cobject.Flag],
-                        UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
+            //        };
+            //        context.CacheObjectEntities.Add(centity);
+            //    }
 
-                    };
-                    context.CacheObjectEntities.Add(centity);
-                }
+            //    var structure = cobject;
+            //    using (var reader = structure.Data.CreateBinaryReaderUtf32())
+            //    {
+            //        reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
 
-                var structure = cobject;
-                using (var reader = structure.Data.CreateBinaryReaderUtf32())
-                {
-                    reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
+            //        while (reader.BaseStream.Position + 4 <= structure.Data.Count)
+            //        {
+            //            int renderId = reader.ReadInt32();
 
-                    while (reader.BaseStream.Position + 4 <= structure.Data.Count)
-                    {
-                        int renderId = reader.ReadInt32();
+            //            if (renderId == 0)
+            //            {
+            //                continue;
+            //            }
 
-                        if (renderId == 0)
-                        {
-                            continue;
-                        }
+            //            int range = renderId > centity.CacheIndexIdentity ?
+            //                Math.Abs(renderId - centity.CacheIndexIdentity) :
+            //                Math.Abs(centity.CacheIndexIdentity - renderId);
 
-                        int range = renderId > centity.CacheIndexIdentity ?
-                            Math.Abs(renderId - centity.CacheIndexIdentity) :
-                            Math.Abs(centity.CacheIndexIdentity - renderId);
-
-                        if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
-                        {
-                            centity.RenderAndOffsets.Add(new RenderAndOffset
-                            {
-                                RenderId = renderId,
-                                OffSet = reader.BaseStream.Position,
-                                CacheIndexId = cacheIndexId
-                            });
-                        }
-                        reader.BaseStream.Position -= 3;
-                    }
-                }
-                context.SaveChanges();
+            //            if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
+            //            {
+            //                centity.RenderAndOffsets.Add(new RenderAndOffset
+            //                {
+            //                    RenderId = renderId,
+            //                    OffSet = reader.BaseStream.Position,
+            //                    CacheIndexId = cacheIndexId
+            //                });
+            //            }
+            //            reader.BaseStream.Position -= 3;
+            //        }
+            //    }
+            //    context.SaveChanges();
             }
         }
 
@@ -319,9 +417,9 @@ namespace CacheViewer.Tests.Domain.Factories
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Name,RenderId,InventoryTextureId,Unknown,MapTex,NumberOfMeshes,UnParsedBytes");
-            foreach (var i in this.cacheObjectsCache.Indexes)
+            foreach (var i in this.cacheObjectFactory.Indexes)
             {
-                var cobject = this.cacheObjectsCache.CreateAndParse(i);
+                var cobject = this.cacheObjectFactory.CreateAndParse(i);
                 if (cobject.Flag == ObjectType.Structure)
                 {
                     Structure structure = (Structure)cobject;
@@ -335,24 +433,24 @@ namespace CacheViewer.Tests.Domain.Factories
         [Test]
         public void The_First_CacheIndex_Is_The_Sun()
         {
-            var cacheIndex = this.cacheObjectsCache.Indexes.FirstOrDefault();
-            var sun = this.cacheObjectsCache.CreateAndParse(cacheIndex);
+            var cacheIndex = this.cacheObjectFactory.Indexes.FirstOrDefault();
+            var sun = this.cacheObjectFactory.CreateAndParse(cacheIndex);
             Assert.AreEqual(ObjectType.Sun, sun.Flag);
         }
 
         [Test]
         public void Centaur_Concave_Tower_Parses_Correctly()
         {
-            var cacheIndex = this.cacheObjectsCache.CacheObjects[585000];
-            var centaurConcaveTower = this.cacheObjectsCache.CreateAndParse(cacheIndex.CacheIndex1);
+            var cacheIndex = this.cacheObjectFactory.CacheObjects[585000];
+            var centaurConcaveTower = this.cacheObjectFactory.CreateAndParse(cacheIndex.CacheIndex1);
             Assert.AreEqual(ObjectType.Structure, centaurConcaveTower.Flag);
         }
 
         [Test]
         public void BeastMan_Hut_Parses_Correctly()
         {
-            var cacheIndex = this.cacheObjectsCache.CacheObjects[484032];
-            var beastmanHut = this.cacheObjectsCache.CreateAndParse(cacheIndex.CacheIndex1);
+            var cacheIndex = this.cacheObjectFactory.CacheObjects[484032];
+            var beastmanHut = this.cacheObjectFactory.CreateAndParse(cacheIndex.CacheIndex1);
             Assert.AreEqual(ObjectType.Structure, beastmanHut.Flag);
         }
 
@@ -360,8 +458,8 @@ namespace CacheViewer.Tests.Domain.Factories
         [Test]
         public void Create_Simpler_Returns_A_Simple_CacheObject()
         {
-            var cacheIndex = this.cacheObjectsCache.Indexes.First(x => x.Identity == 103);
-            var cacheObject = this.cacheObjectsCache.CreateAndParse(cacheIndex);
+            var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.Identity == 103);
+            var cacheObject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
             Assert.AreEqual(ObjectType.Simple, cacheObject.Flag);
         }
 

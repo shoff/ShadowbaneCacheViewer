@@ -15,17 +15,17 @@ namespace CacheViewer
 
     public partial class LogViewer : Form
     {
-        private readonly DataContext dataContext;
+        private readonly SbCacheViewerContext sbCacheViewerContext;
         private readonly EntityRepository<Log, int> logRepository;
 
         public LogViewer()
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
-                this.dataContext = new DataContext();
-                this.dataContext.Configuration.AutoDetectChangesEnabled = false;
-                this.dataContext.ValidateOnSave = false;
-                this.logRepository = new EntityRepository<Log, int>(this.dataContext);
+                this.sbCacheViewerContext = new SbCacheViewerContext();
+                this.sbCacheViewerContext.Configuration.AutoDetectChangesEnabled = false;
+                this.sbCacheViewerContext.ValidateOnSave = false;
+                this.logRepository = new EntityRepository<Log, int>(this.sbCacheViewerContext);
             }
 
             InitializeComponent();
@@ -91,7 +91,7 @@ namespace CacheViewer
         {
             return await Task.Run(() =>
             {
-                IQueryable<Log> query = this.dataContext.SetEntity<Log>();
+                IQueryable<Log> query = this.sbCacheViewerContext.SetEntity<Log>();
 
                 if (predicate != null)
                 {
