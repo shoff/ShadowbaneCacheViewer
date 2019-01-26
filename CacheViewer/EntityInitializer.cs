@@ -163,8 +163,8 @@ namespace CacheViewer
                 Order = ri.Order,
                 Position = ri.Position.ToString(),
                 Scale = ri.Scale.ToString(),
-                TextureId = ri.TextureId,
-
+                // Textures = ri.Textures,
+                // TODO does not handle textures
                 UncompressedSize = (int)ri.CacheIndex.UnCompressedSize,
                 Children = ri.ChildRenderIdList.Map(x => new RenderChild
                 {

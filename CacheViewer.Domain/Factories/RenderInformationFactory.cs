@@ -83,6 +83,8 @@
 
             using (var reader = arraySegment.CreateBinaryReaderUtf32())
             {
+                // 1/25/2019 - this is NOT a bool 
+                // for instance render id 1856 has the following first four bytes 01 01 00 00 (257 uint)
                 // see if this has a joint
                 renderInfo.HasJoint = reader.ReadUInt32() == 1;
 
@@ -150,7 +152,6 @@
 
                 if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
                 {
-                    // TODO this is where it gets fucked. 
                     // object position ?
                     renderInfo.Position = reader.ReadToVector3();
                     renderInfo.LastOffset = reader.BaseStream.Position;
@@ -169,25 +170,27 @@
                     renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
-                // garbage vector 2 maybe?
-                if (reader.BaseStream.Position + 8 <= renderInfo.ByteCount)
+                if (reader.CanRead(4))
                 {
-                    renderInfo.LastOffset = reader.BaseStream.Position;
-                    renderInfo.TextureVector = reader.ReadToVector2();
+                    renderInfo.TextureCount = reader.ReadUInt32();
                 }
 
-                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+                if (reader.CanRead(8))
                 {
-                    reader.ReadInt32();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
+                    // seems to always be a 1 or 0
+                    reader.ReadUInt32();
+                    reader.ReadUInt32();
                 }
 
-                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+                for (int i = 0; i < renderInfo.TextureCount; i++)
                 {
-                    renderInfo.TextureId = reader.ReadInt32();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
+                    renderInfo.Textures[i] = (int) reader.ReadUInt32();
+                    if (reader.CanRead(34))
+                    {
+                        reader.BaseStream.Position += 34;
+                    }
                 }
-
+                
                 if (renderInfo.HasMesh)
                 {
                     renderInfo.ValidMeshFound = this.HandleMesh(renderInfo);
@@ -292,19 +295,19 @@
             }
         }
 
-        internal void HandleTexture(BinaryReader reader, ref RenderInformation renderInfo)
-        {
-            reader.BaseStream.Position += 12; // this seems to always be x:0 y:0 z:0 
-            renderInfo.TextureId = reader.ReadInt32();
+        //internal void HandleTexture(BinaryReader reader, ref RenderInformation renderInfo)
+        //{
+        //    reader.BaseStream.Position += 12; // this seems to always be x:0 y:0 z:0 
+        //    renderInfo.TextureId = reader.ReadInt32();
 
-            if (renderInfo.TextureId == 0)
-            {
-                renderInfo.Notes = "RenderId claimed to have a texture but the archive reports the id as 0!";
-                return;
-            }
+        //    if (renderInfo.TextureId == 0)
+        //    {
+        //        renderInfo.Notes = "RenderId claimed to have a texture but the archive reports the id as 0!";
+        //        return;
+        //    }
 
-            renderInfo.Texture = TextureFactory.Instance.Build(renderInfo.TextureId);
-        }
+        //    renderInfo.Texture = TextureFactory.Instance.Build(renderInfo.TextureId);
+        //}
 
         public CacheAsset GetById(int identity)
         {

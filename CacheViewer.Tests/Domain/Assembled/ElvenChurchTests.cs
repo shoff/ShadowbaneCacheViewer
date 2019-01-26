@@ -69,7 +69,7 @@
                 foreach (var r in this.renderEntities)
                 {
                     sb.AppendLine(
-                        $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: {r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
+                        $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: {r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, HasTexture: {r.HasTexture}, Textures: {r.TextureId}");
 
                     //var rt = (from x in context.RenderTextures
                     //          where x.RenderId == r.CacheIndexIdentity
@@ -92,7 +92,7 @@
                 //foreach (var text in this.renderTextures)
                 //{
                 //    var texture = (from t in context.Textures
-                //                   where t.TextureId == text.TextureId
+                //                   where t.Textures == text.Textures
                 //                   select t).FirstOrDefault();
 
                 //    this.texures.Add(texture);
@@ -110,7 +110,7 @@
                     if (re.HasMesh && re.MeshId > 0 && re.HasTexture && re.TextureId > 0)
                     {
                         // var rt = this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
-                        // var rte = context.RenderTextures.FirstOrDefault(i => i.RenderTextureId == rt.RenderTextureId && i.TextureId == re.TextureId);
+                        // var rte = context.RenderTextures.FirstOrDefault(i => i.RenderTextureId == rt.RenderTextureId && i.Textures == re.Textures);
                         //this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
                         //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
 
@@ -134,7 +134,7 @@
         {
 
             // only ones currently working correctly
-            //TextureEntityId TextureId   Width Height  Depth MeshEntity_MeshEntityId
+            //TextureEntityId Textures   Width Height  Depth MeshEntity_MeshEntityId
             //5410    424004  128 256 3   6629
             //5409    424003  256 256 3   6634
             //5413    424007  512 256 3   6643

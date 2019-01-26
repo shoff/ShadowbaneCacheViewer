@@ -16,10 +16,17 @@
     {
         private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
+        [TestCase(6501)]
+        public void RenderInfo_Parses_Correctly(int id)
+        {
+            var index = this.renderInformationFactory.GetById(id);
+            var render = this.renderInformationFactory.Create(index.CacheIndex1.Identity, index.CacheIndex1.Order, true);
+        }
+
         [Test, Explicit]
         public async Task Temp_OutPut_All_To_Files()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "RenderIndexes";
+            var folder = AppDomain.CurrentDomain.BaseDirectory + "\\RenderIndexes";
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -61,7 +68,8 @@
                     save++;
                     // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                     var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
-                    var entity = new RenderEntity
+                    var entity = context.RenderEntities.FirstOrDefault(r=> r.CacheIndexIdentity == render.CacheIndex.Identity) ??
+                        new RenderEntity
                     {
                         ByteCount = render.ByteCount,
                         CacheIndexIdentity = render.CacheIndex.Identity,
@@ -74,9 +82,22 @@
                         MeshId = render.MeshId,
                         Order = render.Order,
                         Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
-                        TextureId = render.TextureId,
+                        //Textures = render.Textures,
                         UncompressedSize = (int) render.CacheIndex.UnCompressedSize
                     };
+
+                    foreach (var texture in render.Textures)
+                    {
+                        if (entity.TextureEntities.All(t => t.TextureId != texture))
+                        {
+                            var textureEntity = context.Textures.FirstOrDefault(t => t.TextureId == texture);
+                            if (textureEntity != null)
+                            {
+                                entity.TextureEntities.Add(textureEntity);
+                            }
+                        }
+                    }
+
                     context.RenderEntities.Add(entity);
 
                     if (save == 1000)
@@ -190,7 +211,7 @@
         {
             var ci = this.renderInformationFactory.RenderArchive.CacheIndices.FirstOrDefault(i => i.Identity == 424060);
             var render = this.renderInformationFactory.Create(ci);
-            Assert.AreEqual(424003, render.TextureId);
+            Assert.AreEqual(424003, render.Textures);
         }
     }
 }

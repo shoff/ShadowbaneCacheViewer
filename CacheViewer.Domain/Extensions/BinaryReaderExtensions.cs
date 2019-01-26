@@ -14,9 +14,9 @@
         /// <param name="reader">The reader.</param>
         /// <param name="bytesToRead">The bytes to read.</param>
         /// <returns></returns>
-        public static bool HasEnoughBytesLeft(this BinaryReader reader, uint bytesToRead)
+        public static bool CanRead(this BinaryReader reader, uint bytesToRead)
         {
-            return reader.BaseStream.Position + bytesToRead < reader.BaseStream.Length;
+            return reader.BaseStream.Position + bytesToRead <= reader.BaseStream.Length;
         }
 
         /// <summary>

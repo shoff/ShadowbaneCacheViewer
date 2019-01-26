@@ -42,6 +42,8 @@
         public string Notes { get; set; }
 
         public bool InvalidData { get; set; }
-        public virtual ICollection<RenderChild> Children { get; set; } = new List<RenderChild>();
+
+        public virtual ICollection<TextureEntity> TextureEntities { get; set; } = new HashSet<TextureEntity>();
+        public virtual ICollection<RenderChild> Children { get; set; } = new HashSet<RenderChild>();
     }
 }

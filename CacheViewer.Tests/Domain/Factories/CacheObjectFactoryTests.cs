@@ -12,7 +12,6 @@ namespace CacheViewer.Tests.Domain.Factories
     using System.Threading.Tasks;
     using Data;
     using Data.Entities;
-    using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Models;
     using CacheViewer.Domain.Models.Exportable;
@@ -102,7 +101,8 @@ namespace CacheViewer.Tests.Domain.Factories
                         MeshId = render.MeshId,
                         Order = render.Order,
                         Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
-                        TextureId = render.TextureId,
+                        // Textures = render.Textures,
+                        // TODO doens't handle textures
                         UncompressedSize = (int)render.CacheIndex.UnCompressedSize
                     };
                     context.RenderEntities.Add(entity);

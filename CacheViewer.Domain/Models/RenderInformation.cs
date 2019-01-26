@@ -27,8 +27,9 @@
         public Vector3 Position { get; set; }
         public int RenderCount { get; set; }
         public CacheIndex[] ChildRenderIds { get; set; }
-        public int TextureId { get; set; }
+        public List<int> Textures { get; set; } = new List<int>();
         public bool HasTexture { get; set; }
+        public uint TextureCount { get; set; }
         [JsonIgnore]
         public Texture Texture { get; set; }
         [JsonIgnore]

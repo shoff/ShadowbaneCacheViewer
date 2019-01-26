@@ -37,25 +37,25 @@ string tVector2fRead( tVector2f &v ) {
 int renderType;
 ushort null_a;
 time_t created;
-char crap[25]<hidden=true>; 
+char crap[25]; 
 uint hasMesh;
-int null1<hidden=true>; 
+int null1; 
 
 // in code is HandleMesh()
-int meshId;
+int meshId <fgcolor=0xFFFFFF, bgcolor=0x9e379f>;
 ushort null1<hidden=true>;      // null short
 
 int jointNameSize;              // can be 0
-wchar_t name[jointNameSize];    // can be empty
+wchar_t name[jointNameSize] <name="Joint Name">;    // can be empty
 
 // unknown float
-tVector3f scale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
+tVector3f scale <fgcolor=0xFFFFFF, bgcolor=0xe86af0>;
 
 // no clue int
 uint unknown2;
 
 // texture scale?
-tVector3f position <fgcolor=cBlack, bgcolor=0xE2E4E5>;
+tVector3f position <fgcolor=0xFFFFFF, bgcolor=0x373854>;
 
 int childRenderCount;
 // TODO loop through children
@@ -67,6 +67,7 @@ byte hasTexture;
 // tVector2f textureScale <fgcolor=cBlack, bgcolor=0xE2E4E5>;
 // actually I think this is really texture count.
 uint textureCount;
+
 
 // weird junk 
 uint sixOne;
