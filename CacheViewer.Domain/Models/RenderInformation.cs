@@ -10,7 +10,7 @@
 
     public class RenderInformation
     {
-        public bool HasJoint { get; set; }
+        public bool KnownType { get; set; }
         public int ByteCount { get; set; }
         public int Order { get; set; }
         public bool HasMesh { get; set; }
@@ -46,10 +46,13 @@
         public byte B34 { get; set; }
         public byte B11 { get; set; }
         public long LastOffset { get; set; }
+        public long UnreadByteCount { get; set; }
+        public uint JointNameSize { get; set; }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
+            sb.Append(CacheIndex);
             sb.AppendFormat("MeshId: {0} ", this.MeshId.ToString(CultureInfo.InvariantCulture));
             sb.AppendFormat(" Joint name: {0}", this.JointName);
             sb.AppendFormat(" Notes: {0}", this.Notes);

@@ -1,0 +1,84 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+//--------------------------------------
+//--- 010 Editor v5.0.2 Binary Template
+//
+// File:        RenderInfoWithJointName.bt
+// Author:      shoff
+// Revision:    1   
+// Purpose:     Parse Render.cache files
+// Category:    Shadowbane
+//   History: 
+//   1     2018-06-13 shoff: Adding support for different render types
+//--------------------------------------
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
+// --------------------------------------------------
+int renderType;
+int renderType1;
+int unk; // 65536
+int crap[10];
+byte null_a;
+
+// unknown float
+tVector3f scale <fgcolor=0xFFFFFF, bgcolor=0xe86af0>;
+
+int crap1[6];
+byte null_b;
+
+// either a counter or a type enum
+int some_count;
+int crap2[3];
+int unk1;
+
+time_t some_time;
+
+int crap3[2];
+
+int other_id_count;
+
+int padd1[2];
+
+int id1;
+byte garb1[34];
+
+int id2;
+byte garb2[34];
+
+int id2;
+byte garb3[34];
+
+int id3;
+

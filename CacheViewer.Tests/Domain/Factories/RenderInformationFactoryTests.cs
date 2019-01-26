@@ -1,9 +1,12 @@
 ﻿namespace CacheViewer.Tests.Domain.Factories
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
+    using CacheViewer.Domain.Archive;
     using Data;
     using Data.Entities;
     using CacheViewer.Domain.Extensions;
@@ -16,11 +19,89 @@
     {
         private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
-        [TestCase(6501)]
-        public void RenderInfo_Parses_Correctly(int id)
+        [Test]
+        public void Figure_Out_First_Twelve_Bytes()
         {
-            var index = this.renderInformationFactory.GetById(id);
-            var render = this.renderInformationFactory.Create(index.CacheIndex1.Identity, index.CacheIndex1.Order, true);
+            var data = new List<(string, string, string, string)>();
+            data.Add(("IndexId", "Four bytes", "Eight bytes", "Twelve bytes"));
+            foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
+            {
+                var asset = renderInformationFactory.RenderArchive[index.Identity];
+
+                using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+                {
+                    var tuple = (index.Identity.ToString(),
+                        reader.ReadInt32().ToString(),
+                        reader.ReadInt32().ToString(),
+                        reader.ReadInt32().ToString());
+
+                    data.Add(tuple);
+                }
+            }
+
+            var file = AppDomain.CurrentDomain.BaseDirectory + "\\RenderIndexes\\first_twelvel.csv";
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var t in data)
+            {
+                sb.Append($"{t.Item1}, {t.Item2},{t.Item3}, {t.Item4}\r\n");
+            }
+
+            File.WriteAllText(file, sb.ToString());
+        }
+
+        [TestCase(1800)]
+        public void RenderInfo_Parses_Correctly(int identity)
+        {
+            var upperBounds = this.renderInformationFactory.RenderArchive.CacheIndices.Length;
+            var badIndices = new List<CacheIndex>();
+
+            //for (int i = 11; i < upperBounds; i++)
+            //{
+                //var id = this.renderInformationFactory.RenderArchive.CacheIndices[i].Identity;
+                //var index = this.renderInformationFactory.RenderArchive.CacheIndices[i];
+                var render = this.renderInformationFactory.Create(identity, 1, true);
+                try
+                {
+                    if (render.HasMesh)
+                    {
+                        Assert.True(render.ValidMeshFound);
+                    }
+
+                    if (render.KnownType)
+                    {
+                        if (render.JointNameSize > 0)
+                        {
+                            Assert.NotNull(render.JointName);
+                        }
+                    }
+                    else
+                    {
+                        badIndices.Add(index);
+                    }
+
+                    if (render.HasTexture)
+                    {
+                        Assert.True(render.TextureCount > 0);
+                        Assert.True(render.Textures.Count > 0);
+                    }
+                }
+                catch (AssertionException)
+                {
+                    Console.WriteLine(render);
+                    throw;
+                }
+            //}
+
+            //Console.WriteLine($"There are {badIndices.Count} unknown render types");
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var cache in badIndices)
+            //{
+            //    sb.Append(cache);
+            //}
+
+            //File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\RenderIndexes\\bad-indices.txt",
+            //    sb.ToString());
         }
 
         [Test, Explicit]
@@ -188,22 +269,6 @@
 
                 context.SaveChanges();
             }
-        }
-
-        [Test]
-        public void RenderArchive_Should_Have_Correct_Indeces_Count()
-        {
-            //for (int i = 0; i < this.renderInformationFactory.Indexes.Length; i++)
-            //{
-            //    try
-            //    {
-            //        var renderInfo = this.renderInformationFactory.CreateAndParse(this.renderInformationFactory.Indexes[i].Identity, addByteData: true);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e.Message);
-            //    }
-            //}
         }
 
         [Test]

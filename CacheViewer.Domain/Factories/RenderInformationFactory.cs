@@ -86,7 +86,7 @@
                 // 1/25/2019 - this is NOT a bool 
                 // for instance render id 1856 has the following first four bytes 01 01 00 00 (257 uint)
                 // see if this has a joint
-                renderInfo.HasJoint = reader.ReadUInt32() == 1;
+                renderInfo.KnownType = reader.ReadUInt32() == 1;
 
                 // previously I thought this was always a null short, but it is not always null actually.
                 reader.ReadUInt16();
@@ -99,9 +99,10 @@
                     renderInfo.CreateDate = epoch + TimeSpan.FromSeconds(seconds);
                 }
 
-                if (!renderInfo.HasJoint)
+                if (!renderInfo.KnownType)
                 {
                     logger?.Warn("This is not a \'join\' type render info we don\'t know how to handle this type yet.");
+                    return renderInfo;
                 }
 
                 renderInfo.B11 = reader.ReadByte();
@@ -128,11 +129,11 @@
                 renderInfo.LastOffset = reader.BaseStream.Position;
 
                 // testing
-                var jointNameSize = reader.ReadUInt32();
+                renderInfo.JointNameSize = reader.ReadUInt32();
 
-                if (reader.BaseStream.Position + jointNameSize <= renderInfo.ByteCount)
+                if (reader.BaseStream.Position + renderInfo.JointNameSize <= renderInfo.ByteCount)
                 {
-                    renderInfo.JointName = reader.ReadAsciiString(jointNameSize);
+                    renderInfo.JointName = reader.ReadAsciiString(renderInfo.JointNameSize);
                     renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
@@ -170,27 +171,33 @@
                     renderInfo.LastOffset = reader.BaseStream.Position;
                 }
 
-                if (reader.CanRead(4))
+                if (renderInfo.HasTexture)
                 {
-                    renderInfo.TextureCount = reader.ReadUInt32();
-                }
-
-                if (reader.CanRead(8))
-                {
-                    // seems to always be a 1 or 0
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-                }
-
-                for (int i = 0; i < renderInfo.TextureCount; i++)
-                {
-                    renderInfo.Textures[i] = (int) reader.ReadUInt32();
-                    if (reader.CanRead(34))
+                    if (reader.CanRead(4))
                     {
-                        reader.BaseStream.Position += 34;
+                        renderInfo.TextureCount = reader.ReadUInt32();
+                    }
+
+                    if (reader.CanRead(8))
+                    {
+                        // seems to always be a 1 or 0
+                        reader.ReadUInt32();
+                        reader.ReadUInt32();
+                    }
+
+                    for (int i = 0; i < renderInfo.TextureCount; i++)
+                    {
+                        //renderInfo.Textures[i] = (int) reader.ReadUInt32();
+                        var text = (int)reader.ReadInt32();
+                        renderInfo.Textures.Add(text);
+                        if (reader.CanRead(34))
+                        {
+                            reader.BaseStream.Position += 34;
+                        }
                     }
                 }
-                
+                renderInfo.UnreadByteCount = reader.BaseStream.Length - reader.BaseStream.Position;
+
                 if (renderInfo.HasMesh)
                 {
                     renderInfo.ValidMeshFound = this.HandleMesh(renderInfo);
