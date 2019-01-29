@@ -29,7 +29,23 @@
 
         public void Remove(IComponent component)
         {
-            throw new System.NotImplementedException();
+            var array = new IComponent[this.components.Count];
+            this.components.CopyTo(array, 0);
+            var array1 = new IComponent[this.components.Count - 1];
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (!array[i].Equals(component))
+                {
+                    array1[i] = array[i];
+                }
+            }
+
+            this.components = new ComponentCollection(array1);
+        }
+
+        public void RemoveAll()
+        {
+            this.components = new ComponentCollection(new IComponent[0]);
         }
 
         public ComponentCollection Components

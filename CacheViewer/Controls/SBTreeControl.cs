@@ -315,7 +315,7 @@ namespace CacheViewer.Controls
             {
                 // Console.WriteLine("You canceled!");
             }
-            else if (e.Error != null)
+            else if (e.Error != null || e.Result == null)
             {
                 this.selectedNode.ForeColor = Color.DarkRed;
                 logger?.Error("Worker exception: " + e.Error);

@@ -30,11 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.sbTreeControl1 = new CacheViewer.Controls.SBTreeControl();
             this.panelContainer1 = new CacheViewer.Code.PanelContainer();
             this.MessageLabel = new System.Windows.Forms.Label();
-            this.insideMover1 = new CacheViewer.Code.InsideMover(this.components);
             this.panelContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,10 +65,6 @@
             this.MessageLabel.TabIndex = 0;
             this.MessageLabel.Text = "label1";
             // 
-            // insideMover1
-            // 
-            this.insideMover1.ControlToMove = null;
-            // 
             // SBCacheObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -87,8 +81,6 @@
         }
 
         #endregion
-
-        private Code.InsideMover insideMover1;
         private Code.PanelContainer panelContainer1;
         private Controls.SBTreeControl sbTreeControl1;
         private System.Windows.Forms.Label MessageLabel;

@@ -80,8 +80,13 @@
             if (this.moving)
             {
                 var newLocation = this.parent.Location;
-                newLocation.X += e.X - this.lastMouseX;
-                newLocation.Y += e.Y - this.lastMouseY;
+
+                if (!this.parent.Parent.Bounds.IntersectsWith(this.parent.Bounds))
+                {
+                    newLocation.X += e.X - this.lastMouseX;
+                    newLocation.Y += e.Y - this.lastMouseY;
+                }
+
                 this.parent.Location = newLocation;
             }
         }
