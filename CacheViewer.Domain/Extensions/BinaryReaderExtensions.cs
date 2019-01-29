@@ -1,5 +1,6 @@
 ﻿namespace CacheViewer.Domain.Extensions
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
@@ -37,6 +38,19 @@
         public static Vector2 ReadToVector2(this BinaryReader reader)
         {
             return new Vector2(reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static DateTime? ReadToDate(this BinaryReader reader)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            long seconds = reader.ReadInt32();
+            DateTime? dateTime = null;
+            if (seconds > 0)
+            {
+                dateTime = epoch + TimeSpan.FromSeconds(seconds);
+            }
+
+            return dateTime;
         }
 
         /// <summary>

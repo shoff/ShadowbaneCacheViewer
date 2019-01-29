@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using CacheViewer.Domain.Archive;
     using Data;
     using Data.Entities;
     using CacheViewer.Domain.Extensions;
@@ -22,8 +21,8 @@
         [Test]
         public void Figure_Out_First_Twelve_Bytes()
         {
-            var data = new List<(string, string, string, string)>();
-            data.Add(("IndexId", "Four bytes", "Eight bytes", "Twelve bytes"));
+            var data = new List<(string, string, string, string, string)>();
+            data.Add(("Index", "Type", "Short", "Date", "No Clue"));
             foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)
             {
                 var asset = renderInformationFactory.RenderArchive[index.Identity];
@@ -32,7 +31,8 @@
                 {
                     var tuple = (index.Identity.ToString(),
                         reader.ReadInt32().ToString(),
-                        reader.ReadInt32().ToString(),
+                        reader.ReadUInt16().ToString(),
+                        reader.ReadToDate()?.ToString() ?? "Null bytes",
                         reader.ReadInt32().ToString());
 
                     data.Add(tuple);
@@ -44,7 +44,7 @@
             StringBuilder sb = new StringBuilder();
             foreach (var t in data)
             {
-                sb.Append($"{t.Item1}, {t.Item2},{t.Item3}, {t.Item4}\r\n");
+                sb.Append($"{t.Item1}, {t.Item2},{t.Item3}, {t.Item4}, {t.Item5}\r\n");
             }
 
             File.WriteAllText(file, sb.ToString());
@@ -54,7 +54,7 @@
         public void RenderInfo_Parses_Correctly(int identity)
         {
             var upperBounds = this.renderInformationFactory.RenderArchive.CacheIndices.Length;
-            var badIndices = new List<CacheIndex>();
+            //var badIndices = new List<CacheIndex>();
 
             //for (int i = 11; i < upperBounds; i++)
             //{
@@ -77,7 +77,7 @@
                     }
                     else
                     {
-                        badIndices.Add(index);
+                        //badIndices.Add(index);
                     }
 
                     if (render.HasTexture)

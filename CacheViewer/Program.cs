@@ -35,7 +35,8 @@
 
             if (mainForm == "CacheViewForm")
             {
-                Application.Run(new CacheViewForm());
+                Application.Run(new SBCacheObjectForm());
+                // Application.Run(new CacheViewForm());
             }
             else
             {

@@ -114,7 +114,7 @@
             // 
             this.showEntityFormToolStripMenuItem.Name = "showEntityFormToolStripMenuItem";
             this.showEntityFormToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showEntityFormToolStripMenuItem.Text = "Show Entity Form";
+            this.showEntityFormToolStripMenuItem.Text = "SB Object Form";
             this.showEntityFormToolStripMenuItem.Click += new System.EventHandler(this.ShowEntityFormToolStripMenuItemClick);
             // 
             // logViewerToolStripMenuItem

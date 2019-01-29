@@ -491,5 +491,18 @@
                 treeView.Refresh();
             }
         }
+
+        public static void SetForeColor(this TreeView treeView, TreeNode treeNode, Color color)
+        {
+            if (treeView.InvokeRequired)
+            {
+                treeView.BeginInvoke(new MethodInvoker(() => treeView.SetForeColor(treeNode, color)));
+            }
+            else
+            {
+                treeNode.ForeColor = color;
+                treeView.Refresh();
+            }
+        }
     }
 }

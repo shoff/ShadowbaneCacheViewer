@@ -36,24 +36,23 @@ namespace CacheViewer.Controls
             {
                 ListViewItem[] items = new ListViewItem[7];
                 items[0] =
-                   new ListViewItem(new[] { string.Format("name {0}", cacheObject.Name) });
+                   new ListViewItem(new[] {$"name {cacheObject.Name}"});
 
-                items[1] = new ListViewItem(new[] { string.Format("identity {0}", cacheObject.CacheIndex.Identity) });
+                items[1] = new ListViewItem(new[] {$"identity {cacheObject.CacheIndex.Identity}"});
 
                 items[2] =
-                    new ListViewItem(new[] { string.Format("offset {0}", cacheObject.CacheIndex.Offset) });
+                    new ListViewItem(new[] {$"offset {cacheObject.CacheIndex.Offset}"});
 
                 items[3] =
-                    new ListViewItem(new[] { string.Format("uncompressed {0}", cacheObject.CacheIndex.UnCompressedSize) });
+                    new ListViewItem(new[] {$"uncompressed {cacheObject.CacheIndex.UnCompressedSize}"});
 
                 items[4] =
-                    new ListViewItem(new[] { string.Format("compressed {0}", cacheObject.CacheIndex.CompressedSize) });
+                    new ListViewItem(new[] {$"compressed {cacheObject.CacheIndex.CompressedSize}"});
 
                 items[5] =
-                    new ListViewItem(new[]{string.Format("render id {0}",
-                        cacheObject.RenderId.ToString(CultureInfo.InvariantCulture))});
+                    new ListViewItem(new[]{$"render id {cacheObject.RenderId.ToString(CultureInfo.InvariantCulture)}"});
                 items[6] =
-                    new ListViewItem(new[] { string.Format("object type {0}", cacheObject.Flag) });
+                    new ListViewItem(new[] {$"object type {cacheObject.Flag}"});
 
                 this.SetRenderItem(this.CacheIndexListView, items);
             });

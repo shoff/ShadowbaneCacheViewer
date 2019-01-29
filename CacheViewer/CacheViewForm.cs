@@ -174,17 +174,15 @@ namespace CacheViewer
             this.SaveButton.Enabled = false;
             this.CacheSaveButton.Enabled = false;
             ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-            //await this.CacheIndexListView.Display(item);
 
             try
             {
                 await Task.Run(async () =>
                 {
-                    StructureService service = new StructureService();
+                    var service = new StructureService();
                     await service.SaveAllAsync(item.Name.Replace(" ", ""), item.Name, item.Flag, this.SaveTypeRadioButton1.Checked);
                 });
                 this.ResetSaveButtons();
-                // this.DisplayItemInformation(item);
             }
             catch (Exception ex)
             {
@@ -373,8 +371,8 @@ namespace CacheViewer
 
         private void ShowEntityFormToolStripMenuItemClick(object sender, EventArgs e)
         {
-            EntityInitializer ei = new EntityInitializer();
-            ei.Show();
+            SBCacheObjectForm sBCacheObjectForm = new SBCacheObjectForm();
+            sBCacheObjectForm.Show();
         }
 
         private void LogViewerToolStripMenuItemClick(object sender, EventArgs e)

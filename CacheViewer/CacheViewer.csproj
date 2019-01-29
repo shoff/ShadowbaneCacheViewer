@@ -105,6 +105,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -125,7 +126,19 @@
     <Compile Include="CacheViewForm.Designer.cs">
       <DependentUpon>CacheViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Code\InsideMover.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Code\ListVIewColumnSorter.cs" />
+    <Compile Include="Code\PanelContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CObjectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CObjectControl.Designer.cs">
+      <DependentUpon>CObjectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CObjectViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,6 +156,12 @@
     </Compile>
     <Compile Include="Controls\RenderInfoControl.Designer.cs">
       <DependentUpon>RenderInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SBTreeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SBTreeControl.Designer.cs">
+      <DependentUpon>SBTreeControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SoundControl.cs">
       <SubType>UserControl</SubType>
@@ -182,6 +201,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SBCacheObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SBCacheObjectForm.Designer.cs">
+      <DependentUpon>SBCacheObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TexturesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +222,12 @@
     <Content Include="triangle.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Controls\CObjectControl.resx">
+      <DependentUpon>CObjectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SBTreeControl.resx">
+      <DependentUpon>SBTreeControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SoundControl.resx">
       <DependentUpon>SoundControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -208,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SBCacheObjectForm.resx">
+      <DependentUpon>SBCacheObjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TexturesForm.resx">
       <DependentUpon>TexturesForm.cs</DependentUpon>
@@ -313,12 +347,6 @@
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.5.11</Version>
-    </PackageReference>
-    <PackageReference Include="OpenTK">
-      <Version>3.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="OpenTK.GLControl">
-      <Version>3.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

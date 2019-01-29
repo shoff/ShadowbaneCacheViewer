@@ -92,12 +92,13 @@
                 reader.ReadUInt16();
 
                 // not all render info objects have a date time!
-                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                long seconds = reader.ReadInt32();
-                if (seconds > 0)
-                {
-                    renderInfo.CreateDate = epoch + TimeSpan.FromSeconds(seconds);
-                }
+                //var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                //long seconds = reader.ReadInt32();
+                //if (seconds > 0)
+                //{
+                //    renderInfo.CreateDate = epoch + TimeSpan.FromSeconds(seconds);
+                //}
+                renderInfo.CreateDate = reader.ReadToDate();
 
                 if (!renderInfo.KnownType)
                 {
