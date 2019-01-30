@@ -24,20 +24,16 @@
         public bool BValue3 { get; private set; }
         public bool BWalkData { get; private set; }
         private uint counter;
-
         public uint InventoryTextureId { get; private set; }
         public uint IUnk { get; private set; }
         public uint MapTex { get; private set; }
         public uint NumberOfMeshes { get; private set; }
         private uint renderId;
-
         private const int ValidRange = 5000;
-
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
-
-
+        
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Structure" /> class.
+        /// Initializes a new instance of the <see cref="Structure" /> class.
         /// </summary>
         /// <param name="cacheIndex">Index of the cache.</param>
         /// <param name="flag">The flag.</param>
@@ -71,7 +67,9 @@
             return range <= ValidRange;
         }
 
-        /// <summary>Parses the specified buffer.</summary>
+        /// <summary>
+        /// Parses the specified buffer.
+        /// </summary>
         /// <param name="data">The buffer.</param>
         public override void Parse(ArraySegment<byte> data)
         {

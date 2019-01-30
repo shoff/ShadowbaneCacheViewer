@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheViewer.Data", "CacheVi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlExtensions", "ControlExtensions\ControlExtensions.csproj", "{D7E86899-D38E-4B8C-85AD-ED3DA7B64C41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheViewerA", "CacheViewerA\CacheViewerA.csproj", "{2FE3EFD5-142C-45A9-90B4-830453013201}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,22 @@ Global
 		{D7E86899-D38E-4B8C-85AD-ED3DA7B64C41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7E86899-D38E-4B8C-85AD-ED3DA7B64C41}.Release|x86.ActiveCfg = Release|Any CPU
 		{D7E86899-D38E-4B8C-85AD-ED3DA7B64C41}.Release|x86.Build.0 = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Debug|x86.Build.0 = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Documentation|x86.Build.0 = Debug|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Nsis|x86.ActiveCfg = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Nsis|x86.Build.0 = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Release|x86.ActiveCfg = Release|Any CPU
+		{2FE3EFD5-142C-45A9-90B4-830453013201}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

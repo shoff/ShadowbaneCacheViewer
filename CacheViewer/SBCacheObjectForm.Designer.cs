@@ -33,12 +33,15 @@
             this.sbTreeControl1 = new CacheViewer.Controls.SBTreeControl();
             this.panelContainer1 = new CacheViewer.Code.PanelContainer();
             this.MessageLabel = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // sbTreeControl1
             // 
-            this.sbTreeControl1.Location = new System.Drawing.Point(12, 12);
+            this.sbTreeControl1.Location = new System.Drawing.Point(12, 64);
             this.sbTreeControl1.MaximumSize = new System.Drawing.Size(268, 637);
             this.sbTreeControl1.MinimumSize = new System.Drawing.Size(268, 637);
             this.sbTreeControl1.Name = "sbTreeControl1";
@@ -50,9 +53,9 @@
             // 
             this.panelContainer1.Controls.Add(this.MessageLabel);
             this.panelContainer1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelContainer1.Location = new System.Drawing.Point(301, 0);
+            this.panelContainer1.Location = new System.Drawing.Point(301, 24);
             this.panelContainer1.Name = "panelContainer1";
-            this.panelContainer1.Size = new System.Drawing.Size(813, 681);
+            this.panelContainer1.Size = new System.Drawing.Size(813, 696);
             this.panelContainer1.TabIndex = 0;
             // 
             // MessageLabel
@@ -65,18 +68,40 @@
             this.MessageLabel.TabIndex = 0;
             this.MessageLabel.Text = "label1";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1114, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // databaseToolStripMenuItem
+            // 
+            this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.databaseToolStripMenuItem.Text = "&Database";
+            this.databaseToolStripMenuItem.Click += new System.EventHandler(this.databaseToolStripMenuItem_Click);
+            // 
             // SBCacheObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 681);
+            this.ClientSize = new System.Drawing.Size(1114, 720);
             this.Controls.Add(this.sbTreeControl1);
             this.Controls.Add(this.panelContainer1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "SBCacheObjectForm";
             this.Text = "SBCacheObjectForm";
             this.panelContainer1.ResumeLayout(false);
             this.panelContainer1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -84,5 +109,7 @@
         private Code.PanelContainer panelContainer1;
         private Controls.SBTreeControl sbTreeControl1;
         private System.Windows.Forms.Label MessageLabel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
     }
 }

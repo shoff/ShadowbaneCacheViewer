@@ -49,7 +49,14 @@ namespace CacheViewer
             var cobjectView = new CObjectControl(e.CacheObject);
             this.insideMover1.ControlToMove = cobjectView;
             this.panelContainer1.Add(cobjectView);
+            this.panelContainer1.Controls.Add(cobjectView);
             this.MessageLabel.SetText(message);
+        }
+
+        private void databaseToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            DatabaseForm dbf = new DatabaseForm();
+            dbf.Show();
         }
     }
 }

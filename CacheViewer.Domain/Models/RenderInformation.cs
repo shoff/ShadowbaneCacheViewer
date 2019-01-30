@@ -48,7 +48,7 @@
         public long LastOffset { get; set; }
         public long UnreadByteCount { get; set; }
         public uint JointNameSize { get; set; }
-
+        public DateTime? ModifiedDate { get; set; }
         public override string ToString()
         {
             var sb = new StringBuilder();

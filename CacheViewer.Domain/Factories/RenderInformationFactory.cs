@@ -1,7 +1,6 @@
 ﻿namespace CacheViewer.Domain.Factories
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using Archive;
@@ -9,6 +8,7 @@
     using Extensions;
     using Models;
     using NLog;
+    using Providers;
 
     public class RenderInformationFactory
     {
@@ -90,14 +90,6 @@
 
                 // previously I thought this was always a null short, but it is not always null actually.
                 reader.ReadUInt16();
-
-                // not all render info objects have a date time!
-                //var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                //long seconds = reader.ReadInt32();
-                //if (seconds > 0)
-                //{
-                //    renderInfo.CreateDate = epoch + TimeSpan.FromSeconds(seconds);
-                //}
                 renderInfo.CreateDate = reader.ReadToDate();
 
                 if (!renderInfo.KnownType)
@@ -107,96 +99,24 @@
                 }
 
                 renderInfo.B11 = reader.ReadByte();
-
-                // let's play with the first 35 bytes
-                //  this.PlayWithFirst35(buffer, renderId);
                 reader.BaseStream.Position = 34;
                 renderInfo.B34 = reader.ReadByte();
-
-                // offset 35
                 renderInfo.HasMesh = reader.ReadUInt32() == 1;
 
-                // offset 39
-                renderInfo.Unknown[0] = reader.ReadUInt32();
-                // Debug.Assert(nullInt == 0);
-
-                // TODO this seems to be correct up to this point.
-                // offset 43
-                renderInfo.MeshId = reader.ReadInt32();
-
-                // offset 45
-                renderInfo.Unknown[1] = reader.ReadUInt16();
-                //Debug.Assert(nullShort == 0);
-                renderInfo.LastOffset = reader.BaseStream.Position;
-
-                // testing
-                renderInfo.JointNameSize = reader.ReadUInt32();
-
-                if (reader.BaseStream.Position + renderInfo.JointNameSize <= renderInfo.ByteCount)
+                if (Array.IndexOf(RenderProviders.type2RenderInfos, renderInfo.CacheIndex.Identity) > -1)
                 {
-                    renderInfo.JointName = reader.ReadAsciiString(renderInfo.JointNameSize);
-                    renderInfo.LastOffset = reader.BaseStream.Position;
+                    reader.ParseTypeTwo(renderInfo);
                 }
 
-                if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
+                if (Array.IndexOf(RenderProviders.type3RenderInfos, renderInfo.CacheIndex.Identity) > -1)
                 {
-                    // object scale ?
-                    renderInfo.Scale = reader.ReadToVector3();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
+                    reader.ParseTypeThree(renderInfo);
+                }
+                else
+                {
+                    reader.ParseTypeOne(renderInfo);
                 }
 
-                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
-                {
-                    // I think this is probably a bool or flag of some kind
-                    renderInfo.Unknown[2] = reader.ReadUInt32();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
-                }
-
-                if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
-                {
-                    // object position ?
-                    renderInfo.Position = reader.ReadToVector3();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
-                }
-
-                if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
-                {
-                    renderInfo.ChildCount = reader.ReadInt32();
-                    renderInfo.LastOffset = reader.BaseStream.Position;
-                }
-
-                if (reader.BaseStream.Position + 1 <= renderInfo.ByteCount)
-                {
-                    var ht = reader.ReadByte();
-                    renderInfo.HasTexture = ht == 1;
-                    renderInfo.LastOffset = reader.BaseStream.Position;
-                }
-
-                if (renderInfo.HasTexture)
-                {
-                    if (reader.CanRead(4))
-                    {
-                        renderInfo.TextureCount = reader.ReadUInt32();
-                    }
-
-                    if (reader.CanRead(8))
-                    {
-                        // seems to always be a 1 or 0
-                        reader.ReadUInt32();
-                        reader.ReadUInt32();
-                    }
-
-                    for (int i = 0; i < renderInfo.TextureCount; i++)
-                    {
-                        //renderInfo.Textures[i] = (int) reader.ReadUInt32();
-                        var text = (int)reader.ReadInt32();
-                        renderInfo.Textures.Add(text);
-                        if (reader.CanRead(34))
-                        {
-                            reader.BaseStream.Position += 34;
-                        }
-                    }
-                }
                 renderInfo.UnreadByteCount = reader.BaseStream.Length - reader.BaseStream.Position;
 
                 if (renderInfo.HasMesh)

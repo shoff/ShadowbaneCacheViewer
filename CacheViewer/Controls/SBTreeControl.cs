@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace CacheViewer.Controls
+﻿namespace CacheViewer.Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows.Forms;
     using System.Drawing;
     using System.Globalization;
     using System.Threading.Tasks;

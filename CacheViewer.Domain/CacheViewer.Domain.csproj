@@ -162,6 +162,7 @@
     <Compile Include="Factories\CacheObjectFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\PixelData.cs" />
+    <Compile Include="Factories\Providers\RenderProviders.cs" />
     <Compile Include="Factories\RenderInformationFactory.cs" />
     <Compile Include="Factories\TextureFactory.cs" />
     <Compile Include="Geometry\MathHelper.cs" />
