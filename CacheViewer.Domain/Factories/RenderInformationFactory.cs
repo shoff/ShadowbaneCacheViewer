@@ -83,32 +83,12 @@
 
             using (var reader = arraySegment.CreateBinaryReaderUtf32())
             {
-                // 1/25/2019 - this is NOT a bool 
-                // for instance render id 1856 has the following first four bytes 01 01 00 00 (257 uint)
-                // see if this has a joint
-                renderInfo.KnownType = reader.ReadUInt32() == 1;
-
-                // previously I thought this was always a null short, but it is not always null actually.
-                reader.ReadUInt16();
-                renderInfo.CreateDate = reader.ReadToDate();
-
-                if (!renderInfo.KnownType)
-                {
-                    logger?.Warn("This is not a \'join\' type render info we don\'t know how to handle this type yet.");
-                    return renderInfo;
-                }
-
-                renderInfo.B11 = reader.ReadByte();
-                reader.BaseStream.Position = 34;
-                renderInfo.B34 = reader.ReadByte();
-                renderInfo.HasMesh = reader.ReadUInt32() == 1;
 
                 if (Array.IndexOf(RenderProviders.type2RenderInfos, renderInfo.CacheIndex.Identity) > -1)
                 {
                     reader.ParseTypeTwo(renderInfo);
                 }
-
-                if (Array.IndexOf(RenderProviders.type3RenderInfos, renderInfo.CacheIndex.Identity) > -1)
+                else if (Array.IndexOf(RenderProviders.type3RenderInfos, renderInfo.CacheIndex.Identity) > -1)
                 {
                     reader.ParseTypeThree(renderInfo);
                 }

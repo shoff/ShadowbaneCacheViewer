@@ -10,6 +10,8 @@
     using Data.Entities;
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Factories;
+    using CacheViewer.Domain.Factories.Providers;
+    using CacheViewer.Domain.Models;
     using Newtonsoft.Json;
     using NUnit.Framework;
 
@@ -17,6 +19,17 @@
     public class RenderInformationFactoryTests
     {
         private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
+
+        [Test]
+        public void Figuring_Out_541()
+        {
+            var asset = renderInformationFactory.RenderArchive[541];
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                RenderInformation ri = new RenderInformation();
+                reader.Parse541(ri);
+            }
+        }
 
         [Test]
         public void Figure_Out_First_Twelve_Bytes()
@@ -50,58 +63,50 @@
             File.WriteAllText(file, sb.ToString());
         }
 
-        [TestCase(1800)]
-        public void RenderInfo_Parses_Correctly(int identity)
+        [Test]
+        public void All_Type_Twos_Parse_Correctly()
         {
-            var upperBounds = this.renderInformationFactory.RenderArchive.CacheIndices.Length;
-            //var badIndices = new List<CacheIndex>();
+            foreach (var index in RenderProviders.type2RenderInfos)
+            {
+                var render = this.renderInformationFactory.Create(index, 0, true);
+                Assert.AreEqual(render.TextureCount, render.Textures.Count);
+            }
+        }
 
-            //for (int i = 11; i < upperBounds; i++)
-            //{
-                //var id = this.renderInformationFactory.RenderArchive.CacheIndices[i].Identity;
-                //var index = this.renderInformationFactory.RenderArchive.CacheIndices[i];
-                var render = this.renderInformationFactory.Create(identity, 1, true);
-                try
+        [Test]
+        public void All_Type_Threes_Parse_Correctly()
+        {
+            foreach (var index in RenderProviders.type3RenderInfos)
+            {
+                var render = this.renderInformationFactory.Create(index, 0, true);
+
+                if (index == 510)
                 {
-                    if (render.HasMesh)
-                    {
-                        Assert.True(render.ValidMeshFound);
-                    }
-
-                    if (render.KnownType)
-                    {
-                        if (render.JointNameSize > 0)
-                        {
-                            Assert.NotNull(render.JointName);
-                        }
-                    }
-                    else
-                    {
-                        //badIndices.Add(index);
-                    }
-
-                    if (render.HasTexture)
-                    {
-                        Assert.True(render.TextureCount > 0);
-                        Assert.True(render.Textures.Count > 0);
-                    }
+                    Assert.AreEqual(510, render.MeshId);
                 }
-                catch (AssertionException)
+                Assert.AreEqual(render.TextureCount, render.Textures.Count);
+            }
+        }
+
+        [Test]
+        public void RenderInfo_Parses_Correctly()
+        {
+            foreach (var index in this.renderInformationFactory.Indexes)
+            {
+                var render = this.renderInformationFactory.Create(index.Identity, 0, true);
+
+                if (render.JointNameSize > 0)
                 {
-                    Console.WriteLine(render);
-                    throw;
+                    Assert.True(render.JointName.Length > 0);
                 }
-            //}
 
-            //Console.WriteLine($"There are {badIndices.Count} unknown render types");
-            //StringBuilder sb = new StringBuilder();
-            //foreach (var cache in badIndices)
-            //{
-            //    sb.Append(cache);
-            //}
+                if (render.JointNameSize > 0)
+                {
+                    Assert.AreEqual(render.JointNameSize, render.JointName.Length);
+                }
 
-            //File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\RenderIndexes\\bad-indices.txt",
-            //    sb.ToString());
+                Assert.AreEqual(render.TextureCount, render.Textures.Count);      
+            }
         }
 
         [Test, Explicit]
@@ -149,23 +154,23 @@
                     save++;
                     // await this.renderInformationFactory.RenderArchive.SaveToFileAsync(index, folder);
                     var render = this.renderInformationFactory.Create(index.Identity, index.Order, true);
-                    var entity = context.RenderEntities.FirstOrDefault(r=> r.CacheIndexIdentity == render.CacheIndex.Identity) ??
+                    var entity = context.RenderEntities.FirstOrDefault(r => r.CacheIndexIdentity == render.CacheIndex.Identity) ??
                         new RenderEntity
-                    {
-                        ByteCount = render.ByteCount,
-                        CacheIndexIdentity = render.CacheIndex.Identity,
-                        CompressedSize = (int) render.CacheIndex.CompressedSize,
-                        FileOffset = (int) render.CacheIndex.Offset,
-                        HasMesh = render.HasMesh,
-                        HasTexture = render.HasTexture,
-                        RenderCount = render.ChildCount,
-                        JointName = render.JointName,
-                        MeshId = render.MeshId,
-                        Order = render.Order,
-                        Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
-                        //Textures = render.Textures,
-                        UncompressedSize = (int) render.CacheIndex.UnCompressedSize
-                    };
+                        {
+                            ByteCount = render.ByteCount,
+                            CacheIndexIdentity = render.CacheIndex.Identity,
+                            CompressedSize = (int)render.CacheIndex.CompressedSize,
+                            FileOffset = (int)render.CacheIndex.Offset,
+                            HasMesh = render.HasMesh,
+                            HasTexture = render.HasTexture,
+                            RenderCount = render.ChildCount,
+                            JointName = render.JointName,
+                            MeshId = render.MeshId,
+                            Order = render.Order,
+                            Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
+                            //Textures = render.Textures,
+                            UncompressedSize = (int)render.CacheIndex.UnCompressedSize
+                        };
 
                     foreach (var texture in render.Textures)
                     {
@@ -198,7 +203,7 @@
             using (var context = new SbCacheViewerContext())
             {
                 var textureIds = (from t in context.Textures
-                    select t.TextureId).ToList();
+                                  select t.TextureId).ToList();
 
                 var save = 0;
                 foreach (var index in this.renderInformationFactory.RenderArchive.CacheIndices)

@@ -1,7 +1,6 @@
 ﻿namespace CacheViewer.Domain.Factories.Providers
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using Extensions;
     using Models;
@@ -32,7 +31,8 @@
             1324305, 1324312, 1324312, 1324312, 1324508, 1325066, 1325290, 1325489, 1326092,
             1326739, 1327283, 1327304, 1327504, 1327704, 1612200, 5001100, 5030130, 5030270,
             5030350, 5030360, 5030390, 5030410, 5030440, 5030450, 5030630, 5060111, 5060537,
-            5060911, 7000260, 77000100
+            5060911, 7000260, 77000100, 50223, 62006, 62019, 142002, 142008, 142011, 142018,
+            142024, 162000, 242001, 402000
         };
 
         internal static int[] type3RenderInfos =
@@ -40,16 +40,154 @@
             510, 520, 535, 541, 542, 543
         };
 
+        public static void Parse541(this BinaryReader reader, RenderInformation renderInfo)
+        {
+            reader.BaseStream.Position = 0;
+            //int renderType;
+            int renderType = reader.ReadInt32();
+            //ushort renderType1;
+            ushort renderType1 = reader.ReadUInt16();
+            //time_t unk;
+            var unk = reader.ReadToDate();
+            //uint renderType2;
+            uint renderType2 = reader.ReadUInt32();
+            //uint null1;
+            uint null1 = reader.ReadUInt32();
+
+            //uint some_counter_or_bool;
+            uint some_counter_or_bool = reader.ReadUInt32();
+
+            //uint null2; // padding
+            uint null2 = reader.ReadUInt32();
+
+            //uint null3; // padding
+            uint null3 = reader.ReadUInt32();
+
+            //uint null4; // padding
+            uint null4 = reader.ReadUInt32();
+
+            //byte somebool;
+            byte somebool = reader.ReadByte();
+
+            //uint possibly_has_mesh_bool;
+            uint possibly_has_mesh_bool = reader.ReadUInt32();
+
+            //uint null5; // padding
+            uint null5 = reader.ReadUInt32();
+
+            //uint meshid;
+            uint meshid = reader.ReadUInt32();
+
+            ushort null21 = reader.ReadUInt16();
+
+            //ushort null1<hidden= true >;      // null short
+            //int jointNameSize;              // can be 0
+            //wchar_t name[jointNameSize] < name = "Joint Name" >;
+
+            //reader.BaseStream.Position = 0;
+            //reader.ReadInt32(); // 4
+            //reader.ReadInt16(); // 6 
+            //reader.ReadInt32(); // 10
+
+            //reader.ReadInt32();
+            //reader.ReadInt32();
+            //reader.ReadInt32();
+            //reader.ReadInt32();
+            //reader.ReadInt32();
+            //reader.ReadInt32(); // 34
+
+            //reader.ReadByte(); // 35
+
+            //renderInfo.HasMesh = reader.ReadUInt32() == 1; // 39
+
+            //// null
+            //reader.ReadUInt32(); // 43
+            //renderInfo.MeshId = reader.ReadInt32(); // 47
+
+            //renderInfo.JointNameSize = reader.ReadUInt32(); // should be 0 // 51
+
+            //// Debug.Assert(renderInfo.JointNameSize == 0);
+            //if (renderInfo.JointNameSize > 0)
+            //{
+            //    throw new ApplicationException($"{renderInfo.CacheIndex.Identity} should not have a joint name!");
+            //}
+
+            //reader.ReadBytes(2);
+            reader.BaseStream.Position = 53;
+
+            var x = reader.ReadSingle();
+            var y = reader.ReadSingle();
+            var z = reader.ReadSingle();
+            renderInfo.Scale = new Geometry.Vector3(x, y, z);
+            // renderInfo.Scale = reader.ReadToVector3();
+            uint[] crap =
+            {
+                reader.ReadUInt32(),
+                reader.ReadUInt32(),
+                reader.ReadUInt32(),
+                reader.ReadUInt32(),
+                reader.ReadUInt32(),
+                reader.ReadUInt32()
+            };
+            reader.ReadByte();
+            uint someCounter = reader.ReadUInt32();
+            for (int i = 0; i < someCounter; i++)
+            {
+                reader.ReadUInt32();
+            }
+
+            reader.ReadUInt32();
+            renderInfo.ModifiedDate = reader.ReadToDate();
+            // more crap
+            reader.ReadUInt32();
+            reader.ReadUInt32();
+
+            renderInfo.TextureCount = reader.ReadUInt32();
+            // more crap
+            reader.ReadUInt32();
+            reader.ReadUInt32();
+
+            for (int i = 0; i < renderInfo.TextureCount; i++)
+            {
+                renderInfo.Textures.Add(reader.ReadInt32());
+                if (reader.CanRead(34))
+                {
+                    reader.ReadBytes(34);
+                }
+            }
+        }
+        
         public static void ParseTypeThree(this BinaryReader reader, RenderInformation renderInfo)
         {
+            reader.BaseStream.Position = 0;
+            renderInfo.FirstInt = reader.ReadUInt32();
+            renderInfo.FirstUshort = reader.ReadUInt16();
+            renderInfo.CreateDate = reader.ReadToDate();
+            renderInfo.UnknownIntOne = reader.ReadUInt32();
+            renderInfo.UnknownIntTwo = reader.ReadUInt32();
+            renderInfo.UnknownCounterOrBool = reader.ReadUInt32();
+
+            // three nulls
+            reader.ReadInt32();
+            reader.ReadInt32();
+            reader.ReadInt32();
+
+            renderInfo.B34 = reader.ReadByte();
+            renderInfo.HasMesh = reader.ReadUInt32() == 1;
+            
             // null
             reader.ReadUInt32();
             renderInfo.MeshId = reader.ReadInt32();
 
-            renderInfo.JointNameSize = reader.ReadUInt32(); // should be 0
-            Debug.Assert(renderInfo.JointNameSize == 0);
-            reader.ReadBytes(2);
+            reader.ReadUInt16(); // null short
 
+            renderInfo.JointNameSize = reader.ReadUInt32(); // should be 0
+
+            // Debug.Assert(renderInfo.JointNameSize == 0);
+            if (renderInfo.JointNameSize > 0)
+            {
+                throw new ApplicationException($"{renderInfo.CacheIndex.Identity} should not have a joint name!");
+            }
             var x = reader.ReadSingle();
             var y = reader.ReadSingle();
             var z = reader.ReadSingle();
@@ -94,24 +232,36 @@
 
         public static void ParseTypeTwo(this BinaryReader reader, RenderInformation renderInformation)
         {
+            reader.BaseStream.Position = 0;
+
+            renderInformation.FirstInt = reader.ReadUInt32();
+            renderInformation.FirstUshort = reader.ReadUInt16();
+            renderInformation.CreateDate = reader.ReadToDate();
+
+            renderInformation.UnknownIntOne = reader.ReadUInt32();
+            renderInformation.UnknownIntTwo = reader.ReadUInt32();
+
+            renderInformation.UnknownCounterOrBool = reader.ReadUInt32();
+
+            reader.ReadUInt32(); // null
+            reader.ReadUInt32(); // null
+            reader.ReadUInt32(); // null
+
+            renderInformation.B34 = reader.ReadByte();
+            renderInformation.HasMesh = reader.ReadUInt32() == 1; // in type 2s this should always be false?
+            
             renderInformation.Position = reader.ReadToVector3();
             renderInformation.HasTexture = reader.ReadUInt32() == 1;
-            // read 3 null ints
-            var one = reader.ReadUInt32();
-            //Debug.Assert(one == 0);
 
-            var two = reader.ReadUInt32();
-            // Debug.Assert(two == 0);
-
-            var three = reader.ReadUInt32();
-            //Debug.Assert(three == 0);
+            reader.ReadUInt32(); // null
+            reader.ReadUInt32(); // null
+            reader.ReadUInt32(); // null
 
             renderInformation.TextureCount = reader.ReadUInt32();
 
             // read null int
-            var four = reader.ReadUInt32();
-            //Debug.Assert(four == 0);
-
+            reader.ReadUInt32(); // null
+            
             for (int i = 0; i < renderInformation.TextureCount; i++)
             {
                 renderInformation.Textures.Add(reader.ReadInt32());
@@ -121,9 +271,24 @@
                 }
             }
         }
-        
+
         public static void ParseTypeOne(this BinaryReader reader, RenderInformation renderInfo)
         {
+            // 1/25/2019 - this is NOT a bool 
+            // for instance render id 1856 has the following first four bytes 01 01 00 00 (257 uint)
+            // see if this has a joint
+            renderInfo.FirstInt = reader.ReadUInt32();
+
+            // previously I thought this was always a null short, but it is not always null actually.
+            reader.ReadUInt16();
+
+            renderInfo.CreateDate = reader.ReadToDate();
+
+            renderInfo.B11 = reader.ReadByte();
+            reader.BaseStream.Position = 34;
+            renderInfo.B34 = reader.ReadByte();
+            renderInfo.HasMesh = reader.ReadUInt32() == 1;
+
             renderInfo.Unknown[0] = reader.ReadUInt32();
             renderInfo.MeshId = reader.ReadInt32();
             renderInfo.Unknown[1] = reader.ReadUInt16();

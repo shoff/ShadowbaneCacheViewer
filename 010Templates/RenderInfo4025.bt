@@ -71,7 +71,7 @@ uint possibly_has_mesh_bool;
 uint null5; // padding
 uint meshid;
 
-ushort null1<hidden=true>;      // null short
+ushort null1;      // null short
 int jointNameSize;              // can be 0
 wchar_t name[jointNameSize] <name="Joint Name">;  
 

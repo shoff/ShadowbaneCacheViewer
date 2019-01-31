@@ -8,9 +8,15 @@
     using Geometry;
     using Newtonsoft.Json;
 
+
     public class RenderInformation
     {
-        public bool KnownType { get; set; }
+        public uint FirstInt { get; set; }
+        public ushort FirstUshort { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public uint UnknownIntOne { get; set; }
+        public uint UnknownIntTwo { get; set; }
+        public uint UnknownCounterOrBool { get; set; }
         public int ByteCount { get; set; }
         public int Order { get; set; }
         public bool HasMesh { get; set; }
@@ -42,7 +48,6 @@
         public List<int> ChildRenderIdList { get; set; } = new List<int>();
         public List<RenderInformation> Children { get; } = new List<RenderInformation>();
         public CacheAsset BinaryAsset { get; set; }
-        public DateTime? CreateDate { get; set; }
         public byte B34 { get; set; }
         public byte B11 { get; set; }
         public long LastOffset { get; set; }
