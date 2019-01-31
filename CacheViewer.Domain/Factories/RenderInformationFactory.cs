@@ -61,30 +61,15 @@
                 renderInfo.BinaryAsset = asset;
             }
 
-            /*
-                char crap[35];
-                int hasMesh;
-                int null1;      // 4
-                int meshId;     // 4
-                ushort null1;   // 2
-                int jointNameSize;
-                wchar_t name[jointNameSize];
-                // unknown float
-                float ux;
-                float uy;
-                float uz;
-                // no clue int
-                int unknown1; // a boolean?
-             */
-
-            // this really blows.
-            // TODO allow for number 3?
             var arraySegment = order == 0 ? asset.Item1 : asset.Item2;
 
             using (var reader = arraySegment.CreateBinaryReaderUtf32())
             {
-
-                if (Array.IndexOf(RenderProviders.type2RenderInfos, renderInfo.CacheIndex.Identity) > -1)
+                if (Array.IndexOf(RenderProviders.type4RenderInfos, renderInfo.CacheIndex.Identity) > -1)
+                {
+                    reader.ParseTypeFour(renderInfo);
+                }
+                else if (Array.IndexOf(RenderProviders.type2RenderInfos, renderInfo.CacheIndex.Identity) > -1)
                 {
                     reader.ParseTypeTwo(renderInfo);
                 }

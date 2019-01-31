@@ -18,7 +18,7 @@
 
         public bool HasMesh { get; set; }
 
-        public int MeshId { get; set; }
+        public int? MeshId { get; set; }
 
         public string JointName { get; set; }
 

@@ -47,23 +47,26 @@ string tVector2fRead( tVector2f &v ) {
 
 // --------------------------------------------------
 // THIS APPEARS TO WORK FOR RENDER TYPES 257 256
+
 int renderType;
 ushort renderType1;
 time_t unk;
+
 uint renderType2;
-
 uint null1;
-
 uint some_counter_or_bool;
+
 uint null2; // padding
 uint null3; // padding
 uint null4; // padding
 byte somebool;
+
 uint possibly_has_mesh_bool;
 uint null5; // padding
 uint meshid;
 
-ushort null1<hidden=true>;      // null short
+ushort null1;    // null short
+
 int jointNameSize;              // can be 0
 wchar_t name[jointNameSize] <name="Joint Name">;  
 // unknown float
@@ -74,7 +77,7 @@ byte null_b;
 
 // either a counter or a type enum
 int some_count;
-int crap2[3];
+int crap2[some_count];
 int unk1;
 
 time_t some_time;

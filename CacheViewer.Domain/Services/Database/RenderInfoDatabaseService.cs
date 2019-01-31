@@ -51,7 +51,7 @@
                             HasTexture = render.HasTexture,
                             RenderCount = render.ChildCount,
                             JointName = render.JointName,
-                            MeshId = render.MeshId,
+                            MeshId = render.MeshId > 0 ? (int?)render.MeshId : null,
                             Order = render.Order,
                             Position = $"{render.Position.X:0.###}-{render.Position.Y:0.###}-{render.Position.Z:0.###}",
                             UncompressedSize = (int) render.CacheIndex.UnCompressedSize

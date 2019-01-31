@@ -27,7 +27,7 @@
             using (var reader = asset.Item1.CreateBinaryReaderUtf32())
             {
                 RenderInformation ri = new RenderInformation();
-                reader.Parse541(ri);
+                reader.ParseTypeFour(ri);
             }
         }
 
@@ -85,6 +85,38 @@
                     Assert.AreEqual(510, render.MeshId);
                 }
                 Assert.AreEqual(render.TextureCount, render.Textures.Count);
+            }
+        }
+
+        [Test]
+        public void All_Type_Fours_Parse_Correctly()
+        {
+            foreach (var index in RenderProviders.type4RenderInfos)
+            {
+                var render = this.renderInformationFactory.Create(index, 0, true);
+                Assert.AreEqual(render.TextureCount, render.Textures.Count);
+            }
+        }
+
+        [Test]
+        public void RI_1800_Parses_Correctly()
+        {
+            var render = this.renderInformationFactory.Create(1800, 0, true);
+            Assert.AreEqual(4, render.Textures.Count);
+            Assert.AreEqual(1800, render.Textures[0]);
+            Assert.AreEqual(1801, render.Textures[1]);
+            Assert.AreEqual(1802, render.Textures[2]);
+            Assert.AreEqual(1803, render.Textures[3]);
+            Assert.AreEqual(2003, render.ModifiedDate.Value.Year);
+        }
+
+        [Test]
+        public void RI_20_Parses_Correctly()
+        {
+            var asset = renderInformationFactory.RenderArchive[20];
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                var ri = this.renderInformationFactory.Create(20, 0, true);
             }
         }
 

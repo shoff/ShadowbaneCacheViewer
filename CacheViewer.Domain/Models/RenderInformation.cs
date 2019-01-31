@@ -11,6 +11,7 @@
 
     public class RenderInformation
     {
+        public uint IUNK { get; set; }
         public uint FirstInt { get; set; }
         public ushort FirstUshort { get; set; }
         public DateTime? CreateDate { get; set; }
