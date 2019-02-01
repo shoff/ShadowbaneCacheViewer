@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Data;
@@ -10,7 +9,6 @@
     using EntityFramework.BulkInsert.Extensions;
     using Extensions;
     using Factories;
-    using Factories.Providers;
     using NLog;
 
     public class RenderInfoSaveEventArgs : EventArgs
@@ -27,8 +25,16 @@
 
         public async Task SaveToDatabaseAsync()
         {
+            var children = new List<RenderChild>();
+
             using (var context = new SbCacheViewerContext())
             {
+                context.ExecuteCommand("delete from dbo.RenderChildren");
+                context.ExecuteCommand("DBCC CHECKIDENT ('RenderChildren', RESEED, 1)");
+
+                context.ExecuteCommand("delete from dbo.RenderEntities");
+                context.ExecuteCommand("DBCC CHECKIDENT ('RenderEntities', RESEED, 1)");
+
                 var entities = new List<RenderEntity>();
 
                 var save = 0;
@@ -51,24 +57,20 @@
                             HasTexture = render.HasTexture,
                             RenderCount = render.ChildCount,
                             JointName = render.JointName,
-                            MeshId = render.MeshId > 0 ? (int?)render.MeshId : null,
+                            MeshId = render.MeshId > 0 ? (int?) render.MeshId : null,
                             Order = render.Order,
                             Position = $"{render.Position.X:0.###}-{render.Position.Y:0.###}-{render.Position.Z:0.###}",
                             UncompressedSize = (int) render.CacheIndex.UnCompressedSize
                         };
 
-                        foreach (var texture in render.Textures)
+                        foreach (var id in render.ChildRenderIdList)
                         {
-                            var textureEntity = context.Textures.FirstOrDefault(t => t.TextureId == texture);
-                            if (textureEntity != null)
+                            var renderChild = new RenderChild
                             {
-                                entity.TextureEntities.Add(textureEntity);
-                            }
-                            else
-                            {
-                                throw new ApplicationException($"RenderEntity {render.CacheIndex.Identity} " +
-                                    $"parsed a texture id of {texture} but that is not a known textureId. Perhaps these should be render id children?");
-                            }
+                                ChildId = id,
+                                RenderId = render.CacheIndex.Identity
+                            };
+                            children.Add(renderChild);
                         }
 
                         if (entity.HasMesh && entity.MeshId == 0)
@@ -88,7 +90,7 @@
                             save = 0;
                             var eventArgs = new RenderInfoSaveEventArgs
                             {
-                                Count = entities.Count
+                                Count = entities.Count()
                             };
                             this.RendersSaved.Raise(this, eventArgs);
                         }
@@ -99,11 +101,48 @@
                         throw;
                     }
                 }
-                
-                context.ExecuteCommand("delete from dbo.RenderEntities");
-                context.ExecuteCommand("DBCC CHECKIDENT ('RenderEntities', RESEED, 1)");
 
                 await context.BulkInsertAsync(entities);
+            }
+
+            using (var context = new SbCacheViewerContext())
+            {
+                var grouped = children.GroupBy(g => new { g.RenderId }).ToList();
+
+                int count = 0;
+                int total = 0;
+                foreach (var child in grouped)
+                {
+                    total++;
+                    var cacheIndex = child.First().RenderId;
+
+                    var render = (from r in context.RenderEntities
+                        where r.CacheIndexIdentity == cacheIndex
+                                  select r).First();
+
+                    foreach(var ch in child)
+                    {
+                        render.Children.Add(new RenderChild
+                        {
+                            RenderId = ch.RenderId,
+                            ChildId = ch.ChildId
+                        });
+                    }
+
+                    count++;
+                    if (count == 20)
+                    {
+                        count = 0;
+                        var eventArgs = new RenderInfoSaveEventArgs
+                        {
+                            Count = total
+                        };
+                        this.RendersSaved.Raise(this, eventArgs);
+                        await context.SaveChangesAsync();
+                    }
+                }
+
+                await context.SaveChangesAsync();
             }
         }
     }

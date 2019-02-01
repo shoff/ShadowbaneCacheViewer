@@ -108,6 +108,7 @@ namespace CacheViewer
                 this.RenderButton.SetEnabled(true);
                 service.RendersSaved -= this.UpdateRendersLabel;
             });
+
             this.RenderLabel.SetText("Render objects saved to database");
             this.renderHasBeenSaved = true;
             this.SaveCacheButton.Enabled = true;

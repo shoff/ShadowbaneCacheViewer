@@ -99,6 +99,13 @@
         }
 
         [Test]
+        public void RI_12004_Parses_Correctly()
+        {
+            var render = this.renderInformationFactory.Create(12004, 0, true);
+
+        }
+
+        [Test]
         public void RI_1800_Parses_Correctly()
         {
             var render = this.renderInformationFactory.Create(1800, 0, true);

@@ -125,6 +125,7 @@
             reader.ReadUInt32();
 
             renderInfo.TextureCount = reader.ReadUInt32();
+            renderInfo.ChildCount = (int)renderInfo.TextureCount;
 
             // more crap
             reader.ReadUInt32();
@@ -132,7 +133,9 @@
 
             for (int i = 0; i < renderInfo.TextureCount; i++)
             {
-                renderInfo.Textures.Add(reader.ReadInt32());
+                var id = reader.ReadInt32();
+                renderInfo.Textures.Add(id);
+                renderInfo.ChildRenderIdList.Add(id);
                 if (reader.CanRead(34))
                 {
                     reader.ReadBytes(34);
@@ -199,13 +202,17 @@
             reader.ReadUInt32();
 
             renderInfo.TextureCount = reader.ReadUInt32();
+            renderInfo.ChildCount = (int)renderInfo.TextureCount;
+
             // more crap
             reader.ReadUInt32();
             reader.ReadUInt32();
 
             for (int i = 0; i < renderInfo.TextureCount; i++)
             {
-                renderInfo.Textures.Add(reader.ReadInt32());
+                var id = reader.ReadInt32();
+                renderInfo.ChildRenderIdList.Add(id);
+                renderInfo.Textures.Add(id);
                 if (reader.CanRead(34))
                 {
                     reader.ReadBytes(34);
@@ -241,13 +248,17 @@
             reader.ReadUInt32(); // null
 
             renderInformation.TextureCount = reader.ReadUInt32();
+            renderInformation.ChildCount = (int)renderInformation.TextureCount;
+
 
             // read null int
             reader.ReadUInt32(); // null
 
             for (int i = 0; i < renderInformation.TextureCount; i++)
             {
-                renderInformation.Textures.Add(reader.ReadInt32());
+                var id = reader.ReadInt32();
+                renderInformation.ChildRenderIdList.Add(id);
+                renderInformation.Textures.Add(id);
                 if (reader.CanRead(4))
                 {
                     reader.ReadUInt32();
@@ -334,6 +345,8 @@
                 if (reader.CanRead(4))
                 {
                     renderInfo.TextureCount = reader.ReadUInt32();
+                    renderInfo.ChildCount = (int)renderInfo.TextureCount;
+
                 }
 
                 if (renderInfo.FirstInt != 257)
@@ -355,9 +368,9 @@
 
                 for (int i = 0; i < renderInfo.TextureCount; i++)
                 {
-                    //renderInfo.Textures[i] = (int) reader.ReadUInt32();
                     var text = (int)reader.ReadInt32();
                     renderInfo.Textures.Add(text);
+                    renderInfo.ChildRenderIdList.Add(text);
                     if (reader.CanRead(34))
                     {
                         reader.BaseStream.Position += 34;

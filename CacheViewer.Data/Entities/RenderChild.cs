@@ -11,5 +11,7 @@
 
         // this is the ParentId
         public int RenderId { get; set; }
+
+        public int ChildId { get; set; }
     }
 }

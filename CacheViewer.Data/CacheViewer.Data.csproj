@@ -53,6 +53,10 @@
     <Compile Include="Migrations\201901310130395_MakingMeshIdNull.Designer.cs">
       <DependentUpon>201901310130395_MakingMeshIdNull.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901310425272_AddingChildIdToRenderChildren.cs" />
+    <Compile Include="Migrations\201901310425272_AddingChildIdToRenderChildren.Designer.cs">
+      <DependentUpon>201901310425272_AddingChildIdToRenderChildren.cs</DependentUpon>
+    </Compile>
     <Compile Include="SbCacheViewerContext.cs" />
     <Compile Include="Entities\CacheObjectEntity.cs" />
     <Compile Include="Entities\CObjects.cs" />
@@ -104,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901310130395_MakingMeshIdNull.resx">
       <DependentUpon>201901310130395_MakingMeshIdNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901310425272_AddingChildIdToRenderChildren.resx">
+      <DependentUpon>201901310425272_AddingChildIdToRenderChildren.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
