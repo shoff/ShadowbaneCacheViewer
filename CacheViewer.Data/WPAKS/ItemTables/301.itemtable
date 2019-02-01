@@ -1,0 +1,22 @@
+# MAGE ROBES (MAELSTROM)
+#MIN%	MAX%	CACHEID	NAME
+170	175	182750		# Alchemist Hood
+176	181	182760		# Alchemist Robe
+182	187	183220		# Gothic Hood
+188	193	183230		# Gothic Robe
+194	199	182870		# Arch-Mage Hood
+200	205	182880		# Arch-Mage Robe
+206	211	183190		# Gilded Hood
+212	217	183200		# Gilded Robe
+218	273	186800		# Doomsayer's Robe
+274	276	183070		# Geomancer Hood
+277	279	183080		# Geomancer Robe
+280	285	183250		# Necromancer Hood
+286	291	183260		# Necromancer Robe
+292	294	183100		# Pyromancer Hood
+295	297	183110		# Pyromancer Robe
+298	303	183280		# Opulent Hood
+304	306	183290		# Opulent Robe
+307	310	5055450		# Necromancer Hood
+311	314	183370		# Savant Hood
+315	320	183380		# Savant Robe

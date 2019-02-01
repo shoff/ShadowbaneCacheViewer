@@ -1,0 +1,7 @@
+# Swamp Treasure Tables
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	40	265	FavorOfferings	0	0	0	0
+41	80	142	SwampResources	0	0	0	0
+81	90	131	DexRunestones	0	0	0	0
+91	98	255	NPCDeeds	0	0	0	0
+99	100	126	GlassWeapons	0	0	0	0

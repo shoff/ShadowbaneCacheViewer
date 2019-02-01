@@ -1,0 +1,53 @@
+#RUNESTONES
+#MIN%	MAX%	CACHEID	NAME
+75	81	250019	#Enhanced Constitution    
+82	87	250010	#Enhanced Dexterity       
+88	93	250028	#Enhanced Intelligence    
+94	100	250037	#Enhanced Spirit          
+101	106	250001	#Enhanced Strength        
+107	112	250020	#Exceptional Constitution 
+113	118	250011	#Exceptional Dexterity    
+119	124	250029	#Exceptional Intelligence 
+125	130	250038	#Exceptional Spirit       
+131	136	250002	#Exceptional Strength     
+137	142	250021	#Amazing Constitution     
+143	149	250012	#Amazing Dexterity        
+150	155	250030	#Amazing Intelligence     
+156	161	250039	#Amazing Spirit           
+162	167	250003	#Amazing Strength         
+168	173	250022	#Incredible Constitution  
+174	179	250013	#Incredible Dexterity     
+180	185	250031	#Incredible Intelligence  
+186	191	250040	#Incredible Spirit        
+192	198	250004	#Incredible Strength      
+199	204	250023	#Great Constitution       
+205	210	250014	#Great Dexterity          
+211	216	250032	#Great Intelligence       
+217	222	250041	#Great Spirit             
+223	228	250005	#Great Strength           
+229	234	250024	#Heroic Constitution      
+235	240	250015	#Heroic Dexterity         
+241	247	250033	#Heroic Intelligence      
+248	253	250042	#Heroic Spirit            
+254	259	250006	#Heroic Strength          
+260	263	250025	#Legendary Constitution   
+264	267	250016	#Legendary Dexterity      
+268	271	250034	#Legendary Intelligence   
+272	275	250043	#Legendary Spirit         
+276	279	250007	#Legendary Strength       
+280	281	250115	#Master of Axes
+282	283	250118	#Master of Daggers
+284	285	250119	#Master of Hammers
+286	287	250120	#Master of Pole Arms
+288	289	250121	#Master of Spears
+290	291	250122	#Master of Swords
+292	293	252123	#Master of Staves
+294	295	252124	#Master of Great Axes
+296	297	252125	#Master of Great Hammers
+298	299	252126	#Master of Great Swords
+300	301	252127	#Master of Throwing
+302	304	250026	#Constitution of the Gods 
+305	308	250017	#Dexterity of the Gods    
+309	312	250035	#Intelligence of the Gods 
+313	316	250044	#Spirit of the Gods       
+317	320	250008	#Strength of the Gods           

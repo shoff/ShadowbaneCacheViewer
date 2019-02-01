@@ -1,0 +1,22 @@
+# ============================================
+# Shadowbane Screen Configuration File
+# ============================================
+FILEVERSION= 2003092201
+SKIN= Login
+
+WINDOWREZ= 800 600
+
+#HUDBEGIN
+#  TEMPLATE=		LOGO
+#  LOCATION= 0 0
+#  CENTERXONSCREEN
+#  MADEFOR= 800 600
+#HUDEND
+
+HUDBEGIN
+  TEMPLATE= 	CHARSEL
+  LOCATION= 0 0
+  CENTERXONSCREEN
+  MADEFOR= 800 600
+HUDEND
+

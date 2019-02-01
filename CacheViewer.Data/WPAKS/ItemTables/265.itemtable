@@ -1,0 +1,23 @@
+# Favor Offering Drops for Swamp
+#MIN%   MAX%    CACHEID NAME
+80	91	1705010	# Demon Eye
+92	103	1705016	# Heathen Text
+104	115	1705020	# Crucible
+116	127	1705021	# Panther Claw
+128	139	1705024	# Rowen Seed
+140	151	1705027	# Pagan Icon
+152	163	1705028	# Jackal's Favor
+164	175	1705029	# Enlightened Text
+176	187	1705010	# Demon Eye
+188	199	1705016	# Heathen Text
+200	211	1705020	# Crucible
+212	223	1705021	# Panther Claw
+224	235	1705024	# Rowen Seed
+236	247	1705027	# Pagan Icon
+248	259	1705028	# Jackal's Favor
+260	271	1705029	# Enlightened Text
+272	283	1705010	# Demon Eye
+284	295	1705016	# Heathen Text
+296	307	1705020	# Crucible
+308	319	1705021	# Panther Claw
+320	320	1705024	# Rowen Seed

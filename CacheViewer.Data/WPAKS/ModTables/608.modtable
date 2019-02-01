@@ -1,0 +1,6 @@
+#SUFFIX - MIN DAMAGE
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+1	75	ofBalance	0	5
+76	150	ofMeasure	0	8
+151	225	ofExcellence	0	10
+226	300	ofPuissance	0	13

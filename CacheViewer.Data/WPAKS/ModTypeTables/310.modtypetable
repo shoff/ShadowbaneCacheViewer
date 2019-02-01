@@ -1,0 +1,22 @@
+#SUFFIX - RINGS (ANCIENT FOREST)
+#MIN%	MAX%	TABLEID
+#1	6	730	#"See Invis"	# SEE INVIS
+1	10	726	"Dexterity"	# DEX +
+11	17	739	"Resist Bleeding"	# RESIST BLEEDING
+18	28	743	"Resist Fire"	# RESIST FIRE
+29	38	745	"Resist Magic"	# RESIST MAGIC
+39	39	729	"Intelligence"	# INT + 
+40	45	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+46	51	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+52	56	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+57	61	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+62	64	758	"Skill: Liturgy"	# SKILL (LITURGY)
+65	67	759	"Skill: Theurgy"	# SKILL (THEURGY)
+68	70	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+71	74	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+75	78	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+79	82	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+83	86	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+87	90	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+91	100	776	"Skill: Channeling"	# SKILL (CHANNELING)
+

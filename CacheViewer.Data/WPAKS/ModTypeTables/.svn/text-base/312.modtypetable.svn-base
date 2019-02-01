@@ -1,0 +1,17 @@
+#SUFFIX - SCEPTRES (ANCIENT FOREST)	
+#MIN%	MAX%	TABLEID	
+#1	8	727	#"Item Durability"	# DURABILITY +
+1	11	732	"Maximum Damage Buff"	# MAXDAM +
+12	23	733	"Minimum Damage Buff"	# MINDAM+
+24	30	748	"Spirit"	# SPR +
+31	31	729	"Intelligence"	# INT +
+32	38	751	"Weapon Speed"	# WEAPON SPEED
+39	46	700	"Buff All Stats"	# ALL STAT +
+47	54	739	"Resist Bleeding"	# RESIST BLEEDING
+55	62	743	"Resist Fire"	# RESIST FIRE
+63	73	745	"Resist Magic"	# RESIST MAGIC
+# 70	77	769	#RESIST EARTH - REMOVED FOR SHIP
+74	85	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+86	92	708	"Fire Damage Proc"	# DAMAGE - FIRE
+93	96	767	"Magic Damage Proc"	# DAMAGE - MAGIC
+97	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

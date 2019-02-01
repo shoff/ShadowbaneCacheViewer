@@ -1,0 +1,245 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions
+END
+AtCharacterSelect.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtCharacterSelect.cfg
+END
+HideCharInfo.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/HideCharInfo.cfg
+END
+ChangeToOptionIdentity.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ChangeToOptionIdentity.cfg
+END
+FromLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromLogin.cfg
+END
+AtAttemptLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtAttemptLogin.cfg
+END
+AtLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtLogin.cfg
+END
+FromGame.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromGame.cfg
+END
+OpenServerSelection.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/OpenServerSelection.cfg
+END
+ToCredits.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToCredits.cfg
+END
+SwitchScreen.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/SwitchScreen.cfg
+END
+CloseServerSelection.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/CloseServerSelection.cfg
+END
+LoginTransitions.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/LoginTransitions.xml
+END
+ChangeToOptionClass.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ChangeToOptionClass.cfg
+END
+ChangeToOptionRace.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ChangeToOptionRace.cfg
+END
+ChangeToOptionTalents.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ChangeToOptionTalents.cfg
+END
+ToFindGS.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToFindGS.cfg
+END
+ToLoading.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToLoading.cfg
+END
+ToMigrateToNewWorld.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToMigrateToNewWorld.cfg
+END
+FromCredits.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromCredits.cfg
+END
+AtCredits.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtCredits.cfg
+END
+TransitionIndex.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/TransitionIndex.cfg
+END
+ToCharacterCreate.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToCharacterCreate.cfg
+END
+FromMigrateRequest.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromMigrateRequest.cfg
+END
+HideCharacter.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/HideCharacter.cfg
+END
+ToEnterWorld.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToEnterWorld.cfg
+END
+ShowCharInfo.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ShowCharInfo.cfg
+END
+FromAttemptLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromAttemptLogin.cfg
+END
+FromSelectCity.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromSelectCity.cfg
+END
+ToMigrateNameSelect.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToMigrateNameSelect.cfg
+END
+ShowCharacter.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ShowCharacter.cfg
+END
+AtGame.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtGame.cfg
+END
+ToCharacterSelect.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToCharacterSelect.cfg
+END
+ToCancelMigrate.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToCancelMigrate.cfg
+END
+FromLoading.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromLoading.cfg
+END
+FromCharacterCreate.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromCharacterCreate.cfg
+END
+AtCharacterCreate.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/AtCharacterCreate.cfg
+END
+ToAttemptLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToAttemptLogin.cfg
+END
+ToLogin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToLogin.cfg
+END
+ToCharacterSelectNoChars.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/ToCharacterSelectNoChars.cfg
+END
+FromCharacterSelect.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/SBEDT/!svn/ver/137/docs/wpak%20files/Transitions/FromCharacterSelect.cfg
+END

@@ -1,0 +1,9 @@
+#SUFFIX - METAL BOOTS (WASTELANDS)
+#MIN%	MAX%	TABLEID
+1	22	728	"Health"	# HEALTH +
+#23	40	727	#"Item Durability"	# DURABILITY +
+41	62	749	"Stamina"	# STAMINA +
+63	78	734	"Movement Speed"	# MOVE
+79	86	735	"Resist Crushing"	# RESIST CRUSHING
+87	93	736	"Resist Piercing"	# RESIST PIERCING
+94	100	737	"Resist Slashing"	# RESIST SLASHING

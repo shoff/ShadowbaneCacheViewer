@@ -1,0 +1,41 @@
+#DISCIPLINE DROPS FOR EPIC MOBS
+#MIN%	MAX%	CACHEID	NAME
+221	222	3001	# Animator  -- Low drop chance
+223	225	3002	# Archer
+226	228	3003	# Berserker
+229	231	3004	# Black Mask
+232	234	3005	# Blade Master
+235	237	3006	# Blade Weaver
+238	240	3007	# Bounty Hunter
+241	244	3008	# Commander   -- High drop chance
+245	247	3009	# Dark Knight
+248	250	3011	# Forge Master
+251	252	3012	# Giant Killer   -- Low drop chance
+253	255	3013	# Gladiator
+256	258	3014	# Huntsman
+259	261	3015	# Knight
+262	263	3016	# Rat Catcher  -- Low drop chance
+264	266	3017	# Rune Caster
+267	269	3018	# Enchanter
+270	272	3019	# Storm Lord
+273	274	3020	# Summoner  -- Low drop chance
+275	277	3021	# Traveller
+278	279	3022	# Undead Hunter  -- Low drop chance
+280	282	3023	# Werebear
+283	285	3024	# Wererat
+286	288	3025	# Werewolf
+289	290	3026	# Wyrmslayer  -- Low drop chance
+291	293	3028	# Blood Prophet
+294	296	3029	# Sun Dancer
+297	299	3032	# Valkyr
+300	302	3033	# Darksworn
+303	305	3034	# Shroudborne
+306	308	3035	# Archmage
+309	311	3036	# Thrall
+312	314	3037	# Artillerist
+315	317	3038	# Savant
+318	320	3039	# Sky Dancer
+# Note: Conjurer, Darksworn are excluded, as they are RoC-only.
+# Note: Prospector excluded - it spawns often enough to not be special.
+
+

@@ -1,0 +1,22 @@
+#SUFFIX - WANDS (MOUNTAINS)
+#MIN%	MAX%	TABLEID
+1	5	729	"Intelligence"	# INT +
+6	10	748	"Spirit"	# SPR +
+11	15	732	"Maximum Damage Buff"	# MAXDAM +
+16	20	733	"Minimum Damage Buff"	# MINDAM+
+21	25	740	"Resist Cold"	# RESIST COLD
+26	30	744	"Resist Lightning"	# RESIST LIGHTNING
+31	35	746	"Resist Mental"	# RESIST MENTAL
+36	40	773	"Resist Holy"	# RESIST HOLY
+#41	45	727	#"Item Durability"	# DURABILITY +
+46	51	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+52	57	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+58	63	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+64	69	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+70	74	776	"Skill: Channeling"	# SKILL (CHANNELING)
+75	78	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+79	83	705	Cold Damage Proc	# DAMAGE - COLD
+84	87	709	Lightning Damage Proc	# DAMAGE - LIGHTNING
+88	91	711	Mental Damage Proc	# DAMAGE - MENTAL
+92	96	713	Stamina Damage Proc	# DAMAGE - STAMINA
+97	100	782	Holy Damage Proc	# DAMAGE - HOLY

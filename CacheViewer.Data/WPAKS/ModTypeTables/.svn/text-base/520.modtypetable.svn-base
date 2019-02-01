@@ -1,0 +1,8 @@
+#SUFFIX - CENTAUR BOOTS (DESERT)
+#MIN%	MAX%	TABLEID
+1	41	728	"Health"	# HEALTH +
+#42	62	727	#"Item Durability"	# DURABILITY +
+41	60	735	"Resist Crushing"	# RESIST CRUSHING
+61	80	736	"Resist Piercing"	# RESIST PIERCING
+81	100	737	"Resist Slashing"	# RESIST SLASHING
+

@@ -1,0 +1,14 @@
+#SUFFIX - WOODEN SHIELDS (OBLIVION)	
+#MIN%	MAX%	TABLEID	
+#1	20	727	#"Item Durability"	# DURABILITY +
+11	40	728	"Health"	# HEALTH +
+41	45	740	"Resist Cold"	# RESIST COLD
+46	50	747	"Resist Poison"	# RESIST POISON
+51	55	781	"Resist Unholy"	# RESIST UNHOLY
+56	60	739	"Resist Bleeding"	# RESIST BLEEDING
+61	63	773	"Resist Holy"	# RESIST HOLY
+64	66	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+67	70	716	"Bleeding Damage Shield"	# DAMAGE SHIELD - BLEEDING
+71	75	783	"Unholy Damage Shield"	# DAMAGE SHIELD - UNHOLY
+76	80	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+81	100	753	"Block Chance"	# BLOCK CHANCE

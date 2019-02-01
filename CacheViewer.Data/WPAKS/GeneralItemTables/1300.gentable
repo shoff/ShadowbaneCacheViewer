@@ -1,0 +1,38 @@
+# "WORLD" treasure table (Generic)								
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE	
+1	5	200	Amulets		0	200	0	1300
+6	11	210	Rings		0	208	0	1310
+12	14	201	Robes		0	201	0	1301
+15	17	235	HealerRobes	0	219	0	1301	
+18	18	202	ClothChest	0	202	0	1302	
+19	20	223	ClothHelms	0	202	0	1302	
+21	21	224	ClothLegs	0	202	0	1302	
+22	22	225	ClothArms	0	202	0	1302	
+23	23	203	LeatherBoots	0	205	0	1303	
+24	24	205	LeatherGloves	0	206	0	1305	
+25	25	207	LeatherChest	0	203	0	1307	
+26	26	226	LeatherHelms	0	203	0	1307	
+27	27	228	LeatherLegs	0	203	0	1307	
+28	28	230	LeatherArms	0	203	0	1307	
+29	29	204	MetalBoots	0	217	0	1304	
+30	30	206	MetalGloves	0	218	0	1306	
+31	31	208	MetalChest	0	204	0	1308	
+32	32	227	MetalHelms	0	204	0	1308	
+33	33	229	MetalLegs	0	204	0	1308	
+34	34	231	MetalArms	0	204	0	1308	
+35	35	236	CentaurBoots	0	217	0	1320	
+36	40	213	MetalShields	0	211	0	1313	
+41	46	120	Potions		0	0	0	0	
+47	47	216	Wands		0	214	0	1316
+48	53	212	Sceptres	0	210	0	1312	
+54	63	209	Bows		0	207	0	1309
+64	68	215	Staves		0	213	0	1315
+69	74	217	Swords		0	215	0	1317
+75	79	218	Axes		0	215	0	1317
+80	83	219	Daggers		0	215	0	1317
+84	84	237	UnarmedWeapons	0	215	0	1317	# Added in ToO
+85	90	220	PoleArms	0	215	0	1317
+91	92	222	MetalHammers	0	215	0	1317
+93	95	221	WoodHammers	0	216	0	1318
+96	100	124	Runestones	0	0	0	0
+

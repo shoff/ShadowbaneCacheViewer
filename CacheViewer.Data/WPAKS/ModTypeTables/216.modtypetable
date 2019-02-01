@@ -1,0 +1,12 @@
+#PREFIX - WOOD WEAPON		
+#MIN%	MAX%	TABLEID	
+1	10	201	"Attack and Damage Buff"	# ATT & DAM +
+11	20	202	"Attack and Item Durability"	# ATT & DURABILITY
+21	30	203	"Attack and Weapon Speed"	# ATT & WEAPON SPEED
+31	40	204	"Attack Buff (I)"	# ATT +
+41	50	205	"Attack Buff (II)"	# ATT +
+51	65	212	"Damage Buff (I)"	# DAM +
+66	80	213	"Damage Buff (II)"	# DAM +
+#71	80	239	#"Item Value"	# VALUE
+81	100	214	"Elemental Damage Procs"	# ELEMENTAL
+#91	100	240	#"Fear"	# FEAR

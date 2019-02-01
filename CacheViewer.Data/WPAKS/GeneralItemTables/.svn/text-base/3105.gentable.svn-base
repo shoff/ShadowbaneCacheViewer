@@ -1,0 +1,6 @@
+# Light armor gambling treasure table							
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	95	3105	Crap	0	0	0	0
+96	96	3106	EnchantableJackpotBoots	0	205	0	1003
+97	98	3107	EnchantableJackpotElse	0	203	0	1007
+99	100	3108	Jackpot	0	0	0	0

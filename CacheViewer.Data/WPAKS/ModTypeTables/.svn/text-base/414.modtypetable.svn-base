@@ -1,0 +1,14 @@
+#SUFFIX - WOODEN SHIELDS (ARTIC NORTH)	
+#MIN%	MAX%	TABLEID	
+#1	25	727	#"Item Durability"	# DURABILITY +
+1	50	753	"Block Chance"	# BLOCK CHANCE
+51	56	740	"Resist Cold"	# RESIST COLD
+57	63	744	"Resist Lightning"	# RESIST LIGHTNING
+64	69	746	"Resist Mental"	# RESIST MENTAL
+70	74	772	"Resist Magic"	# RESIST MAGIC
+75	77	773	"Resist Holy"	# RESIST HOLY
+78	82	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+83	85	721	"Lightning Damage Shield"	# DAMAGE SHIELD - LIGHTNING
+86	90	722	"Magic Damage Shield"	# DAMAGE SHIELD - MAGIC
+91	95	723	"Mental Damage Shield"	# DAMAGE SHIELD - MENTAL
+96	100	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING

@@ -1,0 +1,14 @@
+#SUFFIX - METAL WEAPONS (MAELSTROM)	
+#MIN%	MAX%	TABLEID	
+#1	17	727	#"Item Durability"	# DURABILITY +
+1	25	732	"Maximum Damage Buff"	# MAXDAM +
+26	50	733	"Minimum Damage Buff"	# MINDAM+
+51	67	751	"Weapon Speed"	# WEAPON SPEED
+68	75	745	"Resist Magic"	# RESIST MAGIC
+76	78	747	"Resist Poison"	# RESIST POISON
+79	82	743	"Resist Fire"	# RESIST FIRE
+83	84	774	"Resist Holy"	# RESIST HOLY
+85	88	712	Poison Damage Proc	# DAMAGE - POISON
+89	92	708	Fire Damage Proc	# DAMAGE - FIRE
+93	96	765	Health Drain Proc	# DRAIN - HEALTH
+97	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

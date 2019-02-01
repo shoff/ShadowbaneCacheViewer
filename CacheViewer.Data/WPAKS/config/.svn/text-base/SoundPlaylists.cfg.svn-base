@@ -1,0 +1,29 @@
+<PLAYLIST> TEST
+	<SOUND>
+		ID= 78
+        </SOUND>
+
+        <SOUND>
+                ID= 888
+        </SOUND>
+
+        <SOUND>
+                ID= 22
+                TEMPLATE= TEST          # each sound in playlist can have a template
+        </SOUND>
+
+        <PROPERTIES>
+                TYPE= NORMAL_PLAYLIST   # playlists can be of 2 types:                                                                           
+					# - NORMAL_PLAYLIST - this means that when receive a play command all of the sounds in playlist will be played;
+					# - ONESOUND_RANDOM – when receive a play command a random sound will be played
+
+                SHUFFLING= TRUE         # the playlist will be shuffled or not
+                REPEATING= FALSE        # the playlist is loopable
+
+                MINDELAY = 10           # min delay between sounds in playlist              
+         				# the delay between sounds is calculated as a random number between the 2 values
+
+                MAXDELAY = 10           # max delay between sounds in playlist            /
+        </PROPERTIES>
+</PLAYLIST>
+

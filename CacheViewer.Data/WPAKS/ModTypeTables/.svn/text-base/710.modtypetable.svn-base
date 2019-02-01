@@ -1,0 +1,24 @@
+#SUFFIX - RINGS (GRASSLANDS)
+#MIN%	MAX%	TABLEID
+1	22	729	"Intelligence"	# INT +
+23	37	731	"Mana"	# MANA +
+38	62	728	"Health"	# HEALTH +
+#49	62	730	#"See Invis"	# SEE INVIS
+63	63	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+64	65	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+66	66	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+67	67	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+68	68	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+69	69	758	"Skill: Liturgy"	# SKILL (LITURGY)
+70	70	759	"Skill: Theurgy"	# SKILL (THEURGY)
+71	71	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+72	75	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+76	76	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+77	79	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+80	81	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+82	82	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+83	84	776	"Skill: Channeling"	# SKILL (CHANNELING)
+85	88	739	"Resist Bleeding"	# RESIST BLEEDING
+89	92	743	"Resist Fire"	# RESIST FIRE
+93	96	744	"Resist Lightning"	# RESIST LIGHTNING
+97	100	781	"Resist Holy"	# RESIST UNHOLY

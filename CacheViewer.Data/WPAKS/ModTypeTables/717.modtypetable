@@ -1,0 +1,15 @@
+#SUFFIX - METAL WEAPONS (GRASSLANDS)	
+#MIN%	MAX%	TABLEID	
+#1	14	727	#"Item Durability"	# DURABILITY +
+1	20	732	"Maximum Damage Buff"	# MAXDAM +
+21	40	733	"Minimum Damage Buff"	# MINDAM+
+41	57	750	"Strength"	# STR +
+58	71	751	"Weapon Speed"	# WEAPON SPEED
+72	74	739	"Resist Bleeding"	# RESIST BLEEDING
+75	78	743	"Resist Fire"	# RESIST FIRE
+79	82	744	"Resist Lightning"	# RESIST LIGHTNING
+83	86	781	"Resist Holy"	# RESIST UNHOLY
+87	89	704	Bleeding Damage Proc	# DAMAGE - BLEEDING
+90	93	708	Fire Damage Proc	# DAMAGE - FIRE
+94	97	709	Lightning Damage Proc	# DAMAGE - LIGHTNING
+98	100	782	Holy Damage Proc	# DAMAGE - HOLY

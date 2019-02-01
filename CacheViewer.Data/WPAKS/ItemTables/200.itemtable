@@ -1,0 +1,24 @@
+#AMULETS
+#MIN%	MAX%	CACHEID	NAME
+75	80	680110	#Torque
+81	86	680122	#Bead Choker
+87	92	680106	#Tribal Talisman
+93	98	680139	#Kenaryn's Symbol
+99	104	680120	#Beaded Collar
+105	110	680116	#Tear Pendant
+111	116	680119	#Carcanet
+117	122	680114	#Horned Amulet
+123	128	680108	#Ivory Talisman
+129	135	680144	#Saedron's Symbol
+136	142	680109	#Twisted Torc
+143	149	680113	#Scarab Amulet
+150	156	680107	#Runic Talisman
+157	163	680115	#War Pendant
+164	170	680142	#Chaos Symbol
+171	177	680111	#Gemstone Torc
+178	184	680141	#Thurin's Symbol
+185	191	680138	#Dragon Talisman
+192	198	680143	#Morloch's Symbol
+199	205	680140	#Brialla's Symbol
+206	212	680112	#Lunar Amulet
+213	320	680137	#Triskellion Talisman

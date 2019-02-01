@@ -1,0 +1,9 @@
+#SUFFIX - METAL GLOVES (JUNGLE)	
+#MIN%	MAX%	TABLEID	
+1	30	728	"Health"	# HEALTH +
+#21	40	727	#"Item Durability"	# DURABILITY +
+31	50	726	"Dexterity"	# DEX +
+51	70	750	"Strength"	# STR +
+71	80	735	"Resist Crushing"	# RESIST CRUSHING
+81	90	736	"Resist Piercing"	# RESIST PIERCING
+91	100	737	"Resist Slashing"	# RESIST SLASHING

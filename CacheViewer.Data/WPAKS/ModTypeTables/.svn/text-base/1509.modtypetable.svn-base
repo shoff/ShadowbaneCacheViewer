@@ -1,0 +1,11 @@
+#SUFFIX - BOWS (OBLIVION)	
+#MIN%	MAX%	TABLEID	
+1	20	732	"Maximum Damage Buff"	# MAXDAM +
+21	40	733	"Minimum Damage Buff"	# MINDAM+
+41	60	701	"Armor Piercing"	# ARMOR PIERCE
+61	70	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+71	80	782	"Unholy Damage Proc"	# DAMAGE - UNHOLY
+81	87	705	"Cold Damage Proc"	# DAMAGE - COLD
+88	93	712	"Poison Damage Proc"	# DAMAGE - POISON
+94	96	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+97	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

@@ -1,0 +1,9 @@
+#SUFFIX - CENTAUR BOOTS (MAELSTROM)
+#MIN%	MAX%	TABLEID
+1	24	728	"Health"	# HEALTH +
+#25	40	727	#"Item Durability"	# DURABILITY +
+25	40	749	"Stamina"	# STAMINA +
+41	60	735	"Resist Crushing"	# RESIST CRUSHING
+61	80	736	"Resist Piercing"	# RESIST PIERCING
+81	100	737	"Resist Slashing"	# RESIST SLASHING
+

@@ -1,0 +1,9 @@
+#SUFFIX - LEATHER BOOTS (DESERT)
+#MIN%	MAX%	TABLEID
+1	40	728	"Health"	# HEALTH +
+40	53	734	"Movement Speed"	# MOVE
+#42	62	727	#"Item Durability"	# DURABILITY +
+53	68	735	"Resist Crushing"	# RESIST CRUSHING
+69	84	736	"Resist Piercing"	# RESIST PIERCING
+85	100	737	"Resist Slashing"	# RESIST SLASHING
+

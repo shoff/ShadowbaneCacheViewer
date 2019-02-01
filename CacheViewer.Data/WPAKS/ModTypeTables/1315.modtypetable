@@ -1,0 +1,23 @@
+#SUFFIX - STAVES (WORLD)
+#MIN%	MAX%	TABLEID
+#1	6	727	#"Item Durability"	# DURABILITY +
+7	12	732	"Maximum Damage Buff"	# MAXDAM +
+13	18	733	"Minimum Damage Buff"	# MINDAM+
+19	25	751	"Weapon Speed"	# WEAPON SPEED
+26	31	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+32	37	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+38	42	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+43	47	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+48	52	758	"Skill: Liturgy"	# SKILL (LITURGY)
+53	57	759	"Skill: Theurgy"	# SKILL (THEURGY)
+58	62	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+63	67	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+68	72	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+73	77	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+78	81	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+82	86	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+87	91	776	"Skill: Channeling"	# SKILL (CHANNELING)
+92	98	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+99	100	782	Holy Damage Proc	# DAMAGE - HOLY
+
+

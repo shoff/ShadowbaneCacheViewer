@@ -1,0 +1,42 @@
+# Jungle Treasure Tables								
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE	
+1	5	200	Amulets		0	200	0	800
+6	9	210	Rings		0	208	0	810
+10	12	201	Robes		0	201	0	801
+13	15	235	HealerRobes	0	219	0	801	
+16	16	202	ClothChest	0	202	0	802	
+17	18	223	ClothHelms	0	202	0	802	
+19	19	224	ClothLegs	0	202	0	802	
+20	20	225	ClothArms	0	202	0	802	
+21	21	203	LeatherBoots	0	205	0	803	
+22	22	205	LeatherGloves	0	206	0	805	
+23	23	207	LeatherChest	0	203	0	807	
+24	24	226	LeatherHelms	0	203	0	807	
+25	25	228	LeatherLegs	0	203	0	807	
+26	26	230	LeatherArms	0	203	0	807	
+27	27	204	MetalBoots	0	217	0	804	
+28	28	206	MetalGloves	0	218	0	806	
+29	29	208	MetalChest	0	204	0	808	
+30	30	227	MetalHelms	0	204	0	808	
+31	31	229	MetalLegs	0	204	0	808	
+32	32	231	MetalArms	0	204	0	808	
+33	33	236	CentaurBoots	0	217	0	820	
+34	36	213	MetalShields	0	211	0	1013	
+37	37	216	Wands		0	214	0	1016
+38	39	212	Sceptres	0	210	0	1012
+40	46	120	Potions		0	0	0	0	
+47	52	209	Bows		0	207	0	1009
+53	57	215	Staves		0	213	0	815
+58	62	217	Swords		0	215	0	817
+63	63	237	UnarmedWeapons	0	215	0	817	
+64	64	218	Axes		0	215	0	817
+65	66	219	Daggers		0	215	0	817
+67	71	220	PoleArms	0	215	0	817
+72	73	222	MetalHammers	0	215	0	817
+74	76	221	WoodHammers	0	216	0	818
+77	84	263	FavorOfferings	0	0	0	0
+85	94	143	JungleResources	0	0	0	0
+95	98	131	DexRunestones	0	0	0	0
+99	100	253	NPCDeeds	0	0	0	0
+
+

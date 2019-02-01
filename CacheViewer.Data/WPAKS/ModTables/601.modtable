@@ -1,0 +1,9 @@
+#SUFFIX - DAMAGE RESISTANCE
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#ofPain	0	-4
+#16.6	33	#ofVulnerability	0	-2
+34	86.4	ofEvasion	0	2
+86.5	139.8	ofProtection	0	4
+139.9	193.2	ofAbsorption	0	10
+193.3	246.6	ofDeflection	0	15
+246.7	300	ofFortification	0	20

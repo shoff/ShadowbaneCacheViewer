@@ -1,0 +1,27 @@
+#SUFFIX - AMULETS (GRASSLANDS)
+#MIN%	MAX%	TABLEID
+1	11	726	"Dexterity"	# DEX +
+12	22	728	"Health"	# HEALTH +
+23	39	729	"Intelligence"	# INT +
+#34	39	730	#"See Invis"	# SEE INVIS
+40	41	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+42	52	731	"Mana"	# MANA +
+53	63	750	"Strength"	# STR +
+64	74	700	"Buff All Stats"	# ALL STAT +
+75	75	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+76	76	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+77	77	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+78	78	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+79	79	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+80	80	758	"Skill: Liturgy"	# SKILL (LITURGY)
+81	81	759	"Skill: Theurgy"	# SKILL (THEURGY)
+82	82	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+83	83	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+84	84	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+85	85	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+86	86	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+87	87	776	"Skill: Channeling"	# SKILL (CHANNELING)
+88	91	739	"Resist Bleeding"	# RESIST BLEEDING
+92	94	743	"Resist Fire"	# RESIST FIRE
+95	97	781	"Resist Holy"	# RESIST UNHOLY	
+98	100	744	"Resist Lightning"	# RESIST LIGHTNING

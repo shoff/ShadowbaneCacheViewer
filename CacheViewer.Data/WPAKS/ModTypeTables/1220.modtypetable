@@ -1,0 +1,9 @@
+#SUFFIX - CENTAUR BOOTS (WASTELANDS)
+#MIN%	MAX%	TABLEID
+1	24	728	"Health"	# HEALTH +
+#25	40	#727	"Item Durability"	# DURABILITY +
+41	70	749	"Stamina"	# STAMINA +
+71	80	735	"Resist Crushing"	# RESIST CRUSHING
+81	90	736	"Resist Piercing"	# RESIST PIERCING
+91	100	737	"Resist Slashing"	# RESIST SLASHING
+

@@ -1,0 +1,12 @@
+#SUFFIX - HEALTH BUFF
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#oftheVulture	0	-4
+#16.6	33	#oftheJackal	0	-2
+34	66.38	oftheFox	0	2
+66.39	99.76	oftheWolf	0	3
+99.77	133.14	ofthePanther	0	5
+133.15	166.52	oftheTiger	0	7
+166.53	199.9	oftheLion	0	9
+199.91	233.28	oftheMammoth	0	11
+233.29	266.66	oftheOgre	0	12
+266.67	300	oftheLeviathan	0	13

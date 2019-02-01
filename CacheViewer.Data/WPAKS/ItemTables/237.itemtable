@@ -1,0 +1,11 @@
+#UNARMED WEAPONS
+#MIN%	MAX%	CACHEID	NAME
+60	100	27640	# Brass Knuckles
+101	140	29280	# Stonefist
+141	180	29290	# Hammerfist
+181	220	29300	# Sledgefist
+221	260	29310	# Dragonfist
+261	290	29320	# Doomfist
+291	320	27190	# Khan'xhir
+
+

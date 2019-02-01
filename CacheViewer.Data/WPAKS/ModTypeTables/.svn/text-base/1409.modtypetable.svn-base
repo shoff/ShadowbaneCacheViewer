@@ -1,0 +1,9 @@
+#SUFFIX - BOWS (MAELSTROM)	
+#MIN%	MAX%	TABLEID	
+1	25	732	"Maximum Damage Buff"	# MAXDAM +
+26	50	733	"Minimum Damage Buff"	# MINDAM+
+51	70	726	"Dexterity"	# DEX +
+71	75	701	"Armor Piercing"	# ARMOR PIERCE
+76	85	712	"Poison Damage Proc"	# DAMAGE - POISON
+86	94	708	"Fire Damage Proc"	# DAMAGE - FIRE
+95	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

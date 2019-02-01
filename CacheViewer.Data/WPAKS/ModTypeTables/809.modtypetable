@@ -1,0 +1,8 @@
+#SUFFIX - BOWS (JUNGLE)	
+#MIN%	MAX%	TABLEID	
+1	20	732	"Maximum Damage Buff"	# MAXDAM +
+21	40	733	"Minimum Damage Buff"	# MINDAM+
+41	60	701	"Armor Piercing"	# ARMOR PIERCE
+61	80	726	"Dexterity"	# DEX +
+81	90	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+91	100	712	"Poison Damage Proc"	# DAMAGE - POISON

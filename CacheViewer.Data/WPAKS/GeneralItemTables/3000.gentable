@@ -1,0 +1,5 @@
+# Axe gambling treasure table							
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	97	3000	Crap	0	0	0	0
+98	98	3001	EnchantableJackpot	0	215	0	1017
+99	100	3002	Jackpot	0	0	0	0

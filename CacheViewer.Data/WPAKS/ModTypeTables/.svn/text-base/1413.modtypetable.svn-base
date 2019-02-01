@@ -1,0 +1,14 @@
+#SUFFIX - METAL SHIELDS (MAELSTROM)	
+#MIN%	MAX%	TABLEID	
+1	20	728	"Health"	# HEALTH +
+#21	35	727	#"Item Durability"	# DURABILITY +
+36	40	774	"Resist Holy"	# RESIST HOLY
+41	48	745	"Resist Magic"	# RESIST MAGIC
+49	54	747	"Resist Poison"	# RESIST POISON
+55	60	743	"Resist Fire"	# RESIST FIRE
+61	65	716	"Bleeding Damage Shield"	# DAMAGE SHIELD - BLEEDING
+66	70	722	"Magic Damage Shield"	# DAMAGE SHIELD - MAGIC
+71	75	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+76	77	725	"Poison Damage Shield"	# DAMAGE SHIELD - POISON
+78	80	720	"Fire Damage Shield"	# DAMAGE SHIELD - FIRE
+81	100	753	"Block Chance"	# BLOCK CHANCE

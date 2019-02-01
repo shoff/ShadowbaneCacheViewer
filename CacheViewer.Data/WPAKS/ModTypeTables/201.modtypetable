@@ -1,0 +1,13 @@
+#PREFIX - MAGE ROBES
+#MIN%	MAX%	TABLEID	
+#1	13	239	#"Item Value"	# VALUE
+1	15	219	"Armor Defense and Item Durability"	# DR & DURABILITY
+16	20	221	"Armor Defense"	# DR+
+21	28	229	"Resist Piercing"	# RES (P) 
+29	35	230	"Resist Slashing"	# RES (S)
+36	40	228	"Resist Crushing"	# RES (C)
+41	53	223	"Mana Buff"	# MANA +
+54	70	227	"Mana Buff and Recovery"	# RECOVERY & MANA
+71	85	241	"Skill: Sorcery/Warding"	#  MAGE SKILL
+86	90	224	"Health Recovery"	# RECOVERY
+90	100	206	"Con and Health Recovery"	# CON & Recovery (Health)

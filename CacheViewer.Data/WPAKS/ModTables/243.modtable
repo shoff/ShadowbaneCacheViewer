@@ -1,0 +1,9 @@
+#& "Resist Holy"
+#PREFIX - RESIST HOLY
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#110	129	#PRE-295	0	3	# Cynic's
+#130	159	#PRE-296	0	3	# Skeptic's
+160	189	PRE-297	0	3	# Dissenting
+190	224	PRE-298	0	4	# Profane
+225	320	PRE-299	0	7	# Apostate's
+321	321	PRE-324	0	14	# Abomination's

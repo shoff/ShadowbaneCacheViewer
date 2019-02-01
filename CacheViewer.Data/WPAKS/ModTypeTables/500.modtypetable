@@ -1,0 +1,26 @@
+#SUFFIX - AMULETS (DESERT)
+#MIN%	MAX%	TABLEID
+1	11	700	"Buff All Stats"	# ALL STAT +
+12	26	702	"Constitution"	# CON +
+27	42	728	"Health"	# HEALTH +
+43	56	729	"Intelligence"	# INT +
+#45	56	730	#"See Invis"	# SEE INVIS
+57	65	731	"Mana"	# MANA +
+66	75	748	"Spirit"	# SPR +
+76	77	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+78	79	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+80	80	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+81	81	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+82	82	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+83	83	758	"Skill: Liturgy"	# SKILL (LITURGY)
+84	84	759	"Skill: Theurgy"	# SKILL (THEURGY)
+85	85	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+86	86	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+87	87	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+88	88	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+89	89	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+90	90	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+91	91	776	"Skill: Channeling"	# SKILL (CHANNELING)
+92	94	747	"Resist Poison"	# RESIST POISON
+95	96	768	"Resist Bleeding"	# RESIST BLEEDING
+97	100	771	"Resist Fire"	# RESIST FIRE

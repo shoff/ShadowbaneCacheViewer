@@ -1,0 +1,22 @@
+#SUFFIX - WANDS (MAELSTROM)
+#MIN%	MAX%	TABLEID
+#1	5	727	#"Item Durability"	# DURABILITY +
+6	10	732	"Maximum Damage Buff"	# MAXDAM +
+11	15	733	"Minimum Damage Buff"	# MINDAM+
+16	23	729	"Intelligence"	# INT +
+24	30	731	"Mana"	# MANA +
+31	37	745	"Resist Magic"	# RESIST MAGIC
+38	42	747	"Resist Poison"	# RESIST POISON
+43	47	774	"Resist Holy"	# RESIST HOLY
+48	51	743	"Resist Fire"	# RESIST FIRE
+52	57	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+58	63	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+64	70	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+71	75	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+76	80	776	"Skill: Channeling"	# SKILL (CHANNELING)
+81	86	777	"Skill: Corruption"	# SKILL (CORRUPTION)
+87	90	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+91	93	712	"Poison Damage Proc"	# DAMAGE - POISON
+94	96	708	"Fire Damage Proc"	# DAMAGE - FIRE
+97	98	765	"Health Drain Proc"	# DRAIN - HEALTH
+99	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

@@ -1,0 +1,14 @@
+NAME= "Academy of Heralds"
+NUMRANKS= 8
+# --------------------------------------
+RANKNAME= "Pupil" 
+RANKNAME= "Scribe" 
+RANKNAME= "Recorder" 
+RANKNAME= "Scrivener" 
+RANKNAME= "Chronicler" 
+RANKNAME= "Scholar" 
+RANKNAME= "Archivist" 
+RANKNAME= "Loremaster" 
+
+
+

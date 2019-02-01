@@ -1,0 +1,31 @@
+#SUFFIX - STAVES (DESERT)
+#MIN%	MAX%	TABLEID
+1	8	702	"Constitution"	# CON +
+9	11	708	"Fire Damage Proc"	# DAMAGE - FIRE
+12	14	712	"Poison Damage Proc"	# DAMAGE - POISON
+15	17	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+#18	21	727	#"Item Durability"	# DURABILITY +
+18	29	729	"Intelligence"	# INT +
+30	37	731	"Mana"	# MANA +
+38	45	732	"Maximum Damage Buff"	# MAXDAM +
+46	53	733	"Minimum Damage Buff"	# MINDAM+
+54	57	747	"Resist Poison"	# RESIST POISON
+58	63	748	"Spirit"	# SPR +
+64	71	751	"Weapon Speed"	# WEAPON SPEED
+72	72	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+73	74	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+75	75	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+76	76	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+77	77	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+78	78	758	"Skill: Liturgy"	# SKILL (LITURGY)
+79	79	759	"Skill: Theurgy"	# SKILL (THEURGY)
+80	80	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+81	81	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+82	82	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+83	83	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+84	84	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+85	85	776	"Skill: Channeling"	# SKILL (CHANNELING)
+86	89	765	"Health Drain Proc"	# DRAIN - HEALTH
+90	92	766	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+93	96	768	"Resist Bleeding"	# RESIST BLEEDING
+97	100	771	"Resist Fire"	# RESIST FIRE

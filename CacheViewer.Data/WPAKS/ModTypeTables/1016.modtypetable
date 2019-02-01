@@ -1,0 +1,21 @@
+#SUFFIX - WANDS (TIMBERLANDS)
+#MIN%	MAX%	TABLEID
+1	5	732	"Maximum Damage Buff"	# MAXDAM +
+6	10	733	"Minimum Damage Buff"	# MINDAM+
+11	16	748	"Spirit"	# SPR +
+17	24	739	"Resist Bleeding"	# RESIST BLEEDING
+25	32	744	"Resist Lightning"	# RESIST LIGHTNING
+33	40	746	"Resist Mental"	# RESIST MENTAL
+#35	40	727	#"Item Durability"	# DURABILITY +
+41	44	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+45	51	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+52	58	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+59	67	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+68	74	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+75	82	776	"Skill: Channeling"	# SKILL (CHANNELING)
+83	86	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+87	90	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+91	94	710	"Magic Damage Proc"	# DAMAGE - MAGIC
+95	100	711	"Mental Damage Proc"	# DAMAGE - MENTAL
+
+

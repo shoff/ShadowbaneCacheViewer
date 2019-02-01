@@ -1,0 +1,29 @@
+#SUFFIX - AMULETS (MOUNTAINS)
+#MIN%	MAX%	TABLEID
+1	9	702	"Constitution"	# CON +
+10	18	700	"Buff All Stats"	# ALL STAT +
+19	27	728	"Health"	# HEALTH +
+28	36	729	"Intelligence"	# INT +
+#37	38	730	#"See Invis"	# SEE INVIS
+39	48	748	"Spirit"	# SPR +
+49	58	749	"Stamina"	# STAMINA +
+59	68	726	"Dexterity"	# DEX +
+69	75	750	"Strength"	# STR +
+76	78	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+79	79	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+80	80	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+81	81	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+82	82	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+83	83	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+84	84	758	"Skill: Liturgy"	# SKILL (LITURGY)
+85	85	759	"Skill: Theurgy"	# SKILL (THEURGY)
+86	86	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+87	87	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+88	88	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+89	89	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+90	90	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+91	91	776	"Skill: Channeling"	# SKILL (CHANNELING)
+92	94	740	"Resist Cold"	# RESIST COLD
+95	96	744	"Resist Lightning"	# RESIST LIGHTNING
+97	98	746	"Resist Mental"	# RESIST MENTAL
+99	100	773	"Resist Holy"	# RESIST HOLY

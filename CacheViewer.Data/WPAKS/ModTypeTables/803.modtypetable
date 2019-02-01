@@ -1,0 +1,9 @@
+#SUFFIX - LEATHER BOOTS (JUNGLE)
+#MIN%	MAX%	TABLEID
+1	35	728	"Health"	# HEALTH +
+36	46	734	"Movement Speed"	# MOVE
+#42	62	727	#"Item Durability"	# DURABILITY +
+47 64	735	"Resist Crushing"	# RESIST CRUSHING
+65	82	736	"Resist Piercing"	# RESIST PIERCING
+83	100	737	"Resist Slashing"	# RESIST SLASHING
+

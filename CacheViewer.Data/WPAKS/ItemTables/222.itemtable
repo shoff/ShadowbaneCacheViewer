@@ -1,0 +1,13 @@
+#HAMMERS (WOOD)
+#MIN%	MAX%	CACHEID	NAME
+65	74	25190	# Club                  
+75	84	25430	# Studded Club          
+85	94	25260	# Knotted Club          
+95	104	25410	# War Club              
+105	109	25240	# Bladed Club           
+110	129	25360	# Maul                  
+130	144	25270	# Toothed Club          
+145	159	25250	# Cudgel                
+160	189	25200	# Spiked Club           
+190	244	25290	# Truncheon             
+245	320	25470	# Heavy Truncheon       

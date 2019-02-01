@@ -1,0 +1,6 @@
+#SUFFIX - BOWS (SWAMP)	
+#MIN%	MAX%	TABLEID	
+1	25	732	"Maximum Damage Buff"	# MAXDAM +
+26	50	733	"Minimum Damage Buff"	# MINDAM+
+51	75	701	"Armor Piercing"	# ARMOR PIERCE
+76	100	712	"Poison Damage Proc"	# DAMAGE - POISON

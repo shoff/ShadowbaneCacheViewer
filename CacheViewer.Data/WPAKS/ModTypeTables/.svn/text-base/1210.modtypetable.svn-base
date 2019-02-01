@@ -1,0 +1,27 @@
+#SUFFIX - RINGS (WASTELANDS)
+#MIN%	MAX%	TABLEID
+1	13	749	"Stamina"	# STAMINA +
+14	25	729	"Intelligence"	# INT +
+26	38	731	"Mana"	# MANA +
+39	50	702	"Constitution"	# CON +
+51	63	728	"Health"	# HEALTH +
+#64	65	730	#"See Invis"	# SEE INVIS
+66	71	740	"Resist Cold"	# RESIST COLD
+72	76	747	"Resist Poison"	# RESIST POISON
+77	80	781	"Resist Holy"	# RESIST UNHOLY
+81	81	776	"Skill: Channeling"	# SKILL (CHANNELING)
+82	82	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+83	83	780	"Skill: Bloodcraft"	# SKILL (BLOODCRAFT)
+84	84	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+85	85	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+86	86	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+87	87	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+88	88	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+89	89	758	"Skill: Liturgy"	# SKILL (LITURGY)
+90	90	759	"Skill: Theurgy"	# SKILL (THEURGY)
+91	91	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+92	92	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+93	95	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+96	96	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+97	97	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+98	100	778	"Skill: Necromancy"	# SKILL (NECROMANCY)

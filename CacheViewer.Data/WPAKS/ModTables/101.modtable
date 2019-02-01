@@ -1,0 +1,14 @@
+#PREFIX - DAMAGE BUFF							
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	11	#Useless	0	-8
+#12	22	#Blunted	0	-4
+#23	33	#Shoddy	0	-3
+34	62.67	Barbed	0	3
+62.68	92.34	Jagged	0	4
+92.35	122.01	Deadly	0	5
+122.02	151.68	Ruthless	0	8
+151.69	181.35	Vicious	0	10
+181.36	211.02	Brutal	0	13
+211.03	240.69	Massive	0	15
+240.7	270.36	Savage	0	17
+270.37	300	Merciless	0	20

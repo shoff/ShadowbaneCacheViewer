@@ -1,0 +1,8 @@
+#SUFFIX - LUTES (SWAMP)	
+#MIN%	MAX%	TABLEID	
+1	25	729	"Intelligence"	# INT +
+26	50	731	"Mana"	# MANA +
+51	69	764	"Skill: Bardsong"	# SKILL
+70	80	774	"Resist Holy"	# RESIST HOLY
+81	88	745	"Resist Magic"	# RESIST MAGIC
+89	100	747	"Resist Poison"	# RESIST POISON

@@ -1,0 +1,12 @@
+NAME= "Military"
+NUMRANKS= 8
+#RANKNAMES "Recruit" "Corporal" "Sergeant" "Lieutenant" "Captain" "General" "Lord Marshall"
+# --------------------------------------
+RANKNAME= "Recruit" 
+RANKNAME= "Footman" 
+RANKNAME= "Corporal" 
+RANKNAME= "Sergeant" 
+RANKNAME= "Lieutenant" 
+RANKNAME= "Captain" 
+RANKNAME= "General" 
+RANKNAME= "Lord Marshall" "Lady Marshall"

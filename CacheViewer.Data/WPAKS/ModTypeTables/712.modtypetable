@@ -1,0 +1,18 @@
+#SUFFIX - SCEPTRES (GRASSLANDS)	
+#MIN%	MAX%	TABLEID	
+#1	10	727	#"Item Durability"	# DURABILITY +
+1	15	732	"Maximum Damage Buff"	# MAXDAM +
+16	30	733	"Minimum Damage Buff"	# MINDAM+
+31	40	729	"Intelligence"	# INT +
+41	50	731	"Mana"	# MANA +
+51	60	750	"Strength"	# STR +
+61	70	751	"Weapon Speed"	# WEAPON SPEED
+71	78	700	"Buff All Stats"	# ALL STAT +
+79	81	781	"Resist Holy"	# RESIST UNHOLY
+82	84	739	"Resist Bleeding"	# RESIST BLEEDING
+85	87	743	"Resist Fire"	# RESIST FIRE
+88	90	744	"Resist Lightning"	# RESIST LIGHTNING
+91	92	704	Bleeding Damage Proc	# DAMAGE - BLEEDING
+93	95	708	Fire Damage Proc	# DAMAGE - FIRE
+96	98	709	Lightning Damage Proc	# DAMAGE - LIGHTNING
+99	100	782	Holy Damage Proc	# DAMAGE - HOLY

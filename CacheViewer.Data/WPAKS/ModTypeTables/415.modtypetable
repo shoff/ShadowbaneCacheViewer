@@ -1,0 +1,34 @@
+#SUFFIX - STAVES (ARTIC NORTH)
+#MIN%	MAX%	TABLEID
+1	7	702	"Constitution"	# CON +
+8	10	705	"Cold Damage Proc"	# DAMAGE - COLD
+11	13	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+14	16	711	"Mental Damage Proc"	# DAMAGE - MENTAL
+17	19	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+#20	21	727	#"Item Durability"	# DURABILITY +
+22	30	729	"Intelligence"	# INT +
+31	39	731	"Mana"	# MANA +
+40	44	732	"Maximum Damage Buff"	# MAXDAM +
+45	49	733	"Minimum Damage Buff"	# MINDAM+
+50	55	740	"Resist Cold"	# RESIST COLD
+56	59	744	"Resist Lightning"	# RESIST LIGHTNING
+60	63	746	"Resist Mental"	# RESIST MENTAL
+64	67	748	"Spirit"	# SPR +
+68	71	750	"Strength"	# STR +
+72	75	751	"Weapon Speed"	# WEAPON SPEED
+76	76	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+77	77	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+78	78	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+79	79	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+80	80	758	"Skill: Liturgy"	# SKILL (LITURGY)
+81	81	759	"Skill: Theurgy"	# SKILL (THEURGY)
+82	82	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+83	83	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+84	84	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+85	85	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+86	86	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+87	87	776	"Skill: Channeling"	# SKILL (CHANNELING)
+88	88	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+89	94	767	"Magic Damage Proc"	# DAMAGE - MAGIC
+95	97	772	"Resist Magic"	# RESIST MAGIC
+98	100	773	"Resist Holy"	# RESIST HOLY

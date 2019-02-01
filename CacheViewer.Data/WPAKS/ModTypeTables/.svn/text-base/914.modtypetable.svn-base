@@ -1,0 +1,12 @@
+#SUFFIX - WOODEN SHIELDS (SWAMP)	
+#MIN%	MAX%	TABLEID	
+1	30	728	"Health"	# HEALTH +
+#21	35	727	#"Item Durability"	# DURABILITY +
+31	40	774	"Resist Holy"	# RESIST HOLY
+41	50	745	"Resist Magic"	# RESIST MAGIC
+51	60	747	"Resist Poison"	# RESIST POISON
+61	65	716	"Bleeding Damage Shield"	# DAMAGE SHIELD - BLEEDING
+66	70	722	"Magic Damage Shield"	# DAMAGE SHIELD - MAGIC
+71	75	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+76	80	725	"Poison Damage Shield"	# DAMAGE SHIELD - POISON
+81	100	753	"Block Chance"	# BLOCK CHANCE

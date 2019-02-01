@@ -1,0 +1,19 @@
+#SWORDS (MAELSTROM)
+#MIN%	MAX%	CACHEID	NAME
+170	175	26680	# Executioner Sword
+176	181	26730	# Minatoan Broadsword
+182	187	26890	# Great Saracen
+188	193	26710	# Berserker's Edge
+194	199	26560	# Tlanarion Long Sword
+200	205	26600	# Tlanarion Short Sword
+206	216	26810	# Long Blade
+217	242	27430	# Infernal Sword
+243	268	27440	# Infernal Great Sword
+269	277	26880	# Gothic Great Sword
+278	285	26720	# Gothic Broadsword
+286	293	26250	# Burning Great Sword
+294	301	26280	# Flame Blade
+302	309	26300	# Psiblade
+310	315	26330	# Sunblade
+316	320	5051110	# Absolution
+

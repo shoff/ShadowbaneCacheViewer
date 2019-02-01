@@ -1,0 +1,5 @@
+# Sword gambling treasure table							
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	97	3065	Crap	0	0	0	0
+98	98	3066	EnchantableJackpot	0	215	0	1017
+99	100	3067	Jackpot	0	0	0	0

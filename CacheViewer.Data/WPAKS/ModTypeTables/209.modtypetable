@@ -1,0 +1,5 @@
+#PREFIX - LUTES
+#MIN%	MAX%	TABLEID	
+#1	33	239	#"Item Value"	# VALUE
+34	67	223	"Mana Buff"	# MANA +
+68	100	227	"Mana Buff and Recovery"	# RECOVERY & MANA

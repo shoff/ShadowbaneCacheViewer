@@ -1,0 +1,8 @@
+#SUFFIX - LEATHER GLOVES (MAELSTROM)	
+#MIN%	MAX%	TABLEID	
+1	20	728	"Health"	# HEALTH +
+21	40	726	"Dexterity"	# DEX +
+#41	67	727	#"Item Durability"	# DURABILITY +
+68	78	735	"Resist Crushing"	# RESIST CRUSHING
+79	89	736	"Resist Piercing"	# RESIST PIERCING
+90	100	737	"Resist Slashing"	# RESIST SLASHING

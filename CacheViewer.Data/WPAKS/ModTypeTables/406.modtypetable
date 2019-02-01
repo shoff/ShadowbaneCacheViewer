@@ -1,0 +1,8 @@
+#SUFFIX - METAL GLOVES (ARTIC NORTH)	
+#MIN%	MAX%	TABLEID	
+#1	25	727	#"Item Durability"	# DURABILITY +
+1	22	726	"Dexterity"	# DEX +
+23	45	750	"Strength"	# STR +
+46	65	735	"Resist Crushing"	# RESIST CRUSHING
+66	85	736	"Resist Piercing"	# RESIST PIERCING
+86	100	737	"Resist Slashing"	# RESIST SLASHING

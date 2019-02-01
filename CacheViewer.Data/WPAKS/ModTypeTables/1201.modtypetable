@@ -1,0 +1,12 @@
+#SUFFIX - ROBES (WASTELANDS)	
+#MIN%	MAX%	TABLEID	
+1	25	728	"Health"	# HEALTH +
+#14	25	727	#"Item Durability"	# DURABILITY +
+26	44	729	"Intelligence"	# INT +
+45	63	731	"Mana"	# MANA +
+#51	63	730	#"See Invis"	# SEE INVIS
+64	71	735	"Resist Crushing"	# RESIST CRUSHING
+72	80	736	"Resist Piercing"	# RESIST PIERCING
+81	88	737	"Resist Slashing"	# RESIST SLASHING
+89	94	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+95	100	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING

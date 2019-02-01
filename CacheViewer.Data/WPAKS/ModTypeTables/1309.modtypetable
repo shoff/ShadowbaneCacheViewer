@@ -1,0 +1,6 @@
+#SUFFIX - BOWS (WORLD)	
+#MIN%	MAX%	TABLEID	
+1	33	732	"Maximum Damage Buff"	# MAXDAM +
+34	67	733	"Minimum Damage Buff"	# MINDAM+
+68	98	701	"Armor Piercing"	# ARMOR PIERCE
+99	100	782	Holy Damage Proc	# DAMAGE - HOLY

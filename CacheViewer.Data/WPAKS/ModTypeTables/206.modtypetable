@@ -1,0 +1,10 @@
+#PREFIX - LEATHER GLOVES
+#MIN%	MAX%	TABLEID	
+#1	17	239	#"Item Value"	# VALUE
+1	20	217	"Armor Defense and Item Durability"	# DR & DURABILITY
+21	40	219	"Armor Defense and Item Durability"	# DR & DURABILITY
+41	60	221	"Armor Defense"	# DR+
+61	70	238	"Resist Stamina"	# STAMINA +
+71	80	229	"Resist Piercing"	# RES (P) 
+81	90	230	"Resist Slashing"	# RES (S)
+91	100	228	"Resist Crushing"	# RES (C)

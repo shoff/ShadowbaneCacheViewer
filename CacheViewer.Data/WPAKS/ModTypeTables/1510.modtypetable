@@ -1,0 +1,18 @@
+#SUFFIX - RINGS (OBLIVION)
+#MIN%	MAX%	TABLEID
+1	13	749	"Stamina"	# STAMINA +
+14	25	729	"Intelligence"	# INT +
+26	38	731	"Mana"	# MANA +
+39	50	702	"Constitution"	# CON +
+51	63	728	"Health"	# HEALTH +
+#64	65	730	#"See Invis"	# SEE INVIS
+66	68	740	"Resist Cold"	# RESIST COLD
+69	71	747	"Resist Poison"	# RESIST POISON
+72	74	781	"Resist Unholy"	# RESIST UNHOLY
+75	77	739	"Resist Bleeding"	# RESIST BLEEDING
+78	80	773	"Resist Holy"	# RESIST HOLY
+81	84	778	"Skill: Necromancy"	# SKILL (NECROMANCY)
+85	88	780	"Skill: Bloodcraft"	# SKILL (BLOODCRAFT)
+89	92	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+93	96	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+97	100	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)

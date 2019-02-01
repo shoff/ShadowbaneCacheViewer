@@ -1,0 +1,6 @@
+#SUFFIX - WEAPON SPEED	
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+1	75	ofReadiness	0	2
+76	150	ofSwiftness	0	4
+151	225	ofQuickness	0	8
+226	300	ofAlacrity	0	16

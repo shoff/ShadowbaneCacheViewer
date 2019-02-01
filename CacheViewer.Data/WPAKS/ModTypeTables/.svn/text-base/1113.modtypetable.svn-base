@@ -1,0 +1,13 @@
+#SUFFIX - METAL SHIELDS (MOUNTAINS)	
+#MIN%	MAX%	TABLEID	
+#1	20	727	#"Item Durability"	# DURABILITY +
+21	40	728	"Health"	# HEALTH +
+41	45	740	"Resist Cold"	# RESIST COLD
+46	50	744	"Resist Lightning"	# RESIST LIGHTNING
+51	56	746	"Resist Mental"	# RESIST MENTAL
+57	60	773	"Resist Holy"	# RESIST HOLY
+61	65	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+66	70	721	"Lightning Damage Shield"	# DAMAGE SHIELD - LIGHTNING
+71	75	723	"Mental Damage Shield"	# DAMAGE SHIELD - MENTAL
+76	80	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+81	100	753	"Block Chance"	# BLOCK CHANCE

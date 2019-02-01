@@ -1,0 +1,11 @@
+NAME= "Amazon Temple"
+NUMRANKS= 6
+#
+# --------------------------------------
+RANKNAME= "Amazon Thrall"   "Amazon"
+RANKNAME= "Amazon Slave"    "Amazon Warrior"
+RANKNAME= "Amazon Servant"  "Amazon Chieftess"
+RANKNAME= "Amazon Consort"  "Amazon Princess"
+RANKNAME= "Amazon Seneschal"  "Majestrix"
+RANKNAME= "Amazon Regent"   "Imperatrix"
+

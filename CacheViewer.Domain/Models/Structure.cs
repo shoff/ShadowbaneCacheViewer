@@ -1,4 +1,5 @@
-﻿namespace CacheViewer.Domain.Models
+﻿// ReSharper disable InconsistentNaming
+namespace CacheViewer.Domain.Models
 {
     using System;
     using System.Collections.Generic;
@@ -30,6 +31,7 @@
         public uint NumberOfMeshes { get; private set; }
         private uint renderId;
         private const int ValidRange = 5000;
+
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         
         /// <summary>

@@ -1,0 +1,19 @@
+#SUFFIX - AMULETS (OBLIVION)
+#MIN%	MAX%	TABLEID
+1	9	702	"Constitution"	# CON +
+10	18	700	"Buff All Stats"	# ALL STAT +
+19	27	728	"Health"	# HEALTH +
+28	36	729	"Intelligence"	# INT +
+37	45	731	"Mana"	# MANA +
+#46	47	730	#"See Invis"	# SEE INVIS
+48	60	749	"Stamina"	# STAMINA +
+61	71	750	"Strength"	# STR +
+72	80	778	"Skill: Necromancy"	# SKILL (NECROMANCY)
+81	88	780	"Skill: Bloodcraft"	# SKILL (BLOODCRAFT)
+89	90	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+91	92	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+93	93	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+94	95	740	"Resist Cold"	# RESIST COLD
+96	97	781	"Resist Unholy"	# RESIST UNHOLY
+98	98	739	"Resist Bleeding"	# RESIST BLEEDING
+99	100	773	"Resist Holy"	# RESIST HOLY

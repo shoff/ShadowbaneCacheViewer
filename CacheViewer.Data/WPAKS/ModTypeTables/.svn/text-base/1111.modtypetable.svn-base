@@ -1,0 +1,10 @@
+#SUFFIX - LUTES (MOUNTAINS)	
+#MIN%	MAX%	TABLEID	
+1	25	729	"Intelligence"	# INT +
+26	50	748	"Spirit"	# SPR +
+51	75	764	"Skill: Bardsong"	# SKILL
+76	83	740	"Resist Cold"	# RESIST COLD
+# 81	86	742	#RESIST EARTH - REMOVED FOR SHIP
+84	91	744	"Resist Lightning"	# RESIST LIGHTNING
+92	95	746	"Resist Mental"	# RESIST MENTAL
+96	100	773	"Resist Holy"	# RESIST HOLY

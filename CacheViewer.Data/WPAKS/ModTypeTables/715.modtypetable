@@ -1,0 +1,32 @@
+#SUFFIX - STAVES (GRASSLANDS)
+#MIN%	MAX%	TABLEID
+1	4	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+5	8	708	"Fire Damage Proc"	# DAMAGE - FIRE
+9	10	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+11	12	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+#13	15	727	#"Item Durability"	# DURABILITY +
+13	23	729	"Intelligence"	# INT +
+24	32	731	"Mana"	# MANA +
+33	38	732	"Maximum Damage Buff"	# MAXDAM +
+39	44	733	"Minimum Damage Buff"	# MINDAM+
+45	50	739	"Resist Bleeding"	# RESIST BLEEDING
+51	56	743	"Resist Fire"	# RESIST FIRE
+57	62	781	"Resist Holy"	# RESIST UNHOLY
+63	68	744	"Resist Lightning"	# RESIST LIGHTNING
+69	75	750	"Strength"	# STR +
+76	84	751	"Weapon Speed"	# WEAPON SPEED
+85	86	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+87	87	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+88	88	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+89	89	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+90	90	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+91	91	758	"Skill: Liturgy"	# SKILL (LITURGY)
+92	92	759	"Skill: Theurgy"	# SKILL (THEURGY)
+93	93	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+94	94	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+95	95	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+96	96	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+97	97	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+98	98	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+99	100	776	"Skill: Channeling"	# SKILL (CHANNELING)
+

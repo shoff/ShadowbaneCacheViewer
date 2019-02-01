@@ -1,0 +1,12 @@
+# Stat runes - gambling jackpot			
+#MIN%	MAX%	CACHEID	NAME
+220	229	250008	# Strength of the Gods
+230	239	250017	# Dexterity of the Gods
+240	249	250026	# Constitution of the Gods
+250	259	250035	# Intelligence of the Gods
+260	269	250044	# Spirit of the Gods
+270	279	250007	# Legendary Strength
+280	289	250016	# Legendary Dexterity
+290	299	250025	# Legendary Constitution
+300	309	250034	# Legendary Intelligence
+310	320	250043	# Legendary Spirit

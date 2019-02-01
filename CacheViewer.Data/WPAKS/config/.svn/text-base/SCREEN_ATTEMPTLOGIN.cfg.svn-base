@@ -1,0 +1,14 @@
+# ============================================
+# Shadowbane Screen Configuration File
+# ============================================
+FILEVERSION= 2003092201
+SKIN= Login
+
+WINDOWREZ= 800 600
+
+HUDBEGIN
+  TEMPLATE=	TITLE
+  NAME=	TITLEBOX
+  CENTERONSCREEN
+  REPLACECONTROLDESC= MESSAGE "Attempting to Log into Server..."
+HUDEND

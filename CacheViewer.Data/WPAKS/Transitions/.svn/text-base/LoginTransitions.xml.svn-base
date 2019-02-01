@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Transitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<EnterLogin>
+		<KeyFrame>
+			<Animation xsi:type="CameraMoveTransition">
+				<StopLocation>
+					<X>0</X>
+					<Y>30</Y>
+					<Z>0</Z>
+				</StopLocation>
+			</Animation>
+			<Animation xsi:type="CameraRotateTransition">
+				<StopAngle>0</StopAngle>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>AcctLogin</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+	</EnterLogin>
+	<ExitLogin>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>LoginStatus</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>LoginStatus</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>AcctLogin</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>LoginStatus</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>AcctLogin</Window>
+			</Animation>
+		</KeyFrame>
+	</ExitLogin>
+	<EnterCredits>
+		<KeyFrame>
+			<Animation xsi:type="CameraMoveTransition">
+				<StopLocation>
+					<X>0</X>
+					<Y>30</Y>
+					<Z>0</Z>
+				</StopLocation>
+			</Animation>
+			<Animation xsi:type="CameraRotateTransition">
+				<StopAngle>0</StopAngle>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>CreditsView</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Shadowbane</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Rise of Chaos</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Exit</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+	</EnterCredits>
+	<ExitCredits>
+		<KeyFrame>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Shadowbane</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Rise of Chaos</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Exit</Window>
+			</Animation>
+		</KeyFrame>
+	</ExitCredits>	
+	<EnterCharacterSelect>
+		<KeyFrame>
+			<Animation xsi:type="CameraMoveTransition">
+				<StopLocation>
+					<X>0</X>
+					<Y>4</Y>
+					<Z>0</Z>
+				</StopLocation>
+			</Animation>
+			<Animation xsi:type="CameraRotateTransition">
+				<StopAngle>0</StopAngle>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Logout</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Options</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Credits</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>New</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Delete</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Play</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>SelectedCharInfoWindow</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Next</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Previous</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+	</EnterCharacterSelect>
+	<ExitCharacterSelect>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Logout</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Options</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Credits</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>New</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Delete</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Play</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>SelectedCharInfoWindow</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Next</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Previous</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Logout</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Options</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Credits</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>New</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Delete</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Play</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Next</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Previous</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>SelectedCharInfoWindow</Window>
+			</Animation>
+		</KeyFrame>
+	</ExitCharacterSelect>
+	<EnterCharacterCreate>
+		<KeyFrame>
+			<Animation xsi:type="CameraMoveTransition">
+				<StopLocation>
+					<X>3.12</X>
+					<Y>3.3</Y>
+					<Z>-1.8</Z>
+				</StopLocation>
+			</Animation>
+			<Animation xsi:type="CameraRotateTransition">
+				<StopAngle>60</StopAngle>
+			</Animation>
+		</KeyFrame>
+		<!-- Fade in the buttons -->
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>0.2</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>0.4</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>0.2</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>0.6</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>0.4</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>0.2</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>0.8</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>0.6</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>0.4</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>0.2</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>0.8</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>0.6</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>0.4</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>0.2</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>0.8</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>0.6</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>0.4</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>0.8</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>0.6</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>0.8</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>0.2</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<!-- END Fade in the buttons -->
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Cancel</Window>
+				<FadeTarget>1</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+	</EnterCharacterCreate>
+	<ExitCharacterCreate>
+		<KeyFrame>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>Cancel</Window>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Server</Control>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Identity</Control>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Race</Control>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Class</Control>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+			<Animation xsi:type="ViewFadeTransition">
+				<Window>StepGroup</Window>
+				<Control>Traits</Control>
+				<FadeTarget>0</FadeTarget>
+				<TimeToTarget>1</TimeToTarget>
+			</Animation>
+		</KeyFrame>
+		<KeyFrame>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>Cancel</Window>
+			</Animation>
+			<Animation xsi:type="ViewRemoveTransition">
+				<Window>StepGroup</Window>
+			</Animation>
+		</KeyFrame>
+	</ExitCharacterCreate>
+</Transitions>

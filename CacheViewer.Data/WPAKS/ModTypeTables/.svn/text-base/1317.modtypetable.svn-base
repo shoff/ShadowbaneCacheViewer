@@ -1,0 +1,7 @@
+#SUFFIX - METAL WEAPONS (WORLD)	
+#MIN%	MAX%	TABLEID	
+#1	25	727	"Item Durability"	# DURABILITY +
+1	25	732	"Maximum Damage Buff"	# MAXDAM +
+26	50	733	"Minimum Damage Buff"	# MINDAM+
+51	75	751	"Weapon Speed"	# WEAPON SPEED
+76	100	782	Holy Damage Proc	# DAMAGE - HOLY

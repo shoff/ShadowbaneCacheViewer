@@ -1,0 +1,8 @@
+#SUFFIX - LUTES (WASTELANDS)	
+#MIN%	MAX%	TABLEID	
+1	25	729	"Intelligence"	# INT +
+26	50	731	"Mana"	# MANA +
+51	75	764	"Skill: Bardsong"	# SKILL
+76	84	740	"Resist Cold"	# RESIST COLD
+85	93	747	"Resist Poison"	# RESIST POISON
+94	100	781	"Resist Holy"	# RESIST UNHOLY

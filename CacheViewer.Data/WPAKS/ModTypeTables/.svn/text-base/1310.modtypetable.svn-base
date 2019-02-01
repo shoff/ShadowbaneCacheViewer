@@ -1,0 +1,18 @@
+#SUFFIX - RINGS (WORLD)
+#MIN%	MAX%	TABLEID
+#1	23	730	#"See Invis"	# SEE INVIS
+24	32	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+33	40	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+41	45	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+46	49	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+50	54	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA
+55	58	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+59	63	758	"Skill: Liturgy"	# SKILL (LITURGY)
+64	67	759	"Skill: Theurgy"	# SKILL (THEURGY)
+68	72	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+73	79	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+80	83	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+84	90	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+91	94	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+95	100	776	"Skill: Channeling"	# SKILL (CHANNELING)
+

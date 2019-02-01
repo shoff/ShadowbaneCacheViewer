@@ -1,0 +1,8 @@
+#SUFFIX - DURABILITY		
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#ofFragility	0	-4
+#16.6	33	#ofBrittleness	0	-2
+34	99.75	ofCraftsmanship	0	2
+99.76	166.5	ofSupremacy	0	2
+166.6	233.25	ofSturdiness	0	2
+233.26	300	oftheAges	0	5

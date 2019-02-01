@@ -1,0 +1,19 @@
+#SUFFIX - AMULETS (WORLD)
+#MIN%	MAX%	TABLEID
+#1	23	730	#"See Invis"	# SEE INVIS
+24	43	700	"Buff All Stats"	# ALL STAT +
+44	51	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+52	59	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+60	63	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+64	66	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+67	69	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+70	71	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+72	75	758	"Skill: Liturgy"	# SKILL (LITURGY)
+76	79	759	"Skill: Theurgy"	# SKILL (THEURGY)
+80	83	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+84	87	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+88	90	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+91	94	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+95	96	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+97	100	776	"Skill: Channeling"	# SKILL (CHANNELING)
+

@@ -1,0 +1,23 @@
+#SUFFIX - WANDS (WASTELANDS)
+#MIN%	MAX%	TABLEID
+#1	4	727	#"Item Durability"	# DURABILITY +
+5	9	732	"Maximum Damage Buff"	# MAXDAM +
+10	14	733	"Minimum Damage Buff"	# MINDAM+
+15	21	729	"Intelligence"	# INT +
+22	28	731	"Mana"	# MANA +
+29	31	740	"Resist Cold"	# RESIST COLD
+32	34	781	"Resist Holy"	# RESIST UNHOLY
+35	37	747	"Resist Poison"	# RESIST POISON
+38	41	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+42	46	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+47	51	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+52	56	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+57	60	776	"Skill: Channeling"	# SKILL (CHANNELING)
+61	64	780	"Skill: Bloodcraft"	# SKILL (BLOODCRAFT)
+65	68	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+69	77	778	"Skill: Necromancy"	# SKILL (NECROMANCY)
+78	82	705	Cold Damage Proc	# DAMAGE - COLD
+83	86	712	Poison Damage Proc	# DAMAGE - POISON
+87	91	713	Stamina Damage Proc	# DAMAGE - STAMINA
+92	96	765	Health Drain Proc	# DRAIN - HEALTH
+97	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

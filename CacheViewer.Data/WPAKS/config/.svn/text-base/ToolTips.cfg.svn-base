@@ -1,0 +1,750 @@
+BEGINPAGE "Welcome" # - at login#
+	32070
+	"\nWelcome to Shadowbane! These Tip Windows can help you\nlearn critical aspects of the Shadowbane interface.\n\n"
+	32066
+	"\nTutorial Tip Windows will open automatically as you explore\nthe game world. To close a Tutorial Window, click Close.\n\n"
+	32066
+	"\nTo disable the Tip Windows, click Disable Tutorial.\nTo browse the Tutorial Tips, click Info/Help on\nthe Command Bar, then click Tutorial Tips.\n"
+	32069
+	"\nRight-click anywhere on the ground to move to that location.\n(Mac users Command+click)\n\n"
+	32033
+	"\nReady for adventure? Double-click the Runemaster standing\nby the Statue to learn more about the surrounding lands,\nand how your character can seek gold and glory!\n"
+	32066
+	"\nClick the right arrow button to display the next\nTutorial Tip, which defines camera controls.\n\n"
+ENDPAGE
+
+BEGINPAGE "Camera Controls" # - right arrow from first tool tip#
+	32010
+	"\nRotate the camera to the left or right by moving the cursor to\nthe left or right edge of the screen or pressing 4 or 6 on the\nnumber pad.\n"
+	32012
+	"\nRotate the camera up or down by moving the cursor to the top\nor bottom edge of the screen or pressing 8 or 2\non the number pad.\n"
+	32013
+	"\nZoom the camera in or out by dialing up or down on the mouse\nwheel or press the + or - key on the number pad.\n\n"
+	32066
+	"\nPress the M key, hold down the Alt key, or click and hold\nthe center mouse button to activate Mouse Look.\nTo end mouse look, press M again or release the held\nbutton or key."
+	32009
+	"\n\nSelect Settings on the Main Menu, then Camera Settings to\ngain access to additional camera settings.\n\n"
+ENDPAGE
+
+BEGINPAGE "Navigation tips" # - at first click on ground#
+	32069
+	"\nRight-click anywhere on the ground to move to that location.\n(Mac users Command+click)\n\n"
+	32057
+	"\nTo run, click the Run Button or press Control+U. These also\ntoggle running off.\n\n"
+	32002
+	"\n\nThe Right and Left Arrow keys spin your character in place.\n\n"
+	32066
+	"\nYou can also move by right-clicking on the Local Map.\n(Mac users Command+click)\n\n"
+	32039
+	"\nOpen the Local Map by selecting Windows on the Main Menu,\nthen select Local Map.\n\n"
+	32071
+	"\nYou can open the World Map by selecting Windows on the \nMain Menu, then select World Map.\n\n"
+ENDPAGE
+
+BEGINPAGE "Keyboard Commands" # - at first keystroke#
+	32070
+	"\n\nYou can use the following keyboard commands at any time:\n\n"
+	32002
+	"\nControl + A = attack selected target\nC = toggle Combat Mode on/off\nE = open Equipment Window\nI = open Inventory Window"
+	32002
+	"\nK = open Skills Window\nP = open Powers Window\nS = open Statistics Window\nU = use selected item"
+	32002
+	"\nZ = sit down/stand up\nControl + M = close all windows on screen\nControl + U = toggle running on/off\n"
+ENDPAGE
+
+BEGINPAGE "Grouping Tips 1" # - after second loot window is closed#
+	32070
+	"\nYou can gain wealth and experience faster by forming or\njoining an adventuring Group.\n\n"
+	32025
+	"\nTo form your own group, click the Group Options item on the\nMain Menu, then select Form New Group.\n\n"
+	32041
+	"\nTo save on screen space, click the Minimize button on the\nGroup Information to display a smaller version.\n\n"
+	32070
+	"\nTo join an existing group, convince a character who serves\nas Group Leader to invite your character.\n\n"
+	32027
+	"\nIf you close your Group Information Window, you can open\nit again by selecting Group Options on the Main Menu,\nthen selecting Toggle Info.\n"
+ENDPAGE
+
+BEGINPAGE "Group Leader Tips" # - At Form New Group#
+	32030
+	"\nBy forming a Group, your character is automatically Group\nLeader. There are several special commands available to\nGroup Leaders, all of them reached through Group Options:\n"
+	32024
+	"\nFollowing: when following is toggled on, all Group members\nwill move into the currently selected formation and follow\nthe group leader.\n"
+	32067
+	"\nSelect Following Toggle to turn following on or off.\nFormations are listed at the end of Group Options.\n\n"
+	32062
+	"\nGold Sharing: Click Split Gold on the Group Options sub menu\nto automatically divide gold looted among the Group.\n\n"
+	32001
+	"\nTo add members to your group, select a character you want\nto group with and click the Invite to Group button on the\nGroup Information Window.\n"
+	32045
+	"\nTo remove a member, select their name on the Group\nInformation Window and then select Remove Member, using\neither the button on the Group Information Window or the\noption on the Group Options sub menu."
+	32052
+	"\n\nTo voluntarily transfer leadership, select\nAppoint Leader on the Group Options sub menu.\n"
+ENDPAGE
+
+BEGINPAGE "Focus Skills and Powers" # - mouseover a focus skill#
+	32061
+	"Every power or spell that your character has access to has\nan associated Focus Skill. Focus skills ratings determine\nwhether or not your character uses a power successfully,\nas well as when they gain access to powers.\n"
+	32068
+	"You can improve a given spell or power by improving the\nFocus Skill with a Trainer NPC. Raising a rating in the\nFocus Skill will make the power more accurate, and more\nlikely to succeed when used.\n"
+	32069
+	"\nYou can also improve some spells and powers by spending\npractice points directly on the spell or power. Raising\na power's  rating will increase the power's  effects.\n"
+ENDPAGE
+
+BEGINPAGE "Finding a Guild" # - Gaining 5th Level#
+	32070
+	"\nOnce your character reaches 20th level, they will no longer\nhave access to their starting city, and must find or found\na Guild of their own.\n"
+	32029
+	"\nTo found a Guild, purchase a Guild Charter from a Herald or\nRunemaster NPC and then use it.\n\n"
+	32070
+	"\nTo find a Guild, ask around in game and explore, or visit\nour website. The official discussion forums and affiliate\nShadowbane sites can point you to dozens of established\nGuilds."
+ENDPAGE
+
+BEGINPAGE "Window Customization" # - first click on any window#
+	32043
+	"\nReposition any window by left-clicking the upper band and\ndragging, or hold down the Shift key and then left-click\nand drag anywhere within the window.\n"
+	32055
+	"\nResize any window by clicking and dragging the resize tab\nin the lower left corner.\n\n"
+	32066
+	"\nControl+left-click this window to open a menu of\ncustomization options.\n\n"
+	32043
+	"\nReposition any button by dragging the button\nanywhere on screen. To reposition a custom-placed button,\nhold down the Shift key while dragging the button.\n"
+	32043
+	"\n\nTutorial Windows and buttons cannot be repositioned.\n\n"
+	32066
+	"\nControl+left-click any button to open a menu of\ncustomization options.\n\n"
+ENDPAGE
+
+BEGINPAGE "Main Menu" # - mouse over Main Menu#
+	32070
+	"\nThis is the Main Menu. Click any button on it to display\nsub-menus of options and commands.\n\n"
+	32066
+	"\n\nIf this window is closed, press the Escape key to\nre-open it\n"
+ENDPAGE
+
+
+BEGINPAGE "Status Window" # - mouse Over Status Window#
+	32070
+	"\n\nThis is the Status Window. It has the following features:\n\n"
+	32038
+	"\n\nThe Red bar displays your character's  current Health.\n\n"
+	32063
+	"\n\nThe Gold bar displays your character's  current Stamina.\n\n"
+	32040
+	"\n\nThe Blue bar displays your character's  current Mana.\n\n"
+	32021
+	"\nThe Experience Bar indicates how many experience points\nyou need to raise your character's  level.\n\n"
+	32057
+	"\nClick the Run Button of type Control+U to toggle running\non or off.\n\n"
+	32060
+	"\nClick the Sit Button or type Z to sit down/stand up.\nWhile seated, your character will recover Health, Mana,\nand Stamina much faster than normal.\n"
+	32041
+	"\nClick the Minimize/Maximize All button to open or close\nevery window on the screen except this one.\n\n"
+	32065
+	"\nClick the Character Info button or type S to open your\ncharacter's  Statistics window.\n\n"
+ENDPAGE
+
+BEGINPAGE "Health Border" # - mouse Over Health Border#
+	32070
+	"\n\nThis is the Health Border. It has the following features:\n\n"
+	32038
+	"\n\nThe Red shield displays your character's  current Health.\n\n"
+	32063
+	"\n\nThe Gold bar displays your character's  current Stamina.\n\n"
+	32065
+	"\nClick the Character Info button or type S to open your\ncharacter's Statistics Window.\n\n"
+	32034
+	"\nClick the Inventory button or type I to open your\ncharacter's Inventory Window.\n\n"
+	32033
+	"\nClick the Equipment button or type E to open your\ncharacter's Equipment Window.\n\n"
+ENDPAGE
+
+BEGINPAGE "Mana Border" # - mouse Over Mana Border#
+	32070
+	"\n\nThis is the Mana Border. It has the following features:\n\n"
+	32040
+	"\n\nThe Blue shield displays your character's  current Mana.\n\n"
+	32021
+	"\nThe Experience Bar indicates how many experience points\nyou need to raise your character's  level.\n\n"
+	32057
+	"\nClick the Run Button of type Control+U to toggle running\non or off.\n\n"
+	32018
+	"\nClick the Combat Mode button or type C to\nenter Combat Mode.\n\n"
+	32060
+	"\nClick the Sit Button or type Z to sit down/stand up.\nWhile seated, your character will recover Health, Mana,\nand Stamina much faster than normal.\n"
+ENDPAGE
+
+BEGINPAGE "Selection Window" # - mouse over Selection Window#
+	32070
+	"\nThis is the Selection Window. Vital information about any\nobject, character, or monster you select during play\nappears here, including:\n"
+	32033
+	"\nName: the name of the character or monster. The color of\nthe name indicates that character's  power level relative\nto your character:\n"
+	32033
+	"\nWhite, Green = easy prey\nBlue = an even match\nYellow, Orange = hard to beat\nMagenta, Red = prepare to die"
+	32038
+	"\n\nHealth: the Red bar indicates the current health level of\nthe selected target.\n"
+	32050
+	"\nClass and Rank Icons: a row of icons below the Health bar\nindicates the target's  Class or type (by their shape),\nand their Rank in 10's  of levels (by their number).\n"
+	32044
+	"\nNation: The gold-rimmed shield on the right shows the Nation\naffiliation of the object or character (if any).\n\n"
+	32031
+	"\nGuild: The silver-rimmed shield on the left shows the Guild\naffiliation of the object or character (if any).\n\n"
+ENDPAGE
+
+BEGINPAGE "Chat Window" # - mouse over a Chat Window#
+	32070
+	"\n\nThis is a Chat Window, used for communications.\n\n"
+	32066
+	"\nClick in the command line at the bottom of the window to\nplace a cursor there.\n\n"
+	32002
+	"\nPressing the Enter/Return key automatically places a cursor\nin the command line\n\n"
+	32002
+	"\nTo input a text command, type the command in the command\nline of the window. All commands must begin with a forward\nslash: /.\n"
+	32002
+	"\nThe forward slash (/) key automatically inputs a forward\nslash on the command line and places a cursor there.\n\n"
+	32066
+	"\n\nTo execute the command, press the Enter/Return key.\n\n"
+ENDPAGE
+
+BEGINPAGE "Chat Window 2" # - input text on command line#
+	32066
+	"\nTo send a message, type the channel tag then the text of\nthe message into the command line, then press\nEnter/Return. Messages going out on the window's  default\nchannel need no tags."
+	32070
+	"\n\n\nCommon Channels and Channel Tags include:\n"
+	32016
+	"\nTell (send to a character): /tell or /t <recipient's  name>\nShout (heard a long way, costs Stamina): /shout\nGroup (sent only to Group members): /group or /g\n"
+	32016
+	"\nGuild (sent only to Guild members): /guild or /gu\nSay (heard nearby, text appears overhead): /say\n"
+	32066
+	"\nTo change a channel's  display colors or change a Chat\nWindow's  default channel, hold down the Control key and\nleft-click the window to open a menu of options.\n"
+	32002
+	"\n\nType T to automatically begin a Tell message (inputs </tell >).\n\n"
+	32002
+	"\nType Control+R to automatically reply to the last character\nwho sent you a tell (inputs </tell <lastsender> ).\n\n"
+ENDPAGE
+
+BEGINPAGE "Effects Window" # - mouse over effects window#
+	32070
+	"\nThis is the Effects Window. Whenever a spell, power, or item\nmodifies any of your character's  statistics, an icon\nrepresenting that effect appears here.\n"
+	32033
+	"\n\nMouse over each icon to learn its source and effects.\n\n"
+	32066
+	"\nTo close this window, select Windows on the Main Menu, then\nselect Effects Window.\n\n"
+ENDPAGE
+
+
+BEGINPAGE "Inventory" # - mouse over Inventory#
+	32070
+	"\nThis is the Inventory Window, a display of every item your\ncharacter owns.\n\n"
+	32033
+	"\n\nMouse over any item to display its name and statistics.\n\n"
+	32043
+	"\nDouble-click an equipment item to automatically move it to\nan open equipment slot on the equipment menu.\n\n"
+	32066
+	"\n\nTo drop an item, drag it out of the window and onto the ground.\n\n"
+	32066
+	"\nTo Use an unequippable item, double click the item, select\nthe item and press the U key, or Control+click on the Item\nthen select Use.\n"
+	32066
+	"\nHold down the Control key and left-click any item to open a\nmenu of special options.\n\n"
+ENDPAGE
+
+BEGINPAGE "Equipment" # - mouse over Equipment Window#
+	32070
+	"\nThis is the Equipment Window, a display of al the items\nyour character is using.\n\n"
+	32033
+	"\n\nMouse over any item to display its name and statistics.\n\n"
+	32043
+	"\nDouble-click an item to automatically unequip it and move it\nto your character's  Inventory Window.\n\n"
+	32066
+	"\nTo drop an item, drag it out of the window and onto the\nground.\n\n"
+	32066
+	"\nTo Use an item, double click the item, select the item and\npress the U key, or Control+click the Item and select Use.\n\n"
+	32066
+	"\nHold down the Control key and left-click any item to open a\nmenu of special options.\n\n"
+ENDPAGE
+
+BEGINPAGE "Powers" # - Mouse over Powers Window#
+	32070
+	"\nThis is the Powers window, which displays all of the powers\nyour character has access to.\n\n"
+	32066
+	"\nPowers will not appear on this list until you spend a least\none practice point training the power.\n\n"
+	32068
+	"\nTo train a power, find an appropriate Trainer, double-click\nthem, then select Train on their services menu.\n\n"
+	32033
+	"\nMouse over any power to see a description of the power and\nits game effects.\n\n"
+	32049
+	"\n\nClick the icon button for the power to activate the power.\n\n"
+	32049
+	"\nYou can 'undercast' powers, and spells, sacrificing damage\nfor accuracy. To use a Power at less than full level,\ntype </usepower [Power Name] [level to cast at]>.\n"
+	32066
+	"\nFor easier access to your powers, drag the icon button\nanywhere on the screen. To reposition a custom-placed\nbutton, hold down the Shift key then drag it.\n"
+	32002
+	"\nTo bind a hotkey for a power, select Settings on the Main\nMenu, then select Hotkeys, and finally select Powers.\n\n"
+	32066
+	"\nHold down the Control key and click on an icon button to\nopen a menu of special options.\n\n"
+ENDPAGE
+
+BEGINPAGE "Powers Bar" # - Mouse over Mini Powers Window#
+	32070
+	"\nThis is the Powers Bar, which contains buttons for all of\nthe powers your character has access to.\n\n"
+	32033
+	"\nMouse over any power button to see a description of the\npower and its game effects.\n\n"
+	32049
+	"\n\nClick the button for any power to activate that power.\n\n"
+	32049
+	"\nYou can 'undercast' powers, and spells, sacrificing damage\nfor accuracy. To use a Power at less than full level,\ntype </usepower [Power Name][level of the power]>\n"
+	32066
+	"\nFor easier access to your powers, drag the icon button\nanywhere on the screen. To reposition a custom-placed\nbutton, hold down the Shift key then drag it.\n"
+	32002
+	"\nTo bind a hotkey for a power, select Settings on the Main\nMenu, then select Hotkeys, and finally select Powers.\n\n"
+ENDPAGE
+
+BEGINPAGE "Skills" # - mouse over Skills Window#
+	32070
+	"\nThis is the Skills window, which displays all of the skills your\ncharacter has access to.\n\n"
+	32066
+	"\nSkills will not appear on this list until you spend at\nleast one practice point training the power.\n\n"
+	32068
+	"\nTo train a power, find an appropriate Trainer, double-click\nthem, then select Train on their services menu.\n\n"
+	32033
+	"\nMouse over any power to see a description of the power and\nits game uses.\n\n"
+	32070
+	"\nYour character automatically uses skills whenever they\nattack, activate a power, or engage in combat. You will\nnever need to activate a Skill using button or hotkey.\n"
+	32066
+	"\nRaising your character's Intelligence stat will improve all\nof your Skill ratings.\n\n"
+ENDPAGE
+
+BEGINPAGE "Local Map" # - mouse over Local Map#
+	32070
+	"\n\nThis is the Local Map, which displays the surrounding area.\n\n"
+	32066
+	"\nYou can move by right-clicking on the Local Map.\n(Mac users Command+click)\n\n"
+	32017
+	"\nYour character appears as a white arrow indicating your\ncharacter's  heading.\n\n"
+	32033
+	"\n\nMonsters appear as red dots on the map.\n\n"
+	32033
+	"\n\nOther Characters appear as blue dots.\n\n"
+	32033
+	"\n\nMembers of your Guild appear as green dots.\n\n"
+	32033
+	"\n\nMembers of your nation appear as light green dots.\n\n"
+	32033
+	"\n\nGuards appear as orange dots.\n\n"
+	32033
+	"\n\nTrainers and Vendors appear as yellow dots.\n\n"
+	32033
+	"\n\nYour character's grave marker appears as a\nwhite cross.\n"
+ENDPAGE
+
+BEGINPAGE "World Map" # - mouse over World Map#
+	32070
+	"\nThis is the World Map, which displays the world your\ncharacter inhabits.\n\n"
+	32072
+	"\nYour character appears as a red circle, with an arrow\nindicating your character's  heading.\n\n"
+	32044
+	"\n\nEach shield represents a City, controlled by a Guild.\n\n"
+	32033
+	"\nClick on a Shield to open an information window pertaining\nto that City.\n\n"
+	32070
+	"\nSafeholds are cities that are not built and controlled by\nplayer Guilds. Player vs. Player combat is forbidden in\nor near Safeholds.\n"
+	32066
+	"\nStarting Cities are player built cities that allow new\ncharacters to begin play or transfer there.\n\n"
+	32051
+	"\nClick the City Info button at the bottom of the window to\nrefresh the city displays and information.\n\n"
+ENDPAGE
+
+BEGINPAGE "Group Info" # - mouse over Group Info#
+	32070
+	"\n\nThis is the Group Information Window.\n\n"
+	32028
+	"\nThe name and relative status of every member of the Group\nis displayed here. The red bar represents Health, the\ngold bar Stamina, and the blue bar Mana.\n"
+	32066
+	"\nYou can select a group member by clicking on their name in\nthe window.\n\n"
+	32041
+	"\nTo save on screen space, click the Minimize button to\ndisplay a smaller version of this window.\n\n"
+	32030
+	"\nThe other buttons allow the Group Leader execute Group\ncommands.\n\n"
+ENDPAGE
+
+BEGINPAGE "Saving Heraldry" # - click on Shield in Selection Window#
+	32070
+	"\n\nTo save any Guild or Nation crest, follow these steps:\n\n"
+	32030
+	"\n\nSelect Guild Options on the Main Menu.\n\n"
+	32032
+	"\n\nSelect Heraldry List from the Guild Option sub-menu.\n\n"
+	32066
+	"\nWhen the Heraldry List opens, drag the crest from the\nSelection Window and drop it into the bottom half of the\nHeraldry List. The name, Guild, and Nation of the selected\ntarget will be saved."
+	32030
+	"\nCrests can be dragged from the Heraldry or Death Lists into\nthe Friends or Condemn lists of any building or city asset\nyour character can manage.\n"
+ENDPAGE
+
+BEGINPAGE "Flight" # - when flight ability gained#
+	32023
+	"\nTo fly, climb an altitude level by clicking the climb button\non the Mana Border or by pressing the Page Up key.\n\n"
+	32022
+	"\nDive an altitude level or land by clicking the dive button\non the Mana Border or by pressing the Page Down key.\n\n"
+	32069
+	"\nTo move while flying, right click on the ground (Mac users\ncommand+click). Your character will fly over the selected\nlocation.\n"
+ENDPAGE
+
+BEGINPAGE "Selection" # - at first movement#
+	32043
+	"\n\nLeft-click to select any character, mobile, or object.\n\n"
+	32002
+	"\nYou can automatically select your character by pressing the\nEnd key.\n\n"
+	32002
+	"\nYou can automatically select the next monster by pressing\nthe Home key.\n\n"
+	32002
+	"\nYou can automatically select the next character by pressing\nthe Insert key.\n\n"
+ENDPAGE
+
+BEGINPAGE "Selection 2" # - at first object selection#
+	32033
+	"\nThe name and health of any object, character, or mobile you\nselect will appear in the Selection Window.\n\n"
+	32066
+	"\nHold down the Control key while selecting an object to open\na menu of interaction options.\n\n"
+	32070
+	"\nDouble-click any object to perform the appropriate default\naction for that object:\n\n"
+	32043
+	"\nAttack a monster or character\nOpen a door or container\nGet an object that can be owned or carried\nDrop an object in your character's Inventory"
+	32043
+	"\nOpen the Loot Inventory of a corpse\nOpen the Vendor Menu of a Vendor or Trainer\n\n"
+ENDPAGE
+
+BEGINPAGE "Combat" # - proximity to mobile#
+	32070
+	"\n\nThere are monsters nearby!\n\n"
+	32018
+	"\nType C or hit the Combat Mode button on the Mana Border\nto enter Combat Mode.\n\n"
+	32003
+	"\nTo attack, enter combat mode then double click a monster,\nor type Control+A to attack the selected target.\n\n"
+	32043
+	"\nClick on any monster to select it, or press the Home Key to\nselect the next monster until the desired target is\nselected.\n"
+	32033
+	"\nThe name of the selected monster will appear in the\nSelection window. The color of the name indicates how\npowerful the monster is relative to your character:\n"
+	32033
+	"White, Green = easy prey\nBlue = an even match\nYellow, Orange = hard to beat\nMagenta, Red = prepare to die\n"
+	32018
+	"\nIf attacked, your character will automatically enter Combat\nMode and move toward your attacker.\n\n"
+	32018
+	"\nTo disable automatic combat closing, click the Settings\noption on the Main Menu, then click Preferences\n and disable the Combat Close toggle.\n"
+	32049
+	"\nTo use powers in combat, either click the desired power\nbutton or activate the power's  hotkey (if any). Press the\nP key to open your character's  Powers Window for more\ninformation."
+ENDPAGE
+
+BEGINPAGE "Loot" # - death of a mobile#
+	32070
+	"\n\nVictory! You can gain treasure from the dead body nearby.\n\n"
+	32034
+	"\n\nDouble click the corpse to open its Loot Inventory.\n\n"
+	32034
+	"\nCharacters leave grave markers instead of corpses.\nDouble click the marker to open its Loot Inventory.\n\n"
+	32043
+	"\nDouble click any displayed gold or item in the window to\ntake it and add it to your character's Inventory.\n\n"
+	32002
+	"\nYou can also acquire items by selecting them and then\npressing the G key or dragging the items from the Loot\nInventory to your character's Inventory.\n"
+	32070
+	"\nCorpses without any treasure to loot decay quickly. If a\nmonster's  body vanishes before you get the chance to loot\nit, don't worry. It didn't have anything worth taking.\n"
+ENDPAGE
+
+BEGINPAGE "Transparency" # - select Transparency on window context HUD#
+	32066
+	"\nAdjust the transparency of the window using the slider bar.\nThe window will fade back to full opacity whenever you\nmouse over it.\n\n"
+	32066
+	"\nTo keep a window transparent even during mouseover,\nControl+Left Click the window and select Lock\nTransparency.\n"
+	32066
+	"\nOnce a window's  transparency has been locked, you can click\nthrough the window as if it were not there.\n\n"
+ENDPAGE
+
+BEGINPAGE "Hotkeys" # - select Hotkeys on Settings sub-menu#
+	32070
+	"\nThese options allow you to set a hotkey for any button,\nfunction, or input command.\n\n"
+	32002
+	"\nClick Bind General Key, Bind Socials, or Bind Powers to\ndisplay a list of available actions or commands. Each\nentry on the list can be bound by clicking the Map button.\n"
+	32002
+	"\nTo hotkey a text command (including any communication or\nchat message), click Bind Macros.\n\n"
+	32002
+	"\n\nWhen the list appears, click New to open a binding window.\n\n"
+	32002
+	"\nClick Edit, then click in the text field and input the text\ncommand. Click Map to set the hotkey, and close the window\nto save your changes.\n"
+	32066
+	"\nSelect Restore Defaults to erase all custom hotkeys and\nreturn to the default set.\n\n"
+	32066
+	"\nTo transfer the hotkey set from another character to this\ncharacter, select Import Hotkeys. A list of all characters\non your account will open. Select the desired character to\ntransfer the list."
+ENDPAGE
+
+BEGINPAGE "Leveling" # - when character gains 2nd Level#
+	32070
+	"\nYou've gained a level! Your character's Health, Stamina, and\nMana have already improved, but you can also make other\nrefinements to your character:\n"
+	32065
+	"\n\nPress the S key to open your character's Statistics Window.\n\n"
+	32033
+	"\nAt the bottom, you will see a field called Ability Points.\nThese can be used to raise your statistics.\n\n"
+	32066
+	"\n\nTo raise a statistic, click the + button next to the stat.\n\n"
+	32061
+	"\nYou have also earned Practice Points that can raise skill\nand power ratings. Press the K or P keys to open your\nSkill or Power windows. The number of practice points\navailable to you is listed at the bottom."
+	32068
+	"\n\nTo train a skill or power, find an appropriate Trainer,\ndouble-click them, then select Train on their services\nmenu."
+ENDPAGE
+
+BEGINPAGE "Interaction" # - proximity to another character#
+	32070
+	"\nThere's another character nearby. Left-click to select them,\n to interact with them in the following ways:\n"
+	32032
+	"To save their Guild or Nation crest:\nSelect Guild options on the Main Menu\nSelect Heraldry List\nDrag their crest into the list.\n"
+	32028
+	"To Group with this character:\nSelect Group Options, then select Form new Group\nHold down the Control key and left-click on the character\nSelect Invite to Join Group from the context menu\n"
+	32020
+	"\n\nTo Trade with this character:\nleft-click on the character and type Control+T.\n"
+	32003
+	"\nTo Attack this character:\nEnter Combat mode (type C or click the Combat Mode button)\nDouble click the character to attack\nNOTE: Player combat is forbidden in and around Safeholds"
+ENDPAGE
+
+BEGINPAGE "Grouping 2" # - receive Group Invite#
+	32070
+	"\nYou've been invited to join an adventuring Group.\nYour character can gain wealth and experience by joining.\n\n"
+	32000
+	"\nTo join the Group, click the Accept button in the dialogue\nwindow.\n\n"
+	32027
+	"\nThe Group Information Window will automatically open.\nMouse over the window for more information.\n\n"
+	32041
+	"\nTo save on screen space, click the Minimize button on the\nGroup Information to display a smaller version.\n\n"
+	32016
+	"\nSend messages on the Group communications channel by typing\n/g before the message text in the Chat Window. Only group\nmembers will receive messages sent on the Group channel.\n"
+	32027
+	"\nGroups can move as a unit using automatic following.\nTo see if your character is in formation, check the\nmetallic button beside your character's  name in the Group\nInformation Window."
+	32067
+	"\n\nTo break formation, select Group Options on the Main Menu,\nthen select Toggle Following.\n"
+	32027
+	"\nIf you close your Group Information Window, you can open\nit again by selecting Group Options on the Main Menu, then\nselecting Toggle Info.\n"
+ENDPAGE
+
+BEGINPAGE "Tree Binding" # - proximity to a ToL#
+	32070
+	"\nYou are now near a Tree of Life, the heart and soul of a\nShadowbane city.\n\n"
+	32033
+	"\nDouble click the Tree to open an information window\ndisplaying the Tree's  name, Guild and Nation affiliation,\nand several options.\n"
+	32004
+	"\nSelect Bind Tree to use this Tree as your character's login\nor re-spawn point. This option will only appear if the\nTree is owned by a Guild that is part of a Nation that\nalso includes your character's Guild."
+	32035
+	"\n\nSelect Join Guild to automatically Join the Guild that owns\nthis Tree of Life and use this Tree as your character's \nlogin and re-spawn point."
+ENDPAGE
+
+BEGINPAGE "Promotion" # - gaining 10th level#
+	32070
+	"\nCongratulations, your character has just attained their\ntenth level, and is now Rank 1. At this time, you must\npromote into a profession to continue gaining experience.\n"
+	32070
+	"\nConsult the Shadowbane website or your user manual for\nmore information about the promotion classes available to\nyour character.\n"
+	32068
+	"\n\nTo promote to a Profession seek out a Trainer in any city.\n\n"
+	32066
+	"\nDouble-click the Trainer to open their dialogue window, then\nselect Promote Class.\n\n"
+	32033
+	"\nSelect the desired class to promote into it, or ask about\nthe class to receive more information.\n\n"
+ENDPAGE
+
+BEGINPAGE "Vendors" # - proximity to a Vendor#
+	32070
+	"\nThere is a Vendor NPC nearby. Double click the vendor to\nopen a menu of their services.\n\n"
+	32058
+	"\nTo sell an item, select Sell on the service menu. This opens\na menu of every item your character owns that the\nVendor will buy.\nSelect the desired item then click the Sell button.\n"
+	32007
+	"To buy an item, select Buy on the service menu. This will\nopen a menu of every item in the Vendor's  inventory\navailable for sale. Mouse over an item to see a\ndescription. To buy, select the desired item then click Buy.\n"
+	32053
+	"\nTo repair equipment, select Repair on the service menu. This\nopens a menu of every item your character owns that is damaged.\nTo repair, select the desired item and click Repair.\n"
+ENDPAGE
+
+BEGINPAGE "Banker" # - proximity to a Bursar#
+	32070
+	"\nThere is a Bursar NPC nearby. Bursars allow you to store\nwealth and precious items, banking them for future use.\n\n"
+	32020
+	"\nTo open your character's  Bank Inventory, double click the\nbursar.\n\n"
+	32043
+	"\nTo move items into or out of your character's  bank, drag\nthe desired items between Equipment Window or Inventory\nWindow into your Character's  Bank Inventory.\n"
+	32034
+	"\nMove gold into or out of your character's  bank by dragging\nthe gold pile between your character's  Inventory and their\nBank Inventory. Set the exact amount using the slider.\n"
+	32020
+	"\nSome Bursars charge a fee for withdrawals: you will always\nbe notified of any charges before any transactions.\n\n"
+	32034
+	"\nItems or gold in your character's Bank Inventory can be\nwithdrawn from any Bursar NPC in the game world.\n\n"
+ENDPAGE
+
+BEGINPAGE "Trainer" # - proximity to a Trainer#
+	32070
+	"\nThere is a Trainer NPC nearby. Trainers can help improve\nyour character's  skills and powers and promote your\ncharacter in Professions and Disciplines.\n"
+	32061
+	"\nTo improve skills or powers, your character will need to\nspend Practice Points. Type K to open your character's\nSkills Window: a field at the bottom of the window\ndisplays the number of practice points available."
+	32070
+	"\n\nYour character will gain practice points as they increase\ntheir level.\n"
+	32068
+	"\nDouble click the Trainer to display a list of all the skills\nand powers that Trainer will teach.\n\n"
+	32066
+	"\nTo see a list of promotion options, double-click the Trainer\nand select Promotion Info from the dialogue options.\n\n"
+ENDPAGE
+
+BEGINPAGE "Trainer 2" # - opening the Trainer's menu#
+	32070
+	"\n\nThis menu lists every skill or power this Trainer teaches.\n\n"
+	32066
+	"\n\nYour character cannot train any Skills or powers in red.\n\n"
+	32033
+	"\nEach skill or power on the menu will also list your\ncharacter's current rating, and the amount of gold\nrequired to improve that skill or power by one practice\npoint."
+	32033
+	"\n\nMouse over each skill or power to read a description of it,\nincluding prerequisites and relevant game effects.\n"
+	32068
+	"\nTo spend a practice point on a skill or power, select the\ndesired skill or power and then click the Train button.\n\n"
+	32066
+	"\nAs your character rises in level, new skills or powers will\nappear in this menu. Be sure to check back each time your\ncharacter gains a level.\n"
+ENDPAGE
+
+BEGINPAGE "Item ID" # - mouse over an enchanted item#
+	32070
+	"\nThis item is enchanted! To learn its capabilities, you need\nto have it magically identified.\n\n"
+	32066
+	"\nYou may be able to guess the items effects: type S to open\nyour character sheet, then equip the item. Look carefully\nto see if any of your statistics change.\n"
+	32070
+	"\nMages, Bards, and some other classes all gain the ability to\nidentify magic items. Seek one out and arrange for them to\nidentify the item."
+	32070
+	"\nItems can also be identified using Identify Scrolls. Seek a\nSage Vendor to purchase a scroll, then double-click the\nscroll to use it. When prompted, select the\nitem to be identified."
+ENDPAGE
+
+BEGINPAGE "Guard" # - proximity to a Guard#
+	32070
+	"\nThere is a Guard nearby. Guards defend cities and their\ncitizens in Shadowbane, and are a vital part of City sieging\nand Guild warfare.\n"
+	32066
+	"\nGuards will intervene to protect members of the Nation that\nowns their home city, or any Guild affiliated with it.\n\n"
+	32003
+	"\nGuards will automatically attack any character whose name,\nGuild crest, or Nation crest has been placed on their\nBarracks' Kill-on-Sight list.\n"
+	32066
+	"\n\nGuards cannot leave their home city.\n\n"
+	32070
+	"\nRefer to your user manual for more information about owning\nand managing a Barracks and commanding Guards.\n\n"
+ENDPAGE
+
+BEGINPAGE "Door" # - proximity to a door#
+	32070
+	"\n\nThere is a door nearby!\n\n"
+	32043
+	"\nTo open the door, simply double click on it. After a moment,\nopen doors will automatically swing shut again.\n\n"
+	32066
+	"\nYou can also open a door by Control+left-clicking the door,\nthen selecting Open.\n\n"
+	32070
+	"\nOwners of Buildings or Gates may elect to lock the doors of\nbuildings they can manage. Control+click the door,\nand select Lock.\n"
+ENDPAGE
+
+BEGINPAGE "Pick Up" # - picking up object#
+	32070
+	"\nThere is an object lying on the ground nearby. Your\ncharacter can acquire it in several ways:\n\n"
+	32043
+	"\nDouble-click the item to automatically Get it, moving it\nto your character's  inventory.\n\n"
+	32003
+	"\nYou can also click the item to select it, then press the G\nkey to get it.\n\n"
+	32003
+	"\nYou can also Control+click the item, then select Get on the\ncontext menu to grab the item.\n\n"
+ENDPAGE
+
+BEGINPAGE "Promotion Imminent" # - gaining 9th level#
+	32070
+	"\nYour character is one level away from 1st rank! At 10th\nlevel, you will be required to select a PROMOTION CLASS\n to continue advancing your character.\n"
+	32033
+	"\nConsult the Shadowbane website or your user manual for\nmore information about the promotion options\navailable to your character.\n"
+	32033
+	"\nTo promote to a profession you will need to find a Trainer\nof the appropriate type. These trainers are scattered in\nSafeholds, player Cities, or other places. Ask around if\nyou're having trouble finding one."
+	32066
+	"\n\nDouble-click the Trainer to open their dialogue, then\nselect the promotion option.\n"
+	32033
+	"\nSelect the desired profession to promote into it, or ask\nabout the class to receive more information.\n\n"
+ENDPAGE
+
+BEGINPAGE "Death Effects: Equipment" # - first character respawn after death#
+	32070
+	"\nYour character has died! Though death in Shadowbane is\nnot permanent, there are several penalties associated with\ndeath you need to be aware of.\n"
+	32033
+	"\nAll equipment held in your character's Inventory stayed\non your character's grave, for any passerby to loot.\n"
+	32033
+	"\nEquipment your character has equipped may or may not have\nstayed with their grave. Each item has a chance to drop,\nbased on your character's game world.\n"
+	32019
+	"\nTo regain lost equipment, run back to your corpse before\nit is looted. Corpses appear as a white cross on your\nLocal Map.\n"
+	32033
+	"\nEven equipment that your character keeps is effected by\ndeath. All equipped items suffer damage to their\ndurability upon character death.\n"
+	32053
+	"\nTo repair damaged equipment, seek out a Vendor in any City,\nDouble-click the Vendor to open their Trade Menu,\nthen select Repair.\n"
+ENDPAGE
+
+BEGINPAGE "Graduation to the Mainland" # - gaining 19th level#
+	32070
+	"\nYour character is one level away from 2nd rank! At 20th\nlevel, your character will be forced to move to the\nmainland and a new home City, if you haven't already.\n"
+	32033
+	"\nTo pledge to a new City, seek out a Runemaster Tradesman in\nany City, Control+left click them, and select the Repledge\noption to see a list of Freeholds and open player cities.\n"
+	32066
+	"\nPlayer vs. player combat is allowed in all areas of the\nMainland, so be careful! Place valued equipment items in\nyour Bank Inventory before repledging.\n"
+	32066
+	"\nIf you don't already belong to a player Guild, now would be\na good time to start looking for one.\n\n"
+	32033
+	"\nTo find active player Guilds, ask around, consult your\nWorld Map, or look to web-based forums, or the\nShadowbane website.\n"
+ENDPAGE
+
+BEGINPAGE "Errant Status" # - every respawn or login while character is errant#
+	32070
+	"\nYour character is currently Errant - they do not belong to\nany City or player Guild. This status has some serious\neffects on your character's progress:\n"
+	32021
+	"\nAll earned experience for Errant characters is halved.\nUntil you join a Freehold or Guild, your character will\nbe slow to rise in level and rank.\n"
+	32066
+	"\nErrant characters also recover Health, Mana, and Stamina\nat half the normal rate.\n"
+	32066
+	"\nErrant characters have no fixed Bind Point. Every time you\nlog out or your character respawns after death, your\ncharacter will respawn at a randomly selected Ruins\n"
+	32066
+	"\nIf you don't already belong to a player Guild or City, now would be\na good time to start looking for one.\n\n"
+	32033
+	"\nTo find active player Guilds, ask around, consult your\nWorld Map, or look to web-based forums, or the\nShadowbane website.\n"
+	32033
+	"\nTo pledge to a new City, seek out a Runemaster Tradesman in\nany City or Ruin, Control+left click them, and select the\nRepledge option to see a list of Freeholds and open\nplayer Cities."
+ENDPAGE
+
+BEGINPAGE "Ruins" # - every respawn or login at a Ruins#
+	32070
+	"\nYour character is at a Ruins location - they may have\narrived here for several reasons:\n\n"
+	32021
+	"\nErrant characters (who do not belong to any Guild) always\nlogin and respawn at a randomly selected Ruin.\n\n"
+	32021
+	"\nMembers of Guilds will respawn at a Ruin if their\ncharacters die within close range of their City's\nTree of Life.\n"
+	32066
+	"\nTo pledge to a new City, seek out a Runemaster Tradesman in\nany City or Ruin, Control+left click them, and select the\nRepledge option to see a list of Freeholds and open\nplayer Cities."
+	32066
+	"\nIf your character has a home City, send a /tell message to\na fellow Guild member who can summon you home, or start\nwalking...\n"
+ENDPAGE
+
+BEGINPAGE "Death Effects: SafeZone" # - first character respawn after death in a safe area#
+	32070
+	"\nYour character has died! Though death in Shadowbane is\nnot permanent, there are several effects associated with\ndeath you need to be aware of.\n"
+	32033
+	"\nBeacuse your character fell in a Safe Area, All equipment\nheld in your character's Inventory stayed\safely in your Inventory.\n"
+	32033
+	"\nEquipment your character has equipped also stayed with them.\n"
+	32033
+	"\nBeacuse you died in a Safe Area, your character's \nequipped items did not suffer any damage to their\ndurability upon death.\n"
+	32033
+	"\nBeware: dying outside a Safe Area will drop all Inventory\nitems to your character's grave for any passerby to loot.\n"
+	32033
+	"\nEquipment your character keeps is effected by death outside\na Safe Area. All equipped items suffer damage to their\ndurability upon character death.\n"
+ENDPAGE
+
+
+BEGINPAGE "Death Effects: Unsafe Zone" # - first character respawn after death in an unsafe zone#
+	32070
+	"\nYour character has died! Though death in Shadowbane is\nnot permanent, there are several penalties associated with\ndeath you need to be aware of.\n"
+	32033
+	"\nBeacuse your character fell outside a Safe Area, all\nequipment held in your character's Inventory stayed on\nyour character's grave, for any passerby to loot.\n"
+	32033
+	"\nEquipment your character has equipped may or may not have\nstayed with their grave. Each item has a chance to drop,\nbased on your character's game world.\n"
+	32019
+	"\nTo regain lost equipment, run back to your corpse before\nit is looted. Corpses appear as a white cross on your\nLocal Map.\n"
+	32033
+	"\nEven equipment that your character keeps is effected by\ndeath. All equipped items suffer damage to their\ndurability upon character death.\n"
+	32053
+	"\nTo repair damaged equipment, seek out a Vendor in any City,\nDouble-click the Vendor to open their Trade Menu,\nthen select Repair.\n"
+ENDPAGE
+

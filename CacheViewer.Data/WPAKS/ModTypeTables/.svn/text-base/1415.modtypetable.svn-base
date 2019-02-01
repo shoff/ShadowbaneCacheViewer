@@ -1,0 +1,22 @@
+#SUFFIX - STAVES (MAELSTROM)
+#MIN%	MAX%	TABLEID
+1	2	712	"Poison Damage Proc"	# DAMAGE - POISON
+3	4	708	"Fire Damage Proc"	# DAMAGE - FIRE
+5	6	765	"Health Drain Proc"	# DRAIN - HEALTH
+7	8	784	Unholy Damage Proc	# DAMAGE - UNHOLY
+9	15	729	"Intelligence"	# INT +
+16	22	731	"Mana"	# MANA +
+23	28	732	"Maximum Damage Buff"	# MAXDAM +
+29	33	733	"Minimum Damage Buff"	# MINDAM+
+34	36	745	"Resist Magic"	# RESIST MAGIC
+37	39	747	"Resist Poison"	# RESIST POISON
+40	42	743	"Resist Fire"	# RESIST FIRE
+43	45	751	"Weapon Speed"	# WEAPON SPEED
+46	49	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+50	54	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+55	59	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+60	64	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+65	69	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+70	74	776	"Skill: Channeling"	# SKILL (CHANNELING)
+75	95	777	"Skill: Corruption"	# SKILL (CORRUPTION)
+96	100	774	"Resist Holy"	# RESIST HOLY

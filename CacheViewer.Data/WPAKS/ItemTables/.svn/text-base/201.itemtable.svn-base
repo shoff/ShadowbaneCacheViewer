@@ -1,0 +1,36 @@
+# MAGE ROBES
+#MIN%	MAX%	CACHEID	NAME
+75	83  182480		# Mage Cowl
+84	92  182460		# Mage Robe				-- MAGE
+93	101 183450		# Student Hood
+102	110	183460		# Student Robe			-- MAGE
+111	115	183480		# Velvet Blue Hood
+116	120	183490		# Velvet Blue Robe		-- none
+121	125	183510		# Velvet Red Hood
+126	130	183520		# Velvet Red Robe		-- none
+131	135	183430		# Sleeveless Robe		-- none
+136	144	182750		# Alchemist Hood		-- MAGE
+145	153	182760		# Alchemist Robe
+154	162	183220		# Gothic Hood
+163	171	183230		# Gothic Robe			-- MAGE
+172	180	183400		# Scholar Hood
+181	189	183410		# Scholar Robe			-- MAGE
+190	198	182870		# Arch-Mage Hood
+199	207	182880		# Arch-Mage Robe		-- MAGE
+208	216	183190		# Gilded Hood
+217	225	183200		# Gilded Robe			-- MAGE
+226	230	183040		# Aeromancer Hood
+231	235	183050		# Aeromancer Robe		-- CHANNELER
+236	240	183070		# Geomancer Hood
+241	245	183080		# Geomancer Robe		-- CHANNELER
+246	250	183130		# Hydromancer Hood
+251	255	183140		# Hydromancer Robe		-- CHANNELER
+256	264	183250		# Necromancer Hood
+265	273	183260		# Necromancer Robe		-- MAGE
+274	278	183100		# Pyromancer Hood
+279	283	183110		# Pyromancer Robe		-- CHANNELER
+284	292	183280		# Opulent Hood
+293	301	183290		# Opulent Robe			-- MAGE
+302	307	183370		# Savant Hood
+308	313	183380		# Savant Robe			-- MAGE
+314	320	5055450		# Necromancer Hood

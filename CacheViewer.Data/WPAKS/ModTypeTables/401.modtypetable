@@ -1,0 +1,15 @@
+#SUFFIX - ROBES (ARTIC NORTH)	
+#MIN%	MAX%	TABLEID	
+#1	13	727	#"Item Durability"	# DURABILITY +
+1	20	729	"Intelligence"	# INT +
+#26	38	730	#"See Invis"	# SEE INVIS
+21	39	731	"Mana"	# MANA +
+40	63	748	"Spirit"	# SPR +
+64	67	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+68	71	721	"Lightning Damage Shield"	# DAMAGE SHIELD - LIGHTNING
+72	76	722	"Magic Damage Shield"	# DAMAGE SHIELD - MAGIC
+77	82	723	"Mental Damage Shield"	# DAMAGE SHIELD - MENTAL
+83	87	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+88	92	735	"Resist Crushing"	# RESIST CRUSHING
+93	96	736	"Resist Piercing"	# RESIST PIERCING
+97	100	737	"Resist Slashing"	# RESIST SLASHING

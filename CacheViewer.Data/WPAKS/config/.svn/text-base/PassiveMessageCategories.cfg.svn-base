@@ -1,0 +1,10 @@
+# ID			Display			Texture
+UI			Interface		32043 # little mouse
+Combat			Combat			32018 # crossed swords
+Items			Items			32007 # arrow pointing at sword
+Death			Death			32015 # crossed lines
+Social			Social			32049 # star
+RPG			Advancement		32056 # runestone
+Travel			Travel			32069 # boot
+NPC			NPCs			32020 # hand with coins
+Assets			Cities			32043 # castle

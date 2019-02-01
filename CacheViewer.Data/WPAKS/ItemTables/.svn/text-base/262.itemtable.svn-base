@@ -1,0 +1,23 @@
+# Favor Offering Drops for Grasslands
+#MIN%   MAX%    CACHEID NAME
+80	91	1750001	# Heretical Text
+92	103	1750002	# Heartsblood
+104	115	1705003	# Devourer Scale
+116	127	1705007	# Lion Brooch
+128	139	1705009	# Dreaming Stone
+140	151	1705013	# Thane's Collar
+152	163	1705023	# Blessed Incense
+164	175	1705027	# Pagan Icon
+176	187	1750001	# Heretical Text
+188	199	1750002	# Heartsblood
+200	211	1705003	# Devourer Scale
+212	223	1705007	# Lion Brooch
+224	235	1705009	# Dreaming Stone
+236	247	1705013	# Thane's Collar
+248	259	1705023	# Blessed Incense
+260	271	1705027	# Pagan Icon
+272	283	1750001	# Heretical Text
+284	295	1750002	# Heartsblood
+296	307	1705003	# Devourer Scale
+308	319	1705007	# Lion Brooch
+320	320	1705009	# Dreaming Stone

@@ -1,0 +1,13 @@
+#SUFFIX - LEATHER BOOTS (OBLIVION)
+#MIN%	MAX%	TABLEID
+1	24	728	"Health"	# HEALTH +
+#25	40	727	#"Item Durability"	# DURABILITY +
+25	45	749	"Stamina"	# STAMINA +
+46	60	734	"Movement Speed"	# MOVE
+61	73	735	"Resist Crushing"	# RESIST CRUSHING
+74	86	736	"Resist Piercing"	# RESIST PIERCING
+87	100	737	"Resist Slashing"	# RESIST SLASHING
+
+
+
+

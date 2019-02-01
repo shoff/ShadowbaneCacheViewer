@@ -1,0 +1,15 @@
+#SUFFIX - ROBES (OBLIVION)	
+#MIN%	MAX%	TABLEID	
+1	13	728	"Health"	# HEALTH +
+#14	20	727	#"Item Durability"	# DURABILITY +
+21	25	702	"Constitution"	# CON +
+26	38	729	"Intelligence"	# INT +
+39	50	731	"Mana"	# MANA +
+#51	63	730	#"See Invis"	# SEE INVIS
+64	71	735	"Resist Crushing"	# RESIST CRUSHING
+72	80	736	"Resist Piercing"	# RESIST PIERCING
+81	88	737	"Resist Slashing"	# RESIST SLASHING
+89	94	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+95	96	716	"Bleeding Damage Shield"	# DAMAGE SHIELD - BLEEDING
+97	98	783	"Unholy Damage Shield"	# DAMAGE SHIELD - UNHOLY
+99	100	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING

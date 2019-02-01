@@ -1,0 +1,7 @@
+#SUFFIX - LEATHER ARMOR (OBLIVION)	
+#MIN%	MAX%	TABLEID	
+1	33	728	"Health"	# HEALTH +
+#34	67	727	#"Item Durability"	# DURABILITY +
+68	78	735	"Resist Crushing"	# RESIST CRUSHING
+79	89	736	"Resist Piercing"	# RESIST PIERCING
+90	100	737	"Resist Slashing"	# RESIST SLASHING

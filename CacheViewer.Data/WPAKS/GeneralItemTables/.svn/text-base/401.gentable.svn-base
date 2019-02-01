@@ -1,0 +1,7 @@
+# Northlands Treasure Table
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	40	261	FavorOfferings	0	0	0	0
+41	80	148	NorthlandsResources	0	0	0	0
+81	90	130	ConRunestones	0	0	0	0
+91	98	251	NPCDeeds	0	0	0	0
+99	100	126	GlassWeapons	0	0	0	0

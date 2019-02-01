@@ -1,0 +1,7 @@
+#SUFFIX - METAL BOOTS (ANCIENT FOREST)
+#MIN%	MAX%	TABLEID
+#1	33	727	#"Item Durability"	# DURABILITY +
+1	15	734	"Movement Speed"	# MOVE
+16	40	735	"Resist Crushing"	# RESIST CRUSHING
+41	75	736	"Resist Piercing"	# RESIST PIERCING
+76	100	737	"Resist Slashing"	# RESIST SLASHING

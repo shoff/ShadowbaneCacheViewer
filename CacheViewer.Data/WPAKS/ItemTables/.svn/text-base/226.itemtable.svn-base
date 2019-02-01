@@ -1,0 +1,20 @@
+#LEATHER ARMOR - HEAD
+#MIN%	MAX%	CACHEID		NAME
+75	93	181290		# Soft Leather Helm
+94	110	176890		# Quilted Leather Helm
+111	128	176590		# Leather Helm
+129	145	176370		# Banded Leather Helm
+146	163	176710		# Studded Leather Helm
+164	180	176650		# Heavy Studded Leather Helm
+181	198	175060		# Northman Fur Helm
+199	215	176310		# Assassin Leather Hood
+216	233	176470		# Centaur Leather Helm
+234	250	176530		# Irekei Leather Helm
+251	268	176730		# Hard Leather Helm
+269	275	176780		# Hunting Leather Hood
+276	285	5055250		# Nightstalker Helm
+286	303	176840		# Wyrmskin Helm
+304	306	181110		# Black Mask
+307	312	181250		# Peaked Helm
+313	317	5055650		# Vampire Leather Helm
+318	320	189750		# Raptor Hood

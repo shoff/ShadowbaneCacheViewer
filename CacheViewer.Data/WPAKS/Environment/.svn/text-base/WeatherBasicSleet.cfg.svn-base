@@ -1,0 +1,53 @@
+# ------------------------------------------ #
+# Weather                                    #
+# ------------------------------------------ #
+
+
+<WEATHER_STATE_BEGIN>
+
+WEATHER_STATE_ID=           "BasicSleet"
+
+<BEGIN_WEATHER>
+	WEATHER_ID=                 "StandardSnow"
+	WEATHER_TYPE=               SNOW
+	TEXTURE_ID=                 1326620
+
+	SPEED=                      10.0
+	ROTATION_MIN=               -180.0
+	ROTATION_MAX=               180.0
+	SIZE_MIN=                   0.6
+	SIZE_MAX=                   1.25
+
+	DROPLET_ANGLE=              7.0
+	# Z-down
+	DROPLET_DIR=                0.0    -1.0    0.0
+	PARTICLES_PER_SECOND=       250
+	
+	DROPLET_TARGET_DENSITY=     1.0
+	COLOR=                      1.0     1.0    1.0
+<END_WEATHER>
+
+<BEGIN_WEATHER>
+	WEATHER_ID=                 "StandardSleet"
+	WEATHER_TYPE=               SNOW
+	TEXTURE_ID=                 1884
+
+	SPEED=                      8.0
+	ROTATION_MIN=               -90.0
+	ROTATION_MAX=               90.0
+	SIZE_MIN=                   0.9
+	SIZE_MAX=                   1.4
+
+	DROPLET_ANGLE=              5.0
+	# Z-down
+	DROPLET_DIR=                0.0    -1.0    0.0
+	PARTICLES_PER_SECOND=       300
+	
+	DROPLET_TARGET_DENSITY=     1.0
+	COLOR=                      1.0     1.0    1.0
+<END_WEATHER>
+
+<WEATHER_STATE_END>
+
+
+

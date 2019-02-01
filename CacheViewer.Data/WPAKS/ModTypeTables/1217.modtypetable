@@ -1,0 +1,15 @@
+#SUFFIX - METAL WEAPONS (WASTELANDS)	
+#MIN%	MAX%	TABLEID	
+#1	14	727	#"Item Durability"	# DURABILITY +
+1	21	732	"Maximum Damage Buff"	# MAXDAM +
+22	43	733	"Minimum Damage Buff"	# MINDAM+
+44	57	750	"Strength"	# STR +
+58	67	751	"Weapon Speed"	# WEAPON SPEED
+68	71	781	"Resist Holy"	# RESIST UNHOLY
+72	76	740	"Resist Cold"	# RESIST COLD
+77	81	747	"Resist Poison"	# RESIST POISON
+82	85	705	Cold Damage Proc	# DAMAGE - COLD
+86	88	712	Poison Damage Proc	# DAMAGE - POISON
+89	92	713	Stamina Damage Proc	# DAMAGE - STAMINA
+93	96	765	Health Drain Proc	# DRAIN - HEALTH
+97	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

@@ -1,0 +1,22 @@
+#SUFFIX - WANDS (GRASSLANDS)
+#MIN%	MAX%	TABLEID
+#1	3	727	#"Item Durability"	# DURABILITY +
+1	4	732	"Maximum Damage Buff"	# MAXDAM +
+5	9	733	"Minimum Damage Buff"	# MINDAM+
+10	15	729	"Intelligence"	# INT +
+16	21	731	"Mana"	# MANA +
+22	29	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+30	36	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+37	42	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+43	49	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+50	58	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+59	66	776	"Skill: Channeling"	# SKILL (CHANNELING)
+67	73	739	"Resist Bleeding"	# RESIST BLEEDING
+74	77	743	"Resist Fire"	# RESIST FIRE
+78	80	744	"Resist Lightning"	# RESIST LIGHTNING
+81	83	781	"Resist Holy"	# RESIST UNHOLY
+84	88	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+89	94	708	"Fire Damage Proc"	# DAMAGE - FIRE
+95	97	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+98	100	782	Holy Damage Proc	# DAMAGE - HOLY
+

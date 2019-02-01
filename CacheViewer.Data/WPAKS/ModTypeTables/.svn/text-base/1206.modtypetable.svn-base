@@ -1,0 +1,9 @@
+#SUFFIX - METAL GLOVES (WASTELANDS)	
+#MIN%	MAX%	TABLEID	
+1	20	728	"Health"	# HEALTH +
+21	40	726	"Dexterity"	# DEX +
+41	60	750	"Strength"	# STR +
+#61	80	727	#"Item Durability"	# DURABILITY +
+61	73	735	"Resist Crushing"	# RESIST CRUSHING
+74	87	736	"Resist Piercing"	# RESIST PIERCING
+88	100	737	"Resist Slashing"	# RESIST SLASHING

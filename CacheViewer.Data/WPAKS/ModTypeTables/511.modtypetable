@@ -1,0 +1,10 @@
+#SUFFIX - LUTES (DESERT)	
+#MIN%	MAX%	TABLEID	
+1	20	729	"Intelligence"	# INT +
+21	40	731	"Mana"	# MANA +
+41	60	748	"Spirit"	# SPR +
+61	80	764	"Skill: Bardsong"	# SKILL
+81	85	747	"Resist Poison"	# RESIST POISON
+86	92	768	"Resist Bleeding"	# RESIST BLEEDING
+# 91	95	770	#RESIST EARTH  - REMOVED FROM SHIP
+93	100	771	"Resist Fire"	# RESIST FIRE

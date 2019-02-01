@@ -1,0 +1,8 @@
+#SUFFIX - CENTAUR BOOTS (MOUNTAINS)
+#MIN%	MAX%	TABLEID
+1	30	728	"Health"	# HEALTH +
+#25	40	727	#"Item Durability"	# DURABILITY +
+31	58	749	"Stamina"	# STAMINA +
+59	65	735	"Resist Crushing"	# RESIST CRUSHING
+66	83	736	"Resist Piercing"	# RESIST PIERCING
+84	100	737	"Resist Slashing"	# RESIST SLASHING

@@ -1,0 +1,152 @@
+TEMPLATENAME= TEST
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 30    # the distance at which the sound is at max volume
+                        MAXDIST= 400   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE> 
+        
+TEMPLATENAME= OBLIVION
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 10    # the distance at which the sound is at max volume
+                        MAXDIST= 256   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE> 
+        
+TEMPLATENAME= OCEAN
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 500   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>         
+
+TEMPLATENAME= SWAMP
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 2048   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>   
+              
+TEMPLATENAME= CHAOS
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 2048   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>         
+
+TEMPLATENAME= WETLANDS
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 1792   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>         
+
+TEMPLATENAME= WOODS
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 1792   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>
+
+TEMPLATENAME= NORTHLANDS
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 2048   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>
+
+TEMPLATENAME= DESERT
+	<TEMPLATE> 
+	        <PROPERTIES> 
+			TYPE= 3D       # type of sound (can be 2D or 3D)
+			MINDIST= 0    # the distance at which the sound is at max volume
+                        MAXDIST= 2048   # the distance at which the sound is at min volume
+                        LOOPABLE= 1    # if the sound is loopable or not
+                </PROPERTIES> 
+                <PLAY> 
+                        VOLUME= 100    # volume of sound
+                        FADEIN= 0      # fade in time on sound start (in seconds)
+                </PLAY> 
+                <STOP> 
+                        FADEOUT= 0     # fade out time when sound reaches the end (is the sound is loopable this parameter is ignored)
+                </STOP> 
+        </TEMPLATE>

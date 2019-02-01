@@ -1,0 +1,6 @@
+#& "Skill: Sorcery/Warding"
+#PREFIX - SKILL (1)
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+120	169	PRE-289	0	2	# sorcery/warding (5)
+170	219	PRE-290	0	3	# sorcery/warding (10)
+220	320	PRE-291	0	5	# sorcery/warding (15)

@@ -1,0 +1,42 @@
+# POTIONS
+#MIN%	MAX%	CACHEID	NAME	MOB LEVEL
+1	20	980050	# Sublimation of Garlic	4
+21	26	980051	# Relgor's Restorative Elixir	5.2
+27	32	980052	# Caster Oil	6.4
+33	38	980050	# Sublimation of Garlic	7.6
+39	44	980051	# Relgor's Restorative Elixir	8.8
+45	50	980052	# Caster Oil	10
+51	56	980050	# Sublimation of Garlic	11.2
+57	62	980051	# Relgor's Restorative Elixir	12.4
+63	65	980052	# Caster Oil	13.6
+66	73	980050	# Sublimation of Garlic	14.2
+74	81	980051	# Relgor's Restorative Elixir	15.8
+82	89	980052	# Caster Oil	17.4
+90	97	980050	# Sublimation of Garlic	19
+98	105	980051	# Relgor's Restorative Elixir	20.6
+106	113	980052	# Caster Oil	22.2
+114	121	980050	# Sublimation of Garlic	23.8
+122	129	980051	# Relgor's Restorative Elixir	25.4
+130	137	980052	# Caster Oil	27
+138	145	980053	# Fillig's Milk of Mandrake	28.6
+146	153	980054	# Essence of Litharge	30.2
+154	161	980055	# Azure Star Foot Ointment	31.8
+162	169	980050	# Sublimation of Garlic	33.4
+170	177	980051	# Relgor's Restorative Elixir	35
+178	185	980052	# Caster Oil	36.6
+186	193	980053	# Fillig's Milk of Mandrake	38.2
+194	201	980054	# Essence of Litharge	39.8
+202	209	980055	# Azure Star Foot Ointment	41.4
+210	217	980050	# Sublimation of Garlic	43
+218	225	980051	# Relgor's Restorative Elixir	44.6
+226	233	980052	# Caster Oil	46.2
+234	241	980053	# Fillig's Milk of Mandrake	47.8
+242	249	980054	# Essence of Litharge	49.4
+250	257	980055	# Azure Star Foot Ointment	51
+258	265	980050	# Sublimation of Garlic	52.6
+266	273	980051	# Relgor's Restorative Elixir	54.2
+274	281	980052	# Caster Oil	55.8
+282	289	980053	# Fillig's Milk of Mandrake	57.4
+290	297	980054	# Essence of Litharge	59
+298	305	980055	# Azure Star Foot Ointment	60.6
+306	320	980050	# Sublimation of Garlic	62.2

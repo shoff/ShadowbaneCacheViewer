@@ -1,0 +1,23 @@
+# Favor Offering Drops for AncientForest
+#MIN%   MAX%    CACHEID NAME
+80	91	1750000	# Vampire Blood
+92	103	1750002	# Heartsblood
+104	115	1705001	# Briar Seed
+116	127	1705005	# Twilight Relic
+128	139	1705007	# Lion Brooch
+140	151	1705008	# Zir'akar
+152	163	1705014	# Ancient Rede
+164	175	1705019	# Sacred Seed
+176	187	1750000	# Vampire Blood
+188	199	1750002	# Heartsblood
+200	211	1705001	# Briar Seed
+212	223	1705005	# Twilight Relic
+224	235	1705007	# Lion Brooch
+236	247	1705008	# Zir'akar
+248	259	1705014	# Ancient Rede
+260	271	1705019	# Sacred Seed
+272	283	1750000	# Vampire Blood
+284	295	1750002	# Heartsblood
+296	307	1705001	# Briar Seed
+308	319	1705005	# Twilight Relic
+320	320	1705007	# Lion Brooch

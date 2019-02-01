@@ -1,0 +1,15 @@
+#SUFFIX - METAL WEAPONS (DESERT)	
+#MIN%	MAX%	TABLEID	
+#1	17	727	#"Item Durability"	# DURABILITY +
+1	25	732	"Maximum Damage Buff"	# MAXDAM +
+26	50	733	"Minimum Damage Buff"	# MINDAM+
+51	67	751	"Weapon Speed"	# WEAPON SPEED
+68	73	768	"Resist Bleeding"	# RESIST BLEEDING
+# 72	75	770	#RESIST EARTH - REMOVED FOR SHIP
+74	79	771	"Resist Fire"	# RESIST FIRE
+80	83	747	"Resist Poison"	# RESIST POISON
+84	86	708	"Fire Damage Proc"	# DAMAGE - FIRE
+87	90	712	"Poison Damage Proc"	# DAMAGE - POISON
+91	93	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+94	97	766	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+98	100	765	"Health Drain Proc"	# DRAIN - HEALTH

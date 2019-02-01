@@ -1,0 +1,28 @@
+#SUFFIX - STAVES (ANCIENT FOREST)
+#MIN%	MAX%	TABLEID
+1	7	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+8	14	708	"Fire Damage Proc"	# DAMAGE - FIRE
+#15	21	727	#"Item Durability"	# DURABILITY +
+22	28	732	"Maximum Damage Buff"	# MAXDAM +
+29	35	733	"Minimum Damage Buff"	# MINDAM+
+36	42	739	"Resist Bleeding"	# RESIST BLEEDING
+43	49	743	"Resist Fire"	# RESIST FIRE
+50	56	745	"Resist Magic"	# RESIST MAGIC
+57	60	748	"Spirit"	# SPR +
+61	61	729	"Intelligence"	# INT +
+62	67	751	"Weapon Speed"	# WEAPON SPEED
+68	70	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+71	73	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+74	75	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+76	77	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+78	79	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+80	81	758	"Skill: Liturgy"	# SKILL (LITURGY)
+82	83	759	"Skill: Theurgy"	# SKILL (THEURGY)
+84	85	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+86	87	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+88	89	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+90	91	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+92	93	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+94	96	776	"Skill: Channeling"	# SKILL (CHANNELING)
+97	98	767	"Magic Damage Proc"	# DAMAGE - MAGIC
+99	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

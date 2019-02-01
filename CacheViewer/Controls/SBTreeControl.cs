@@ -247,6 +247,7 @@
             }
 
             var cacheObject = (ICacheObject)e.Argument;
+            logger?.Info($"Selected {cacheObject.CacheIndex} for parsing.");
 
             try
             {
@@ -285,6 +286,7 @@
                     };
 
                     this.selectedNode.ForeColor = Color.DarkRed;
+                    this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
                     this.OnParseError.Raise(this, new ParseErrorEventArgs(parseError));
                     using (var context = new SbCacheViewerContext())
                     {
@@ -304,7 +306,6 @@
                 this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs(ex.Message));
                 logger?.Error(ex, ex.Message);
             }
-
             e.Result = cacheObject;
         }
 
@@ -317,6 +318,7 @@
             else if (e.Error != null || e.Result == null)
             {
                 this.selectedNode.ForeColor = Color.DarkRed;
+                this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
                 logger?.Error("Worker exception: " + e.Error);
             }
             else

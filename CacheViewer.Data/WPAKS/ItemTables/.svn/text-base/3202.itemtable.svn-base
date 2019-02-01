@@ -1,0 +1,49 @@
+# Disciplines - gambling jackpot			
+#MIN%	MAX%	CACHEID	NAME
+220	221	3001	# Animator
+222	223	3002	# Archer
+224	225	3003	# Berserker
+226	227	3004	# Black Mask
+228	229	3005	# Blade Master
+230	231	3006	# Blade Weaver
+232	233	3007	# Bounty Hunter
+234	235	3008	# Commander
+236	237	3009	# Dark Knight
+238	239	3011	# Forge Master
+240	242	3012	# Giant Killer
+243	245	3013	# Gladiator
+246	248	3014	# Huntsman
+249	251	3015	# Knight
+252	254	3016	# Rat Catcher
+255	257	3017	# Rune Caster
+258	260	3018	# Enchanter
+261	262	3019	# Storm Lord
+263	264	3020	# Summoner
+265	266	3021	# Traveler
+267	268	3022	# Undead Hunter
+269	270	3023	# Werebear
+271	272	3024	# Wererat
+273	274	3025	# Werewolf
+275	276	3026	# Wyrmslayer
+277	278	3028	# Blood Prophet
+279	280	3029	# Sun Dancer
+281	282	3030	# Conjurer
+283	284	3031	# Darksworn
+285	286	3032	# Valkyr
+287	288	3033	# Blood Horn
+289	290	3034	# Shroudborne
+291	292	3035	# Archmage
+293	294	3036	# Thrall
+295	296	3037	# Artillerist
+297	298	3038	# Savant
+299	300	3039	# Sky Dancer
+301	302	3040	# Prospector
+303	304	3041	# Belgosch
+305	306	3042	# Drannok
+307	308	3043	# Gorgoi
+309	310	3044	# Strigoi
+311	312	3045	# Sapper
+313	314	3046	# Saboteur
+315	316	3047	# Battle Magus
+317	318	3048	# Sanctifier
+319	320	3049	# Clanwarden

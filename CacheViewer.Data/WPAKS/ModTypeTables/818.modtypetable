@@ -1,0 +1,12 @@
+#SUFFIX - WOOD WEAPONS (JUNGLE)	
+#MIN%	MAX%	TABLEID	
+#1	14	727	#"Item Durability"	# DURABILITY +
+1	20	732	"Maximum Damage Buff"	# MAXDAM +
+21	40	733	"Minimum Damage Buff"	# MINDAM+
+41	57	750	"Strength"	# STR +
+58	71	751	"Weapon Speed"	# WEAPON SPEED
+72	77	744	"Resist Lightning"	# RESIST LIGHTNING
+78	84	747	"Resist Poison"	# RESIST POISON
+85	86	774	"Resist Holy"	# RESIST HOLY
+87	93	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+94	100	712	"Poison Damage Proc"	# DAMAGE - POISON

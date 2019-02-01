@@ -1,0 +1,27 @@
+# HEALER ROBES
+#MIN%	MAX%	CACHEID	NAME
+75	82	182560		# Healer Cowl        	-- HEALER
+83	91	182540		# Healer Robe	     	
+92	99	182780		# All-Father Acolyte Hood  
+100	107	182790		# All-Father Acolyte Robe  -- PRELATE
+108	115	182960		# Cleansing Flame Novice Hood
+116	123	182970		# Cleansing Flame Novice Robe  -- TEMPLAR, CONFESSOR
+124	127	183480		# Velvet Blue Hood
+128	131	183490		# Velvet Blue Robe		-- none
+132	135	183510		# Velvet Red Hood
+136	139	183520		# Velvet Red Robe		-- none
+140	159	183430		# Sleeveless Robe		-- none
+160	179	182840		# All-Father Initiate Hood
+180	191	182850		# All-Father Initiate Robe   -- PRELATE
+192	199	183160		# Friar Hood
+200	207	183170		# Friar Robe			-- HEALER
+208	215	183340		# Priest Hood
+216	223	183350		# Priest Robe			-- PRIEST
+224	234	183040		# Aeromancer Hood		-- CHANNELER
+235	245	183050		# Aeromancer Robe
+246	256	183070		# Geomancer Hood		-- CHANNELER
+257	267	183080		# Geomancer Robe
+268	278	183130		# Hydromancer Hood		-- CHANNELER
+279	289	183140		# Hydromancer Robe
+290	299	183100		# Pyromancer Hood		-- CHANNELER
+300	320	183110		# Pyromancer Robe

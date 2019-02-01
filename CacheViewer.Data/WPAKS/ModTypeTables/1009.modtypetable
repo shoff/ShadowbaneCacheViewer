@@ -1,0 +1,10 @@
+#SUFFIX - BOWS (TIMBERLANDS)	
+#MIN%	MAX%	TABLEID	
+1	20	732	"Maximum Damage Buff"	# MAXDAM +
+21	40	733	"Minimum Damage Buff"	# MINDAM+
+41	60	701	"Armor Piercing"	# ARMOR PIERCE
+61	65	752	"Range"			# RANGE
+61	75	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+76	90	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+91	95	710	"Magic Damage Proc"	# DAMAGE - MAGIC
+96	100	711	"Mental Damage Proc"	# DAMAGE - MENTAL

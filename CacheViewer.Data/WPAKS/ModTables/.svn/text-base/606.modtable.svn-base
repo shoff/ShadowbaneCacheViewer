@@ -1,0 +1,6 @@
+#SUFFIX - LIGHT RADIUS							
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#oftheNight	0	-3
+#16.6	33	#ofGloom	0	-2
+34	133.5	ofLight	0	2
+133.6	300	ofRadiance	0	3

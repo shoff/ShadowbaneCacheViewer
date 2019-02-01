@@ -1,0 +1,8 @@
+#SUFFIX - METAL BOOTS (DESERT)	
+#MIN%	MAX%	TABLEID	
+1	25	728	"Health"	# HEALTH +
+26	50	734	"Movement Speed"	# MOVE
+#51	75	727	#"Item Durability"	# DURABILITY +
+51	66	735	"Resist Crushing"	# RESIST CRUSHING
+67	83	736	"Resist Piercing"	# RESIST PIERCING
+84	100	737	"Resist Slashing"	# RESIST SLASHING

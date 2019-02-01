@@ -1,0 +1,27 @@
+#SUFFIX - STAVES (OBLIVION)
+#MIN%	MAX%	TABLEID
+1	7	702	"Constitution"	# CON +
+8	10	705	"Cold Damage Proc"	# DAMAGE - COLD
+11	13	712	"Poison Damage Proc"	# DAMAGE - POISON
+14	16	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+17	18	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+19	20	782	"Unholy Damage Proc"	# DAMAGE - UNHOLY
+#21	22	727	#"Item Durability"	# DURABILITY +
+23	26	729	"Intelligence"	# INT +
+27	33	731	"Mana"	# MANA +
+34	40	732	"Maximum Damage Buff"	# MAXDAM +
+41	47	733	"Minimum Damage Buff"	# MINDAM+
+48	49	740	"Resist Cold"	# RESIST COLD
+50	51	747	"Resist Poison"	# RESIST POISON
+52	53	781	"Resist Unholy"	# RESIST UNHOLY
+54	55	739	"Resist Bleeding"	# RESIST BLEEDING
+56	57	773	"Resist Holy"	# RESIST HOLY
+58	61	750	"Strength"	# STR +
+62	66	751	"Weapon Speed"	# WEAPON SPEED
+67	70	765	"Health Drain Proc"	# DRAIN - HEALTH
+71	76	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+77	82	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+83	88	778	"Skill: Necromancy"	# SKILL (NECROMANCY)
+89	94	780	"Skill: Bloodcraft"	# SKILL (BLOODCRAFT)
+95	98	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+99	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

@@ -1,0 +1,15 @@
+#SUFFIX - WOOD WEAPONS (TIMBERLANDS)	
+#MIN%	MAX%	TABLEID	
+#1	14	727	#"Item Durability"	# DURABILITY +
+15	29	732	"Maximum Damage Buff"	# MAXDAM +
+30	43	733	"Minimum Damage Buff"	# MINDAM+
+44	57	750	"Strength"	# STR +
+58	71	751	"Weapon Speed"	# WEAPON SPEED
+72	75	739	"Resist Bleeding"	# RESIST BLEEDING
+76	79	744	"Resist Lightning"	# RESIST LIGHTNING
+80	84	746	"Resist Mental"	# RESIST MENTAL
+# 83	86	769	#RESIST EARTH   -- REMOVED FOR SHIP
+85	90	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+91	93	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+94	97	710	"Magic Damage Proc"	# DAMAGE - MAGIC
+98	100	711	"Mental Damage Proc"	# DAMAGE - MENTAL

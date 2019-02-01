@@ -1,0 +1,5 @@
+# Throwing Dagger gambling treasure table							
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
+1	97	3030	Crap	0	0	0	0
+98	98	3031	EnchantableJackpot	0	215	0	1017
+99	100	3032	Jackpot	0	0	0	0

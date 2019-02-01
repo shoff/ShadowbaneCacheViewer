@@ -1,0 +1,12 @@
+#PREFIX - MANA BUFF
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#Inhibited	0	-4
+#16.6	33	#Mundane	0	-2
+34	66.38	Fey	0	2
+66.39	99.76	Enlightened	0	3
+99.77	133.14	Illuminated	0	5
+133.15	166.52	Saintly	0	7
+166.53	199.9	Mystic	0	9
+199.91	233.28	Wizard's	0	11
+233.29	266.66	Wyrm's	0	12
+266.67	300	Archon's	0	13

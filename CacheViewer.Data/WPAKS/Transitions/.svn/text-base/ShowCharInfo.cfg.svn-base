@@ -1,0 +1,11 @@
+KEYFRAMESTART
+	HUD CharacterSelectCrest
+	MOVE Up TO 536 AT 20
+	THEN 
+	BOUNCE Verticle AROUND 536 AT -20
+	HUD CharacterSelectName
+	MOVE Down TO 0 AT 20
+	THEN 
+	BOUNCE Verticle AROUND 0 AT 20
+KEYFRAMEEND
+

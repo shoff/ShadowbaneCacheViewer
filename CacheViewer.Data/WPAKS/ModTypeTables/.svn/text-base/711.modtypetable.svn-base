@@ -1,0 +1,9 @@
+#SUFFIX - LUTES (GRASSLANDS)	
+#MIN%	MAX%	TABLEID	
+1	25	729	"Intelligence"	# INT +
+26	50	731	"Mana"	# MANA +
+51	75	764	"Skill: Bardsong"	# SKILL
+76	81	739	"Resist Bleeding"	# RESIST BLEEDING
+82	87	743	"Resist Fire"	# RESIST FIRE
+88	93	781	"Resist Holy"	# RESIST UNHOLY
+94	100	744	"Resist Lightning"	# RESIST LIGHTNING

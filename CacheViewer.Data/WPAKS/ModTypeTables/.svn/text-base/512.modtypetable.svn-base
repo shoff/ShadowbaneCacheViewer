@@ -1,0 +1,20 @@
+#SUFFIX - SCEPTRES (DESERT)	
+#MIN%	MAX%	TABLEID	
+#1	9	727	#"Item Durability"	# DURABILITY +	
+1	13	732	"Maximum Damage Buff"	# MAXDAM +	
+14	27	733	"Minimum Damage Buff"	# MINDAM+	
+28	36	729	"Intelligence"	# INT +	
+37	45	731	"Mana"	# MANA +	
+46	55	748	"Spirit"	# SPR +	
+56	64	702	"Constitution"	# CON +	
+65	73	751	"Weapon Speed"	# WEAPON SPEED	
+74	82	700	"Buff All Stats"	# ALL STAT +	
+83	84	747	"Resist Poison"	# RESIST POISON	
+85	88	768	"Resist Bleeding"	# RESIST BLEEDING	
+# 88	89	770	#RESIST EARTH-- REMOVED FOR SHIP
+89	91	771	"Resist Fire"	# RESIST FIRE	
+92	93	708	"Fire Damage Proc"	# DAMAGE - FIRE	
+94	95	712	"Poison Damage Proc"	# DAMAGE - POISON	
+96	96	713	"Stamina Damage Proc"	# DAMAGE - STAMINA	
+97	98	766	"Bleeding Damage Proc"	# DAMAGE - BLEEDING	
+99	100	765	"Health Drain Proc"	# DRAIN - HEALTH	

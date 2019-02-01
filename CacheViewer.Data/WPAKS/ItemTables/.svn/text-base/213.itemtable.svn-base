@@ -1,0 +1,59 @@
+# SHIELDS
+#MIN%	MAX%	CACHEID	NAME
+75	80	182030	# Wooden Shield
+81	86	182050	# Studded Shield
+87	92	182070	# Round Shield
+93	98	182060	# Target Shield
+99	104	182040	# Enameled Shield
+105	110	188200	# Hide Shield
+111	116	181650	# Crescent Shield
+117	122	181840	# Kite Shield
+123	128	181850	# Kite Shield
+129	134	181860	# Kite Shield
+135	140	181870	# Kite Shield
+141	146	182020	# Spiked Shield
+147	147	181780	# Herald Shield
+148	148	181790	# Herald Shield
+149	149	181800	# Herald Shield
+150	150	181810	# Herald Shield
+151	151	181820	# Herald Shield
+152	152	181830	# Herald Shield
+153	153	181660	# Heater
+154	154	181670	# Heater
+155	155	181680	# Heater
+156	156	181690	# Heater
+157	157	181700	# Heater
+158	158	181710	# Heater
+159	164	181720	# Bulwark
+165	170	181730	# Bulwark
+171	176	181740	# Bulwark
+177	182	181750	# Bulwark
+183	188	181760	# Bulwark
+189	194	181770	# Bulwark
+195	200	181900	# Scutum
+201	206	181910	# Scutum
+207	212	181920	# Scutum
+213	218	181930	# Scutum
+219	224	181940	# Scutum
+225	230	181950	# Scutum
+231	236	181960	# Wall Shield
+237	242	181970	# Wall Shield
+243	248	181980	# Wall Shield
+249	254	181990	# Wall Shield
+255	260	182000	# Wall Shield
+261	266	182010	# Wall Shield
+267	268	181880	# Desert Shield
+269	270	181890	# All Father Shield
+271	276	182080	# Tower Shield
+277	282	188210	# Northman Shield
+283	284	187000	# Sentinel's Shield
+285	290	185600	# Shield of the Dragon
+291	296	185610	# Shield of Death
+297	298	185620	# Shield of Chaos
+299	304	185630	# Shield of the Firstborn
+305	306	185640	# Shield of Thurin's Sons
+307	308	185650	# Shield of the Flame
+309	314	185660	# Shield of the Holy Church
+315	316	185670	# Morloch Shield
+317	318	185680	# Dragonscale Shield
+319	320	189900	# Desert Shield

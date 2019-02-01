@@ -1,0 +1,27 @@
+#SUFFIX - STAVES (JUNGLE)
+#MIN%	MAX%	TABLEID
+1	4	709	"Lightning Damage Proc"	# DAMAGE - LIGHTNING
+5	8	712	"Poison Damage Proc"	# DAMAGE - POISON
+#9	12	727	#"Item Durability"	# DURABILITY +
+9	21	729	"Intelligence"	# INT +
+22	30	731	"Mana"	# MANA +
+31	39	732	"Maximum Damage Buff"	# MAXDAM +
+40	48	733	"Minimum Damage Buff"	# MINDAM+
+49	57	744	"Resist Lightning"	# RESIST LIGHTNING
+58	66	747	"Resist Poison"	# RESIST POISON
+67	73	750	"Strength"	# STR +
+74	81	751	"Weapon Speed"	# WEAPON SPEED
+82	82	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+83	83	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+84	84	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+85	85	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+86	86	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+87	87	758	"Skill: Liturgy"	# SKILL (LITURGY)
+88	88	759	"Skill: Theurgy"	# SKILL (THEURGY)
+89	89	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+90	90	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+91	91	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+92	92	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+93	93	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+94	94	776	"Skill: Channeling"	# SKILL (CHANNELING)
+95	100	774	"Resist Holy"	# RESIST HOLY

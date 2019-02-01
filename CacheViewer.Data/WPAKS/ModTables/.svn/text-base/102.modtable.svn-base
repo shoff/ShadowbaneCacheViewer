@@ -1,0 +1,14 @@
+#PREFIX - DR BUFF
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#Rusted	0	-3
+#16.6	33	#Weak	0	-2
+34	59.7	Resiliant	0	2
+59.8	86.4	Tempered	0	3
+86.5	113.1	Reinforced	0	5
+113.2	139.8	Fortified	0	7
+139.9	166.5	Strong	0	9
+166.6	193.2	Grand	0	11
+193.3	219.9	Valiant	0	13
+220	246.6	Glorious	0	15
+246.7	273.3	Godly	0	17
+273.4	300	Invulnerable	0	20

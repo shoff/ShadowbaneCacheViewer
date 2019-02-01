@@ -1,0 +1,19 @@
+#SUFFIX - METAL WEAPONS (OBLIVION)	
+#MIN%	MAX%	TABLEID	
+#1	14	727	#"Item Durability"	# DURABILITY +
+1	21	732	"Maximum Damage Buff"	# MAXDAM +
+22	43	733	"Minimum Damage Buff"	# MINDAM+
+44	57	750	"Strength"	# STR +
+58	67	751	"Weapon Speed"	# WEAPON SPEED
+68	71	781	"Resist Unholy"	# RESIST UNHOLY
+72	74	740	"Resist Cold"	# RESIST COLD
+75	76	747	"Resist Poison"	# RESIST POISON
+77	79	739	"Resist Bleeding"	# RESIST BLEEDING
+80	82	773	"Resist Holy"	# RESIST HOLY
+83	84	705	"Cold Damage Proc"	# DAMAGE - COLD
+85	88	712	"Poison Damage Proc"	# DAMAGE - POISON
+89	91	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+92	94	782	"Unholy Damage Proc"	# DAMAGE - UNHOLY
+95	96	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
+97	98	765	"Health Drain Proc"	# DRAIN - HEALTH
+99	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

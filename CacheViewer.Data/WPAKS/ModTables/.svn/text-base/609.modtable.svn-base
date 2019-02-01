@@ -1,0 +1,6 @@
+#SUFFIX - MOVEMENT
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	33	#oftheSnail	0	-4
+34	122	ofSprinting	0	3
+123	211	oftheStag	0	4
+212	300	oftheWindLords	0	7

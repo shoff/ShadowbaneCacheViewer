@@ -1,0 +1,9 @@
+# City improvement gambling					
+#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE
+1	94	3210	Crap	0	0
+95	95	3211	JackpotBuildingsBanes	0	0
+96	96	3212	JackpotRacialVendors1	0	0
+97	97	3213	JackpotRacialVendors2	0	0
+98	98	3214	JackpotRacialVendors3	0	0
+99	99	3215	JackpotRacialVendors4	0	0
+100	100	3216	JackpotRacialVendors5	0	0

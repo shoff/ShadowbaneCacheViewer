@@ -1,0 +1,20 @@
+# Light armor - gambling jackpot			
+#MIN%	MAX%	CACHEID	# NAME
+220	225	189100	# Vorgrim Auxiliary's Vest
+226	231	189110	# Vorgrim Auxiliary's Sleeves
+232	237	189120	# Vorgrim Auxiliary's Leggings
+238	243	189130	# Vorgrim Auxiliary's Gloves
+244	249	189140	# Vorgrim Auxiliary's Boots
+250	255	189150	# Vorgrim Auxiliary's Hood
+256	261	195070	# Wyrmskin Helm
+262	267	195080	# Wyrmskin Vest
+268	273	195090	# Wyrmskin Sleeves
+274	279	195100	# Wyrmskin Leggings
+280	285	195110	# Wyrmskin Gloves
+286	291	195120	# Wyrmskin Boots
+292	296	195130	# Centaur Leather Sleeves
+297	301	195140	# Centaur Leather Vest
+302	306	195150	# Centaur Leather Barding
+307	311	195160	# Centaur Leather Helm
+312	316	195170	# Centaur Leather Gloves
+317	320	195180	# Centaur Leather Greaves

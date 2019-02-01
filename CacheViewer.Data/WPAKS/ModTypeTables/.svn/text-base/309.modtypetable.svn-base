@@ -1,0 +1,10 @@
+#SUFFIX - BOWS (ANCIENT FOREST)	
+#MIN%	MAX%	TABLEID	
+1	14	732	"Maximum Damage Buff"	# MAXDAM +
+15	29	733	"Minimum Damage Buff"	# MINDAM+
+30	45	701	"Armor Piercing"	# ARMOR PIERCE
+46	50	752	"Range"			# RANGE
+51	70	704	"Bleeding Damage Proc"	# DAMAGE - BLEEDING
+71	85	708	"Fire Damage Proc"	# DAMAGE - FIRE
+86	95	767	"Magic Damage Proc"	# DAMAGE - MAGIC
+96	100	784	Unholy Damage Proc	# DAMAGE - UNHOLY

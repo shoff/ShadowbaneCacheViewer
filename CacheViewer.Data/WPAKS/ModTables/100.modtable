@@ -1,0 +1,14 @@
+#PREFIX - ATTACK BUFF
+#MIN%	MAX%	ACTION	LEVEL	VALUE
+#1	16.5	#Bronze	0	-3
+#16.6	33	#Brass	0	-2
+34	59.7	Steel	0	2
+59.8	86.4	ColdIron	0	3
+86.5	113.1	Truesteel	0	5
+113.2	139.8	Platinum	0	7
+139.9	166.5	Mithril	0	9
+166.6	193.2	Starmetal	0	11
+193.3	219.9	Saedrium	0	13
+220	246.6	Volliandrum	0	15
+246.7	273.3	Adamant	0	17
+273.4	300	ChaosOre	0	20

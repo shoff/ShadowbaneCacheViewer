@@ -1,0 +1,10 @@
+#SUFFIX - LEATHER BOOTS (MAELSTROM)
+#MIN%	MAX%	TABLEID
+1	30	728	"Health"	# HEALTH +
+#	40	727	#"Item Durability"	# DURABILITY +
+31	55	749	"Stamina"	# STAMINA +
+56	70	734	"Movement Speed"	# MOVE
+71	80	735	"Resist Crushing"	# RESIST CRUSHING
+81	90	736	"Resist Piercing"	# RESIST PIERCING
+91	100	737	"Resist Slashing"	# RESIST SLASHING
+

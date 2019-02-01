@@ -1,0 +1,120 @@
+#RARE ARMORS
+#MIN%	MAX%	CACHEID	NAME
+120	122	23520	#Scoundrel Gauntlets
+123	125	23537	#Feyweave Tunic
+126	128	23538	#Feyweave Sleeves
+129	132	23539	#Feyweave Leggings
+133	135	23540	#Feyweave Boots
+136	138	23582	#Silkenwear
+139	141	23583	#Silkenwear
+142	144	23590	#Ivor's Warboard
+145	145	23499	#High Kingdom Breastplate
+146	146	23500	#High Kingdom Armguards
+147	147	23501	#High Kingdom Leggings
+148	149	23502	#High Kingdom Boots
+150	150	23503	#High Kingdom Helm
+151	151	23504	#High Kingdom Gauntlets
+152	152	23525	#Grellor's Vest
+153	153	23526	#Grellor's Sleeves
+154	154	23527	#Grellor's Leggings
+155	155	23528	#Grellor's Boots
+156	156	23529	#Grellor's Gaunhtlets
+157	158	23530	#Grellor's Cowl
+159	159	23535	#Eaglefeather Boots
+160	160	23541	#Wondrous Gauntlets
+161	161	23584	#Kollokoth
+162	162	23588	#Baaligore
+163	163	23591	#Iron Sting
+164	164	23593	#Bastion
+165	166	23595	#Aelfboots
+167	167	23596	#Ash Walkers
+168	168	23597	#Hareskin Boots 
+169	169	23604	#Sand Runners
+170	171	23493	#Chivalric Breastplate
+172	172	23494	#Chivalric Armguards
+173	174	23495	#Chivalric Gauntlets
+175	175	23496	#Chivalric Leggings
+176	177	23497	#Chivalric Boots
+178	178	23498	#Chivalric Helm
+179	180	23524	#Bladesman's Gloves
+181	181	23531	#Trailwrought Vest
+182	183	23532	#Trailwrought Sleeves
+184	184	23533	#Trailwrought Leggings
+185	186	23534	#Trailwrought Boots
+187	187	23536	#Trailwrought Hood
+188	189	23557	#Thaneward's Hauberk
+190	190	23558	#Thaneward's Sleeves
+191	192	23559	#Thaneward's Leggings
+193	193	23560	#Thaneward's Boots
+194	195	23561	#Thaneward's Gauntlets
+196	196	23562	#Thaneward's Helm
+197	198	23563	#Thaelossar Hauberk
+199	200	23564	#Thaelossar Sleeves
+201	201	23565	#Thaelossar Leggings
+202	203	23566	#Thaelossar Boots
+204	204	23567	#Thaelossar Gauntlets
+205	206	23568	#Thaelossar Helm
+207	207	23575	#Idur'Ganna Hauberk
+208	209	23576	#Idur'Ganna Bracers
+210	210	23577	#Idur'Ganna Boots
+211	212	23578	#Idur'Ganna Gauntlets
+213	213	23579	#Idur'Ganna Helmet
+214	215	23580	#Wild Leather
+216	216	23581	#Wild Leather
+217	218	23585	#Daernhelm
+219	219	23592	#Aenorad
+220	221	23487	#Durambar's Breastplate
+222	222	23488	#Durambar's Armguards
+223	224	23489	#Durambar's Leggings
+225	225	23490	#Durambar's Boots
+226	227	23491	#Durambar's Gauntlets
+228	228	23492	#Durambar's Helm
+229	230	23516	#Grimminor's Tunic
+231	231	23517	#Grimminor's Sleeves
+232	233	23518	#Grimminor's Breeches
+234	235	23519	#Grimminor's Gloves
+236	236	23521	#Grimminor's Boots
+237	238	23522	#Grimminor's Hood
+239	239	23523	#Wyldmantle
+240	241	23586	#Thollostor
+242	242	23589	#Blade Turner
+243	244	23594	#Almeus' Robe of Magery
+245	245	23505	#Rexor's Breastplate
+246	246	23506	#Rexor's Armguards
+247	247	23507	#Rexor's Leggings
+248	248	23508	#Rexor's Boots
+249	249	23509	#Rexor's Gauntlets
+250	250	23510	#Rexor's Helm
+251	251	23511	#Draconian Breastplate
+252	252	23512	#Draconian Armguards
+253	253	23513	#Draconian Leggings
+254	254	23514	#Draconian Boots
+255	255	23515	#Draconian Mask
+256	256	23542	#Jorvai Tunic
+257	257	23543	#Jorvai Sleeves
+258	259	23544	#Jorvai Pants
+260	260	23545	#Jorvai Boots
+261	261	23546	#Huuskarl's Tunic
+262	262	23547	#Huuskarl's Sleeves
+263	263	23548	#Huuskarl's Breeks
+264	264	23549	#Huuskarl's Books
+265	265	23550	#Huuskarl's Helm
+266	266	23551	#Inquisitor's Vestment
+267	267	23552	#Inquisitor's Leggings
+268	268	23553	#Inquisitor's Sleeves
+269	269	23554	#Inquisitor's Gauntlets
+270	270	23555	#Inquisitor's Boots
+271	271	23556	#Inquisitor's Cowl
+272	272	23569	#Pargorri Breastplate
+273	273	23570	#Pargorri Bracers
+274	274	23571	#Pargorri Kilt
+275	275	23572	#Pargorri Greaves
+276	276	23573	#Pargorri Helm
+277	277	23574	#Ravager Gauntlets
+278	278	23587	#Augricon
+279	279	23598	#Jorvai Gloves
+280	280	23599	#St. Clarimus' Breastplate
+281	281	23600	#St. Clarimus' Armguards
+282	282	23601	#St. Clarimus' Leggings
+283	283	23602	#St. Clarimus' Boots
+284	320	23603	#St. Clarimus' Helm

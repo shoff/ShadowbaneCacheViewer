@@ -1,0 +1,14 @@
+#SUFFIX - WANDS (WORLD)
+#MIN%	MAX%	TABLEID
+#1	5	727	#"Item Durability"	# DURABILITY +
+6	10	732	"Maximum Damage Buff"	# MAXDAM +
+11	15	733	"Minimum Damage Buff"	# MINDAM+
+16	26	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+27	37	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+38	48	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+49	59	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+60	70	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+71	79	776	"Skill: Channeling"	# SKILL (CHANNELING)
+80	87	729	"Intelligence"	# INT +
+88	98	731	"Mana"	# MANA +
+99	100	782	Holy Damage Proc	# DAMAGE - HOLY

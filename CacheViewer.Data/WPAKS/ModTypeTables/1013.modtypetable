@@ -1,0 +1,10 @@
+#SUFFIX - METAL SHIELDS (TIMBERLANDS)	
+#MIN%	MAX%	TABLEID	
+#1	25	727	#"Item Durability"	# DURABILITY +
+26	33	739	"Resist Bleeding"	# RESIST BLEEDING
+34	42	744	"Resist Lightning"	# RESIST LIGHTNING
+43	50	746	"Resist Mental"	# RESIST MENTAL
+51	58	721	"Lightning Damage Shield"	# DAMAGE SHIELD - LIGHTNING
+59	67	723	"Mental Damage Shield"	# DAMAGE SHIELD - MENTAL
+68	75	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
+76	100	753	"Block Chance"	# BLOCK CHANCE

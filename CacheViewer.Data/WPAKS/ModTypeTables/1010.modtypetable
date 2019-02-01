@@ -1,0 +1,23 @@
+#SUFFIX - RINGS (TIMBERLANDS)
+#MIN%	MAX%	TABLEID
+#1	24	730	#"See Invis"	# SEE INVIS
+1	16	726	"Dexterity"	# DEX +
+17	27	739	"Resist Bleeding"	# RESIST BLEEDING
+28	38	744	"Resist Lightning"	# RESIST LIGHTNING
+39	49	746	"Resist Mental"	# RESIST MENTAL
+50	55	779	"Skill: Exorcism"	# SKILL (EXORCISM)
+56	61	764	"Skill: Bardsong"	# SKILL (BARDSONG)
+62	64	754	"Skill: Wizardry"	# SKILL (WIZARDRY)
+65	67	755	"Skill: Stormcalling"	# SKILL (STORMCALLING)
+68	70	756	"Skill: Way of the Gaana"	# SKILL (WAY OF THE GAANA)
+71	73	757	"Skill: Warlockry"	# SKILL (WARLOCKRY)
+74	76	758	"Skill: Liturgy"	# SKILL (LITURGY)
+77	79	759	"Skill: Theurgy"	# SKILL (THEURGY)
+80	82	760	"Skill: Thaumaturgy"	# SKILL (THAUMATURGY)
+83	85	761	"Skill: Nature Lore"	# SKILL (NATURE LORE)
+86	88	762	"Skill: Shadowmastery"	# SKILL (SHADOWMASTERY)
+89	91	763	"Skill: Beastcraft"	# SKILL (BEASTCRAFT)
+92	94	775	"Skill: Abjuration"	# SKILL (ABJURATION)
+95	100	776	"Skill: Channeling"	# SKILL (CHANNELING)
+
+

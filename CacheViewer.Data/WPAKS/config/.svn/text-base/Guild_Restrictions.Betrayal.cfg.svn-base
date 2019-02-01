@@ -1,0 +1,216 @@
+# Guildtype Allowedclasses
+
+# ------------------------------------------ #
+# Allowed sexes, races, and classes by guild #
+# ------------------------------------------ #
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Cathedral"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Military"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Templar"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Barbarian"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Ranger"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Amazon"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Noble"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Wizard"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Mercenary"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Thieves"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE = "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Dwarves"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "HighCourt"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Virakt"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Aracoix"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Centaur"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Oblivion"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+# ================================== #
+BEGIN_ALLOWED
+
+GUILDTYPE= "Coven"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Unholy"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Cult"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Pirates"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED
+
+BEGIN_ALLOWED
+
+GUILDTYPE= "Heralds"
+SEX= "AnySex"
+RACE= "AnyRace"
+CLASS= "AnyClass"
+SUBGUILDTYPE= "AnySubGuildType"
+
+END_ALLOWED

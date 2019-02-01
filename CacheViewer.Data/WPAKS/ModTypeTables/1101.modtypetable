@@ -1,0 +1,14 @@
+#SUFFIX - ROBES (MOUNTAINS)	
+#MIN%	MAX%	TABLEID	
+1	20	728	"Health"	# HEALTH +
+#14	25	727	#"Item Durability"	# DURABILITY +
+21	40	748	"Spirit"	# SPR +
+#43	58	730	#"See Invis"	# SEE INVIS
+41	73	729	"Intelligence"	# INT +
+74	79	735	"Resist Crushing"	# RESIST CRUSHING
+80	83	736	"Resist Piercing"	# RESIST PIERCING
+84	88	737	"Resist Slashing"	# RESIST SLASHING
+89	91	717	"Cold Damage Shield"	# DAMAGE SHIELD - COLD
+92	94	721	"Lightning Damage Shield"	# DAMAGE SHIELD - LIGHTNING
+95	97	723	"Mental Damage Shield"	# DAMAGE SHIELD - MENTAL
+98	100	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING

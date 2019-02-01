@@ -1,0 +1,36 @@
+#AXES
+#MIN%	MAX%	CACHEID	NAME
+65	69	25060	# Hand Axe              
+70	90	26000	# Ogres Pick            
+91	94	25040	# Bearded Axe           
+95	99	25960	# Pickaxe               
+100	114	25900	# Leaf Bladed Pick      
+115	119	25950	# War Spike             
+120	124	25090	# Corsairs Axe          
+125	129	25140	# Large Axe             
+130	144	25830	# Throwing Axe          
+145	149	25010	# Small Axe             
+150	154	25130	# Spiked Great Axe      
+155	164	25910	# Military Pick         
+165	174	25070	# Military Axe          
+175	179	25940	# Crowbill Pick         
+180	189	25150	# Headsman Axe          
+190	191	25000	# Field Axe
+192	194	26010	# Mattock               
+195	204	25930	# Battle Pick           
+205	206	25160	# Bearded Great Axe     
+207	207	25810	# Balanced Axe          
+208	209	25030	# Battle Axe            
+210	214	25970	# War Mattock           
+215	229	25920	# Barbed Pick           
+230	236	25020	# Spiked Axe            
+237	244	25120	# War Axe               
+245	264	25990	# Great Warspike        
+265	269	25050	# Twin Axe              
+270	274	25110	# Great Axe             
+275	289	25980	# Dragons Beak          
+290	294	25080	# Bonecutter Axe        
+295	309	25180	# Warlord Axe           
+310	313	25820	# Hurlbat               
+314	316	25100	# Crescent Axe           
+317	320	25170	# Champion's Axe         

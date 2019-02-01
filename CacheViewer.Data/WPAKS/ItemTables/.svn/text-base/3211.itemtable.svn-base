@@ -1,0 +1,23 @@
+# City improvements - buildings and banes			
+#MIN%	MAX%	CACHEID	NAME
+220	223	910011	# Rank 1 Bane
+224	227	910018	# Rank 8 Bane
+228	232	740	# Elven Forge Deed       
+233	237	741	# Elven Shop Deed        
+238	242	742	# Elven Magic Shop Deed  
+243	247	743	# Elven Church Deed      
+248	252	744	# Elven Inn Deed         
+253	257	745	# Elven Barracks Deed    
+258	262	750	# Elven Walls            
+263	267	748	# Elven Tent             
+268	272	747	# Elven Guild Hall Deed  
+273	277	746	# Elven Graveyard Deed   
+278	282	760	# Invorri Forge Deed     
+283	287	761	# Invorri Mercantile Deed
+288	292	762	# Invorri Magicshop Deed 
+293	297	763	# Invorri Church Deed    
+298	302	764	# Invorri Inn Deed       
+303	307	765	# Invorri Barracks Deed  
+308	312	770	# Invorri Outer Walls    
+313	316	768	# Invorri House          
+317	320	766	# Invorri Citadel        
