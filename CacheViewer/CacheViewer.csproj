@@ -145,12 +145,6 @@
     <Compile Include="Controls\CObjectViewControl.Designer.cs">
       <DependentUpon>CObjectViewControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RenderControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RenderControl.Designer.cs">
-      <DependentUpon>RenderControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\RenderInfoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,12 +170,6 @@
       <DependentUpon>DatabaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -208,9 +196,6 @@
     <EmbeddedResource Include="DatabaseForm.resx">
       <DependentUpon>DatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SBCacheObjectForm.resx">
       <DependentUpon>SBCacheObjectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,9 +218,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CObjectViewControl.resx">
       <DependentUpon>CObjectViewControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RenderControl.resx">
-      <DependentUpon>RenderControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>

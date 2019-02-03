@@ -28,7 +28,7 @@
             get => this.meshesSaved;
             set
             {
-                this.texturesSaved = value;
+                this.meshesSaved = value;
                 StateChanged.Raise(this, EventArgs.Empty);
             }
         }
@@ -38,7 +38,7 @@
             get => this.renderSaved;
             set
             {
-                this.texturesSaved = value;
+                this.renderSaved = value;
                 StateChanged.Raise(this, EventArgs.Empty);
             }
         }
@@ -48,7 +48,7 @@
             get => this.cObjectSaved;
             set
             {
-                this.texturesSaved = value;
+                this.cObjectSaved = value;
                 StateChanged.Raise(this, EventArgs.Empty);
             }
         }
@@ -58,7 +58,7 @@
             get => this.renderOffsetSaved;
             set
             {
-                this.texturesSaved = value;
+                this.renderOffsetSaved = value;
                 StateChanged.Raise(this, EventArgs.Empty);
             }
         }
@@ -68,7 +68,7 @@
             get => this.texturesAssociated;
             set
             {
-                this.texturesSaved = value;
+                this.texturesAssociated = value;
                 StateChanged.Raise(this, EventArgs.Empty);
             }
         }

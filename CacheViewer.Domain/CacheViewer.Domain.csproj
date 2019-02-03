@@ -208,18 +208,13 @@
     <Compile Include="Services\Database\AssociateTexturesDatabaseService.cs" />
     <Compile Include="Services\Database\CacheObjectsDatabaseService.cs" />
     <Compile Include="Services\Database\ClearDatabaseService.cs" />
-    <Compile Include="Services\Database\RenderRawService.cs" />
     <Compile Include="Services\FileWriter.cs" />
-    <Compile Include="Services\FindRenderIdService.cs" />
-    <Compile Include="Services\IModelIdService.cs" />
     <Compile Include="Services\Database\MeshDatabaseService.cs" />
-    <Compile Include="Services\ModelIdService.cs" />
     <Compile Include="Services\Prefabs\ElvenChurchService.cs" />
     <Compile Include="Services\Prefabs\LizardManTempleService.cs" />
     <Compile Include="Services\Prefabs\RangerBlindService.cs" />
     <Compile Include="Services\Prefabs\StructureService.cs" />
     <Compile Include="Services\RealTimeModelService.cs" />
-    <Compile Include="Services\RenderIdService.cs" />
     <Compile Include="Services\Database\RenderInfoDatabaseService.cs" />
     <Compile Include="Services\RenderListViewMeshItem.cs" />
     <Compile Include="Services\Database\TextureDatabaseService.cs" />
@@ -227,7 +222,6 @@
     <Compile Include="Utility\FileLocations.cs" />
     <Compile Include="Utility\ConfigurationWrapper.cs" />
     <Compile Include="Utility\IConfigurationWrapper.cs" />
-    <Compile Include="Collections\Messages.cs" />
     <Compile Include="Utility\Scene.cs" />
   </ItemGroup>
   <ItemGroup>

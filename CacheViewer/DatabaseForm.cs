@@ -259,11 +259,11 @@ namespace CacheViewer
 
         private void RenderInfoCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (RenderCheckbox.Checked && !RenderButton.Enabled)
+            if (RenderInfoCheckbox.Checked && !RenderButton.Enabled)
             {
                 RenderButton.Enabled = true;
             }
-            else if (!RenderCheckbox.Checked && !databaseState.MeshesSaved)
+            else if (!RenderInfoCheckbox.Checked && !databaseState.MeshesSaved)
             {
                 RenderButton.Enabled = false;
             }

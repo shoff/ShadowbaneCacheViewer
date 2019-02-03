@@ -58,5 +58,10 @@ namespace CacheViewer
             DatabaseForm dbf = new DatabaseForm();
             dbf.Show();
         }
+
+        private void databaseToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

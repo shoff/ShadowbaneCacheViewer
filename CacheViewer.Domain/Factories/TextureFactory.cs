@@ -12,67 +12,25 @@
     public class TextureFactory
     {
         private readonly Textures textureArchive;
-
-        /// <summary>Initializes a new instance of the <see cref="TextureFactory" /> class.</summary>
         private TextureFactory()
         {
             this.textureArchive = (Textures) ArchiveFactory.Instance.Build(CacheFile.Textures);
         }
-
-        /// <summary>Gets the indexes.</summary>
         public CacheIndex[] Indexes => this.textureArchive.CacheIndices.ToArray();
-
-        /// <summary>Gets the instance.</summary>
         public static TextureFactory Instance { get; } = new TextureFactory();
-
-        /// <summary>
-        ///     Gets the identity array.
-        /// </summary>
-        /// <value>
-        ///     The identity array.
-        /// </value>
         public int[] IdentityArray => this.textureArchive.IdentityArray;
-
-        /// <summary>Builds the specified identity.</summary>
-        /// <param name="identity">
-        ///     The identity.
-        /// </param>
-        /// <param name="storeBuffer">
-        ///     if set to <c>true</c> [store buffer].
-        /// </param>
-        /// <returns>
-        /// </returns>
         public Texture Build(int identity, bool storeBuffer = true)
         {
             return new Texture(this.textureArchive[identity].Item1, identity);
         }
-
-        /// <summary>Gets the by identifier.</summary>
-        /// <param name="id">
-        ///     The identifier.
-        /// </param>
-        /// <returns>
-        /// </returns>
         public CacheAsset GetById(int id)
         {
             return this.textureArchive[id];
         }
-
-        /// <summary>Sets the cache use.</summary>
-        /// <param name="useCache">
-        ///     if set to <c>true</c> [use cache].
-        /// </param>
         public void SetCacheUse(bool useCache)
         {
             this.textureArchive.UseCache = useCache;
         }
-
-        /// <summary>Textures the map.</summary>
-        /// <param name="identity">
-        ///     The identity.
-        /// </param>
-        /// <returns>
-        /// </returns>
         public Bitmap TextureMap(int identity)
         {
             var buffer = this.textureArchive[identity].Item1;

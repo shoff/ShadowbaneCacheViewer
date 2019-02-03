@@ -84,8 +84,9 @@
             this.databaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.databaseToolStripMenuItem1});
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.databaseToolStripMenuItem.Text = "&Database";
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.databaseToolStripMenuItem.Text = "&Forms";
+            this.databaseToolStripMenuItem.Click += new System.EventHandler(this.databaseToolStripMenuItem_Click);
             // 
             // databaseToolStripMenuItem1
             // 
