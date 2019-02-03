@@ -67,8 +67,8 @@
                         {
                             var renderChild = new RenderChild
                             {
-                                ChildId = id,
-                                RenderId = render.CacheIndex.Identity
+                                ChildRenderId = id,
+                                ParentId = render.CacheIndex.Identity
                             };
                             children.Add(renderChild);
                         }
@@ -107,26 +107,33 @@
 
             using (var context = new SbCacheViewerContext())
             {
-                var grouped = children.GroupBy(g => new { g.RenderId }).ToList();
+                var grouped = children.GroupBy(g => new { g.ParentId }).ToList();
 
                 int count = 0;
                 int total = 0;
+
                 foreach (var child in grouped)
                 {
                     total++;
-                    var cacheIndex = child.First().RenderId;
+                    var renderId = child.First().ParentId;
 
                     var render = (from r in context.RenderEntities
-                        where r.CacheIndexIdentity == cacheIndex
+                        where r.CacheIndexIdentity == renderId
                                   select r).First();
 
                     foreach(var ch in child)
                     {
                         render.Children.Add(new RenderChild
                         {
-                            RenderId = ch.RenderId,
-                            ChildId = ch.ChildId
+                            ParentId = ch.ParentId,
+                            ChildRenderId = ch.ChildRenderId
                         });
+
+                        var childRender = (from c in context.RenderEntities
+                            where c.CacheIndexIdentity == ch.ChildRenderId
+                            select c).First();
+
+                        render.ChildRenderEntities.Add(childRender);
                     }
 
                     count++;
@@ -144,6 +151,8 @@
 
                 await context.SaveChangesAsync();
             }
+
+            CacheObjectsDatabaseService.RenderInfoObjectsSaved = true;
         }
     }
 }

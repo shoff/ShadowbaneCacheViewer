@@ -35,6 +35,7 @@
             this.MessageLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -80,10 +81,18 @@
             // 
             // databaseToolStripMenuItem
             // 
+            this.databaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseToolStripMenuItem1});
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
             this.databaseToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.databaseToolStripMenuItem.Text = "&Database";
-            this.databaseToolStripMenuItem.Click += new System.EventHandler(this.databaseToolStripMenuItem_Click);
+            // 
+            // databaseToolStripMenuItem1
+            // 
+            this.databaseToolStripMenuItem1.Name = "databaseToolStripMenuItem1";
+            this.databaseToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.databaseToolStripMenuItem1.Text = "&Database";
+            this.databaseToolStripMenuItem1.Click += new System.EventHandler(this.databaseToolStripMenuItem1_Click);
             // 
             // SBCacheObjectForm
             // 
@@ -111,5 +120,6 @@
         private System.Windows.Forms.Label MessageLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem1;
     }
 }

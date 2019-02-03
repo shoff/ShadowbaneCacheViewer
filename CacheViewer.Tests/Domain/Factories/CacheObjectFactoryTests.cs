@@ -102,7 +102,7 @@ namespace CacheViewer.Tests.Domain.Factories
                         Order = render.Order,
                         Position = $"{render.Position.X}-{render.Position.Y}-{render.Position.Z}",
                         // Textures = render.Textures,
-                        // TODO doens't handle textures
+                        // TODO doesn't handle textures
                         UncompressedSize = (int)render.CacheIndex.UnCompressedSize
                     };
                     context.RenderEntities.Add(entity);
@@ -202,192 +202,202 @@ namespace CacheViewer.Tests.Domain.Factories
             }
         }
 
-        [TestCase(585000)]
-        [TestCase(300)]
-        [TestCase(380)]
-        [TestCase(44000)]
-        [TestCase(64000)]
-        [TestCase(64014)]
-        [TestCase(64035)]
-        [TestCase(64072)]
-        [TestCase(64124)]
-        [TestCase(64148)]
-        [TestCase(64160)]
-        [TestCase(64500)]
-        [TestCase(64600)]
-        [TestCase(64700)]
-        [TestCase(64800)]
-        [TestCase(124000)]
-        [TestCase(124300)]
-        [TestCase(144000)]
-        [TestCase(144063)]
-        [TestCase(144109)]
-        [TestCase(144500)]
-        [TestCase(162014)]
-        [TestCase(162025)]
-        [TestCase(162035)]
-        [TestCase(402001)]
-        [TestCase(402004)]
-        [TestCase(402011)]
-        [TestCase(404016)]
-        [TestCase(404031)]
-        [TestCase(404048)]
-        [TestCase(422600)]
-        [TestCase(422700)]
-        [TestCase(423300)]
-        [TestCase(423400)]
-        [TestCase(423500)]
-        [TestCase(423600)]
-        [TestCase(424000)]
-        [TestCase(424082)]
-        [TestCase(424128)]
-        [TestCase(424180)]
-        [TestCase(424285)]
-        [TestCase(424367)]
-        [TestCase(424484)]
-        [TestCase(424554)]
-        [TestCase(424581)]
-        [TestCase(460126)]
-        [TestCase(460152)]
-        [TestCase(460173)]
-        [TestCase(460189)]
-        [TestCase(460314)]
-        [TestCase(460338)]
-        [TestCase(460374)]
-        [TestCase(460600)]
-        [TestCase(460610)]
-        [TestCase(460620)]
-        [TestCase(460700)]
-        [TestCase(460861)]
-        [TestCase(460886)]
-        [TestCase(460900)]
-        [TestCase(460999)]
-        [TestCase(461000)]
-        [TestCase(461800)]
-        [TestCase(461900)]
-        [TestCase(462000)]
-        [TestCase(462100)]
-        [TestCase(462200)]
-        [TestCase(462500)]
-        [TestCase(482128)]
-        [TestCase(482136)]
-        [TestCase(482144)]
-        [TestCase(484000)]
-        [TestCase(484016)]
-        [TestCase(484032)]
-        [TestCase(484100)]
-        [TestCase(484120)]
-        [TestCase(484140)]
-        [TestCase(484160)]
-        [TestCase(484180)]
-        [TestCase(484200)]
-        [TestCase(484220)]
-        [TestCase(484240)]
-        [TestCase(484260)]
-        [TestCase(484280)]
-        [TestCase(484300)]
-        [TestCase(484320)]
-        [TestCase(484500)]
-        [TestCase(564000)]
-        [TestCase(564100)]
-        [TestCase(564200)]
-        [TestCase(564300)]
-        [TestCase(564400)]
-        [TestCase(564500)]
-        [TestCase(564600)]
-        [TestCase(585000)]
-        [TestCase(585200)]
-        [TestCase(585400)]
-        [TestCase(585600)]
-        [TestCase(585800)]
-        [TestCase(586000)]
-        [TestCase(586400)]
-        [TestCase(586600)]
-        [TestCase(622670)]
-        [TestCase(622718)]
-        [TestCase(622770)]
-        [TestCase(804000)]
-        [TestCase(814000)]
-        [TestCase(1500000)]
-        [TestCase(1600500)]
-        [TestCase(1610000)]
-        [TestCase(1612900)]
-        [TestCase(5000400)]
-        [TestCase(5000700)]
-        [TestCase(5000800)]
-        [TestCase(5001100)]
-        [TestCase(5001500)]
-        [TestCase(5010000)]
-        [TestCase(5010100)]
-        [TestCase(5010200)]
-        [TestCase(5031000)]
-        [TestCase(5031200)]
-        [TestCase(5031400)]
-        [TestCase(5050000)]
-        public async Task Update_One_Cache_File_In_Sql(int cacheIndexId)
+        //[TestCase(585000)]
+        //[TestCase(300)]
+        //[TestCase(380)]
+        //[TestCase(44000)]
+        //[TestCase(64000)]
+        //[TestCase(64014)]
+        //[TestCase(64035)]
+        //[TestCase(64072)]
+        //[TestCase(64124)]
+        //[TestCase(64148)]
+        //[TestCase(64160)]
+        //[TestCase(64500)]
+        //[TestCase(64600)]
+        //[TestCase(64700)]
+        //[TestCase(64800)]
+        //[TestCase(124000)]
+        //[TestCase(124300)]
+        //[TestCase(144000)]
+        //[TestCase(144063)]
+        //[TestCase(144109)]
+        //[TestCase(144500)]
+        //[TestCase(162014)]
+        //[TestCase(162025)]
+        //[TestCase(162035)]
+        //[TestCase(402001)]
+        //[TestCase(402004)]
+        //[TestCase(402011)]
+        //[TestCase(404016)]
+        //[TestCase(404031)]
+        //[TestCase(404048)]
+        //[TestCase(422600)]
+        //[TestCase(422700)]
+        //[TestCase(423300)]
+        //[TestCase(423400)]
+        //[TestCase(423500)]
+        //[TestCase(423600)]
+        //[TestCase(424000)]
+        //[TestCase(424082)]
+        //[TestCase(424128)]
+        //[TestCase(424180)]
+        //[TestCase(424285)]
+        //[TestCase(424367)]
+        //[TestCase(424484)]
+        //[TestCase(424554)]
+        //[TestCase(424581)]
+        //[TestCase(460126)]
+        //[TestCase(460152)]
+        //[TestCase(460173)]
+        //[TestCase(460189)]
+        //[TestCase(460314)]
+        //[TestCase(460338)]
+        //[TestCase(460374)]
+        //[TestCase(460600)]
+        //[TestCase(460610)]
+        //[TestCase(460620)]
+        //[TestCase(460700)]
+        //[TestCase(460861)]
+        //[TestCase(460886)]
+        //[TestCase(460900)]
+        //[TestCase(460999)]
+        //[TestCase(461000)]
+        //[TestCase(461800)]
+        //[TestCase(461900)]
+        //[TestCase(462000)]
+        //[TestCase(462100)]
+        //[TestCase(462200)]
+        //[TestCase(462500)]
+        //[TestCase(482128)]
+        //[TestCase(482136)]
+        //[TestCase(482144)]
+        //[TestCase(484000)]
+        //[TestCase(484016)]
+        //[TestCase(484032)]
+        //[TestCase(484100)]
+        //[TestCase(484120)]
+        //[TestCase(484140)]
+        //[TestCase(484160)]
+        //[TestCase(484180)]
+        //[TestCase(484200)]
+        //[TestCase(484220)]
+        //[TestCase(484240)]
+        //[TestCase(484260)]
+        //[TestCase(484280)]
+        //[TestCase(484300)]
+        //[TestCase(484320)]
+        //[TestCase(484500)]
+        //[TestCase(564000)]
+        //[TestCase(564100)]
+        //[TestCase(564200)]
+        //[TestCase(564300)]
+        //[TestCase(564400)]
+        //[TestCase(564500)]
+        //[TestCase(564600)]
+        //[TestCase(585000)]
+        //[TestCase(585200)]
+        //[TestCase(585400)]
+        //[TestCase(585600)]
+        //[TestCase(585800)]
+        //[TestCase(586000)]
+        //[TestCase(586400)]
+        //[TestCase(586600)]
+        //[TestCase(622670)]
+        //[TestCase(622718)]
+        //[TestCase(622770)]
+        //[TestCase(804000)]
+        //[TestCase(814000)]
+        //[TestCase(1500000)]
+        //[TestCase(1600500)]
+        //[TestCase(1610000)]
+        //[TestCase(1612900)]
+        //[TestCase(5000400)]
+        //[TestCase(5000700)]
+        //[TestCase(5000800)]
+        //[TestCase(5001100)]
+        //[TestCase(5001500)]
+        //[TestCase(5010000)]
+        //[TestCase(5010100)]
+        //[TestCase(5010200)]
+        //[TestCase(5031000)]
+        //[TestCase(5031200)]
+        //[TestCase(5031400)]
+        //[TestCase(5050000)]
+        //public async Task Update_One_Cache_File_In_Sql(int cacheIndexId)
+        //{
+        //    using (var context = new SbCacheViewerContext())
+        //    {
+        //        var cacheIndex = this.cacheObjectFactory.FindById(cacheIndexId);
+        //        await this.cacheObjectFactory.SaveToFileAsync(cacheIndex, AppDomain.CurrentDomain.BaseDirectory + "\\CObjects");
+
+        //        var cobject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
+
+        //        var centity = (from c in context.CacheObjectEntities
+        //                       where c.CacheIndexIdentity == cacheIndexId
+        //                       select c).FirstOrDefault();
+
+        //        if (centity == null)
+        //        {
+        //            centity = new CacheObjectEntity
+        //            {
+        //                CacheIndexIdentity = cobject.CacheIndex.Identity,
+        //                CompressedSize = (int)cobject.CacheIndex.CompressedSize,
+        //                FileOffset = (int)cobject.CacheIndex.Offset,
+        //                Name = cobject.Name,
+        //                ObjectType = cobject.Flag,
+        //                ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
+        //                UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
+
+        //            };
+        //            context.CacheObjectEntities.Add(centity);
+        //        }
+
+        //        var structure = cobject;
+        //        using (var reader = structure.Data.CreateBinaryReaderUtf32())
+        //        {
+        //            reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
+
+        //            while (reader.BaseStream.Position + 4 <= structure.Data.Count)
+        //            {
+        //                int renderId = reader.ReadInt32();
+
+        //                if (renderId == 0)
+        //                {
+        //                    continue;
+        //                }
+
+        //                int range = renderId > centity.CacheIndexIdentity ?
+        //                    Math.Abs(renderId - centity.CacheIndexIdentity) :
+        //                    Math.Abs(centity.CacheIndexIdentity - renderId);
+
+        //                if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
+        //                {
+        //                    centity.RenderAndOffsets.Add(new RenderAndOffset
+        //                    {
+        //                        RenderId = renderId,
+        //                        OffSet = reader.BaseStream.Position,
+        //                        CacheIndexId = cacheIndexId
+        //                    });
+        //                }
+        //                reader.BaseStream.Position -= 3;
+        //            }
+        //        }
+        //        context.SaveChanges();
+        //    }
+        //}
+
+        [Test]
+        public void Centaur_2004_Has_Correct_Number_Of_RenderIds()
         {
             using (var context = new SbCacheViewerContext())
             {
-                var cacheIndex = this.cacheObjectFactory.FindById(cacheIndexId);
-                await this.cacheObjectFactory.SaveToFileAsync(cacheIndex, AppDomain.CurrentDomain.BaseDirectory + "\\CObjects");
+                var entity = (from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
+                    where c.CacheIndexIdentity == 2004 select c).First();
 
-                var cobject = this.cacheObjectFactory.CreateAndParse(cacheIndex);
-
-                var centity = (from c in context.CacheObjectEntities
-                               where c.CacheIndexIdentity == cacheIndexId
-                               select c).FirstOrDefault();
-
-                if (centity == null)
-                {
-                    centity = new CacheObjectEntity
-                    {
-                        CacheIndexIdentity = cobject.CacheIndex.Identity,
-                        CompressedSize = (int)cobject.CacheIndex.CompressedSize,
-                        FileOffset = (int)cobject.CacheIndex.Offset,
-                        Name = cobject.Name,
-                        ObjectType = cobject.Flag,
-                        ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
-                        UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
-
-                    };
-                    context.CacheObjectEntities.Add(centity);
-                }
-
-                var structure = cobject;
-                using (var reader = structure.Data.CreateBinaryReaderUtf32())
-                {
-                    reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids
-
-                    while (reader.BaseStream.Position + 4 <= structure.Data.Count)
-                    {
-                        int renderId = reader.ReadInt32();
-
-                        if (renderId == 0)
-                        {
-                            continue;
-                        }
-
-                        int range = renderId > centity.CacheIndexIdentity ?
-                            Math.Abs(renderId - centity.CacheIndexIdentity) :
-                            Math.Abs(centity.CacheIndexIdentity - renderId);
-
-                        if (range < 5000 && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
-                        {
-                            centity.RenderAndOffsets.Add(new RenderAndOffset
-                            {
-                                RenderId = renderId,
-                                OffSet = reader.BaseStream.Position,
-                                CacheIndexId = cacheIndexId
-                            });
-                        }
-                        reader.BaseStream.Position -= 3;
-                    }
-                }
-                context.SaveChanges();
+                Assert.AreEqual(33, entity.RenderEntities.Count);
             }
         }
-
-
 
         private static string CreateFolders()
         {

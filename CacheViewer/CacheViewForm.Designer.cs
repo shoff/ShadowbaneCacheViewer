@@ -122,7 +122,6 @@
             this.logViewerToolStripMenuItem.Name = "logViewerToolStripMenuItem";
             this.logViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logViewerToolStripMenuItem.Text = "Log Viewer";
-            this.logViewerToolStripMenuItem.Click += new System.EventHandler(this.LogViewerToolStripMenuItemClick);
             // 
             // databaseFormToolStripMenuItem
             // 

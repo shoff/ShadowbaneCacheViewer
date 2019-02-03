@@ -1,34 +1,94 @@
-//--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
-//
-// File:
-// Author:
-// Revision:
-// Purpose:
-//--------------------------------------
-//
 struct blankAfterRenderId {
     int blanks[6];
 };
 
+struct testForNull {
+    uint isnull;    
+};
+
+struct unknownData1
+{
+	uint i1;
+	ushort s1;
+	ushort s2;
+	float posX;
+	float posY;
+	float posZ;
+	float f1;
+	float f2;
+	float f3;
+	float f4;
+	float scaleX;
+	float scaleY;
+	float scaleZ;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
+typedef struct {
+    byte garb[34];
+} garb;
+
+//----------------------------------------------
+//----------------------------------------------
+//----------------------------------------------
+
 char tnlc[4];
 int flag;
 int size;
-wchar_t name[size];    
+wchar_t name[size];
+    
+byte unknown1;
+float something1;
+time_t updatedTime;
+tVector3f scale;
+float unknown; 
+// This is where the old .cpp files sends the byte array
+// to the various "types" with ptr += 25
+//----------------------------------------------
 
-uchar someboolean;
+byte nullbytes[164];
 
-// decimal 1
-float unknown;
-time_t lastUpdated;
-float unknownFloat1;
-float unknownFloat2;
-float unknownFloat3;
+uint someNumber;
+uint someOtherNumber;
+uint crazybigint; // 3261557471
+uint nullcb;
 
-int terminator;
-int version; // ??
+uint crazybigint1; // 3256536428
+uint crazybigint2; // 3257963797
+uint nullcb1;
 
-blankAfterRenderId bari;
+uint crazybigint3; // 3256536428
+uint crazybigint4; // 3257963797
+uint nullcb2;
+
+uint crazybigint5; // 3256536428
+uint crazybigint6; // 3257963797
+uint nullcb3;
+
+uint crazybigint7; 
+uint nullcb4;
 
 uchar dataChar;
 uint runeData;

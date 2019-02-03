@@ -45,8 +45,6 @@ string tVector2fRead( tVector2f &v ) {
  return s;
 };
 
-
-
 typedef struct {
     byte garb[34];
 } garb;

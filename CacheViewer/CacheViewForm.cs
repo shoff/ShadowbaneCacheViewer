@@ -375,12 +375,6 @@ namespace CacheViewer
             sBCacheObjectForm.Show();
         }
 
-        private void LogViewerToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            LogViewer logViewer = new LogViewer();
-            logViewer.Show();
-        }
-
         private void DatabaseFormToolStripMenuItemClick(object sender, EventArgs e)
         {
             DatabaseForm dbf = new DatabaseForm();

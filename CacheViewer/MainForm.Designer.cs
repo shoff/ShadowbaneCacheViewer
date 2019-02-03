@@ -224,7 +224,6 @@ namespace CacheViewer
             this.logViewerToolStripMenuItem.Name = "logViewerToolStripMenuItem";
             this.logViewerToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.logViewerToolStripMenuItem.Text = "&LogViewer";
-            this.logViewerToolStripMenuItem.Click += new System.EventHandler(this.logViewerToolStripMenuItem_Click);
             // 
             // MainForm
             // 

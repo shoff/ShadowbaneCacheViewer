@@ -435,10 +435,5 @@
             dbf.Show();
         }
 
-        private void logViewerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            LogViewer logViewer = new LogViewer();
-            logViewer.Show();
-        }
     }
 }

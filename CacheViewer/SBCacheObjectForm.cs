@@ -53,7 +53,7 @@ namespace CacheViewer
             this.MessageLabel.SetText(message);
         }
 
-        private void databaseToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void databaseToolStripMenuItem1_Click(object sender, System.EventArgs e)
         {
             DatabaseForm dbf = new DatabaseForm();
             dbf.Show();

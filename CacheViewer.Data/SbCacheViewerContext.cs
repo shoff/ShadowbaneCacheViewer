@@ -329,8 +329,5 @@
         public DbSet<RenderTexture> RenderTextures { get; set; }
         public DbSet<InvalidValue> InvalidValues { get; set; }
         public DbSet<ParseError> ParseErrors { get; set; }
-
-        public DbSet<CObjects> CObjects { get; set; }
-        public DbSet<RenderRaw> Renders { get; set; }
     }
 }

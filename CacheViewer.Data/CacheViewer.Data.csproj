@@ -41,25 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201901250254561_AddingErrorFlagToRenderEntity.cs" />
-    <Compile Include="Migrations\201901250254561_AddingErrorFlagToRenderEntity.Designer.cs">
-      <DependentUpon>201901250254561_AddingErrorFlagToRenderEntity.cs</DependentUpon>
+    <Compile Include="Entities\InvalidValue.cs" />
+    <Compile Include="Entities\SkeletonEntity.cs" />
+    <Compile Include="Migrations\201902030220097_InitialCreate.cs" />
+    <Compile Include="Migrations\201902030220097_InitialCreate.Designer.cs">
+      <DependentUpon>201902030220097_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901290414377_NoClue.cs" />
-    <Compile Include="Migrations\201901290414377_NoClue.Designer.cs">
-      <DependentUpon>201901290414377_NoClue.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901310130395_MakingMeshIdNull.cs" />
-    <Compile Include="Migrations\201901310130395_MakingMeshIdNull.Designer.cs">
-      <DependentUpon>201901310130395_MakingMeshIdNull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901310425272_AddingChildIdToRenderChildren.cs" />
-    <Compile Include="Migrations\201901310425272_AddingChildIdToRenderChildren.Designer.cs">
-      <DependentUpon>201901310425272_AddingChildIdToRenderChildren.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="SbCacheViewerContext.cs" />
     <Compile Include="Entities\CacheObjectEntity.cs" />
-    <Compile Include="Entities\CObjects.cs" />
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\MeshEntity.cs" />
     <Compile Include="Entities\MobileEntity.cs" />
@@ -68,20 +58,12 @@
     <Compile Include="Entities\RenderAndOffset.cs" />
     <Compile Include="Entities\RenderChild.cs" />
     <Compile Include="Entities\RenderEntity.cs" />
-    <Compile Include="Entities\RenderRaw.cs" />
     <Compile Include="Entities\RenderTexture.cs" />
     <Compile Include="Entities\TextureEntity.cs" />
-    <Compile Include="Entities\Vector2Entity.cs" />
-    <Compile Include="Entities\Vector3Entity.cs" />
     <Compile Include="EntityRepository.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="IEntityRepository.cs" />
     <Compile Include="IQueryableDataContext.cs" />
-    <Compile Include="Migrations\201901240332403_InitialCreate.cs" />
-    <Compile Include="Migrations\201901240332403_InitialCreate.Designer.cs">
-      <DependentUpon>201901240332403_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,20 +79,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901240332403_InitialCreate.resx">
-      <DependentUpon>201901240332403_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901250254561_AddingErrorFlagToRenderEntity.resx">
-      <DependentUpon>201901250254561_AddingErrorFlagToRenderEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901290414377_NoClue.resx">
-      <DependentUpon>201901290414377_NoClue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901310130395_MakingMeshIdNull.resx">
-      <DependentUpon>201901310130395_MakingMeshIdNull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901310425272_AddingChildIdToRenderChildren.resx">
-      <DependentUpon>201901310425272_AddingChildIdToRenderChildren.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902030220097_InitialCreate.resx">
+      <DependentUpon>201902030220097_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -46,11 +46,8 @@
             this.LizardManTempleLabel = new System.Windows.Forms.Label();
             this.LizardManTempleButton = new System.Windows.Forms.Button();
             this.vector3EntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.SaveRendersButton = new System.Windows.Forms.Button();
-            this.SaveRawButton = new System.Windows.Forms.Button();
             this.AssociateTexturesLabel = new System.Windows.Forms.Label();
             this.AssociateTexturesButton = new System.Windows.Forms.Button();
             this.ValidRangeValidationLabel = new System.Windows.Forms.Label();
@@ -58,17 +55,22 @@
             this.RangeTextBox = new System.Windows.Forms.TextBox();
             this.ClearDatabaseLabel = new System.Windows.Forms.Label();
             this.ClearDataButton = new System.Windows.Forms.Button();
-            this.RawCobjectLabel = new System.Windows.Forms.Label();
-            this.SaveRendersLabel = new System.Windows.Forms.Label();
+            this.SaveMeshesCheckbox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RenderInfoCheckbox = new System.Windows.Forms.CheckBox();
+            this.CObjectsCheckbox = new System.Windows.Forms.CheckBox();
+            this.RenderCheckbox = new System.Windows.Forms.CheckBox();
+            this.TexturesCheckbox = new System.Windows.Forms.CheckBox();
+            this.cacheObjectEntityBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // SaveTexturesButton
             // 
-            this.SaveTexturesButton.Location = new System.Drawing.Point(25, 31);
+            this.SaveTexturesButton.Location = new System.Drawing.Point(98, 68);
             this.SaveTexturesButton.Name = "SaveTexturesButton";
             this.SaveTexturesButton.Size = new System.Drawing.Size(189, 34);
             this.SaveTexturesButton.TabIndex = 6;
@@ -79,7 +81,7 @@
             // TextureSaveLabel
             // 
             this.TextureSaveLabel.AutoSize = true;
-            this.TextureSaveLabel.Location = new System.Drawing.Point(223, 42);
+            this.TextureSaveLabel.Location = new System.Drawing.Point(296, 79);
             this.TextureSaveLabel.Name = "TextureSaveLabel";
             this.TextureSaveLabel.Size = new System.Drawing.Size(61, 13);
             this.TextureSaveLabel.TabIndex = 7;
@@ -88,7 +90,7 @@
             // SaveMeshesButton
             // 
             this.SaveMeshesButton.Enabled = false;
-            this.SaveMeshesButton.Location = new System.Drawing.Point(25, 74);
+            this.SaveMeshesButton.Location = new System.Drawing.Point(98, 111);
             this.SaveMeshesButton.Name = "SaveMeshesButton";
             this.SaveMeshesButton.Size = new System.Drawing.Size(189, 34);
             this.SaveMeshesButton.TabIndex = 8;
@@ -99,7 +101,7 @@
             // SaveMeshesLabel
             // 
             this.SaveMeshesLabel.AutoSize = true;
-            this.SaveMeshesLabel.Location = new System.Drawing.Point(223, 82);
+            this.SaveMeshesLabel.Location = new System.Drawing.Point(296, 119);
             this.SaveMeshesLabel.Name = "SaveMeshesLabel";
             this.SaveMeshesLabel.Size = new System.Drawing.Size(61, 13);
             this.SaveMeshesLabel.TabIndex = 9;
@@ -108,7 +110,7 @@
             // SaveCacheButton
             // 
             this.SaveCacheButton.Enabled = false;
-            this.SaveCacheButton.Location = new System.Drawing.Point(25, 183);
+            this.SaveCacheButton.Location = new System.Drawing.Point(98, 198);
             this.SaveCacheButton.Name = "SaveCacheButton";
             this.SaveCacheButton.Size = new System.Drawing.Size(189, 34);
             this.SaveCacheButton.TabIndex = 10;
@@ -119,7 +121,7 @@
             // SaveCacheLabel
             // 
             this.SaveCacheLabel.AutoSize = true;
-            this.SaveCacheLabel.Location = new System.Drawing.Point(223, 194);
+            this.SaveCacheLabel.Location = new System.Drawing.Point(296, 209);
             this.SaveCacheLabel.Name = "SaveCacheLabel";
             this.SaveCacheLabel.Size = new System.Drawing.Size(61, 13);
             this.SaveCacheLabel.TabIndex = 11;
@@ -128,7 +130,7 @@
             // AssociateRenderButton
             // 
             this.AssociateRenderButton.Enabled = false;
-            this.AssociateRenderButton.Location = new System.Drawing.Point(25, 226);
+            this.AssociateRenderButton.Location = new System.Drawing.Point(98, 241);
             this.AssociateRenderButton.Name = "AssociateRenderButton";
             this.AssociateRenderButton.Size = new System.Drawing.Size(189, 34);
             this.AssociateRenderButton.TabIndex = 12;
@@ -139,7 +141,7 @@
             // AssociateRenderLabel
             // 
             this.AssociateRenderLabel.AutoSize = true;
-            this.AssociateRenderLabel.Location = new System.Drawing.Point(223, 237);
+            this.AssociateRenderLabel.Location = new System.Drawing.Point(296, 252);
             this.AssociateRenderLabel.Name = "AssociateRenderLabel";
             this.AssociateRenderLabel.Size = new System.Drawing.Size(61, 13);
             this.AssociateRenderLabel.TabIndex = 13;
@@ -147,7 +149,8 @@
             // 
             // RenderButton
             // 
-            this.RenderButton.Location = new System.Drawing.Point(25, 117);
+            this.RenderButton.Enabled = false;
+            this.RenderButton.Location = new System.Drawing.Point(98, 154);
             this.RenderButton.Name = "RenderButton";
             this.RenderButton.Size = new System.Drawing.Size(189, 34);
             this.RenderButton.TabIndex = 14;
@@ -158,7 +161,7 @@
             // RenderLabel
             // 
             this.RenderLabel.AutoSize = true;
-            this.RenderLabel.Location = new System.Drawing.Point(223, 128);
+            this.RenderLabel.Location = new System.Drawing.Point(296, 165);
             this.RenderLabel.Name = "RenderLabel";
             this.RenderLabel.Size = new System.Drawing.Size(61, 13);
             this.RenderLabel.TabIndex = 15;
@@ -221,14 +224,6 @@
             this.LizardManTempleButton.UseVisualStyleBackColor = true;
             this.LizardManTempleButton.Click += new System.EventHandler(this.LizardManTempleButton_Click);
             // 
-            // vector3EntityBindingSource
-            // 
-            this.vector3EntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.Vector3Entity);
-            // 
-            // cacheObjectEntityBindingSource
-            // 
-            this.cacheObjectEntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.CacheObjectEntity);
-            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -240,9 +235,9 @@
             this.groupBox1.Controls.Add(this.RangerBlindButton);
             this.groupBox1.Controls.Add(this.RangerBlindLabel);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox1.Location = new System.Drawing.Point(12, 430);
+            this.groupBox1.Location = new System.Drawing.Point(12, 384);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(590, 180);
+            this.groupBox1.Size = new System.Drawing.Size(503, 194);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Test Objects";
@@ -252,10 +247,12 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.SaveRendersLabel);
-            this.groupBox2.Controls.Add(this.RawCobjectLabel);
-            this.groupBox2.Controls.Add(this.SaveRendersButton);
-            this.groupBox2.Controls.Add(this.SaveRawButton);
+            this.groupBox2.Controls.Add(this.TexturesCheckbox);
+            this.groupBox2.Controls.Add(this.RenderCheckbox);
+            this.groupBox2.Controls.Add(this.CObjectsCheckbox);
+            this.groupBox2.Controls.Add(this.RenderInfoCheckbox);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.SaveMeshesCheckbox);
             this.groupBox2.Controls.Add(this.AssociateTexturesLabel);
             this.groupBox2.Controls.Add(this.AssociateTexturesButton);
             this.groupBox2.Controls.Add(this.ValidRangeValidationLabel);
@@ -271,37 +268,17 @@
             this.groupBox2.Controls.Add(this.AssociateRenderButton);
             this.groupBox2.Controls.Add(this.SaveCacheButton);
             this.groupBox2.Controls.Add(this.SaveCacheLabel);
-            this.groupBox2.Location = new System.Drawing.Point(12, 93);
+            this.groupBox2.Location = new System.Drawing.Point(12, 22);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(591, 319);
+            this.groupBox2.Size = new System.Drawing.Size(503, 356);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data Importers";
             // 
-            // SaveRendersButton
-            // 
-            this.SaveRendersButton.Location = new System.Drawing.Point(396, 118);
-            this.SaveRendersButton.Name = "SaveRendersButton";
-            this.SaveRendersButton.Size = new System.Drawing.Size(189, 33);
-            this.SaveRendersButton.TabIndex = 22;
-            this.SaveRendersButton.Text = "Save renders";
-            this.SaveRendersButton.UseVisualStyleBackColor = true;
-            this.SaveRendersButton.Click += new System.EventHandler(this.SaveRendersButton_Click);
-            // 
-            // SaveRawButton
-            // 
-            this.SaveRawButton.Location = new System.Drawing.Point(396, 32);
-            this.SaveRawButton.Name = "SaveRawButton";
-            this.SaveRawButton.Size = new System.Drawing.Size(189, 33);
-            this.SaveRawButton.TabIndex = 21;
-            this.SaveRawButton.Text = "Save raw cobjects";
-            this.SaveRawButton.UseVisualStyleBackColor = true;
-            this.SaveRawButton.Click += new System.EventHandler(this.SaveRawButton_Click);
-            // 
             // AssociateTexturesLabel
             // 
             this.AssociateTexturesLabel.AutoSize = true;
-            this.AssociateTexturesLabel.Location = new System.Drawing.Point(223, 280);
+            this.AssociateTexturesLabel.Location = new System.Drawing.Point(296, 295);
             this.AssociateTexturesLabel.Name = "AssociateTexturesLabel";
             this.AssociateTexturesLabel.Size = new System.Drawing.Size(61, 13);
             this.AssociateTexturesLabel.TabIndex = 20;
@@ -310,7 +287,7 @@
             // AssociateTexturesButton
             // 
             this.AssociateTexturesButton.Enabled = false;
-            this.AssociateTexturesButton.Location = new System.Drawing.Point(25, 269);
+            this.AssociateTexturesButton.Location = new System.Drawing.Point(98, 284);
             this.AssociateTexturesButton.Name = "AssociateTexturesButton";
             this.AssociateTexturesButton.Size = new System.Drawing.Size(189, 34);
             this.AssociateTexturesButton.TabIndex = 19;
@@ -322,7 +299,7 @@
             // 
             this.ValidRangeValidationLabel.AutoSize = true;
             this.ValidRangeValidationLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.ValidRangeValidationLabel.Location = new System.Drawing.Point(223, 160);
+            this.ValidRangeValidationLabel.Location = new System.Drawing.Point(366, 42);
             this.ValidRangeValidationLabel.Name = "ValidRangeValidationLabel";
             this.ValidRangeValidationLabel.Size = new System.Drawing.Size(0, 13);
             this.ValidRangeValidationLabel.TabIndex = 18;
@@ -330,7 +307,7 @@
             // RangeLabel
             // 
             this.RangeLabel.AutoSize = true;
-            this.RangeLabel.Location = new System.Drawing.Point(22, 160);
+            this.RangeLabel.Location = new System.Drawing.Point(165, 42);
             this.RangeLabel.Name = "RangeLabel";
             this.RangeLabel.Size = new System.Drawing.Size(117, 13);
             this.RangeLabel.TabIndex = 17;
@@ -339,7 +316,7 @@
             // 
             // RangeTextBox
             // 
-            this.RangeTextBox.Location = new System.Drawing.Point(145, 157);
+            this.RangeTextBox.Location = new System.Drawing.Point(288, 39);
             this.RangeTextBox.Name = "RangeTextBox";
             this.RangeTextBox.Size = new System.Drawing.Size(69, 20);
             this.RangeTextBox.TabIndex = 16;
@@ -356,7 +333,7 @@
             // 
             // ClearDataButton
             // 
-            this.ClearDataButton.Location = new System.Drawing.Point(37, 36);
+            this.ClearDataButton.Location = new System.Drawing.Point(311, 591);
             this.ClearDataButton.Name = "ClearDataButton";
             this.ClearDataButton.Size = new System.Drawing.Size(178, 34);
             this.ClearDataButton.TabIndex = 25;
@@ -364,42 +341,99 @@
             this.ClearDataButton.UseVisualStyleBackColor = true;
             this.ClearDataButton.Click += new System.EventHandler(this.ClearDataButton_Click);
             // 
-            // RawCobjectLabel
+            // SaveMeshesCheckbox
             // 
-            this.RawCobjectLabel.AutoSize = true;
-            this.RawCobjectLabel.Location = new System.Drawing.Point(405, 82);
-            this.RawCobjectLabel.Name = "RawCobjectLabel";
-            this.RawCobjectLabel.Size = new System.Drawing.Size(61, 13);
-            this.RawCobjectLabel.TabIndex = 23;
-            this.RawCobjectLabel.Text = "Not Started";
+            this.SaveMeshesCheckbox.AutoSize = true;
+            this.SaveMeshesCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SaveMeshesCheckbox.Location = new System.Drawing.Point(17, 118);
+            this.SaveMeshesCheckbox.Name = "SaveMeshesCheckbox";
+            this.SaveMeshesCheckbox.Size = new System.Drawing.Size(58, 17);
+            this.SaveMeshesCheckbox.TabIndex = 28;
+            this.SaveMeshesCheckbox.Text = "enable";
+            this.SaveMeshesCheckbox.UseVisualStyleBackColor = true;
+            this.SaveMeshesCheckbox.CheckedChanged += new System.EventHandler(this.SaveMeshesCheckbox_CheckedChanged);
             // 
-            // SaveRendersLabel
+            // label1
             // 
-            this.SaveRendersLabel.AutoSize = true;
-            this.SaveRendersLabel.Location = new System.Drawing.Point(405, 164);
-            this.SaveRendersLabel.Name = "SaveRendersLabel";
-            this.SaveRendersLabel.Size = new System.Drawing.Size(61, 13);
-            this.SaveRendersLabel.TabIndex = 25;
-            this.SaveRendersLabel.Text = "Not Started";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 42);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "enable execution";
+            // 
+            // RenderInfoCheckbox
+            // 
+            this.RenderInfoCheckbox.AutoSize = true;
+            this.RenderInfoCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RenderInfoCheckbox.Location = new System.Drawing.Point(17, 164);
+            this.RenderInfoCheckbox.Name = "RenderInfoCheckbox";
+            this.RenderInfoCheckbox.Size = new System.Drawing.Size(58, 17);
+            this.RenderInfoCheckbox.TabIndex = 30;
+            this.RenderInfoCheckbox.Text = "enable";
+            this.RenderInfoCheckbox.UseVisualStyleBackColor = true;
+            this.RenderInfoCheckbox.CheckedChanged += new System.EventHandler(this.RenderInfoCheckbox_CheckedChanged);
+            // 
+            // CObjectsCheckbox
+            // 
+            this.CObjectsCheckbox.AutoSize = true;
+            this.CObjectsCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CObjectsCheckbox.Location = new System.Drawing.Point(17, 208);
+            this.CObjectsCheckbox.Name = "CObjectsCheckbox";
+            this.CObjectsCheckbox.Size = new System.Drawing.Size(58, 17);
+            this.CObjectsCheckbox.TabIndex = 31;
+            this.CObjectsCheckbox.Text = "enable";
+            this.CObjectsCheckbox.UseVisualStyleBackColor = true;
+            this.CObjectsCheckbox.CheckedChanged += new System.EventHandler(this.CObjectsCheckbox_CheckedChanged);
+            // 
+            // RenderCheckbox
+            // 
+            this.RenderCheckbox.AutoSize = true;
+            this.RenderCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RenderCheckbox.Location = new System.Drawing.Point(17, 252);
+            this.RenderCheckbox.Name = "RenderCheckbox";
+            this.RenderCheckbox.Size = new System.Drawing.Size(58, 17);
+            this.RenderCheckbox.TabIndex = 32;
+            this.RenderCheckbox.Text = "enable";
+            this.RenderCheckbox.UseVisualStyleBackColor = true;
+            this.RenderCheckbox.CheckedChanged += new System.EventHandler(this.RenderCheckbox_CheckedChanged);
+            // 
+            // TexturesCheckbox
+            // 
+            this.TexturesCheckbox.AutoSize = true;
+            this.TexturesCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TexturesCheckbox.Location = new System.Drawing.Point(17, 294);
+            this.TexturesCheckbox.Name = "TexturesCheckbox";
+            this.TexturesCheckbox.Size = new System.Drawing.Size(58, 17);
+            this.TexturesCheckbox.TabIndex = 33;
+            this.TexturesCheckbox.Text = "enable";
+            this.TexturesCheckbox.UseVisualStyleBackColor = true;
+            this.TexturesCheckbox.CheckedChanged += new System.EventHandler(this.TexturesCheckbox_CheckedChanged);
+            // 
+            // cacheObjectEntityBindingSource
+            // 
+            this.cacheObjectEntityBindingSource.DataSource = typeof(CacheViewer.Data.Entities.CacheObjectEntity);
             // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 622);
+            this.ClientSize = new System.Drawing.Size(527, 630);
             this.Controls.Add(this.ClearDataButton);
             this.Controls.Add(this.ClearDatabaseLabel);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "DatabaseForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "DatabaseForm";
             this.Load += new System.EventHandler(this.DatabaseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.vector3EntityBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cacheObjectEntityBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,9 +467,11 @@
         private System.Windows.Forms.Button ClearDataButton;
         private System.Windows.Forms.Label AssociateTexturesLabel;
         private System.Windows.Forms.Button AssociateTexturesButton;
-        private System.Windows.Forms.Button SaveRawButton;
-        private System.Windows.Forms.Button SaveRendersButton;
-        private System.Windows.Forms.Label RawCobjectLabel;
-        private System.Windows.Forms.Label SaveRendersLabel;
+        private System.Windows.Forms.CheckBox TexturesCheckbox;
+        private System.Windows.Forms.CheckBox RenderCheckbox;
+        private System.Windows.Forms.CheckBox CObjectsCheckbox;
+        private System.Windows.Forms.CheckBox RenderInfoCheckbox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox SaveMeshesCheckbox;
     }
 }

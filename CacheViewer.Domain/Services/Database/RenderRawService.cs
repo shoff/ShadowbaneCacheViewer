@@ -16,28 +16,6 @@
             this.renderArchive.LoadIndexes();
         }
 
-        public async Task SaveRendersToDbAsync()
-        {
-            using (var context = new SbCacheViewerContext())
-            {
-                foreach (var c in this.renderArchive.CacheIndices)
-                {
-                    context.Renders.Add(
-                        new Data.Entities.RenderRaw
-                        {
-                            CompressedSize = (int)c.CompressedSize,
-                            Data = this.GetData(c),
-                            Identity = (int)c.Identity,
-                            Junk1 = (int)c.Junk1,
-                            Name = c.Name,
-                            Offset = (int)c.Offset,
-                            UnCompressedSize = (int)c.UnCompressedSize,
-                            Order = c.Order
-                        });
-                    await context.SaveChangesAsync();
-                }
-            }
-        }
 
         public byte[] GetData(CacheIndex index)
         {

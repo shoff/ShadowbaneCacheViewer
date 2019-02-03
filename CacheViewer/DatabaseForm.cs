@@ -8,38 +8,39 @@ namespace CacheViewer
     using ControlExtensions;
     using Domain.Services.Database;
     using Domain.Services.Prefabs;
+    using Models;
     using NLog;
 
     public partial class DatabaseForm : Form
     {
         private int validRange = 5000;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly DatabaseState databaseState;
 
         public DatabaseForm()
         {
             this.InitializeComponent();
+            this.databaseState = new DatabaseState();
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
                 logger.Debug("DatabaseForm created.");
             }
+            this.databaseState.StateChanged += SetState;
         }
-
+        
         private async void SaveTexturesButton_Click(object sender, EventArgs e)
         {
             await Task.Run(async () =>
             {
-                TextureDatabaseService service = new TextureDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new TextureDatabaseService();
                 service.TexturesSaved += this.UpdateLabel;
-                this.SaveTexturesButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.SaveToDatabaseAsync();
-                this.SaveTexturesButton.SetEnabled(true);
-                this.ClearDataButton.SetEnabled(true);
                 service.TexturesSaved -= this.UpdateLabel;
             });
+            this.SetCheckboxState(true);
             this.TextureSaveLabel.SetText("Textures saved to database");
-            this.SaveMeshesButton.Enabled = true;
-            this.SaveMeshesButton.Focus();
+            this.databaseState.TexturesSaved = true;
         }
 
         private void UpdateLabel(object sender, TextureSaveEventArgs e)
@@ -51,19 +52,16 @@ namespace CacheViewer
         {
             await Task.Run(async () =>
             {
-                MeshDatabaseService service = new MeshDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new MeshDatabaseService();
                 service.MeshesSaved += this.UpdateMeshesLabel;
-                this.SaveMeshesButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.SaveToDatabaseAsync();
-                this.ClearDataButton.SetEnabled(true);
-                this.SaveMeshesButton.SetEnabled(true);
                 service.MeshesSaved -= this.UpdateMeshesLabel;
             });
 
+            this.databaseState.MeshesSaved = true;
+            this.SetCheckboxState(true);
             this.SaveMeshesLabel.SetText("Meshes saved to database");
-            this.RenderButton.Enabled = true;
-            this.RenderButton.Focus();
         }
 
         private void UpdateMeshesLabel(object sender, MeshSaveEventArgs e)
@@ -75,18 +73,15 @@ namespace CacheViewer
         {
             await Task.Run(async () =>
             {
-                CacheObjectsDatabaseService service = new CacheObjectsDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new CacheObjectsDatabaseService();
                 service.CacheObjectsSaved += this.UpdateCachesLabel;
-                this.SaveCacheButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.SaveToDatabaseAsync(this.validRange);
-                this.ClearDataButton.SetEnabled(true);
-                this.SaveCacheButton.SetEnabled(true);
                 service.CacheObjectsSaved -= this.UpdateCachesLabel;
             });
             this.SaveCacheLabel.SetText("Cache objects saved to database");
-            this.AssociateRenderButton.Enabled = true;
-            this.AssociateRenderButton.Focus();
+            this.databaseState.CObjectSaved = true;
+            this.SetCheckboxState(true);
         }
 
         private void UpdateCachesLabel(object sender, CacheObjectSaveEventArgs e)
@@ -94,25 +89,19 @@ namespace CacheViewer
             this.SaveCacheLabel.SetText($"CacheObjects Count: {e.CacheObjectsCount} - RenderAndOffsets Count: {e.RenderOffsetsCount}");
         }
 
-        private bool renderHasBeenSaved;
         private async void RenderButton_Click(object sender, EventArgs e)
         {
             await Task.Run(async () =>
             {
-                RenderInfoDatabaseService service = new RenderInfoDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new RenderInfoDatabaseService();
                 service.RendersSaved += this.UpdateRendersLabel;
-                this.RenderButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.SaveToDatabaseAsync();
-                this.ClearDataButton.SetEnabled(true);
-                this.RenderButton.SetEnabled(true);
                 service.RendersSaved -= this.UpdateRendersLabel;
             });
-
+            this.databaseState.RenderSaved = true;
+            this.SetCheckboxState(true);
             this.RenderLabel.SetText("Render objects saved to database");
-            this.renderHasBeenSaved = true;
-            this.SaveCacheButton.Enabled = true;
-            this.SaveCacheButton.Focus();
         }
 
         private void UpdateRendersLabel(object sender, RenderInfoSaveEventArgs e)
@@ -124,18 +113,15 @@ namespace CacheViewer
         {
             await Task.Run(async () =>
             {
-                AssociateRenderOffsetsDatabaseService service = new AssociateRenderOffsetsDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new AssociateRenderOffsetsDatabaseService();
                 service.RenderOffsetsSaved += this.UpdateAssociateLabel;
-                this.AssociateRenderButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.AssociateRenderAndOffsets();
-                this.ClearDataButton.SetEnabled(true);
-                this.AssociateRenderButton.SetEnabled(true);
                 service.RenderOffsetsSaved -= this.UpdateAssociateLabel;
             });
-            this.AssociateTexturesButton.Enabled = true;
             this.AssociateRenderLabel.SetText("Render objects association completed");
-            this.AssociateTexturesButton.Focus();
+            this.databaseState.RenderOffsetSaved = true;
+            this.SetCheckboxState(true);
         }
 
         private void UpdateAssociateLabel(object sender, RenderOffsetEventArgs e)
@@ -147,20 +133,15 @@ namespace CacheViewer
         {
             await Task.Run(async () =>
             {
-                AssociateTexturesDatabaseService service = new AssociateTexturesDatabaseService();
+                this.SetCheckboxState(false);
+                var service = new AssociateTexturesDatabaseService();
                 service.TextureMeshSaved += this.UpdateAssociateTexturesLabel;
-                this.AssociateTexturesButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
                 await service.AssociateTextures();
-                this.ClearDataButton.SetEnabled(true);
-                this.AssociateTexturesButton.SetEnabled(true);
-
                 service.TextureMeshSaved -= this.UpdateAssociateTexturesLabel;
             });
+            this.databaseState.TexturesAssociated = true;
             this.AssociateTexturesLabel.SetText("Texture objects association completed");
-            this.LizardManTempleButton.SetEnabled(true);
-            this.CreateElvenChurchButton.SetEnabled(true);
-            this.RangerBlindButton.SetEnabled(true);
+            this.SetCheckboxState(true);
         }
 
         private void UpdateAssociateTexturesLabel(object sender, TextureMeshEventArgs e)
@@ -172,45 +153,39 @@ namespace CacheViewer
         {
             await Task.Run(async () =>
             {
+                this.SetCheckboxState(false);
                 this.CreateChurchLabel.SetText("Creating structure");
-                ElvenChurchService service = new ElvenChurchService();
-                this.CreateElvenChurchButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
+                var service = new ElvenChurchService();
                 await service.SaveAllAsync();
-                this.ClearDataButton.SetEnabled(true);
-                this.CreateElvenChurchButton.SetEnabled(true);
             });
             this.CreateChurchLabel.SetText("Finished saving");
+            this.SetCheckboxState(true);
         }
 
         private async void RangerBlindButton_Click(object sender, EventArgs e)
         {
             await Task.Run(async () =>
             {
+                this.SetCheckboxState(false);
                 this.RangerBlindLabel.SetText("Creating structure");
-                RangerBlindService service = new RangerBlindService();
-                this.RangerBlindButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
+                var service = new RangerBlindService();
                 await service.SaveAllAsync();
-                this.ClearDataButton.SetEnabled(true);
-                this.RangerBlindButton.SetEnabled(true);
             });
             this.RangerBlindLabel.SetText("Finished saving");
+            this.SetCheckboxState(true);
         }
 
         private async void LizardManTempleButton_Click(object sender, EventArgs e)
         {
             await Task.Run(async () =>
             {
+                this.SetCheckboxState(false);
                 this.LizardManTempleLabel.SetText("Creating structure");
-                LizardManTempleService service = new LizardManTempleService();
-                this.LizardManTempleButton.SetEnabled(false);
-                this.ClearDataButton.SetEnabled(false);
+                var service = new LizardManTempleService();
                 await service.SaveAllAsync();
-                this.ClearDataButton.SetEnabled(true);
-                this.LizardManTempleButton.SetEnabled(true);
             });
             this.LizardManTempleLabel.SetText("Finished saving");
+            this.SetCheckboxState(true);
         }
 
         private void RangeTextBox_TextChanged(object sender, EventArgs e)
@@ -225,7 +200,7 @@ namespace CacheViewer
             }
             else
             {
-                if (this.renderHasBeenSaved)
+                if (this.databaseState.RenderSaved)
                 {
                     this.SaveCacheButton.Enabled = true;
                 }
@@ -242,7 +217,7 @@ namespace CacheViewer
             await Task.Run(async () =>
             {
                 this.ClearDatabaseLabel.SetText("Clearing data from database.");
-                ClearDatabaseService service = new ClearDatabaseService();
+                var service = new ClearDatabaseService();
                 this.AssociateRenderButton.SetEnabled(false);
                 this.SaveTexturesButton.SetEnabled(false);
                 this.RenderButton.SetEnabled(false);
@@ -261,23 +236,113 @@ namespace CacheViewer
             this.SaveTexturesButton.Focus();
         }
 
-        private async void SaveRawButton_Click(object sender, EventArgs e)
+        private void SetState(object sender, EventArgs e)
         {
-            var rawService = new CObjectsRawService();
-            rawService.RawCobjectsSaved += this.UpdatedRawLabel;
-            await rawService.SaveCObjectsToDbAsync();
-            rawService.RawCobjectsSaved -= this.UpdatedRawLabel;
-            this.RawCobjectLabel.SetText("Raw cobjects saved to database");
+            this.SaveMeshesButton.Enabled = this.databaseState.TexturesSaved || this.SaveMeshesCheckbox.Checked;
+            this.RenderButton.Enabled = this.databaseState.MeshesSaved || this.RenderInfoCheckbox.Checked;
+            this.SaveCacheButton.Enabled = this.databaseState.RenderSaved || this.CObjectsCheckbox.Checked;
+            this.AssociateRenderButton.Enabled = this.databaseState.CObjectSaved || this.RenderCheckbox.Checked;
+            this.AssociateTexturesButton.Enabled = this.databaseState.TexturesAssociated || this.TexturesCheckbox.Checked;
         }
 
-        private void UpdatedRawLabel(object sender, RawCobjectEventArgs e)
+        private void SaveMeshesCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            this.RawCobjectLabel.SetText($"Count: {e.Count}");
+            if (SaveMeshesCheckbox.Checked && !SaveMeshesButton.Enabled)
+            {
+                SaveMeshesButton.Enabled = true;
+            }
+            else if (!SaveMeshesCheckbox.Checked && !databaseState.TexturesSaved)
+            {
+                SaveMeshesButton.Enabled = false;
+            }
         }
-        private async void SaveRendersButton_Click(object sender, EventArgs e)
+
+        private void RenderInfoCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            var renderService = new RenderRawService();
-            await renderService.SaveRendersToDbAsync();
+            if (RenderCheckbox.Checked && !RenderButton.Enabled)
+            {
+                RenderButton.Enabled = true;
+            }
+            else if (!RenderCheckbox.Checked && !databaseState.MeshesSaved)
+            {
+                RenderButton.Enabled = false;
+            }
+        }
+
+        private void CObjectsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CObjectsCheckbox.Checked && !SaveCacheButton.Enabled)
+            {
+                SaveCacheButton.Enabled = true;
+            }
+            else if (!CObjectsCheckbox.Checked && !databaseState.RenderSaved)
+            {
+                SaveCacheButton.Enabled = false;
+            }
+        }
+
+        private void RenderCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RenderCheckbox.Checked && !AssociateRenderButton.Enabled)
+            {
+                AssociateRenderButton.Enabled = true;
+            }
+            else if (!RenderCheckbox.Checked && !databaseState.CObjectSaved)
+            {
+                AssociateRenderButton.Enabled = false;
+            }
+        }
+
+        private void TexturesCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (TexturesCheckbox.Checked && !AssociateTexturesButton.Enabled)
+            {
+                AssociateTexturesButton.Enabled = true;
+            }
+            else if (!TexturesCheckbox.Checked && !databaseState.RenderOffsetSaved)
+            {
+                AssociateTexturesButton.Enabled = false;
+            }
+        }
+
+        private void SetCheckboxState(bool enabled)
+        {
+            if (enabled)
+            {
+                this.SaveTexturesButton.SetEnabled(true);
+                this.AssociateRenderButton.SetEnabled(TexturesCheckbox.Checked || this.databaseState.RenderOffsetSaved);
+                this.RenderButton.SetEnabled(RenderCheckbox.Checked || this.databaseState.MeshesSaved);
+                this.SaveMeshesButton.SetEnabled(SaveMeshesCheckbox.Checked || this.databaseState.TexturesSaved);
+                this.SaveCacheButton.SetEnabled(CObjectsCheckbox.Checked || this.databaseState.RenderSaved);
+                this.AssociateRenderButton.SetEnabled(TexturesCheckbox.Checked || this.databaseState.CObjectSaved);
+                this.AssociateTexturesButton.SetEnabled(TexturesCheckbox.Checked || this.databaseState.RenderOffsetSaved);
+
+                this.LizardManTempleButton.SetEnabled(true);
+                this.CreateElvenChurchButton.SetEnabled(true);
+                this.RangerBlindButton.SetEnabled(true);
+                this.ClearDataButton.SetEnabled(true);
+            }
+            else
+            {
+                this.AssociateRenderButton.SetEnabled(false);
+                this.SaveTexturesButton.SetEnabled(false);
+                this.RenderButton.SetEnabled(false);
+                this.SaveMeshesButton.SetEnabled(false);
+                this.SaveCacheButton.SetEnabled(false);
+                this.AssociateRenderButton.SetEnabled(false);
+                this.AssociateTexturesButton.SetEnabled(false);
+
+                this.ClearDataButton.SetEnabled(false);
+                this.LizardManTempleButton.SetEnabled(false);
+                this.CreateElvenChurchButton.SetEnabled(false);
+                this.RangerBlindButton.SetEnabled(false);
+            }
+
+            SaveMeshesCheckbox.SetEnabled(enabled);
+            RenderInfoCheckbox.SetEnabled(enabled);
+            CObjectsCheckbox.SetEnabled(enabled);
+            RenderCheckbox.SetEnabled(enabled);
+            TexturesCheckbox.SetEnabled(enabled);
         }
     }
 }

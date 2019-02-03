@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
     using System.Threading.Tasks;
     using Data;
     using Data.Entities;
@@ -20,13 +21,12 @@
 
     public class CacheObjectsDatabaseService
     {
-
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
         public event EventHandler<CacheObjectSaveEventArgs> CacheObjectsSaved;
-        private bool saveInvalidData;
+        private readonly bool saveInvalidData;
 
-        private static readonly Dictionary<ObjectType, string> objectTypeDicitonary = new Dictionary<ObjectType, string>
+        private static readonly Dictionary<ObjectType, string> objectTypeDictionary = new Dictionary<ObjectType, string>
         {
             {ObjectType.Sun, "Sun"},
             {ObjectType.Simple, "Simple"},
@@ -52,10 +52,10 @@
             var renderAndOffsets = new List<RenderAndOffset>();
             var invalidValues = new List<InvalidValue>();
             var save = 0;
+
             foreach (var i in this.cacheObjectFactory.Indexes)
             {
                 save++;
-
                 var cobject = this.cacheObjectFactory.CreateAndParse(i);
                 var centity = new CacheObjectEntity
                 {
@@ -64,12 +64,11 @@
                     FileOffset = (int)cobject.CacheIndex.Offset,
                     Name = cobject.Name,
                     ObjectType = cobject.Flag,
-                    ObjectTypeDescription = objectTypeDicitonary[cobject.Flag],
+                    ObjectTypeDescription = objectTypeDictionary[cobject.Flag],
                     UncompressedSize = (int)cobject.CacheIndex.UnCompressedSize
                 };
 
                 cacheObjectEntities.Add(centity);
-
                 var structure = cobject;
                 using (var reader = structure.Data.CreateBinaryReaderUtf32())
                 {
@@ -78,26 +77,29 @@
                     while (reader.BaseStream.Position + 4 <= structure.Data.Count)
                     {
                         int renderId = reader.ReadInt32();
-
-                        if (renderId > 0)
+                        if (renderId > 0 && renderId < 8000101) // 8000100 is Regal Painting
                         {
                             int range = renderId > centity.CacheIndexIdentity ?
+                                // if this renderId is greater that the cacheObject id subtract the cacheObject id from the render id
                                 Math.Abs(renderId - centity.CacheIndexIdentity) :
+                                // otherwise subtract the render id from cacheObject id
                                 Math.Abs(centity.CacheIndexIdentity - renderId);
 
-                            if (range < validRange && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) >
-                                -1)
+                            // if this value is within an acceptable range and is an known render id.
+                            if (range <= validRange && Array.IndexOf(RenderInformationFactory.Instance.RenderArchive.IdentityArray, renderId) > -1)
                             {
                                 logger?.Debug($"Found render id {renderId} for {centity.CacheIndexIdentity}");
+
                                 var rao = new RenderAndOffset
                                 {
                                     RenderId = renderId,
                                     OffSet = reader.BaseStream.Position,
                                     CacheIndexId = centity.CacheIndexIdentity
                                 };
+
                                 renderAndOffsets.Add(rao);
                             }
-                            else if(this.saveInvalidData)
+                            else if (this.saveInvalidData)
                             {
                                 var iv = new InvalidValue
                                 {
@@ -139,9 +141,46 @@
                 await context.BulkInsertAsync(invalidValues);
                 await context.BulkInsertAsync(cacheObjectEntities);
                 await context.BulkInsertAsync(renderAndOffsets);
-            }
 
+                if (RenderInfoObjectsSaved)
+                {
+                    int count = 0;
+                    int total = 0;
+                    var grouped = renderAndOffsets.GroupBy(g => new { g.CacheIndexId }).ToList();
+
+                    foreach (var child in grouped)
+                    {
+                        var cacheId = child.First().CacheIndexId;
+
+                        var cacheEntity = (from c in context.CacheObjectEntities
+                            where c.CacheIndexIdentity == cacheId
+                            select c).First();
+
+                        foreach (var ch in child)
+                        {
+                            var render = (from r in context.RenderEntities
+                                where r.CacheIndexIdentity == ch.RenderId
+                                select r).First();
+                            render.CacheObjectEntities.Add(cacheEntity);
+                        }
+
+                        total++;
+                        count++;
+                        if (count == 20)
+                        {
+                            count = 0;
+                            var eventArgs = new CacheObjectSaveEventArgs
+                            {
+                                CacheObjectsCount = total
+                            };
+                            this.CacheObjectsSaved.Raise(this, eventArgs);
+                            await context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
         }
 
+        public static bool RenderInfoObjectsSaved { get; set; }
     }
 }

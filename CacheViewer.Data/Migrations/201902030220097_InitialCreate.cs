@@ -46,7 +46,7 @@ namespace CacheViewer.Data.Migrations
                         ByteCount = c.Int(nullable: false),
                         Order = c.Int(nullable: false),
                         HasMesh = c.Boolean(nullable: false),
-                        MeshId = c.Int(nullable: false),
+                        MeshId = c.Int(),
                         JointName = c.String(),
                         Scale = c.String(maxLength: 64),
                         Position = c.String(maxLength: 64),
@@ -57,68 +57,44 @@ namespace CacheViewer.Data.Migrations
                         HasTexture = c.Boolean(nullable: false),
                         TextureId = c.Int(),
                         Notes = c.String(),
-                        CacheObjectEntity_CacheObjectEntityId = c.Int(),
+                        InvalidData = c.Boolean(nullable: false),
+                        RenderEntity_RenderEntityId = c.Int(),
                     })
                 .PrimaryKey(t => t.RenderEntityId)
-                .ForeignKey("dbo.CacheObjectEntities", t => t.CacheObjectEntity_CacheObjectEntityId)
-                .Index(t => t.CacheObjectEntity_CacheObjectEntityId);
+                .ForeignKey("dbo.RenderEntities", t => t.RenderEntity_RenderEntityId)
+                .Index(t => t.RenderEntity_RenderEntityId);
             
             CreateTable(
                 "dbo.RenderChildren",
                 c => new
                     {
-                        RenderChildId = c.Int(nullable: false, identity: true),
-                        RenderId = c.Int(nullable: false),
+                        DatabaseRenderId = c.Int(nullable: false, identity: true),
+                        ParentId = c.Int(nullable: false),
+                        ChildRenderId = c.Int(nullable: false),
                         RenderEntity_RenderEntityId = c.Int(),
                     })
-                .PrimaryKey(t => t.RenderChildId)
+                .PrimaryKey(t => t.DatabaseRenderId)
+                .ForeignKey("dbo.RenderEntities", t => t.ChildRenderId)
+                .ForeignKey("dbo.RenderEntities", t => t.ParentId)
                 .ForeignKey("dbo.RenderEntities", t => t.RenderEntity_RenderEntityId)
+                .Index(t => t.ParentId)
+                .Index(t => t.ChildRenderId)
                 .Index(t => t.RenderEntity_RenderEntityId);
             
             CreateTable(
-                "dbo.CObjects",
+                "dbo.TextureEntities",
                 c => new
                     {
-                        CObjectsId = c.Int(nullable: false, identity: true),
-                        Identity = c.Int(nullable: false),
-                        Junk1 = c.Int(nullable: false),
-                        Offset = c.Int(nullable: false),
-                        UnCompressedSize = c.Int(nullable: false),
-                        CompressedSize = c.Int(nullable: false),
-                        Order = c.Int(nullable: false),
-                        Name = c.String(),
-                        Data = c.Binary(),
+                        TextureEntityId = c.Int(nullable: false, identity: true),
+                        TextureId = c.Int(nullable: false),
+                        Width = c.Int(nullable: false),
+                        Height = c.Int(nullable: false),
+                        Depth = c.Int(nullable: false),
+                        RenderEntity_RenderEntityId = c.Int(),
                     })
-                .PrimaryKey(t => t.CObjectsId);
-            
-            CreateTable(
-                "dbo.InvalidValues",
-                c => new
-                    {
-                        InvalidValueId = c.Int(nullable: false, identity: true),
-                        RenderId = c.Int(nullable: false),
-                        OffSet = c.Long(nullable: false),
-                        CacheIndexId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.InvalidValueId);
-            
-            CreateTable(
-                "dbo.LogTable",
-                c => new
-                    {
-                        LogId = c.Int(nullable: false, identity: true),
-                        DateCreated = c.DateTime(),
-                        LogLevel = c.String(maxLength: 10),
-                        Logger = c.String(maxLength: 128),
-                        Message = c.String(),
-                        MessageId = c.String(),
-                        WindowsUserName = c.String(maxLength: 256),
-                        CallSite = c.String(maxLength: 256),
-                        ThreadId = c.String(maxLength: 128),
-                        Exception = c.String(),
-                        StackTrace = c.String(),
-                    })
-                .PrimaryKey(t => t.LogId);
+                .PrimaryKey(t => t.TextureEntityId)
+                .ForeignKey("dbo.RenderEntities", t => t.RenderEntity_RenderEntityId)
+                .Index(t => t.RenderEntity_RenderEntityId);
             
             CreateTable(
                 "dbo.MeshEntities",
@@ -154,16 +130,33 @@ namespace CacheViewer.Data.Migrations
                 .Index(t => t.MeshEntity_MeshEntityId);
             
             CreateTable(
-                "dbo.TextureEntities",
+                "dbo.InvalidValues",
                 c => new
                     {
-                        TextureEntityId = c.Int(nullable: false, identity: true),
-                        TextureId = c.Int(nullable: false),
-                        Width = c.Int(nullable: false),
-                        Height = c.Int(nullable: false),
-                        Depth = c.Int(nullable: false),
+                        InvalidValueId = c.Int(nullable: false, identity: true),
+                        RenderId = c.Int(nullable: false),
+                        OffSet = c.Long(nullable: false),
+                        CacheIndexId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.TextureEntityId);
+                .PrimaryKey(t => t.InvalidValueId);
+            
+            CreateTable(
+                "dbo.LogTable",
+                c => new
+                    {
+                        LogId = c.Int(nullable: false, identity: true),
+                        DateCreated = c.DateTime(),
+                        LogLevel = c.String(maxLength: 10),
+                        Logger = c.String(maxLength: 128),
+                        Message = c.String(),
+                        MessageId = c.String(),
+                        WindowsUserName = c.String(maxLength: 256),
+                        CallSite = c.String(maxLength: 256),
+                        ThreadId = c.String(maxLength: 128),
+                        Exception = c.String(),
+                        StackTrace = c.String(),
+                    })
+                .PrimaryKey(t => t.LogId);
             
             CreateTable(
                 "dbo.MobileEntities",
@@ -225,22 +218,6 @@ namespace CacheViewer.Data.Migrations
                 .PrimaryKey(t => t.ParseErrorId);
             
             CreateTable(
-                "dbo.RenderRaws",
-                c => new
-                    {
-                        RenderRawId = c.Int(nullable: false, identity: true),
-                        Identity = c.Int(nullable: false),
-                        Junk1 = c.Int(nullable: false),
-                        Offset = c.Int(nullable: false),
-                        UnCompressedSize = c.Int(nullable: false),
-                        CompressedSize = c.Int(nullable: false),
-                        Order = c.Int(nullable: false),
-                        Name = c.String(),
-                        Data = c.Binary(),
-                    })
-                .PrimaryKey(t => t.RenderRawId);
-            
-            CreateTable(
                 "dbo.SkeletonEntities",
                 c => new
                     {
@@ -252,48 +229,70 @@ namespace CacheViewer.Data.Migrations
                 .PrimaryKey(t => t.SkeletonEntityId);
             
             CreateTable(
-                "dbo.TextureEntityMeshEntities",
+                "dbo.RenderEntityCacheObjectEntities",
                 c => new
                     {
-                        TextureEntity_TextureEntityId = c.Int(nullable: false),
-                        MeshEntity_MeshEntityId = c.Int(nullable: false),
+                        RenderEntity_RenderEntityId = c.Int(nullable: false),
+                        CacheObjectEntity_CacheObjectEntityId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.TextureEntity_TextureEntityId, t.MeshEntity_MeshEntityId })
-                .ForeignKey("dbo.TextureEntities", t => t.TextureEntity_TextureEntityId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.RenderEntity_RenderEntityId, t.CacheObjectEntity_CacheObjectEntityId })
+                .ForeignKey("dbo.RenderEntities", t => t.RenderEntity_RenderEntityId, cascadeDelete: true)
+                .ForeignKey("dbo.CacheObjectEntities", t => t.CacheObjectEntity_CacheObjectEntityId, cascadeDelete: true)
+                .Index(t => t.RenderEntity_RenderEntityId)
+                .Index(t => t.CacheObjectEntity_CacheObjectEntityId);
+            
+            CreateTable(
+                "dbo.MeshEntityTextureEntities",
+                c => new
+                    {
+                        MeshEntity_MeshEntityId = c.Int(nullable: false),
+                        TextureEntity_TextureEntityId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.MeshEntity_MeshEntityId, t.TextureEntity_TextureEntityId })
                 .ForeignKey("dbo.MeshEntities", t => t.MeshEntity_MeshEntityId, cascadeDelete: true)
-                .Index(t => t.TextureEntity_TextureEntityId)
-                .Index(t => t.MeshEntity_MeshEntityId);
+                .ForeignKey("dbo.TextureEntities", t => t.TextureEntity_TextureEntityId, cascadeDelete: true)
+                .Index(t => t.MeshEntity_MeshEntityId)
+                .Index(t => t.TextureEntity_TextureEntityId);
             
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.MotionEntities", "SkeletonEntity_SkeletonEntityId", "dbo.SkeletonEntities");
-            DropForeignKey("dbo.TextureEntityMeshEntities", "MeshEntity_MeshEntityId", "dbo.MeshEntities");
-            DropForeignKey("dbo.TextureEntityMeshEntities", "TextureEntity_TextureEntityId", "dbo.TextureEntities");
+            DropForeignKey("dbo.TextureEntities", "RenderEntity_RenderEntityId", "dbo.RenderEntities");
+            DropForeignKey("dbo.MeshEntityTextureEntities", "TextureEntity_TextureEntityId", "dbo.TextureEntities");
+            DropForeignKey("dbo.MeshEntityTextureEntities", "MeshEntity_MeshEntityId", "dbo.MeshEntities");
             DropForeignKey("dbo.RenderTextures", "MeshEntity_MeshEntityId", "dbo.MeshEntities");
-            DropForeignKey("dbo.RenderEntities", "CacheObjectEntity_CacheObjectEntityId", "dbo.CacheObjectEntities");
+            DropForeignKey("dbo.RenderEntities", "RenderEntity_RenderEntityId", "dbo.RenderEntities");
             DropForeignKey("dbo.RenderChildren", "RenderEntity_RenderEntityId", "dbo.RenderEntities");
+            DropForeignKey("dbo.RenderChildren", "ParentId", "dbo.RenderEntities");
+            DropForeignKey("dbo.RenderChildren", "ChildRenderId", "dbo.RenderEntities");
+            DropForeignKey("dbo.RenderEntityCacheObjectEntities", "CacheObjectEntity_CacheObjectEntityId", "dbo.CacheObjectEntities");
+            DropForeignKey("dbo.RenderEntityCacheObjectEntities", "RenderEntity_RenderEntityId", "dbo.RenderEntities");
             DropForeignKey("dbo.RenderAndOffsets", "CacheObjectEntity_CacheObjectEntityId", "dbo.CacheObjectEntities");
-            DropIndex("dbo.TextureEntityMeshEntities", new[] { "MeshEntity_MeshEntityId" });
-            DropIndex("dbo.TextureEntityMeshEntities", new[] { "TextureEntity_TextureEntityId" });
+            DropIndex("dbo.MeshEntityTextureEntities", new[] { "TextureEntity_TextureEntityId" });
+            DropIndex("dbo.MeshEntityTextureEntities", new[] { "MeshEntity_MeshEntityId" });
+            DropIndex("dbo.RenderEntityCacheObjectEntities", new[] { "CacheObjectEntity_CacheObjectEntityId" });
+            DropIndex("dbo.RenderEntityCacheObjectEntities", new[] { "RenderEntity_RenderEntityId" });
             DropIndex("dbo.MotionEntities", new[] { "SkeletonEntity_SkeletonEntityId" });
             DropIndex("dbo.RenderTextures", new[] { "MeshEntity_MeshEntityId" });
+            DropIndex("dbo.TextureEntities", new[] { "RenderEntity_RenderEntityId" });
             DropIndex("dbo.RenderChildren", new[] { "RenderEntity_RenderEntityId" });
-            DropIndex("dbo.RenderEntities", new[] { "CacheObjectEntity_CacheObjectEntityId" });
+            DropIndex("dbo.RenderChildren", new[] { "ChildRenderId" });
+            DropIndex("dbo.RenderChildren", new[] { "ParentId" });
+            DropIndex("dbo.RenderEntities", new[] { "RenderEntity_RenderEntityId" });
             DropIndex("dbo.RenderAndOffsets", new[] { "CacheObjectEntity_CacheObjectEntityId" });
-            DropTable("dbo.TextureEntityMeshEntities");
+            DropTable("dbo.MeshEntityTextureEntities");
+            DropTable("dbo.RenderEntityCacheObjectEntities");
             DropTable("dbo.SkeletonEntities");
-            DropTable("dbo.RenderRaws");
             DropTable("dbo.ParseErrors");
             DropTable("dbo.MotionEntities");
             DropTable("dbo.MobileEntities");
-            DropTable("dbo.TextureEntities");
-            DropTable("dbo.RenderTextures");
-            DropTable("dbo.MeshEntities");
             DropTable("dbo.LogTable");
             DropTable("dbo.InvalidValues");
-            DropTable("dbo.CObjects");
+            DropTable("dbo.RenderTextures");
+            DropTable("dbo.MeshEntities");
+            DropTable("dbo.TextureEntities");
             DropTable("dbo.RenderChildren");
             DropTable("dbo.RenderEntities");
             DropTable("dbo.RenderAndOffsets");

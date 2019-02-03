@@ -7,11 +7,12 @@
     public class RenderChild
     {
         [Key]
-        public int RenderChildId { get; set; }
-
-        // this is the ParentId
-        public int RenderId { get; set; }
-
-        public int ChildId { get; set; }
+        public int DatabaseRenderId { get; set; }
+        [ForeignKey("Parent")]
+        public int ParentId { get; set; }
+        public virtual RenderEntity Parent { get; set; }
+        [ForeignKey("Child")]
+        public int ChildRenderId { get; set; }
+        public virtual RenderEntity Child { get; set; }
     }
 }
