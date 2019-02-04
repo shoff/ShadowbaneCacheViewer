@@ -371,7 +371,7 @@ void CObject::LoadType4(const unsigned char *data, unsigned int ptr)
 
 		while(renderID==0)
 		{
-			memcpy(&renderID, data + ptr, 4); // world texture id
+			memcpy(&renderID, data + ptr, 4); // world texture id.0
 			ptr += 4;
 			bytesOfZeroData+=4;
 		}

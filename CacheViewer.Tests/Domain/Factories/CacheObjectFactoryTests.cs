@@ -393,7 +393,8 @@ namespace CacheViewer.Tests.Domain.Factories
             using (var context = new SbCacheViewerContext())
             {
                 var entity = (from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
-                    where c.CacheIndexIdentity == 2004 select c).First();
+                              where c.CacheIndexIdentity == 2004
+                              select c).First();
 
                 Assert.AreEqual(33, entity.RenderEntities.Count);
             }
@@ -401,7 +402,7 @@ namespace CacheViewer.Tests.Domain.Factories
 
         private static string CreateFolders()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
+            var folder = AppDomain.CurrentDomain.BaseDirectory + "\\CacheObjectIndexes";
             if (Directory.Exists(folder))
             {
                 Directory.Delete(folder, true);
@@ -472,5 +473,60 @@ namespace CacheViewer.Tests.Domain.Factories
             Assert.AreEqual(ObjectType.Simple, cacheObject.Flag);
         }
 
+        [TestCase(460886, 5)]
+        [TestCase(564600, 31)]
+        public void Figure_Out_If_Reading_Backwards_Might_Be_Better(int identity, int count)
+        {
+            var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.Identity == identity);
+            var asset = this.cacheObjectFactory.CacheObjects[cacheIndex.Identity];
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                var ids = new List<int>();
+                reader.BaseStream.Position = reader.BaseStream.Length - 4;
+                int readCount = 0;
+                while (reader.BaseStream.Position > 41)
+                {
+                    int temp = reader.ReadInt32();
+                    readCount++;
+                    if (ValidRenderId(temp, identity))
+                    {
+                        ids.Add(temp);
+                    }
+
+                    reader.BaseStream.Position -= 5;
+                }
+
+                Console.WriteLine($"Read {readCount} unique integer values.");
+
+                ids.Each(i=> Console.Write($"{i}, "));
+                Console.WriteLine();
+
+                Assert.AreEqual(count, ids.Count);
+            }
+        }
+
+        private bool ValidRenderId(int id, int identity)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            if (!RenderInformationFactory.Instance.IsValidRenderId(id))
+            {
+                return false;
+            }
+
+            if (identity > 999 && id < 1000)
+            {
+                return false;
+            }
+
+            int range = id > identity ?
+                Math.Abs(identity - id) :
+                Math.Abs(id - identity);
+
+            return Math.Abs(range) <= 100000;
+        }
     }
 }

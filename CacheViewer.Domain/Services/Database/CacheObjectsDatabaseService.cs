@@ -70,6 +70,7 @@
 
                 cacheObjectEntities.Add(centity);
                 var structure = cobject;
+
                 using (var reader = structure.Data.CreateBinaryReaderUtf32())
                 {
                     reader.BaseStream.Position = 57; // this is common to all cache files and doesn't contain any render ids

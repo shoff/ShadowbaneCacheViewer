@@ -71,6 +71,7 @@
                 this.renderInformationFactory = RenderInformationFactory.Instance;
                 this.TotalCacheObject = this.cacheObjectFactory.Indexes.Count;
             }
+
             this.parseObjectWorker = new BackgroundWorker
             {
                 WorkerReportsProgress = true,
@@ -93,7 +94,9 @@
             this.CacheObjectTreeView.Nodes.Add(this.unknownNode);
             this.CacheObjectTreeView.Nodes.Add(this.warrantNode);
             this.CacheObjectTreeView.Nodes.Add(this.particleNode);
+
             await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
+
             await Task.Run(() =>
             {
                 foreach (var ci in this.cacheObjectFactory.Indexes)
