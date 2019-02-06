@@ -974,19 +974,9 @@ namespace CacheViewer.Tests.Domain.Factories
 
         public static int RenderCount(this BinaryReader reader, ValidationResult result)
         {
-            int distance;
-            int count;
-            if (result.BytesLeftInObject > 1 && result.NullTerminatorRead ||
-                result.BytesLeftInObject == 0 && !result.NullTerminatorRead)
-            {
-                distance = 26;
-            }
-            else
-            {
-                distance = 25;
-            }
+            var distance = result.NullTerminatorRead ? 26 : 25;
             reader.BaseStream.Position -= distance;
-            count = reader.ReadInt32();
+            var count = reader.ReadInt32();
             reader.BaseStream.Position += distance - 4;
             return count;
         }
@@ -1015,14 +1005,14 @@ namespace CacheViewer.Tests.Domain.Factories
         {
             if (first == 0)
             {
-                if (second == 0 || second == 1 || second == 3)
+                if (second == 0 || second == 1 || second == 2 || second == 3)
                 {
                     return true;
                 }
                 return false;
             }
 
-            if (first == 1 || first == 3)
+            if (first == 1 || first == 2 || first == 3)
             {
                 return second == 0;
             }
