@@ -1,0 +1,60 @@
+struct blankAfterRenderId {
+    int blanks[6];
+};
+
+struct testForNull {
+    uint isnull;    
+};
+
+struct unknownData1
+{
+	uint i1;
+	ushort s1;
+	ushort s2;
+	float posX;
+	float posY;
+	float posZ;
+	float f1;
+	float f2;
+	float f3;
+	float f4;
+	float scaleX;
+	float scaleY;
+	float scaleZ;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
+typedef struct {
+    byte garb[34];
+} garb;
+
+//----------------------------------------------
+//----------------------------------------------
+//----------------------------------------------
+
+char tnlc[4];
+int flag;
+int size;
+wchar_t name[size];

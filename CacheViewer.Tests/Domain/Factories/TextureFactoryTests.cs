@@ -18,7 +18,7 @@
         [Test, Explicit]
         public void Save_All_To_Disk()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "Textures";
+            var folder = AppDomain.CurrentDomain.BaseDirectory + "\\Textures";
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
