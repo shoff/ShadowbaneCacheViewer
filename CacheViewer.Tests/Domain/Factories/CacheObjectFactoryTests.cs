@@ -393,7 +393,8 @@ namespace CacheViewer.Tests.Domain.Factories
             using (var context = new SbCacheViewerContext())
             {
                 var entity = (from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
-                    where c.CacheIndexIdentity == 2004 select c).First();
+                              where c.CacheIndexIdentity == 2004
+                              select c).First();
 
                 Assert.AreEqual(33, entity.RenderEntities.Count);
             }
@@ -401,7 +402,7 @@ namespace CacheViewer.Tests.Domain.Factories
 
         private static string CreateFolders()
         {
-            var folder = AppDomain.CurrentDomain.BaseDirectory + "CacheObjectIndexes";
+            var folder = AppDomain.CurrentDomain.BaseDirectory + "\\CacheObjectIndexes";
             if (Directory.Exists(folder))
             {
                 Directory.Delete(folder, true);
@@ -463,7 +464,6 @@ namespace CacheViewer.Tests.Domain.Factories
             Assert.AreEqual(ObjectType.Structure, beastmanHut.Flag);
         }
 
-
         [Test]
         public void Create_Simpler_Returns_A_Simple_CacheObject()
         {
@@ -472,5 +472,551 @@ namespace CacheViewer.Tests.Domain.Factories
             Assert.AreEqual(ObjectType.Simple, cacheObject.Flag);
         }
 
+        #region TestCases
+        [TestCase(622670)]
+        [TestCase(622718)]
+        [TestCase(622770)]
+        [TestCase(64000)]
+        [TestCase(64014)]
+        [TestCase(64035)]
+        [TestCase(64072)]
+        [TestCase(64124)]
+        [TestCase(64148)]
+        [TestCase(64160)]
+        [TestCase(64500)]
+        [TestCase(64600)]
+        [TestCase(64700)]
+        [TestCase(64800)]
+        [TestCase(585000)]
+        [TestCase(585200)]
+        [TestCase(585400)]
+        [TestCase(585600)]
+        [TestCase(585800)]
+        [TestCase(586000)]
+        [TestCase(586400)]
+        [TestCase(586600)]
+        [TestCase(564000)]
+        [TestCase(564100)]
+        [TestCase(564200)]
+        [TestCase(564300)]
+        [TestCase(564400)]
+        [TestCase(564500)]
+        [TestCase(564600)]
+        [TestCase(5000400)]
+        [TestCase(5000700)]
+        [TestCase(5000800)]
+        [TestCase(5001500)]
+        [TestCase(5010000)]
+        [TestCase(5010100)]
+        [TestCase(5010200)]
+        [TestCase(5031000)]
+        [TestCase(5031200)]
+        [TestCase(5031400)]
+        [TestCase(482128)]
+        [TestCase(482136)]
+        [TestCase(482144)]
+        [TestCase(484000)]
+        [TestCase(484016)]
+        [TestCase(484032)]
+        [TestCase(484100)]
+        [TestCase(484120)]
+        [TestCase(484140)]
+        [TestCase(484160)]
+        [TestCase(484180)]
+        [TestCase(484200)]
+        [TestCase(484220)]
+        [TestCase(484240)]
+        [TestCase(484260)]
+        [TestCase(484280)]
+        [TestCase(484300)]
+        [TestCase(484320)]
+        [TestCase(484500)]
+        [TestCase(460126)]
+        [TestCase(460152)]
+        [TestCase(460173)]
+        [TestCase(460189)]
+        [TestCase(460314)]
+        [TestCase(460338)]
+        [TestCase(460374)]
+        [TestCase(460600)]
+        [TestCase(460610)]
+        [TestCase(460620)]
+        [TestCase(460700)]
+        [TestCase(460861)]
+        [TestCase(460886)]
+        [TestCase(460900)]
+        [TestCase(460999)]
+        [TestCase(461000)]
+        [TestCase(461800)]
+        [TestCase(461900)]
+        [TestCase(462000)]
+        [TestCase(462100)]
+        [TestCase(462200)]
+        [TestCase(462500)]
+        #endregion
+        public void Discover_Id_Pattern(int identity)
+        {
+            var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.Identity == identity);
+            var asset = this.cacheObjectFactory.CacheObjects[cacheIndex.Identity];
+
+            int count = 0;
+
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                var ids = new List<int>();
+                // reader.skip(4); // ignore "TNLC" tag
+                // ReSharper disable once UnusedVariable
+                var tnlc = reader.ReadInt32();
+                // 4
+                var flag = (ObjectType)reader.ReadInt32();
+
+                var nameLength = reader.ReadUInt32();
+                var name = reader.ReadAsciiString(nameLength);
+
+                int readCount = 0;
+                // should be 12 since the trailing byte may not be there if we are at the end of the file
+                // once we have found a valid id then we will jump forward more than a byte at a time.
+                while (reader.CanRead(12) && ids.Count == 0)
+                {
+                    int temp = reader.ReadInt32();
+                    readCount++;
+                    var offset = reader.BaseStream.Position;
+
+                    if (ValidRenderId(temp, identity, reader))
+                    {
+                        ids.Add(temp);
+                        // try to get the counter
+                        int distanceToCounter = GetCounterDistance(reader);
+                        reader.BaseStream.Position -= distanceToCounter;
+                        count = reader.ReadInt32();
+                        reader.BaseStream.Position += distanceToCounter - 4;
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = offset - 3; // read a byte at a time
+                    }
+                }
+                bool isValid = true;
+                while (reader.CanRead(12) && isValid)
+                {
+                    int temp = reader.ReadInt32();
+                    readCount++;
+                    isValid = ValidRenderId(temp, identity, reader);
+                    if (isValid)
+                    {
+                        ids.Add(temp);
+                    }
+                }
+
+                Console.WriteLine($"Read {readCount} unique integer values.");
+
+                ids.Each(i => Console.Write($"{i}, "));
+                Console.WriteLine();
+
+                Assert.AreEqual(count, ids.Count);
+            }
+        }
+
+        private int GetCounterDistance(BinaryReader reader)
+        {
+            if (reader.CanRead(1))
+            {
+                if (reader.ReadByte() == 0)
+                {
+                    reader.BaseStream.Position -= 1;
+                    return 26;
+                }
+            }
+
+            return 25;
+        }
+
+        #region Testcases
+        [TestCase(124000)]
+        [TestCase(124300)]
+        [TestCase(144000)]
+        [TestCase(144063)]
+        [TestCase(144109)]
+        [TestCase(144500)]
+        [TestCase(1500000)]
+        [TestCase(1600500)]
+        [TestCase(1610000)]
+        [TestCase(1612900)]
+        [TestCase(162014)]
+        [TestCase(162025)]
+        [TestCase(162035)]
+        [TestCase(402001)]
+        [TestCase(402004)]
+        [TestCase(402011)]
+        [TestCase(404016)]
+        [TestCase(404031)]
+        [TestCase(404048)]
+        [TestCase(422600)]
+        [TestCase(422700)]
+        [TestCase(423300)]
+        [TestCase(423400)]
+        [TestCase(423500)]
+        [TestCase(423600)]
+        [TestCase(424000)]
+        [TestCase(424082)]
+        [TestCase(424128)]
+        [TestCase(424180)]
+        [TestCase(424285)]
+        [TestCase(424367)]
+        [TestCase(424484)]
+        [TestCase(424554)]
+        [TestCase(424581)]
+        [TestCase(44000)]
+        [TestCase(622670)]
+        [TestCase(622718)]
+        [TestCase(622770)]
+        [TestCase(64000)]
+        [TestCase(64014)]
+        [TestCase(64035)]
+        [TestCase(64072)]
+        [TestCase(64124)]
+        [TestCase(64148)]
+        [TestCase(64160)]
+        [TestCase(64500)]
+        [TestCase(64600)]
+        [TestCase(64700)]
+        [TestCase(64800)]
+        [TestCase(585000)]
+        [TestCase(585200)]
+        [TestCase(585400)]
+        [TestCase(585600)]
+        [TestCase(585800)]
+        [TestCase(586000)]
+        [TestCase(586400)]
+        [TestCase(586600)]
+        [TestCase(564000)]
+        [TestCase(564100)]
+        [TestCase(564200)]
+        [TestCase(564300)]
+        [TestCase(564400)]
+        [TestCase(564500)]
+        [TestCase(564600)]
+        [TestCase(5000400)]
+        [TestCase(5000700)]
+        [TestCase(5000800)]
+        [TestCase(5001500)]
+        [TestCase(5010000)]
+        [TestCase(5010100)]
+        [TestCase(5010200)]
+        [TestCase(5031000)]
+        [TestCase(5031200)]
+        [TestCase(5031400)]
+        [TestCase(482128)]
+        [TestCase(482136)]
+        [TestCase(482144)]
+        [TestCase(484000)]
+        [TestCase(484016)]
+        [TestCase(484032)]
+        [TestCase(484100)]
+        [TestCase(484120)]
+        [TestCase(484140)]
+        [TestCase(484160)]
+        [TestCase(484180)]
+        [TestCase(484200)]
+        [TestCase(484220)]
+        [TestCase(484240)]
+        [TestCase(484260)]
+        [TestCase(484280)]
+        [TestCase(484300)]
+        [TestCase(484320)]
+        [TestCase(484500)]
+        [TestCase(460126)]
+        [TestCase(460152)]
+        [TestCase(460173)]
+        [TestCase(460189)]
+        [TestCase(460314)]
+        [TestCase(460338)]
+        [TestCase(460374)]
+        [TestCase(460600)]
+        [TestCase(460610)]
+        [TestCase(460620)]
+        [TestCase(460700)]
+        [TestCase(460861)]
+        [TestCase(460886)]
+        [TestCase(460900)]
+        [TestCase(460999)]
+        [TestCase(461000)]
+        [TestCase(461800)]
+        [TestCase(461900)]
+        [TestCase(462000)]
+        [TestCase(462100)]
+        [TestCase(462200)]
+        [TestCase(462500)]
+        [TestCase(804000)]
+        [TestCase(814000)]
+        [TestCase(5001100)]
+        [TestCase(5050000)]
+        [TestCase(482128)]
+        [TestCase(482136)]
+        [TestCase(482144)]
+        #endregion
+        public void Discover_Id_Pattern_With_ValidationResult(int identity)
+        {
+            var cacheIndex = this.cacheObjectFactory.Indexes.First(x => x.Identity == identity);
+            var asset = this.cacheObjectFactory.CacheObjects[cacheIndex.Identity];
+
+            int count = 0;
+            ValidationResult validationResult = new ValidationResult();
+
+            using (var reader = asset.Item1.CreateBinaryReaderUtf32())
+            {
+                var ids = new List<int>();
+                // reader.skip(4); // ignore "TNLC" tag
+                // ReSharper disable once UnusedVariable
+                var tnlc = reader.ReadInt32();
+                // 4
+                var flag = (ObjectType)reader.ReadInt32();
+                var nameLength = reader.ReadUInt32();
+                var name = reader.ReadAsciiString(nameLength);
+
+                int readCount = 0;
+                // should be 12 since the trailing byte may not be there if we are at the end of the file
+                // once we have found a valid id then we will jump forward more than a byte at a time.
+
+                while (reader.CanRead(12) && ids.Count == 0)
+                {
+                    validationResult = reader.ValidateCobjectId(identity);
+                    readCount++;
+
+                    if (validationResult.IsValid)
+                    {
+                        ids.Add(validationResult.Id);
+                        count = reader.RenderCount(validationResult);
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = (validationResult.InitialOffset + 1);
+                    }
+                }
+
+                while (reader.CanRead(12) && validationResult.IsValid && validationResult.NullTerminator == 0)
+                {
+                    readCount++;
+                    validationResult = reader.ValidateCobjectId(identity);
+                    if (validationResult.IsValid)
+                    {
+                        ids.Add(validationResult.Id);
+                    }
+                }
+
+                Console.WriteLine($"Read {readCount} unique integer values.");
+
+                ids.Each(i => Console.Write($"{i}, "));
+                Console.WriteLine();
+
+                Assert.AreEqual(count, ids.Count);
+            }
+        }
+
+
+
+
+        private bool ValidRenderId(int id, int identity, BinaryReader reader)
+        {
+            if (id <= 0)
+            {
+                return false;
+            }
+
+            if (identity > 999 && id < 1000)
+            {
+                return false;
+            }
+            // range check to make sure that the id and identity aren't 
+            // too far apart as they should be relatively close to each other.
+            int range = id > identity ?
+                Math.Abs(identity - id) :
+                Math.Abs(id - identity);
+
+            if (Math.Abs(range) > 5000)
+            {
+                return false;
+            }
+
+            if (!RenderInformationFactory.Instance.IsValidRenderId(id))
+            {
+                return false;
+            }
+
+            uint firstFour = reader.ReadUInt32();
+            uint secondFour = reader.ReadUInt32();
+
+            if (reader.CanRead(1))
+            {
+                int third = reader.ReadByte();
+
+                // if third is not 0 there are some cobjects that have additional 
+                // chunks of data that are not render ids, however that designates the 
+                // end of the render ids.
+
+                if (third != 0)
+                {
+                    // set back the byte we read 
+                    // and see if this is an int. 
+                    reader.BaseStream.Position -= 1;
+                    var fourth = reader.ReadInt32();
+                    reader.BaseStream.Position -= 4;
+
+                    if (fourth != 0)
+                    {
+                        // just set third to 0 as that's our marker and
+                        // we'll view the id as valid
+                        third = 0;
+                    }
+                }
+
+                var isValid = secondFour == 0 &&
+                       (firstFour == 0 || firstFour == 1 || firstFour == 2) &&
+                       third == 0;
+
+                if (!isValid)
+                {
+                    // reset stream position
+                    reader.BaseStream.Position -= 9; // two int reads and a byte
+                }
+
+                return isValid;
+            }
+
+            // we're at the end of the stream so just return the right value
+            if (secondFour == 0 && (firstFour == 0 || firstFour == 1 || firstFour == 2))
+            {
+                return true;
+            }
+
+            // reset stream position so we read the next int value to check
+            reader.BaseStream.Position -= 9; // two int reads and a byte
+            return false;
+        }
+
+        private bool ValidRenderId(int id, int identity)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            if (!RenderInformationFactory.Instance.IsValidRenderId(id))
+            {
+                return false;
+            }
+
+            if (identity > 999 && id < 1000)
+            {
+                return false;
+            }
+
+            int range = id > identity ?
+                Math.Abs(identity - id) :
+                Math.Abs(id - identity);
+
+            return Math.Abs(range) <= 100000;
+        }
+    }
+
+    public static class Temp
+    {
+        public static ValidationResult ValidateCobjectId(this BinaryReader reader, int identity)
+        {
+            var result = new ValidationResult
+            {
+                InitialOffset = reader.BaseStream.Position,
+                Id = reader.CanRead(12) ? reader.ReadInt32() : 0,
+                BytesLeftInObject = (int)(reader.BaseStream.Length - reader.BaseStream.Position),
+                IsValid = false,
+                NullTerminatorRead = false,
+                NullTerminator = ValidationResult.NOT_READ,
+                Range = 0
+            };
+
+            if (result.Id <= 0 || identity > 999 && result.Id < 1000)
+            {
+                return result;
+            }
+
+            // range check to make sure that the id and identity aren't 
+            // too far apart as they should be relatively close to each other.
+            result.Range = result.Id > identity ?
+                Math.Abs(identity - result.Id) :
+                Math.Abs(result.Id - identity);
+
+            if (Math.Abs(result.Range) > 5000)
+            {
+                return result;
+            }
+
+            if (!RenderInformationFactory.Instance.IsValidRenderId(result.Id))
+            {
+                return result;
+            }
+
+            result.IsValidRenderId = true;
+
+            result.FirstInt = reader.ReadUInt32();
+            result.SecondInt = reader.ReadUInt32();
+
+            if (reader.CanRead(1))
+            {
+                result.NullTerminator = reader.ReadByte();
+                result.NullTerminatorRead = true;
+            }
+
+            result.EndingOffset = reader.BaseStream.Position;
+            result.BytesLeftInObject = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
+            result.IsValid = result.PaddingIsValid;
+            return result;
+        }
+
+        public static int RenderCount(this BinaryReader reader, ValidationResult result)
+        {
+            var distance = result.NullTerminatorRead ? 26 : 25;
+            reader.BaseStream.Position -= distance;
+            var count = reader.ReadInt32();
+            reader.BaseStream.Position += distance - 4;
+            return count;
+        }
+    }
+
+    public class ValidationResult
+    {
+        public const int NOT_READ = -1;
+        public int Id { get; set; }
+        public long InitialOffset { get; set; }
+        public long EndingOffset { get; set; }
+        public bool NullTerminatorRead { get; set; }
+        public int NullTerminator { get; set; }
+        public uint FirstInt { get; set; }
+        public uint SecondInt { get; set; }
+        public uint ThirdInt { get; set; }
+        public int Range { get; set; }
+        public bool IsValidRenderId { get; set; }
+        public int BytesLeftInObject { get; set; }
+        public bool IsValid { get; set; }
+        public bool PaddingIsValid =>
+            this.CheckPadding(this.FirstInt, this.SecondInt) &&
+            this.CheckPadding(this.SecondInt, this.FirstInt);
+
+        private bool CheckPadding(uint first, uint second)
+        {
+            if (first == 0)
+            {
+                if (second == 0 || second == 1 || second == 2 || second == 3)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            if (first == 1 || first == 2 || first == 3)
+            {
+                return second == 0;
+            }
+            return false;
+        }
     }
 }

@@ -264,14 +264,14 @@ void CObject::Create(unsigned char *data)
 	{
 		// Get the flag/type info
 		memcpy(&flag, data + ptr, 4);
-		ptr += 4;
+		ptr += 4; // 8
 
 		// Get the name, if any
 		unsigned int size = 0;
 		unsigned char letter = 0;
 
 		memcpy(&size, data + ptr, 4);
-		ptr += 4;
+		ptr += 4; // 12
 
 		name = ""; // Clear the name
 		for(unsigned int i=0; i<size; i++) 
@@ -371,7 +371,7 @@ void CObject::LoadType4(const unsigned char *data, unsigned int ptr)
 
 		while(renderID==0)
 		{
-			memcpy(&renderID, data + ptr, 4); // world texture id
+			memcpy(&renderID, data + ptr, 4); // world texture id.0
 			ptr += 4;
 			bytesOfZeroData+=4;
 		}

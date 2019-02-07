@@ -70,7 +70,6 @@
             this.LoadingPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.LoadingPictureBox.TabIndex = 3;
             this.LoadingPictureBox.TabStop = false;
-            this.LoadingPictureBox.Visible = false;
             // 
             // SaveTypeRadioButton2
             // 
