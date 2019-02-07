@@ -7,6 +7,13 @@
 
     public static class RenderProviders
     {
+        // THREEWAVE FIXEDY ?
+        internal static int[] type5ContainingText = 
+        {
+            422983, 423023, 423024, 423042, 423043, 423080, 423100, 423140, 423160, 423162,
+            423182, 423200, 
+        };
+
 
         internal static int[] type2RenderInfos =
         {

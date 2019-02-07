@@ -70,7 +70,16 @@
                                 ChildRenderId = id,
                                 ParentId = render.CacheIndex.Identity
                             };
-                            children.Add(renderChild);
+
+                            if (renderChild.IsValidId())
+                            {
+                                children.Add(renderChild);
+                            }
+                            else
+                            {
+                                logger?.Warn(
+                                    $"Invalid range or id detected for child of reder object {renderChild.ParentId} invalid child is {renderChild.ChildRenderId}");
+                            }
                         }
 
                         if (entity.HasMesh && entity.MeshId == 0)
@@ -154,5 +163,7 @@
 
             CacheObjectsDatabaseService.RenderInfoObjectsSaved = true;
         }
+
+        // todo make range configurable
     }
 }

@@ -5,8 +5,8 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Text;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
+    using Data;
+    using Data.Entities;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
     using EntityFramework.BulkInsert.Extensions;

@@ -29,26 +29,13 @@
             {
                 OpenFileDialog ofd = new OpenFileDialog();
             }
-            //CreateDb();
 
             var mainForm = ConfigurationManager.AppSettings["MainFormType"];
 
             if (mainForm == "CacheViewForm")
             {
                 Application.Run(new SBCacheObjectForm());
-                // Application.Run(new CacheViewForm());
             }
-            else
-            {
-                Application.Run(new MainForm());
-            }
-
-
-            // Application.Run(new CacheViewForm());
-
-            // Application.Run(new SlimForm());
-
-            // Application.Run(new MainForm());
         }
 
         private static CacheStatus CheckForCacheFiles()
@@ -134,11 +121,6 @@
                 cacheStatus.AllFound = false;
             }
             return cacheStatus;
-        }
-
-        private static void CreateDb()
-        {
-            
         }
     }
 
