@@ -998,25 +998,8 @@ namespace CacheViewer.Tests.Domain.Factories
         public int BytesLeftInObject { get; set; }
         public bool IsValid { get; set; }
         public bool PaddingIsValid =>
-            this.CheckPadding(this.FirstInt, this.SecondInt) &&
-            this.CheckPadding(this.SecondInt, this.FirstInt);
-
-        private bool CheckPadding(uint first, uint second)
-        {
-            if (first == 0)
-            {
-                if (second == 0 || second == 1 || second == 2 || second == 3)
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            if (first == 1 || first == 2 || first == 3)
-            {
-                return second == 0;
-            }
-            return false;
-        }
+             (FirstInt < 9) &&
+                (SecondInt == 0 || SecondInt == 1 || SecondInt == 2 || SecondInt == 3 || SecondInt == 4);
+        
     }
 }
