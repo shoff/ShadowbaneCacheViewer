@@ -21,23 +21,23 @@
             using (var context = new SbCacheViewerContext())
             {
                 var indexes = await (
-                    from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
+                    from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
                     where c.CacheIndexIdentity == cacheObjectIdentity
-                    select c).ToListAsync();
+                    select c).FirstOrDefaultAsync();
 
-                foreach (var re in indexes)
-                {
-                    foreach (var ro in re.RenderAndOffsets)
-                    {
-                        var reo = await (from x in context.RenderEntities
-                                   where x.CacheIndexIdentity == ro.RenderId
-                                   select x).ToListAsync();
+                //foreach (var re in indexes)
+                //{
+                //    foreach (var ro in re.RenderAndOffsets)
+                //    {
+                //        var reo = await (from x in context.RenderEntities
+                //                   where x.CacheIndexIdentity == ro.RenderId
+                //                   select x).ToListAsync();
 
-                        renderEntities.AddRange(reo);
-                    }
-                }
+                //        renderEntities.AddRange(reo);
+                //    }
+                //}
 
-                foreach (var r in renderEntities)
+                foreach (var r in indexes.RenderEntities)
                 {
 
                     var m = await (from x in context.MeshEntities.Include(rte => rte.Textures)

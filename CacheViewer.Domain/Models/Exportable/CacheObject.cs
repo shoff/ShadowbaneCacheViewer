@@ -1,6 +1,7 @@
 ﻿namespace CacheViewer.Domain.Models.Exportable
 {
     using System;
+    using System.Collections.Generic;
     using Archive;
     using CacheViewer.Data;
 
@@ -29,27 +30,17 @@
         }
 
         public int Id { get; set; }
-
-        public RenderInformation Render { get; set; }
-
+        public ICollection<int> RenderIds { get; set; } = new HashSet<int>();
         public int UnParsedBytes { get; set; }
-
         public CacheIndex CacheIndex { get; set; }
-
         public uint RenderId { get; set; }
-
         public string Name { get; set; }
-
         public ObjectType Flag { get; set; }
-
         public int CursorOffset { get; set; }
-
         public ArraySegment<byte> Data { get; set; }
-
         public int InnerOffset { get; set; }
-
-        public abstract void Parse(ArraySegment<byte> data);
-
+        public int RenderCount { get; set; }
+        public abstract void Parse();
         public int CompareTo(ICacheObject other)
         {
             if (other == null || this.Flag > other.Flag)

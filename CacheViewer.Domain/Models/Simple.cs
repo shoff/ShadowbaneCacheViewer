@@ -18,9 +18,9 @@
         {
         }
 
-        public override void Parse(ArraySegment<byte> data)
+        public override void Parse()
         {
-            using (var reader = data.CreateBinaryReaderUtf32())
+            using (var reader = Data.CreateBinaryReaderUtf32())
             {
                 try
                 {
@@ -41,7 +41,7 @@
                         throw;
                     }
 
-                    this.UnParsedBytes = data.Count - (int) reader.BaseStream.Position;
+                    this.UnParsedBytes = Data.Count - (int) reader.BaseStream.Position;
                     logger?.Info(
                         $"{this.RenderId} of type {this.GetType().FullName} had {this.UnParsedBytes} unparsed bytes.");
                 }

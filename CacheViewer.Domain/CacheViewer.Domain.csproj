@@ -198,6 +198,7 @@
     <Compile Include="Models\Texture.cs" />
     <Compile Include="Factories\MeshFactory.cs" />
     <Compile Include="Models\UnknownObject.cs" />
+    <Compile Include="Models\StructureValidationResult.cs" />
     <Compile Include="Models\Warrant.cs" />
     <Compile Include="Parsers\WavefrontReader.cs" />
     <Compile Include="Parsers\WavefrontFace.cs" />

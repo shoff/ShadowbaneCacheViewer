@@ -43,9 +43,9 @@
         ///     Parses the specified data.
         /// </summary>
         /// <param name="data">The data.</param>
-        public override void Parse(ArraySegment<byte> data)
+        public override void Parse()
         {
-            using (var reader = data.CreateBinaryReaderUtf32())
+            using (var reader = this.Data.CreateBinaryReaderUtf32())
             {
                 this.RenderId = reader.ReadUInt32();
                 //memcpy(&renderID, data + ptr, 4); // world texture id

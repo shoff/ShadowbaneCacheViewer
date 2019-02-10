@@ -1,6 +1,7 @@
 ﻿namespace CacheViewer.Domain.Models.Exportable
 {
     using System;
+    using System.Collections.Generic;
     using Archive;
     using Data;
 
@@ -19,7 +20,8 @@
         ArraySegment<byte> Data { get; }
         
         int InnerOffset { get; }
-        
-        void Parse(ArraySegment<byte> data);
+        int RenderCount { get; set; }
+        ICollection<int> RenderIds { get; set; }
+        void Parse();
     }
 }

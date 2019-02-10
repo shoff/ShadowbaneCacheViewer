@@ -125,22 +125,22 @@
                 {
                     case ObjectType.Simple:
                         var simple = new Simple(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        simple.Parse(asset.Item1);
+                        simple.Parse();
                         return simple;
 
                     case ObjectType.Structure:
                         var structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        structure.Parse(asset.Item1);
+                        structure.Parse();
                         return structure;
 
                     case ObjectType.Interactive:
                         var interactive = new Interactive(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        interactive.Parse(asset.Item1);
+                        interactive.Parse();
                         return interactive;
 
                     case ObjectType.Equipment:
                         var equipment = new Equipment(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        equipment.Parse(asset.Item1);
+                        equipment.Parse();
                         return equipment;
 
                     case ObjectType.Mobile:
@@ -151,7 +151,7 @@
 
                     case ObjectType.Deed:
                         var deed = new DeedObject(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        deed.Parse(asset.Item1);
+                        deed.Parse();
                         return deed;
 
                     case ObjectType.Sun:
@@ -159,7 +159,7 @@
 
                     case ObjectType.Warrant:
                         var warrant = new Warrant(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        warrant.Parse(asset.Item1);
+                        warrant.Parse();
                         return warrant;
 
                     case ObjectType.Unknown:

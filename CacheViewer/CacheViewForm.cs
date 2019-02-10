@@ -211,7 +211,7 @@ namespace CacheViewer
 
             try
             {
-                item.Parse(item.Data);
+                item.Parse();
                 if (item.RenderId == 0)
                 {
                     logger?.Error(Messages.CouldNotFindRenderId, item.CacheIndex.Identity);

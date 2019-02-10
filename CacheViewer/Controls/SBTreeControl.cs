@@ -254,9 +254,9 @@
 
             try
             {
-                cacheObject.Parse(cacheObject.Data);
+                cacheObject.Parse();
 
-                if (cacheObject.RenderId == 0)
+                if (cacheObject.RenderCount == 0)
                 {
                     logger?.Error(Messages.CouldNotFindRenderId, cacheObject.CacheIndex.Identity);
                     this.OnInvalidRenderId.Raise(this, new InvalidRenderIdEventArgs(cacheObject));

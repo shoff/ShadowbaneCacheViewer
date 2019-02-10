@@ -5,7 +5,7 @@
     using System.Diagnostics;
     using System.IO;
     using Archive;
-    using CacheViewer.Data;
+    using Data;
     using Exportable;
     using Extensions;
     using NLog;
@@ -277,12 +277,12 @@
         /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
         /// <exception cref="IOException">An I/O error occurs. </exception>
         // ReSharper disable once FunctionComplexityOverflow
-        public override void Parse(ArraySegment<byte> data)
+        public override void Parse()
         {
             this.ObjId = this.CacheIndex.Identity;
 
             this.FourIntArray = new int[4];
-            using (var reader = data.CreateBinaryReaderUtf32())
+            using (var reader = Data.CreateBinaryReaderUtf32())
             {
                 // TNLC
                 reader.ReadInt32();
