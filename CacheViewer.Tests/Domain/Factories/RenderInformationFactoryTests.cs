@@ -99,6 +99,13 @@
         }
 
         [Test]
+        public void Hair_6535_Parses_Correctly()
+        {
+            var render = this.renderInformationFactory.Create(6535, 0, true);
+
+        }
+        
+        [Test]
         public void RI_12004_Parses_Correctly()
         {
             var render = this.renderInformationFactory.Create(12004, 0, true);
