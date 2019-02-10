@@ -2,6 +2,7 @@
 
 namespace CacheViewer.Controls
 {
+
     using System.ComponentModel;
     using Domain.Models.Exportable;
 
@@ -18,5 +19,6 @@ namespace CacheViewer.Controls
                 this.CObjectHeadLabel.Text = this.cacheObject.Name ?? "WTF? No name";
             }
         }
+
     }
 }

@@ -133,6 +133,7 @@
     <Compile Include="Code\PanelContainer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Code\PanelContainerExtensions.cs" />
     <Compile Include="Controls\CObjectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

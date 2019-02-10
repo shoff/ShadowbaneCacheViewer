@@ -34,6 +34,7 @@
             this.SaveTypeRadioButton2 = new System.Windows.Forms.RadioButton();
             this.SaveTypeRadioButton1 = new System.Windows.Forms.RadioButton();
             this.CacheObjectTreeView = new System.Windows.Forms.TreeView();
+            this.MessageLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -41,7 +42,7 @@
             // SaveButton
             // 
             this.SaveButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.SaveButton.Location = new System.Drawing.Point(0, 52);
+            this.SaveButton.Location = new System.Drawing.Point(0, 82);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(350, 42);
             this.SaveButton.TabIndex = 0;
@@ -51,14 +52,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.MessageLabel);
             this.panel1.Controls.Add(this.LoadingPictureBox);
             this.panel1.Controls.Add(this.SaveTypeRadioButton2);
             this.panel1.Controls.Add(this.SaveTypeRadioButton1);
             this.panel1.Controls.Add(this.SaveButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 543);
+            this.panel1.Location = new System.Drawing.Point(0, 513);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(350, 94);
+            this.panel1.Size = new System.Drawing.Size(350, 124);
             this.panel1.TabIndex = 1;
             // 
             // LoadingPictureBox
@@ -98,9 +100,18 @@
             this.CacheObjectTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CacheObjectTreeView.Location = new System.Drawing.Point(0, 0);
             this.CacheObjectTreeView.Name = "CacheObjectTreeView";
-            this.CacheObjectTreeView.Size = new System.Drawing.Size(350, 543);
+            this.CacheObjectTreeView.Size = new System.Drawing.Size(350, 513);
             this.CacheObjectTreeView.TabIndex = 0;
             this.CacheObjectTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CacheObjectTreeView_AfterSelect);
+            // 
+            // MessageLabel
+            // 
+            this.MessageLabel.AutoSize = true;
+            this.MessageLabel.Location = new System.Drawing.Point(15, 57);
+            this.MessageLabel.Name = "MessageLabel";
+            this.MessageLabel.Size = new System.Drawing.Size(35, 13);
+            this.MessageLabel.TabIndex = 4;
+            this.MessageLabel.Text = "label1";
             // 
             // SBTreeControl
             // 
@@ -128,5 +139,6 @@
         private System.Windows.Forms.RadioButton SaveTypeRadioButton2;
         private System.Windows.Forms.PictureBox LoadingPictureBox;
         private System.Windows.Forms.TreeView CacheObjectTreeView;
+        private System.Windows.Forms.Label MessageLabel;
     }
 }

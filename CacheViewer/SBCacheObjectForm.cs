@@ -45,11 +45,13 @@ namespace CacheViewer
         private void CacheObjectSelected(object sender, CacheObjectSelectedEventArgs e)
         {
             var message = $"Cache object {e.CacheObject.Name} selected";
-            this.panelContainer1.Controls.Clear();
+            this.panelContainer1.SetClear();
             var cobjectView = new CObjectControl(e.CacheObject);
             this.insideMover1.ControlToMove = cobjectView;
-            this.panelContainer1.Add(cobjectView);
-            this.panelContainer1.Controls.Add(cobjectView);
+
+            this.panelContainer1.SetAdd(cobjectView);
+            this.panelContainer1.SetControlAdd(cobjectView);
+            this.insideMover1.ControlToMove = cobjectView;
             this.MessageLabel.SetText(message);
         }
 

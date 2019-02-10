@@ -47,6 +47,7 @@
         public RenderInformation SharedId { get; set; }
         public int ChildCount { get; set; }
         public List<int> ChildRenderIdList { get; set; } = new List<int>();
+        // I think these are actually textures, not render children
         public List<RenderInformation> Children { get; } = new List<RenderInformation>();
         public CacheAsset BinaryAsset { get; set; }
         public byte B34 { get; set; }
@@ -55,6 +56,7 @@
         public long UnreadByteCount { get; set; }
         public uint JointNameSize { get; set; }
         public DateTime? ModifiedDate { get; set; }
+
         public override string ToString()
         {
             var sb = new StringBuilder();

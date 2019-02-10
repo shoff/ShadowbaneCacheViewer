@@ -43,42 +43,46 @@
             using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
-                    from c in context.CacheObjectEntities.Include(r => r.RenderAndOffsets)
+                    from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
                     where c.Name == name && c.ObjectType == objectType
-                    select c).ToList();
+                    select c).FirstOrDefault();
 
-                foreach (var re in indexes)
+                if (indexes != null)
                 {
-                    foreach (var ro in re.RenderAndOffsets)
+
+                    this.renderEntities.AddRange(indexes?.RenderEntities);
+                    //foreach (var re in indexes)
+                    //{
+                    //    foreach (var ro in re.RenderAndOffsets)
+                    //    {
+                    //        var reo = (from x in context.RenderEntities
+                    //                   where x.CacheIndexIdentity == ro.RenderId
+                    //                   select x).ToList();
+
+                    //        this.renderEntities.AddRange(reo);
+                    //    }
+                    //}
+
+                    foreach (var r in this.renderEntities)
                     {
-                        var reo = (from x in context.RenderEntities
-                                   where x.CacheIndexIdentity == ro.RenderId
-                                   select x).ToList();
+                        sb.AppendLine(
+                            $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: " +
+                            $"{r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, " +
+                            $"HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
 
-                        this.renderEntities.AddRange(reo);
+                        var m = (from x in context.MeshEntities.Include(rte => rte.Textures)
+                            where x.CacheIndexIdentity == r.MeshId
+                            select x).FirstOrDefault();
+
+                        if (m != null)
+                        {
+                            this.meshEntities.Add(m);
+                        }
+
+                        File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
                     }
+                    await this.AssociateTexturesAsync(context);
                 }
-
-                foreach (var r in this.renderEntities)
-                {
-                    sb.AppendLine(
-                        $"RenderEntityId: {r.RenderEntityId}, CacheIndexIdentity: " +
-                        $"{r.CacheIndexIdentity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, " +
-                        $"HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
-
-                    var m = (from x in context.MeshEntities.Include(rte => rte.Textures)
-                             where x.CacheIndexIdentity == r.MeshId
-                             select x).FirstOrDefault();
-
-                    if (m != null)
-                    {
-                        this.meshEntities.Add(m);
-                    }
-
-                    File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
-                }
-
-                await this.AssociateTexturesAsync(context);
             }
 
             this.meshExporter.ModelDirectory = this.folder;

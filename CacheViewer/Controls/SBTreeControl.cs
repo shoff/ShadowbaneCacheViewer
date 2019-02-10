@@ -63,6 +63,7 @@
         public SBTreeControl()
         {
             this.InitializeComponent();
+            this.MessageLabel.Text = "";
             this.SaveTypeRadioButton1.Checked = true;
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
@@ -206,12 +207,15 @@
             catch (Exception ex)
             {
                 logger?.Error(ex);
+                this.MessageLabel.Text = ex.Message;
                 throw;
             }
+            this.SaveButton.Enabled = true;
         }
 
         private void CacheObjectTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            this.MessageLabel.Text = "";
             if (!this.ArchivesLoaded)
             {
                 return;
@@ -303,13 +307,13 @@
 
                 var eventArgs = new CacheObjectSelectedEventArgs(cacheObject);
                 this.OnCacheObjectSelected.Raise(this, eventArgs);
+                e.Result = cacheObject;
             }
             catch (Exception ex)
             {
                 this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs(ex.Message));
                 logger?.Error(ex, ex.Message);
             }
-            e.Result = cacheObject;
         }
 
         private void ParseObjectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -318,10 +322,11 @@
             {
                 // Console.WriteLine("You canceled!");
             }
-            else if (e.Error != null || e.Result == null)
+            else if (e.Error != null) // || e.Result == null)
             {
                 this.selectedNode.ForeColor = Color.DarkRed;
                 this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
+                this.MessageLabel.Text = "Worker exception: " + e.Error;
                 logger?.Error("Worker exception: " + e.Error);
             }
             else
@@ -333,7 +338,7 @@
 
         private void ParseObjectWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            Console.WriteLine("Reached " + e.ProgressPercentage + "%");
+           // Console.WriteLine("Reached " + e.ProgressPercentage + "%");
         }
     }
 

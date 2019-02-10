@@ -31,6 +31,7 @@
 
         public int Id { get; set; }
         public ICollection<int> RenderIds { get; set; } = new HashSet<int>();
+        public ICollection<RenderInformation> Renders { get; set; } = new HashSet<RenderInformation>();
         public int UnParsedBytes { get; set; }
         public CacheIndex CacheIndex { get; set; }
         public uint RenderId { get; set; }
