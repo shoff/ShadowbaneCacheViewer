@@ -18,7 +18,7 @@
     /// <summary>
     /// Attempts to create a wavefront obj from multiple meshes/textures.
     /// </summary>
-    public class PrefabObjExporter
+    public class PrefabObjExporter : IPrefabObjExporter
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
@@ -116,6 +116,7 @@
             this.prefab.AppendLine(MayaObjHeaderFactory.Instance.Create(modelName));
             this.prefab.AppendFormat(MaterialLib, modelName);
             this.prefab.Append(UsesCentimeters); // TODO validate this flag
+
             var vertexBuilder = new StringBuilder();
             var normalsBuilder = new StringBuilder();
             var texturesBuilder = new StringBuilder();

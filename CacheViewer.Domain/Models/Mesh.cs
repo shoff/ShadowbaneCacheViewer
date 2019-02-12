@@ -28,10 +28,27 @@
         public byte[] UnknownData { get; set; }
         public long OffsetToUnknownData { get; set; }
         public uint NumberOfIndices { get; set; }
+        public Vector3 Scale { get; set; }
+        public Vector3 Position { get; set; }
+
+        public void ApplyPosition()
+        {
+            List<Vector3> positioned = new List<Vector3>();
+            foreach (var vector in this.Vertices)
+            {
+                positioned.Add(Vector3.Add(vector, this.Position));
+            }
+            this.Vertices = positioned;
+        }
+
+        public void ApplyScale()
+        {
+            // do nothing for now
+        }
 
         public string GetMeshInformation()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append(this.CacheIndex.ToString());
             sb.Append($"Vertex count {this.VertexCount} - Vertex offset {this.VerticesOffset}\r\n");
             sb.Append($"Normals count {this.NormalsCount} - Normals offset {this.NormalsOffset}\r\n");

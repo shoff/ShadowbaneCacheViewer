@@ -1,10 +1,7 @@
 ﻿namespace CacheViewer
 {
     using System;
-    using System.Configuration;
     using System.Data.Entity;
-    using System.IO;
-    using System.Linq;
     using System.Windows.Forms;
     using Data;
 

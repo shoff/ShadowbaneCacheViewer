@@ -12,6 +12,7 @@ namespace CacheViewer.Domain.Models
     public class Structure : ModelObject
     {
         private const int ValidRange = 5000;
+        private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         //private readonly CollisionInfo collisionData = new CollisionInfo();
         //private readonly CollisionInfo collisionData1 = new CollisionInfo();
@@ -37,7 +38,6 @@ namespace CacheViewer.Domain.Models
         public uint NumberOfMeshes { get; private set; }
         public StructureValidationResult ValidationResult { get; private set; }
     
-
         private bool ValidRenderId(int id)
         {
             if (id == 0)
@@ -98,6 +98,17 @@ namespace CacheViewer.Domain.Models
                         this.RenderIds.Add(ValidationResult.Id);
                     }
                 }
+            }
+        }
+
+        public void ParseAndAssemble()
+        {
+            this.Parse();
+            foreach (var render in this.RenderIds)
+            {
+                // TODO this doesn't handle duplicate ids
+                var renderInformation = this.renderInformationFactory.Create(render, 0, true);
+                this.Renders.Add(renderInformation);
             }
         }
 

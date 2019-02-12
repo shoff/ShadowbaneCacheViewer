@@ -1,7 +1,6 @@
 ﻿namespace CacheViewer.Domain.Factories
 {
     using System;
-    using System.IO;
     using System.Linq;
     using Archive;
     using Exceptions;
@@ -100,28 +99,7 @@
 
         internal bool HandleMesh(RenderInformation renderInfo)
         {
-            //var nullByte = reader.ReadUInt32(); // skip over null byte
-            //Debug.Assert(nullByte == 0);
-
-            //// TODO validate all meshIds
-            //renderInfo.MeshId = reader.ReadInt32();
-
-            //while (renderInfo.MeshId == 0)
-            //{
-            //    renderInfo.Notes =
-            //        $"{renderInfo.CacheIndex.Identity} claimed to have a mesh, however the meshId read was 0.";
-            //    logger.Warn(renderInfo.Notes);
-
-            //    // TODO this could blow through the index
-            //    renderInfo.MeshId = reader.ReadInt32();
-            //    if (renderInfo.MeshId == 1)
-            //    {
-            //        // experiment see if the next byte is the same
-            //        var x = reader.ReadInt32();
-            //        logger?.Fatal($"MeshId was 0 then 1 and on third read is {x} for {renderInfo.CacheIndex.Identity}");
-            //    }
-            //}
-
+            // render objects only ever have 1 mesh 
             try
             {
                 if (this.AppendModel)
@@ -129,6 +107,16 @@
                     if (this.IsValidMeshId(renderInfo.MeshId))
                     {
                         renderInfo.Mesh = MeshFactory.Instance.Create(renderInfo.MeshId);
+                        renderInfo.Mesh.Scale = renderInfo.Scale;
+                        renderInfo.Mesh.Position = renderInfo.Position;
+
+                        if (renderInfo.HasTexture && renderInfo.TextureCount > 0 && renderInfo.Textures.Count > 0)
+                        {
+                            foreach (var textureId in renderInfo.Textures)
+                            {
+                                renderInfo.Mesh.Textures.Add(TextureFactory.Instance.Build(textureId));
+                            }
+                        }
                     }
                     else
                     {
@@ -149,62 +137,7 @@
                 logger.Error(infe);
                 return false;
             }
-
-            //// null short
-            //var nullShort = reader.ReadUInt16();
-            //Debug.Assert(nullShort == 0);
-
-            //var size = reader.ReadUInt32();
-
-            //if (size > 0)
-            //{
-            //    // since this size count is actually a Unicode character count, each number is actually 2 bytes.
-            //    renderInfo.JointName = reader.ReadAsciiString(size);
-            //    renderInfo.JointName = !string.IsNullOrEmpty(renderInfo.JointName)
-            //        ? renderInfo.JointName.Replace(" ", string.Empty) : string.Empty;
-            //}
-
             return true;
-        }
-
-        internal void HandleChildren(BinaryReader reader, RenderInformation renderInfo)
-        {
-            if (renderInfo.RenderCount > 1000)
-            {
-                // bail
-                var message =
-                    $"{renderInfo.CacheIndex.Identity} claimed to have a {renderInfo.RenderCount} child render nodes, bailing out.";
-                logger.Error(message);
-                return;
-            }
-
-            renderInfo.ChildRenderIds = new CacheIndex[renderInfo.RenderCount];
-
-            for (var i = 0; i < renderInfo.RenderCount; i++)
-            {
-                reader.BaseStream.Position += 4;
-                var childId = reader.ReadInt32();
-                renderInfo.ChildRenderIdList.Add(childId);
-            }
-        }
-
-        //internal void HandleTexture(BinaryReader reader, ref RenderInformation renderInfo)
-        //{
-        //    reader.BaseStream.Position += 12; // this seems to always be x:0 y:0 z:0 
-        //    renderInfo.TextureId = reader.ReadInt32();
-
-        //    if (renderInfo.TextureId == 0)
-        //    {
-        //        renderInfo.Notes = "RenderId claimed to have a texture but the archive reports the id as 0!";
-        //        return;
-        //    }
-
-        //    renderInfo.Texture = TextureFactory.Instance.Build(renderInfo.TextureId);
-        //}
-
-        public CacheAsset GetById(int identity)
-        {
-            return this.RenderArchive[identity];
         }
 
         public bool IsValidRenderId(int id)
@@ -229,13 +162,7 @@
 
         internal Render RenderArchive { get; }
 
-        public int TotalRenderItems => this.RenderArchive.CacheIndices.Length;
-
         public bool AppendModel { get; set; }
 
-        public Tuple<int, int> IdentityRange =>
-            new Tuple<int, int>(this.RenderArchive.LowestId, this.RenderArchive.HighestId);
-
-        public int[] IdentityArray => this.RenderArchive.IdentityArray;
     }
 }

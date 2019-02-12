@@ -129,13 +129,7 @@ namespace CacheViewer.Domain.Geometry
         /// <summary>Gets the length (magnitude) of the vector.</summary>
         /// <see cref="P:OpenTK.Vector3.LengthFast" />
         /// <seealso cref="P:OpenTK.Vector3.LengthSquared" />
-        public float Length
-        {
-            get
-            {
-                return (float)Math.Sqrt((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z);
-            }
-        }
+        public float Length => (float)Math.Sqrt((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z);
 
         /// <summary>Gets an approximation of the vector length (magnitude).</summary>
         /// <remarks>
@@ -144,13 +138,7 @@ namespace CacheViewer.Domain.Geometry
         /// </remarks>
         /// <see cref="P:OpenTK.Vector3.Length" />
         /// <seealso cref="P:OpenTK.Vector3.LengthSquared" />
-        public float LengthFast
-        {
-            get
-            {
-                return 1f / MathHelper.InverseSqrtFast((float)((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z));
-            }
-        }
+        public float LengthFast => 1f / MathHelper.InverseSqrtFast((float)((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z));
 
         /// <summary>Gets the square of the vector length (magnitude).</summary>
         /// <remarks>
@@ -159,13 +147,7 @@ namespace CacheViewer.Domain.Geometry
         /// </remarks>
         /// <see cref="P:OpenTK.Vector3.Length" />
         /// <seealso cref="P:OpenTK.Vector3.LengthFast" />
-        public float LengthSquared
-        {
-            get
-            {
-                return (float)((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z);
-            }
-        }
+        public float LengthSquared => (float)((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z);
 
         /// <summary>Returns a copy of the Vector3 scaled to unit length.</summary>
         public Vector3 Normalized()
@@ -979,10 +961,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Xy
         {
-            get
-            {
-                return new Vector2(this.X, this.Y);
-            }
+            get => new Vector2(this.X, this.Y);
             set
             {
                 this.X = value.X;
@@ -996,10 +975,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Xz
         {
-            get
-            {
-                return new Vector2(this.X, this.Z);
-            }
+            get => new Vector2(this.X, this.Z);
             set
             {
                 this.X = value.X;
@@ -1013,10 +989,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Yx
         {
-            get
-            {
-                return new Vector2(this.Y, this.X);
-            }
+            get => new Vector2(this.Y, this.X);
             set
             {
                 this.Y = value.X;
@@ -1030,10 +1003,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Yz
         {
-            get
-            {
-                return new Vector2(this.Y, this.Z);
-            }
+            get => new Vector2(this.Y, this.Z);
             set
             {
                 this.Y = value.X;
@@ -1047,10 +1017,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Zx
         {
-            get
-            {
-                return new Vector2(this.Z, this.X);
-            }
+            get => new Vector2(this.Z, this.X);
             set
             {
                 this.Z = value.X;
@@ -1064,10 +1031,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector2 Zy
         {
-            get
-            {
-                return new Vector2(this.Z, this.Y);
-            }
+            get => new Vector2(this.Z, this.Y);
             set
             {
                 this.Z = value.X;
@@ -1081,10 +1045,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector3 Xzy
         {
-            get
-            {
-                return new Vector3(this.X, this.Z, this.Y);
-            }
+            get => new Vector3(this.X, this.Z, this.Y);
             set
             {
                 this.X = value.X;
@@ -1099,10 +1060,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector3 Yxz
         {
-            get
-            {
-                return new Vector3(this.Y, this.X, this.Z);
-            }
+            get => new Vector3(this.Y, this.X, this.Z);
             set
             {
                 this.Y = value.X;
@@ -1117,10 +1075,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector3 Yzx
         {
-            get
-            {
-                return new Vector3(this.Y, this.Z, this.X);
-            }
+            get => new Vector3(this.Y, this.Z, this.X);
             set
             {
                 this.Y = value.X;
@@ -1135,10 +1090,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector3 Zxy
         {
-            get
-            {
-                return new Vector3(this.Z, this.X, this.Y);
-            }
+            get => new Vector3(this.Z, this.X, this.Y);
             set
             {
                 this.Z = value.X;
@@ -1153,10 +1105,7 @@ namespace CacheViewer.Domain.Geometry
         [JsonIgnore]
         public Vector3 Zyx
         {
-            get
-            {
-                return new Vector3(this.Z, this.Y, this.X);
-            }
+            get => new Vector3(this.Z, this.Y, this.X);
             set
             {
                 this.Z = value.X;

@@ -126,5 +126,10 @@
 
             throw new IndexNotFoundException(this.GetType(), indexId);
         }
+
+        public bool HasMeshId(int id)
+        {
+            return meshArchive.Contains(id);
+        }
     }
 }

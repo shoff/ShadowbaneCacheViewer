@@ -90,7 +90,7 @@
             return this.CreateAndParse(asset.CacheIndex1);
         }
 
-        public ICacheObject CreateAndParse(CacheIndex cacheIndex)
+        public ICacheObject CreateAndParse(CacheIndex cacheIndex, bool assemble = false)
         {
             var asset = this.CacheObjects[cacheIndex.Identity];
             int innerOffset;
@@ -130,7 +130,15 @@
 
                     case ObjectType.Structure:
                         var structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        structure.Parse();
+                        // TODO this sucks
+                        if (assemble)
+                        {
+                            structure.ParseAndAssemble();
+                        }
+                        else
+                        {
+                            structure.Parse();
+                        }
                         return structure;
 
                     case ObjectType.Interactive:

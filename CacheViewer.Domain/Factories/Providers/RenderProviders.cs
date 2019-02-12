@@ -94,9 +94,16 @@
             renderInfo.HasMesh = reader.ReadUInt32() == 1;
             uint null5 = reader.ReadUInt32();
             renderInfo.MeshId = reader.ReadInt32();
+            if (renderInfo.MeshId == 0)
+            {
+                renderInfo.ValidMeshFound = false;
+            }
+            else
+            {
+                renderInfo.ValidMeshFound = MeshFactory.Instance.HasMeshId(renderInfo.MeshId);
+            }
 
             ushort null1 = reader.ReadUInt16();
-
             renderInfo.JointNameSize = reader.ReadUInt32();
             if (renderInfo.JointNameSize > 0)
             {
@@ -110,18 +117,18 @@
                 reader.ReadUInt32(),
                 reader.ReadUInt32(),
                 reader.ReadUInt32(),
+
                 reader.ReadUInt32(),
                 reader.ReadUInt32(),
                 reader.ReadUInt32()
             };
 
-            var null_b = reader.ReadByte();
-
+            reader.ReadByte();
             uint someCounter = reader.ReadUInt32();
-
             for (int i = 0; i < someCounter; i++)
             {
-                reader.ReadUInt32();
+                var id = reader.ReadInt32();
+                renderInfo.ChildRenderIdList.Add(id);
             }
 
             renderInfo.IUNK = reader.ReadUInt32();
@@ -132,8 +139,6 @@
             reader.ReadUInt32();
 
             renderInfo.TextureCount = reader.ReadUInt32();
-            renderInfo.ChildCount = (int)renderInfo.TextureCount;
-
             // more crap
             reader.ReadUInt32();
             reader.ReadUInt32();
@@ -142,7 +147,7 @@
             {
                 var id = reader.ReadInt32();
                 renderInfo.Textures.Add(id);
-                renderInfo.ChildRenderIdList.Add(id);
+                
                 if (reader.CanRead(34))
                 {
                     reader.ReadBytes(34);
@@ -255,7 +260,6 @@
             reader.ReadUInt32(); // null
 
             renderInformation.TextureCount = reader.ReadUInt32();
-            renderInformation.ChildCount = (int)renderInformation.TextureCount;
 
 
             // read null int
@@ -264,7 +268,6 @@
             for (int i = 0; i < renderInformation.TextureCount; i++)
             {
                 var id = reader.ReadInt32();
-                renderInformation.ChildRenderIdList.Add(id);
                 renderInformation.Textures.Add(id);
                 if (reader.CanRead(4))
                 {
@@ -290,8 +293,8 @@
             reader.BaseStream.Position = 34;
             renderInfo.B34 = reader.ReadByte();
             renderInfo.HasMesh = reader.ReadUInt32() == 1;
-
             renderInfo.Unknown[0] = reader.ReadUInt32();
+
             renderInfo.MeshId = reader.ReadInt32();
             renderInfo.Unknown[1] = reader.ReadUInt16();
             renderInfo.LastOffset = reader.BaseStream.Position;
@@ -306,6 +309,7 @@
                 throw new ApplicationException($"Parsing {renderInfo.CacheIndex.Identity} a JointMeshSize of " +
                     $"{renderInfo.JointNameSize} was read. This is obviously incorrect.");
             }
+            // end of name
 
             if (reader.BaseStream.Position + renderInfo.JointNameSize <= renderInfo.ByteCount)
             {
@@ -320,27 +324,40 @@
                 renderInfo.LastOffset = reader.BaseStream.Position;
             }
 
-            if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+            if (reader.CanRead(4))
             {
                 // I think this is probably a bool or flag of some kind
                 renderInfo.Unknown[2] = reader.ReadUInt32();
                 renderInfo.LastOffset = reader.BaseStream.Position;
             }
 
-            if (reader.BaseStream.Position + 12 <= renderInfo.ByteCount)
+            if (reader.CanRead(12))
             {
                 // object position ?
                 renderInfo.Position = reader.ReadToVector3();
                 renderInfo.LastOffset = reader.BaseStream.Position;
             }
 
-            if (reader.BaseStream.Position + 4 <= renderInfo.ByteCount)
+            if (reader.CanRead(4))
             {
                 renderInfo.ChildCount = reader.ReadInt32();
                 renderInfo.LastOffset = reader.BaseStream.Position;
+
+                for (int i = 0; i < renderInfo.ChildCount; i++)
+                {
+                    if (reader.CanRead(8))
+                    {
+                        // null bytes
+                        reader.ReadBytes(4);
+                        var childId = reader.ReadUInt32();
+                        renderInfo.ChildRenderIdList.Add((int)childId);
+                        // TODO add render cache children for each one of these ids
+                    }
+                }
             }
 
-            if (reader.BaseStream.Position + 1 <= renderInfo.ByteCount)
+            // Texture count
+            if (reader.CanRead(1))
             {
                 var ht = reader.ReadByte();
                 renderInfo.HasTexture = ht == 1;
@@ -352,8 +369,6 @@
                 if (reader.CanRead(4))
                 {
                     renderInfo.TextureCount = reader.ReadUInt32();
-                    renderInfo.ChildCount = (int)renderInfo.TextureCount;
-
                 }
 
                 if (renderInfo.FirstInt != 257)
@@ -377,7 +392,7 @@
                 {
                     var text = (int)reader.ReadInt32();
                     renderInfo.Textures.Add(text);
-                    renderInfo.ChildRenderIdList.Add(text);
+                    // renderInfo.ChildRenderIdList.Add(text);
                     if (reader.CanRead(34))
                     {
                         reader.BaseStream.Position += 34;

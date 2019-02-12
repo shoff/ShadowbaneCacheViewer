@@ -25,18 +25,6 @@
                     where c.CacheIndexIdentity == cacheObjectIdentity
                     select c).FirstOrDefaultAsync();
 
-                //foreach (var re in indexes)
-                //{
-                //    foreach (var ro in re.RenderAndOffsets)
-                //    {
-                //        var reo = await (from x in context.RenderEntities
-                //                   where x.CacheIndexIdentity == ro.RenderId
-                //                   select x).ToListAsync();
-
-                //        renderEntities.AddRange(reo);
-                //    }
-                //}
-
                 foreach (var r in indexes.RenderEntities)
                 {
 

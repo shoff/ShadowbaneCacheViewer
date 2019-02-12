@@ -21,8 +21,10 @@
         public int ByteCount { get; set; }
         public int Order { get; set; }
         public bool HasMesh { get; set; }
+
         [JsonIgnore]
         public Mesh Mesh { get; set; }
+
         [JsonIgnore]
         public object[] Unknown { get; set; }
         public int MeshId { get; set; }

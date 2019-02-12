@@ -116,6 +116,7 @@
     <Compile Include="Exceptions\InvalidCompressionSizeException.cs" />
     <Compile Include="Exceptions\InvalidCounterException.cs" />
     <Compile Include="Exceptions\ModelDirectoryNotSetException.cs" />
+    <Compile Include="Exporters\IPrefabObjExporter.cs" />
     <Compile Include="Exporters\MeshData.cs" />
     <Compile Include="Exporters\PrefabObjExporter.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />

@@ -8,11 +8,14 @@
     {
         [Key]
         public int DatabaseRenderId { get; set; }
+
         [ForeignKey("Parent")]
         public int ParentId { get; set; }
         public virtual RenderEntity Parent { get; set; }
+
         [ForeignKey("Child")]
         public int ChildRenderId { get; set; }
+
         public virtual RenderEntity Child { get; set; }
     }
 }

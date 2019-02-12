@@ -12,22 +12,65 @@
     using Exporters;
     using Factories;
     using Models;
+    using Models.Exportable;
     using NLog;
 
-    /// <summary>
-    /// This service depends on the database having been updated correctly!
-    /// </summary>
     public class StructureService
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
-        private readonly PrefabObjExporter meshExporter;
+        private readonly IPrefabObjExporter meshExporter;
         private string folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\{0}";
 
-        public StructureService()
+        public StructureService(IPrefabObjExporter prefabObjExporter = null)
         {
-            this.meshExporter = new PrefabObjExporter();
+            this.meshExporter = prefabObjExporter ?? new PrefabObjExporter();
+        }
+
+        public async Task SaveAssembledModelAsync(string saveFolder, ICacheObject cacheObject)
+        {
+            this.folder = string.Format(this.folder, saveFolder);
+            if (!Directory.Exists(this.folder))
+            {
+                Directory.CreateDirectory(this.folder);
+            }
+
+            var sb = new StringBuilder();
+
+            foreach (var r in cacheObject.Renders)
+            {
+                sb.AppendLine(
+                    $"CacheIndexIdentity: {r.CacheIndex.Identity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, " +
+                    $"HasTexture: {r.HasTexture}, TextureIds: {string.Concat(r.Textures, ",")}");
+
+                File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
+            }
+            // the mesh should already have the texture associated to it before it ever gets here.
+            this.meshExporter.ModelDirectory = this.folder;
+
+            // let's try combining them :)
+            var meshModels = new List<Mesh>();
+            foreach (var mesh in this.meshEntities)
+            {
+                if (mesh == null)
+                {
+                    continue;
+                }
+                var cindex = MeshFactory.Instance.Indexes.FirstOrDefault(c => c.Identity == mesh.CacheIndexIdentity);
+                var m = MeshFactory.Instance.Create(cindex);
+
+                // experimenting here!
+                m.ApplyPosition();
+
+                foreach (var rt in mesh.Textures)
+                {
+                    var tex = TextureFactory.Instance.Build(rt.TextureId);
+                    m.Textures.Add(tex);
+                }
+                meshModels.Add(m);
+            }
+            await this.meshExporter.CreatePrefabAsync(meshModels, cacheObject.Name.Replace(" ", ""));
         }
 
         public async Task SaveAllAsync(string saveFolder, string name, ObjectType objectType, bool saveAsOneFile)
@@ -43,7 +86,8 @@
             using (var context = new SbCacheViewerContext())
             {
                 var indexes = (
-                    from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
+                    from c in context.CacheObjectEntities
+                        .Include(r => r.RenderEntities)
                     where c.Name == name && c.ObjectType == objectType
                     select c).FirstOrDefault();
 
@@ -51,17 +95,6 @@
                 {
 
                     this.renderEntities.AddRange(indexes?.RenderEntities);
-                    //foreach (var re in indexes)
-                    //{
-                    //    foreach (var ro in re.RenderAndOffsets)
-                    //    {
-                    //        var reo = (from x in context.RenderEntities
-                    //                   where x.CacheIndexIdentity == ro.RenderId
-                    //                   select x).ToList();
-
-                    //        this.renderEntities.AddRange(reo);
-                    //    }
-                    //}
 
                     foreach (var r in this.renderEntities)
                     {
@@ -71,8 +104,8 @@
                             $"HasTexture: {r.HasTexture}, TextureId: {r.TextureId}");
 
                         var m = (from x in context.MeshEntities.Include(rte => rte.Textures)
-                            where x.CacheIndexIdentity == r.MeshId
-                            select x).FirstOrDefault();
+                                 where x.CacheIndexIdentity == r.MeshId
+                                 select x).FirstOrDefault();
 
                         if (m != null)
                         {
@@ -86,7 +119,7 @@
             }
 
             this.meshExporter.ModelDirectory = this.folder;
-   
+
             // let's try combining them :)
             var meshModels = new List<Mesh>();
             foreach (var mesh in this.meshEntities)
@@ -108,6 +141,7 @@
 
             if (saveAsOneFile)
             {
+
                 await this.meshExporter.CreatePrefabAsync(meshModels, name.Replace(" ", ""));
             }
             else

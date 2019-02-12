@@ -22,7 +22,7 @@
         public async Task SaveToDatabaseAsync()
         {
             int count = 0;
-            List<MeshEntity> entities = new List<MeshEntity>();
+            var entities = new List<MeshEntity>();
             foreach (var index in MeshFactory.Instance.Indexes)
             {
                 count++;
