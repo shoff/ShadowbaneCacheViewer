@@ -1,46 +1,54 @@
-﻿using System;
-using System.Linq;
-using CacheViewer.Domain.Archive;
-using NUnit.Framework;
-// ReSharper disable InconsistentNaming
-// ReSharper disable ExceptionNotDocumented
-
-namespace CacheViewer.Tests.Domain.Archive
+﻿namespace CacheViewer.Tests.Domain.Archive
 {
+    using System;
     using System.IO;
+    using System.Linq;
+    using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
+    using TestHelpers;
+    using Xunit;
 
     public class SkeletonTests
     {
-        private readonly SkeletonCache skeletonCache = (SkeletonCache)ArchiveFactory.Instance.Build(CacheFile.Skeleton);
-        private readonly Motion motionCache = (Motion)ArchiveFactory.Instance.Build(CacheFile.Motion);
+        private readonly SkeletonCache skeletonCache = (SkeletonCache) ArchiveFactory.Instance.Build(CacheFile.Skeleton);
+        private readonly Motion motionCache = (Motion) ArchiveFactory.Instance.Build(CacheFile.Motion);
 
-        [Test]
-        public void CachHeader_Should_Contain_Correct_Values()
+        private void TestMotionIdCollection(Skeleton skeleton)
         {
-            Assert.AreEqual(2076, this.skeletonCache.CacheHeader.dataOffset);
-            Assert.AreEqual(95628, this.skeletonCache.CacheHeader.fileSize);
-            Assert.AreEqual(103, this.skeletonCache.CacheHeader.indexCount);
+            foreach (var motionId in skeleton.MotionIds)
+            {
+                Console.WriteLine(motionId);
+                var motion = this.motionCache.CacheIndices.First(x => x.Identity == motionId);
+                Assert.NotNull(motion);
+            }
         }
 
-        [Test]
+        [Fact]
         public void All_Indexes_Have_Unique_Identity()
         {
             var actual = this.skeletonCache.CacheIndices.Distinct().Count();
-            Assert.AreEqual(actual, this.skeletonCache.CacheHeader.indexCount);
+            AssertX.Equal(actual, this.skeletonCache.CacheHeader.indexCount);
         }
 
-        [Test]
+        [Fact]
+        public void CacheHeader_Should_Contain_Correct_Values()
+        {
+            AssertX.Equal(2076, this.skeletonCache.CacheHeader.dataOffset);
+            AssertX.Equal(95628, this.skeletonCache.CacheHeader.fileSize);
+            AssertX.Equal(103, this.skeletonCache.CacheHeader.indexCount);
+        }
+
+        [Fact]
         public void Data_Should_Match_MotionId_Count()
         {
             var id = this.skeletonCache.CacheIndices[0].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
+            var buffer = this.skeletonCache[id].Item1;
 
             try
             {
-                Skeleton skeleton = new Skeleton(buffer, id);
-                Assert.AreEqual(455, skeleton.MotionCount);
+                var skeleton = new Skeleton(buffer, id);
+                AssertX.Equal(455, skeleton.MotionCount);
             }
             catch (EndOfStreamException)
             {
@@ -50,77 +58,67 @@ namespace CacheViewer.Tests.Domain.Archive
             }
         }
 
-        [Test]
+        [Fact]
         public void Id_1_Parses()
         {
             var id = this.skeletonCache.CacheIndices[0].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
-            Skeleton skeleton = new Skeleton(buffer, id);
-            Assert.AreEqual(455, skeleton.MotionCount);
+            var buffer = this.skeletonCache[id].Item1;
+            var skeleton = new Skeleton(buffer, id);
+            AssertX.Equal(455, skeleton.MotionCount);
             this.TestMotionIdCollection(skeleton);
         }
 
-        [Test]
+        [Fact]
         public void Id_2_Parses()
         {
             var id = this.skeletonCache.CacheIndices[1].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
-            Skeleton skeleton = new Skeleton(buffer, id);
-            Assert.AreEqual(240, skeleton.MotionCount);
+            var buffer = this.skeletonCache[id].Item1;
+            var skeleton = new Skeleton(buffer, id);
+            AssertX.Equal(240, skeleton.MotionCount);
             this.TestMotionIdCollection(skeleton);
         }
 
-        [Test]
+        [Fact]
         public void Id_3_Parses()
         {
             var id = this.skeletonCache.CacheIndices[2].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
-            Skeleton skeleton = new Skeleton(buffer, id);
-            Assert.AreEqual(240, skeleton.MotionCount);
+            var buffer = this.skeletonCache[id].Item1;
+            var skeleton = new Skeleton(buffer, id);
+            AssertX.Equal(240, skeleton.MotionCount);
             this.TestMotionIdCollection(skeleton);
         }
 
-        [Test]
-        public void Id_6_Parses()
-        {
-            var id = this.skeletonCache.CacheIndices[5].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
-            Skeleton skeleton = new Skeleton(buffer, id);
-            Assert.AreEqual(455, skeleton.MotionCount);
-            this.TestMotionIdCollection(skeleton);
-        }
-
-        [Test]
+        [Fact]
         public void Id_32_Parses()
         {
             var id = this.skeletonCache.CacheIndices[32].Identity;
-            ArraySegment<byte> buffer = this.skeletonCache[id].Item1;
-            Skeleton skeleton = new Skeleton(buffer, id);
-            Assert.AreEqual(203, skeleton.MotionCount);
+            var buffer = this.skeletonCache[id].Item1;
+            var skeleton = new Skeleton(buffer, id);
+            AssertX.Equal(203, skeleton.MotionCount);
             this.TestMotionIdCollection(skeleton);
         }
 
-        [Test]
+        [Fact]
+        public void Id_6_Parses()
+        {
+            var id = this.skeletonCache.CacheIndices[5].Identity;
+            var buffer = this.skeletonCache[id].Item1;
+            var skeleton = new Skeleton(buffer, id);
+            AssertX.Equal(455, skeleton.MotionCount);
+            this.TestMotionIdCollection(skeleton);
+        }
+
+        [Fact]
         public void Id_999_Parses()
         {
-            ArraySegment<byte> buffer = this.skeletonCache[999].Item1;
-            Skeleton skeleton = new Skeleton(buffer, 999);
-            Assert.AreEqual(455, skeleton.MotionCount);
+            var buffer = this.skeletonCache[999].Item1;
+            var skeleton = new Skeleton(buffer, 999);
+            AssertX.Equal(455, skeleton.MotionCount);
 
             this.TestMotionIdCollection(skeleton);
         }
 
-        private void TestMotionIdCollection(Skeleton skeleton)
-        {
-            foreach (var motionId in skeleton.MotionIds)
-            {
-                Console.WriteLine(motionId);
-                var motion = this.motionCache.CacheIndices.First(x => x.Identity == motionId);
-                Assert.IsNotNull(motion);
-            }
-        }
-
-        [Test, Explicit]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async void SaveToFile_Should_Output_All_Assets()
         {
             foreach (var item in this.skeletonCache.CacheIndices)
@@ -132,4 +130,3 @@ namespace CacheViewer.Tests.Domain.Archive
 }
 // ReSharper restore InconsistentNaming
 // ReSharper restore ExceptionNotDocumented
-

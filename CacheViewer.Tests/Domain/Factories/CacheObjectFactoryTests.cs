@@ -205,19 +205,6 @@
             }
         }
 
-        [Fact]
-        public void Centaur_2004_Has_Correct_Number_Of_RenderIds()
-        {
-            using (var context = new SbCacheViewerContext())
-            {
-                var entity = (from c in context.CacheObjectEntities.Include(r => r.RenderEntities)
-                    where c.CacheIndexIdentity == 2004
-                    select c).First();
-
-                Assert.Equal(33, entity.RenderEntities.Count);
-            }
-        }
-
         private static string CreateFolders()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory + "\\CacheObjectIndexes";

@@ -1,41 +1,42 @@
-﻿using System;
-using System.Linq;
-using CacheViewer.Domain.Archive;
-using NUnit.Framework;
-
-namespace CacheViewer.Tests.Domain.Archive
+﻿namespace CacheViewer.Tests.Domain.Archive
 {
-    [TestFixture]
+    using System;
+    using System.Linq;
+    using CacheViewer.Domain.Archive;
+    using TestHelpers;
+    using Xunit;
+
     public class MotionTests
     {
-        private Motion motion;
 
-        [SetUp]
-        public void SetUp()
+        private readonly Motion motion;
+
+        public MotionTests()
         {
             this.motion = new Motion();
-        }
-
-
-
-        [Test]
-        public void CachHeader_Should_Contain_Correct_Values()
-        {
             this.motion.LoadCacheHeader();
-            Assert.AreEqual(30076, this.motion.CacheHeader.dataOffset);
-            Assert.AreEqual(26580492, this.motion.CacheHeader.fileSize);
-            Assert.AreEqual(1503, this.motion.CacheHeader.indexCount);
+            this.motion.LoadIndexes();
         }
-
-        [Test]
+        
+        [Fact]
         public void All_Indexes_Have_Unique_Identity()
         {
             this.motion.CacheOnIndexLoad = true;
             var actual = this.motion.CacheIndices.Distinct().Count();
-            Assert.AreEqual(actual, this.motion.CacheHeader.indexCount);
+            AssertX.Equal(this.motion.CacheHeader.indexCount, actual);
         }
 
-        [Test, Explicit]
+
+        [Fact]
+        public void CacheHeader_Should_Contain_Correct_Values()
+        {
+            this.motion.LoadCacheHeader();
+            AssertX.Equal(30076, this.motion.CacheHeader.dataOffset);
+            AssertX.Equal(26580492, this.motion.CacheHeader.fileSize);
+            AssertX.Equal(1503, this.motion.CacheHeader.indexCount);
+        }
+
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async void SaveToFile_Should_Output_All_Assets()
         {
             this.motion.CacheOnIndexLoad = true;

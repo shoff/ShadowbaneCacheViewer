@@ -1,23 +1,21 @@
-﻿using CacheViewer.Domain.Utility;
-using Moq;
-using NUnit.Framework;
-
-namespace CacheViewer.Tests.Domain.Utility
+﻿namespace CacheViewer.Tests.Domain.Utility
 {
-    [TestFixture]
+    using CacheViewer.Domain.Utility;
+    using Moq;
+    using Xunit;
+
     public class CacheLocationTests
     {
-        private Mock<IConfigurationWrapper> configurationWrapper;
-        private FileLocations fileLocations;
+        private readonly Mock<IConfigurationWrapper> configurationWrapper;
+        private readonly FileLocations fileLocations;
 
-        [SetUp]
-        public void SetUp()
+        public CacheLocationTests()
         {
             this.configurationWrapper = new Mock<IConfigurationWrapper>();
             this.fileLocations = new FileLocations(this.configurationWrapper.Object);
         }
 
-        [Test]
+        [Fact]
         public void GetCacheFolder_Should_Request_Key_Value_From_ConfigurationWrapper()
         {
             this.configurationWrapper.Setup(x => x.GetAppSetting("CacheFolder"))
@@ -27,7 +25,5 @@ namespace CacheViewer.Tests.Domain.Utility
 
             this.configurationWrapper.VerifyAll();
         }
-
-
     }
 }

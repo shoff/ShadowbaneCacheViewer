@@ -1258,7 +1258,7 @@ namespace CacheViewer.Domain.Geometry
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("({0}{3} {1}{3} {2})", (object)this.X, (object)this.Y, (object)this.Z, (object)Vector3.listSeparator);
+            return string.Format("({0}{3} {1}{3} {2})", this.X, this.Y, this.Z, listSeparator);
         }
 
         /// <summary>Returns the hashcode for this instance.</summary>

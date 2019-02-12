@@ -1,116 +1,114 @@
-﻿using CacheViewer.Domain.Archive;
-using CacheViewer.Domain.Factories;
-using NUnit.Framework;
-
-namespace CacheViewer.Tests.Domain.Factories
+﻿namespace CacheViewer.Tests.Domain.Factories
 {
-    [TestFixture]
+    using CacheViewer.Domain.Archive;
+    using CacheViewer.Domain.Factories;
+    using Xunit;
+
     public class ArchiveFactoryTests
     {
-        private ArchiveFactory archiveFactory;
+        private readonly ArchiveFactory archiveFactory;
 
-        [SetUp]
-        public void SetUp()
+        public ArchiveFactoryTests()
         {
             this.archiveFactory = new ArchiveFactory();
         }
-
-        [Test]
+        
+        [Fact]
         public void Build_CObjects_Should_Return_CObjects_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.CObjects);
-            Assert.AreEqual(actual.Name, "CObjects.cache");
+            Assert.Equal("CObjects.cache", actual.Name);
         }
 
-        [Test]
+        [Fact]
         public void Build_CZone_Should_Return_CZone_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.CZone);
-            Assert.AreEqual(actual.Name, "CZone.cache");
+            Assert.Equal("CZone.cache", actual.Name);
         }
-        
-        [Test]
-        public void Build_Render_Should_Return_Render_Archive()
-        {
-            var actual = this.archiveFactory.Build(CacheFile.Render);
-            Assert.AreEqual(actual.Name, "Render.cache");
-        }
-        
-        [Test]
+
+        [Fact]
         public void Build_Dungeon_Should_Return_Dungeon_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Dungeon);
-            Assert.AreEqual(actual.Name, "Dungeon.cache");
+            Assert.Equal("Dungeon.cache", actual.Name);
         }
 
-        [Test]
+        [Fact]
         public void Build_Mesh_Should_Return_Mesh_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Mesh);
-            Assert.AreEqual(actual.Name, "Mesh.cache");
+            Assert.Equal("Mesh.cache", actual.Name);
         }
-        
-        [Test]
+
+        [Fact]
         public void Build_Motion_Should_Return_Motion_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Motion);
-            Assert.AreEqual(actual.Name, "Motion.cache");
+            Assert.Equal("Motion.cache", actual.Name);
         }
-        
-        [Test]
+
+        [Fact]
         public void Build_Palette_Should_Return_Palette_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Palette);
-            Assert.AreEqual(actual.Name, "Palette.cache");
+            Assert.Equal("Palette.cache", actual.Name);
         }
-        
-        [Test]
+
+        [Fact]
+        public void Build_Render_Should_Return_Render_Archive()
+        {
+            var actual = this.archiveFactory.Build(CacheFile.Render);
+            Assert.Equal("Render.cache", actual.Name);
+        }
+
+        [Fact]
         public void Build_Skeleton_Should_Return_Skeleton_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Skeleton);
-            Assert.AreEqual(actual.Name, "Skeleton.cache");
+            Assert.Equal("Skeleton.cache", actual.Name);
         }
-       
-        [Test]
+
+        [Fact]
         public void Build_Sound_Should_Return_Sound_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Sound);
-            Assert.AreEqual(actual.Name, "Sound.cache");
+            Assert.Equal("Sound.cache", actual.Name);
         }
 
-        [Test]
+        [Fact]
         public void Build_TerrainAlpha_Should_Return_TerrainAlpha_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.TerrainAlpha);
-            Assert.AreEqual(actual.Name, "TerrainAlpha.cache");
+            Assert.Equal("TerrainAlpha.cache", actual.Name);
         }
-        
-        [Test]
+
+        [Fact]
         public void Build_Textures_Should_Return_Textures_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Textures);
-            Assert.AreEqual(actual.Name, "Textures.cache");
+            Assert.Equal("Textures.cache", actual.Name);
         }
-        
-        [Test]
+
+        [Fact]
         public void Build_Tile_Should_Return_Tile_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Tile);
-            Assert.AreEqual(actual.Name, "Tile.cache");
+            Assert.Equal("Tile.cache", actual.Name);
         }
-        
-        [Test]
-        public void Build_Visual_Should_Return_Visual_Archive()
-        {
-            var actual = this.archiveFactory.Build(CacheFile.Visual);
-            Assert.AreEqual(actual.Name, "Visual.cache");
-        }
-        
-        [Test, Ignore("Still need to create a cache maker")]
+
+        [Fact(Skip = "Still need to create a cache maker")]
         public void Build_Unknown_Should_Return_Unknown_Archive()
         {
             var actual = this.archiveFactory.Build(CacheFile.Unknown);
-            Assert.AreEqual(actual.Name, "Unknown.cache");
+            Assert.Equal("Unknown.cache", actual.Name);
+        }
+
+        [Fact]
+        public void Build_Visual_Should_Return_Visual_Archive()
+        {
+            var actual = this.archiveFactory.Build(CacheFile.Visual);
+            Assert.Equal("Visual.cache", actual.Name);
         }
     }
 }

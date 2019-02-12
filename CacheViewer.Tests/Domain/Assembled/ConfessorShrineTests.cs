@@ -6,20 +6,19 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
+    using Data;
+    using Data.Entities;
     using CacheViewer.Domain.Exporters;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
-    using NUnit.Framework;
+    using Xunit;
 
-    [TestFixture]
     public class ConfessorShrineTests
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
         private readonly List<CacheObjectEntity> indexes;
         private readonly List<RenderTexture> renderTextures = new List<RenderTexture>();
-        private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
+        private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
         private readonly List<TextureEntity> texures = new List<TextureEntity>();
         private readonly MeshOnlyObjExporter meshExporter;
         private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
@@ -59,7 +58,7 @@
                         select x).FirstOrDefault();
                     if (m != null)
                     {
-                        this.mesheEntities.Add(m);
+                        this.meshEntities.Add(m);
                     }
                 }
 
@@ -75,7 +74,7 @@
         }
 
 
-        [Test, Explicit]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async Task SaveAll()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory + "Assembled\\ConfessorShrine";
@@ -84,21 +83,7 @@
                 Directory.CreateDirectory(folder);
             }
             this.meshExporter.ModelDirectory = folder;
-            //using (var context = new DataContext())
-            //{
-            //    var i = this.cacheObjectFactory.Indexes.FirstOrDefault(x => x.Identity == 424000);
-            //    var cobject = this.cacheObjectFactory.CreateAndParse(i);
-
-            //    //if (cobject.Flag == ObjectType.Structure)
-            //    //{
-            //    var centity = (from c in context.CacheObjectEntities
-            //        where c.CacheIndexIdentity == cobject.CacheIndex.Identity
-            //        select c).AsNoTracking().FirstOrDefault();
-
-            //    // foreach (var re in centity.RenderAndOffsets)
-            //}
-
-            foreach (var mesh in this.mesheEntities)
+            foreach (var mesh in this.meshEntities)
             {
                 if (mesh == null)
                 {
@@ -114,8 +99,6 @@
                     var tex = TextureFactory.Instance.Build(rt.TextureId, true);
                     m.Textures.Add(tex);
                 }
-
-
                 await this.meshExporter.ExportAsync(m);
             }
         }

@@ -1,51 +1,44 @@
-﻿
-
-namespace CacheViewer.Tests.Domain.Archive
+﻿namespace CacheViewer.Tests.Domain.Archive
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
     using CacheViewer.Domain.Archive;
     using CacheViewer.Domain.Factories;
-    using NUnit.Framework;
-
+    using TestHelpers;
+    using Xunit;
     
-    [TestFixture]
     public class CObjectsTests
     {
-        
         private readonly CObjects cobjects = (CObjects)ArchiveFactory.Instance.Build(CacheFile.CObjects);
-
         
-        [Test]
-        public void CachHeader_Should_Contain_Correct_Values()
+        [Fact]
+        public void CacheHeader_Should_Contain_Correct_Values()
         {
-            Assert.AreEqual(212376, this.cobjects.CacheHeader.dataOffset);
-            Assert.AreEqual(5211072, this.cobjects.CacheHeader.fileSize);
-            Assert.AreEqual(10618, this.cobjects.CacheHeader.indexCount);
+            AssertX.Equal(212376, this.cobjects.CacheHeader.dataOffset);
+            AssertX.Equal(5211072, this.cobjects.CacheHeader.fileSize);
+            AssertX.Equal(10618, this.cobjects.CacheHeader.indexCount);
         }
-
         
-        [Test]
+        [Fact]
         public void LoadIndexes_Should_Load_The_Correct_Number()
         {
 
             var expected = this.cobjects.CacheHeader.indexCount;
             var actual = this.cobjects.CacheIndices.Length;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal((int)expected, actual);
         }
-
         
-        [Test]
+        [Fact]
         public void All_Indexes_Have_Unique_Identity()
         {
             this.cobjects.CacheOnIndexLoad = true;
             var actual = this.cobjects.CacheIndices.Distinct().Count();
-            Assert.AreEqual(actual, this.cobjects.CacheHeader.indexCount);
+            Assert.Equal(actual, (int)this.cobjects.CacheHeader.indexCount);
         }
 
         
-        [Test, Explicit]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async Task SaveToFileAsync_Should_Output_All_Assets()
         {
             this.cobjects.CacheOnIndexLoad = true;
@@ -55,21 +48,15 @@ namespace CacheViewer.Tests.Domain.Archive
             }
         }
 
-        [Test]
+        [Fact]
         public void Parse_Finds_The_Correct_Values()
         {
             var index = this.cobjects.CacheIndices[50]; // random number here.
             var cobject = this.cobjects[index.Identity];
-            Assert.AreEqual(121, cobject.CacheIndex1.CompressedSize);
-            Assert.AreEqual(481, cobject.CacheIndex1.UnCompressedSize);
-            Assert.AreEqual(582, cobject.CacheIndex1.Identity);
-            Assert.AreEqual(260008, cobject.CacheIndex1.Offset);
+            AssertX.Equal(121, cobject.CacheIndex1.CompressedSize);
+            AssertX.Equal(481, cobject.CacheIndex1.UnCompressedSize);
+            Assert.Equal(582, cobject.CacheIndex1.Identity);
+            AssertX.Equal(260008, cobject.CacheIndex1.Offset);
         }
-        
-        private bool TestRange(int numberToCheck, int bottom, int top)
-        {
-            return numberToCheck > bottom && numberToCheck < top;
-        }
-
     }
 }

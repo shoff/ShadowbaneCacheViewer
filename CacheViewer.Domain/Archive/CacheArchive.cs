@@ -143,7 +143,7 @@
         {
             get
             {
-                if (id == 0)
+                if (id == 0 || this.CacheIndices.All(i => i.Identity != id))
                 {
                     throw new IndexNotFoundException("no name", id);
                 }

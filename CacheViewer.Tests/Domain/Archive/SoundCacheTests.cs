@@ -1,39 +1,38 @@
-﻿using System;
-using System.Linq;
-using CacheViewer.Domain.Archive;
-using NUnit.Framework;
-
-namespace CacheViewer.Tests.Domain.Archive
+﻿namespace CacheViewer.Tests.Domain.Archive
 {
+    using System;
+    using System.Linq;
+    using CacheViewer.Domain.Archive;
+    using TestHelpers;
+    using Xunit;
+
     public class SoundCacheTests
     {
-        private SoundCache soundCache;
-
-        [SetUp]
-        public void SetUp()
+        private readonly SoundCache soundCache;
+        public SoundCacheTests()
         {
             this.soundCache = new SoundCache();
             this.soundCache.LoadCacheHeader();
         }
 
-        [Test]
-        public void CachHeader_Should_Contain_Correct_Values()
-        {
-            Assert.AreEqual(21736, this.soundCache.CacheHeader.dataOffset);
-            Assert.AreEqual(166165512, this.soundCache.CacheHeader.fileSize);
-            Assert.AreEqual(1086, this.soundCache.CacheHeader.indexCount);
-        }
-
-        [Test]
+        [Fact]
         public async void All_Indexes_Have_Unique_Identity()
         {
             this.soundCache.CacheOnIndexLoad = true;
             await this.soundCache.LoadIndexesAsync();
             var actual = this.soundCache.CacheIndices.Distinct().Count();
-            Assert.AreEqual(actual, this.soundCache.CacheHeader.indexCount);
+            AssertX.Equal(actual, this.soundCache.CacheHeader.indexCount);
         }
 
-        [Test, Explicit]
+        [Fact]
+        public void CacheHeader_Should_Contain_Correct_Values()
+        {
+            AssertX.Equal(21736, this.soundCache.CacheHeader.dataOffset);
+            AssertX.Equal(166165512, this.soundCache.CacheHeader.fileSize);
+            AssertX.Equal(1086, this.soundCache.CacheHeader.indexCount);
+        }
+
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async void SaveToFile_Should_Output_All_Assets()
         {
             this.soundCache.CacheOnIndexLoad = true;

@@ -7,20 +7,19 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using CacheViewer.Data;
-    using CacheViewer.Data.Entities;
+    using Data;
+    using Data.Entities;
     using CacheViewer.Domain.Exporters;
     using CacheViewer.Domain.Factories;
-    using CacheViewer.Domain.Models;
-    using NUnit.Framework;
 
-    [TestFixture]
+    using Xunit;
+
     public class ElvenChurchTests
     {
         private readonly List<RenderEntity> renderEntities = new List<RenderEntity>();
 
         // private readonly List<RenderTexture> renderTextures = new List<RenderTexture>();
-        private readonly List<MeshEntity> mesheEntities = new List<MeshEntity>();
+        private readonly List<MeshEntity> meshEntities = new List<MeshEntity>();
         // private readonly List<TextureEntity> texures = new List<TextureEntity>();
         private readonly MeshOnlyObjExporter meshExporter;
         private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
@@ -83,7 +82,7 @@
 
                     if (m != null)
                     {
-                        this.mesheEntities.Add(m);
+                        this.meshEntities.Add(m);
                     }
 
                     File.WriteAllText($"{this.folder}\\RenderEntities.txt", sb.ToString());
@@ -100,7 +99,7 @@
             }
         }
 
-        [Test, Explicit]
+        [Fact(Skip = Skip.CONNECTS_TO_DB)]
         public void Find_Elven_Church_Structure()
         {
             using (var context = new SbCacheViewerContext())
@@ -112,7 +111,7 @@
                         // var rt = this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
                         // var rte = context.RenderTextures.FirstOrDefault(i => i.RenderTextureId == rt.RenderTextureId && i.Textures == re.Textures);
                         //this.renderTextures.FirstOrDefault(x => x.RenderId == re.CacheIndexIdentity);
-                        //var mymesh =   this.mesheEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
+                        //var mymesh =   this.meshEntities.FirstOrDefault(x => x.CacheIndexIdentity == re.MeshId);
 
                         var mesh = context.MeshEntities.Include(t=> t.Textures).FirstOrDefault(i => i.CacheIndexIdentity == re.MeshId);
                         var texture = context.Textures.FirstOrDefault(i => i.TextureId == re.TextureId);
@@ -129,7 +128,7 @@
         }
 
 
-        [Test, Explicit]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public async Task SaveAll()
         {
 
@@ -143,7 +142,7 @@
             // var i = this.cacheObjectFactory.Indexes.FirstOrDefault(x => x.Identity == 424000);
             // var cobject = this.cacheObjectFactory.CreateAndParse(i);
 
-            foreach (var mesh in this.mesheEntities)
+            foreach (var mesh in this.meshEntities)
             {
                 if (mesh == null)
                 {

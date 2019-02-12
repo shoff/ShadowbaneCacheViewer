@@ -16,17 +16,19 @@
         /// </exception>
         public static Vector3 ToVector3(this string vectorString)
         {
+            if (string.IsNullOrWhiteSpace(vectorString))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(vectorString));
+            }
+
             // X:1.33823 Y:2.3356 Z:-4.008
-            var array = vectorString.Split(' ');
+            var array = vectorString.Replace("(", "").Replace(")", "").Replace(",", "").Split(' ');
 
-            var v = array.Map(x => float.Parse(x.Split(':')[1])).ToArray();
-
-            if (v.Length != 3)
+            if (array.Length != 3)
             {
                 return Vector3.Zero;
             }
-
-            return new Vector3(v[0], v[1], v[2]);
+            return new Vector3(float.Parse(array[0]), float.Parse(array[1]), float.Parse(array[2]));
         }
 
         /// <summary>To the vector2.</summary>

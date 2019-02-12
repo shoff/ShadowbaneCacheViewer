@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace CacheViewer.Tests.Domain.Factories
+﻿namespace CacheViewer.Tests.Domain.Factories
 {
     using System;
     using System.IO;
@@ -11,21 +9,20 @@ namespace CacheViewer.Tests.Domain.Factories
     using CacheViewer.Domain.Extensions;
     using CacheViewer.Domain.Factories;
     using Newtonsoft.Json;
+    using Xunit;
 
-    [TestFixture]
     public class MeshFactoryIntegrationTests
     {
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-        private MeshFactory factory;
+        private readonly MeshFactory factory;
         private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "\\MeshIndexes";
 
-        [SetUp]
-        public void SetUp()
+        public MeshFactoryIntegrationTests()
         {
             this.factory = MeshFactory.Instance;
         }
 
-        [Test, Explicit, Category("Integration")]
+        [Fact(Skip=Skip.CREATES_FILES)]
         public async Task Save_All_To_File()
         {
             CreateFolders();
@@ -53,7 +50,7 @@ namespace CacheViewer.Tests.Domain.Factories
             Directory.CreateDirectory($"{folder}\\Caches");
         }
 
-        [Test, Explicit, Category("Integration")]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public void Save_Mesh_To_Sql()
         {
             using (var context = new SbCacheViewerContext())
@@ -109,7 +106,7 @@ namespace CacheViewer.Tests.Domain.Factories
             }
         }
 
-        [Test, Explicit, Category("Integration")]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public void Database_Record_Count_Matches_Index_Count()
         {
             var expected = this.factory.Indexes.Count();
@@ -119,7 +116,7 @@ namespace CacheViewer.Tests.Domain.Factories
                 actual = context.MeshEntities.Count();
             }
 
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

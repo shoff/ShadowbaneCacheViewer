@@ -10,12 +10,11 @@
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
     using EntityFramework.BulkInsert.Extensions;
-    using NUnit.Framework;
+    using Xunit;
 
-    [TestFixture]
     public class TextureFactoryTests
     {
-        [Test, Explicit]
+        [Fact(Skip = Skip.CREATES_FILES)]
         public void Save_All_To_Disk()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory + "\\Textures";
@@ -49,7 +48,7 @@
 
 
 
-        [Test, Explicit]
+        [Fact(Skip = Skip.CONNECTS_TO_DB)]
         public void Save_Textures_To_Sql()
         {
             var textureFactory = TextureFactory.Instance;
