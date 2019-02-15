@@ -62,10 +62,15 @@
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append(CacheIndex);
-            sb.AppendFormat("MeshId: {0} ", this.MeshId.ToString(CultureInfo.InvariantCulture));
-            sb.AppendFormat(" Joint name: {0}", this.JointName);
-            sb.AppendFormat(" Notes: {0}", this.Notes);
+            sb.AppendLine($"# RenderIdentity: {this.CacheIndex.Identity}");
+            sb.AppendLine($"# MeshId: {this.MeshId.ToString(CultureInfo.InvariantCulture)}");
+            sb.AppendLine($"# Joint name: {this.JointName ?? "Not a joint"}");
+            sb.AppendLine($"# Notes: {this.Notes}");
+            sb.AppendLine($"# Children: {this.RenderCount}");
+            sb.AppendLine($"# Scale: {this.Scale.ToString()}");
+            sb.AppendLine($"# Position: {this.Position.ToString()}");
+            sb.AppendLine($"# TextureCount: {this.TextureCount}");
+
             return sb.ToString();
         }
     }

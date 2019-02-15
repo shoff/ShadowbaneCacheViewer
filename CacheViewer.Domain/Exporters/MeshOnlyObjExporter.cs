@@ -75,8 +75,8 @@
                 mainStringBuilder.AppendLine(MayaObjHeaderFactory.Instance.Create(this.name));
                 mainStringBuilder.AppendFormat(SbMeshId, mesh.CacheIndex.Identity);
                 mainStringBuilder.AppendFormat(MaterialLib, this.name);
+                mainStringBuilder.Append($"{UsesCentimeters}\r\n");
                 mainStringBuilder.Append(DefaultGroup);
-                mainStringBuilder.Append(UsesCentimeters);
 
                 try
                 {
@@ -85,18 +85,18 @@
                     // do the textures first because this is the most likely place to have an exception thrown. Die young leave a beautiful corpse.
                     this.SaveTextures(mesh, meshName);
 
-                    // now create the matrial entry for the mesh
+                    // now create the material entry for the mesh
                     // TODO handle extra maps?
                     this.AppendMaterial(this.indexMaterialDictionary[meshName], $"Mesh_{mesh.Id}", materialBuilder);
 
                     // v 
-                    mainStringBuilder.AppendLine(this.BuildVerts(mesh));
+                    mainStringBuilder.Append(this.BuildVerts(mesh));
 
                     // vt
-                    mainStringBuilder.AppendLine(this.BuildTextures(mesh));
+                    mainStringBuilder.Append(this.BuildTextures(mesh));
 
                     // vn
-                    mainStringBuilder.AppendLine(this.BuildNormals(mesh));
+                    mainStringBuilder.Append(this.BuildNormals(mesh));
 
                     // now build the faces
                     this.BuildFaces(mesh, mainStringBuilder);
@@ -154,10 +154,10 @@
 
         private string BuildVerts(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var v in mesh.Vertices)
             {
-                sb.AppendFormat(Vertice, v[0].ToString("0.0#####"), v[1].ToString("0.0#####"), v[2].ToString("0.0#####"));
+                sb.AppendFormat(Vertice, v[0].ToString("0.000000"), v[1].ToString("0.000000"), v[2].ToString("0.000000"));
             }
 
             return sb.ToString();
@@ -165,7 +165,7 @@
 
         private string BuildTextures(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var t in mesh.TextureVectors)
             {
                 sb.AppendFormat(Texture, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
@@ -176,7 +176,7 @@
 
         private string BuildNormals(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var vn in mesh.Normals)
             {
                 sb.AppendFormat(Normal, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"), vn[2].ToString("0.000000"));
@@ -185,6 +185,30 @@
             return sb.ToString();
         }
 
+        //private void BuildFaces(Mesh mesh, StringBuilder sb)
+        //{
+        //    sb.AppendLine("s off"); // smoothing groups off
+        //    sb.AppendLine($"g Mesh_{mesh.Id}");
+        //    sb.AppendLine($"usemtl Mesh_{mesh.Id}");
+
+        //    for (int i = 0; i < mesh.Indices.Count; i += 3)
+        //    {
+        //        var a = (ushort)(mesh.Indices[i].Position);
+        //        var b = (ushort)(mesh.Indices[i].TextureCoordinate);
+        //        var c = (ushort)(mesh.Indices[i].Normal);
+
+        //        var d = (ushort)(mesh.Indices[i + 1].Position);
+        //        var e = (ushort)(mesh.Indices[i + 1].TextureCoordinate);
+        //        var f = (ushort)(mesh.Indices[i + 1].Normal);
+
+        //        var g = (ushort)(mesh.Indices[i + 2].Position);
+        //        var h = (ushort)(mesh.Indices[i + 2].TextureCoordinate);
+        //        var j = (ushort)(mesh.Indices[i + 3].Normal);
+
+        //        sb.Append("f " + a + @"/" + b + @"/" + c + " " + d + @"/" + e + @"/" + f + " " + g + @"/" + h + @"/" + j + "\r\n");
+        //    }
+        //}
+
         private void BuildFaces(Mesh mesh, StringBuilder sb)
         {
             int currentIndexCount = 0;
@@ -192,9 +216,8 @@
             currentIndexCount++;
 
             // TODO this does not spit out the faces the same as the exporter from Maya does
-            // g Mesh_124163:default1
-            // usemtl initialShadingGroup
-            sb.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
+            sb.AppendLine("s off"); // smoothing groups off
+            sb.AppendLine($"g Mesh_{mesh.Id}");
             sb.AppendLine($"usemtl Mesh_{mesh.Id}");
 
             foreach (var wavefrontVertex in mesh.Indices)

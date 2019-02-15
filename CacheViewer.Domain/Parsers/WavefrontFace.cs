@@ -12,7 +12,7 @@ namespace CacheViewer.Domain.Parsers
     /// </remarks>
     public class WavefrontFace
     {
-        public List<WavefrontVertex> Vertices { get; set; }
+        public List<Index> Vertices { get; set; }
 
         /// <summary>
         ///     Gets the triangle count.
@@ -22,12 +22,5 @@ namespace CacheViewer.Domain.Parsers
         /// </value>
         public int TriangleCount => this.Vertices.Count - 2;
 
-        /// <summary>
-        ///     Gets the vertex count.
-        /// </summary>
-        /// <value>
-        ///     The vertex count.
-        /// </value>
-        public int VertexCount => this.Vertices.Count;
     }
 }

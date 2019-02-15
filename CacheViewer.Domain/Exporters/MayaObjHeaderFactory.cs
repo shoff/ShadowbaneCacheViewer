@@ -6,22 +6,10 @@
     {
         private const string SbCacheId = "# Shadowbane cacheObject id: {0}\r\n";
         private const string SbCacheName = "# Shadowbane cacheObject: {0}\r\n";
-
         private const string SbCreated = "# created on: {0}\r\n";
 
-        /// <summary>
-        ///     Gets the instance.
-        /// </summary>
-        /// <value>
-        ///     The instance.
-        /// </value>
         public static MayaObjHeaderFactory Instance => new MayaObjHeaderFactory();
 
-        /// <summary>
-        ///     Creates the specified identity.
-        /// </summary>
-        /// <param name="identity">The identity.</param>
-        /// <returns></returns>
         public string Create(int identity)
         {
             var id = string.Format(SbCacheId, identity);

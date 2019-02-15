@@ -2,8 +2,10 @@
 namespace CacheViewer.Domain.Archive
 {
     using System;
+    using System.Diagnostics;
     using System.Text;
 
+    [DebuggerDisplay("Identity = {Identity}")]
     public struct CacheIndex : IComparable<CacheIndex>, IEquatable<CacheIndex>
     {
         public int Index;

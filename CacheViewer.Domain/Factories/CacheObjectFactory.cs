@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using Archive;
     using Data;
+    using Exceptions;
     using Extensions;
     using Models;
     using Models.Exportable;
@@ -90,6 +91,17 @@
             return this.CreateAndParse(asset.CacheIndex1);
         }
 
+        public ICacheObject CreateAndParse(int id, bool assemble)
+        {
+            var index = this.Indexes.FirstOrDefault(i => i.Identity == id);
+            if (index.Identity != id)
+            {
+                throw new ArgumentException($"{nameof(id)} : {id}");
+            }
+
+            return this.CreateAndParse(index, assemble);
+        }
+
         public ICacheObject CreateAndParse(CacheIndex cacheIndex, bool assemble = false)
         {
             var asset = this.CacheObjects[cacheIndex.Identity];
@@ -130,20 +142,12 @@
 
                     case ObjectType.Structure:
                         var structure = new Structure(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        // TODO this sucks
-                        if (assemble)
-                        {
-                            structure.ParseAndAssemble();
-                        }
-                        else
-                        {
-                            structure.Parse();
-                        }
+                        structure.ParseAndAssemble();
                         return structure;
 
                     case ObjectType.Interactive:
                         var interactive = new Interactive(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        interactive.Parse();
+                        interactive.ParseAndAssemble();
                         return interactive;
 
                     case ObjectType.Equipment:
@@ -154,7 +158,7 @@
                     case ObjectType.Mobile:
 
                         var mobile = new Mobile(cacheIndex, flag, name, offset, asset.Item1, innerOffset);
-                        // mobile.Parse(asset.Item1);
+                        mobile.ParseAndAssemble(asset.Item1);
                         return mobile;
 
                     case ObjectType.Deed:

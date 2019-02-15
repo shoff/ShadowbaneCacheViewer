@@ -35,7 +35,7 @@
         {
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
 
             // CreateAndParse the stream reader for the file
@@ -213,7 +213,7 @@
             // Split the face definition at whitespace
             var segments = str.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
 
-            var vertices = new List<WavefrontVertex>();
+            var vertices = new List<Index>();
 
             // Iterate over the segments
             foreach (var segment in segments)
@@ -226,7 +226,7 @@
             return new WavefrontFace {Vertices = vertices};
         }
 
-        public WavefrontVertex ParseVertex(string str)
+        public Index ParseVertex(string str)
         {
             if (string.IsNullOrWhiteSpace(str))
             {
@@ -256,31 +256,31 @@
             }
 
             // CreateAndParse the new vertex
-            return new WavefrontVertex(indices[0], indices[1], indices[2]);
+            return new Index(indices[0], indices[1], indices[2]);
         }
 
         /// <summary>
-        ///     Enum for describing the semantic meaning of a line in an OBJ file.
+        /// Enum for describing the semantic meaning of a line in an OBJ file.
         /// </summary>
         private enum DataType
         {
             /// <summary>
-            ///     The line contains nothing or has no or an undefined keyword.
+            /// The line contains nothing or has no or an undefined keyword.
             /// </summary>
             Empty,
 
             /// <summary>
-            ///     The line contains a comment.
+            /// The line contains a comment.
             /// </summary>
             Comment,
 
             /// <summary>
-            ///     The line contains a group definition.
+            /// The line contains a group definition.
             /// </summary>
             Group,
 
             /// <summary>
-            ///     The line contains a smoothing group definitio.
+            /// The line contains a smoothing group definition.
             /// </summary>
             SmoothingGroup,
 

@@ -237,6 +237,13 @@
         }
 
         [Fact]
+        public async Task Irekei_Barracks_Parses_Correctly()
+        {
+            var cacheIndex = this.cacheObjectFactory.Indexes.FirstOrDefault(ci=> ci.Identity == 1300200);
+            var irekeiBarracks = await this.cacheObjectFactory.CreateAndParseAsync(cacheIndex);
+        }
+
+        [Fact]
         public void Centaur_Concave_Tower_Parses_Correctly()
         {
             var cacheIndex = this.cacheObjectFactory.CacheObjects[585000];

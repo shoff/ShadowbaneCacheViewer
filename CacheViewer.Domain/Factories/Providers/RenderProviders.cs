@@ -94,15 +94,7 @@
             renderInfo.HasMesh = reader.ReadUInt32() == 1;
             uint null5 = reader.ReadUInt32();
             renderInfo.MeshId = reader.ReadInt32();
-            if (renderInfo.MeshId == 0)
-            {
-                renderInfo.ValidMeshFound = false;
-            }
-            else
-            {
-                renderInfo.ValidMeshFound = MeshFactory.Instance.HasMeshId(renderInfo.MeshId);
-            }
-
+            renderInfo.ValidMeshFound = renderInfo.MeshId != 0 && MeshFactory.Instance.HasMeshId(renderInfo.MeshId);
             ushort null1 = reader.ReadUInt16();
             renderInfo.JointNameSize = reader.ReadUInt32();
             if (renderInfo.JointNameSize > 0)

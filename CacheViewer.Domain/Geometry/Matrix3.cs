@@ -75,45 +75,21 @@
         }
 
         /// <summary>Gets the first column of this matrix.</summary>
-        public Vector3 Column0
-        {
-            get
-            {
-                return new Vector3(this.Row0.X, this.Row1.X, this.Row2.X);
-            }
-        }
+        public Vector3 Column0 => new Vector3(this.Row0.X, this.Row1.X, this.Row2.X);
 
         /// <summary>Gets the second column of this matrix.</summary>
-        public Vector3 Column1
-        {
-            get
-            {
-                return new Vector3(this.Row0.Y, this.Row1.Y, this.Row2.Y);
-            }
-        }
+        public Vector3 Column1 => new Vector3(this.Row0.Y, this.Row1.Y, this.Row2.Y);
 
         /// <summary>Gets the third column of this matrix.</summary>
-        public Vector3 Column2
-        {
-            get
-            {
-                return new Vector3(this.Row0.Z, this.Row1.Z, this.Row2.Z);
-            }
-        }
+        public Vector3 Column2 => new Vector3(this.Row0.Z, this.Row1.Z, this.Row2.Z);
 
         /// <summary>
         /// Gets or sets the value at row 1, column 1 of this instance.
         /// </summary>
         public float M11
         {
-            get
-            {
-                return this.Row0.X;
-            }
-            set
-            {
-                this.Row0.X = value;
-            }
+            get => this.Row0.X;
+            set => this.Row0.X = value;
         }
 
         /// <summary>
@@ -121,14 +97,8 @@
         /// </summary>
         public float M12
         {
-            get
-            {
-                return this.Row0.Y;
-            }
-            set
-            {
-                this.Row0.Y = value;
-            }
+            get => this.Row0.Y;
+            set => this.Row0.Y = value;
         }
 
         /// <summary>
@@ -136,14 +106,8 @@
         /// </summary>
         public float M13
         {
-            get
-            {
-                return this.Row0.Z;
-            }
-            set
-            {
-                this.Row0.Z = value;
-            }
+            get => this.Row0.Z;
+            set => this.Row0.Z = value;
         }
 
         /// <summary>
@@ -151,14 +115,8 @@
         /// </summary>
         public float M21
         {
-            get
-            {
-                return this.Row1.X;
-            }
-            set
-            {
-                this.Row1.X = value;
-            }
+            get => this.Row1.X;
+            set => this.Row1.X = value;
         }
 
         /// <summary>
@@ -166,14 +124,8 @@
         /// </summary>
         public float M22
         {
-            get
-            {
-                return this.Row1.Y;
-            }
-            set
-            {
-                this.Row1.Y = value;
-            }
+            get => this.Row1.Y;
+            set => this.Row1.Y = value;
         }
 
         /// <summary>
@@ -181,14 +133,8 @@
         /// </summary>
         public float M23
         {
-            get
-            {
-                return this.Row1.Z;
-            }
-            set
-            {
-                this.Row1.Z = value;
-            }
+            get => this.Row1.Z;
+            set => this.Row1.Z = value;
         }
 
         /// <summary>
@@ -196,14 +142,8 @@
         /// </summary>
         public float M31
         {
-            get
-            {
-                return this.Row2.X;
-            }
-            set
-            {
-                this.Row2.X = value;
-            }
+            get => this.Row2.X;
+            set => this.Row2.X = value;
         }
 
         /// <summary>
@@ -211,14 +151,8 @@
         /// </summary>
         public float M32
         {
-            get
-            {
-                return this.Row2.Y;
-            }
-            set
-            {
-                this.Row2.Y = value;
-            }
+            get => this.Row2.Y;
+            set => this.Row2.Y = value;
         }
 
         /// <summary>
@@ -226,14 +160,8 @@
         /// </summary>
         public float M33
         {
-            get
-            {
-                return this.Row2.Z;
-            }
-            set
-            {
-                this.Row2.Z = value;
-            }
+            get => this.Row2.Z;
+            set => this.Row2.Z = value;
         }
 
         /// <summary>
@@ -241,10 +169,7 @@
         /// </summary>
         public Vector3 Diagonal
         {
-            get
-            {
-                return new Vector3(this.Row0.X, this.Row1.Y, this.Row2.Z);
-            }
+            get => new Vector3(this.Row0.X, this.Row1.Y, this.Row2.Z);
             set
             {
                 this.Row0.X = value.X;
@@ -256,13 +181,7 @@
         /// <summary>
         /// Gets the trace of the matrix, the sum of the values along the diagonal.
         /// </summary>
-        public float Trace
-        {
-            get
-            {
-                return this.Row0.X + this.Row1.Y + this.Row2.Z;
-            }
-        }
+        public float Trace => this.Row0.X + this.Row1.Y + this.Row2.Z;
 
         /// <summary>Gets or sets the value at a specified row and column.</summary>
         public float this[int rowIndex, int columnIndex]
@@ -1045,10 +964,7 @@
         /// <summary>Gets the first column of this matrix.</summary>
         public Vector4 Column0
         {
-            get
-            {
-                return new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X);
-            }
+            get => new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X);
             set
             {
                 this.Row0.X = value.X;
@@ -1061,10 +977,7 @@
         /// <summary>Gets the second column of this matrix.</summary>
         public Vector4 Column1
         {
-            get
-            {
-                return new Vector4(this.Row0.Y, this.Row1.Y, this.Row2.Y, this.Row3.Y);
-            }
+            get => new Vector4(this.Row0.Y, this.Row1.Y, this.Row2.Y, this.Row3.Y);
             set
             {
                 this.Row0.Y = value.X;
@@ -1077,10 +990,7 @@
         /// <summary>Gets the third column of this matrix.</summary>
         public Vector4 Column2
         {
-            get
-            {
-                return new Vector4(this.Row0.Z, this.Row1.Z, this.Row2.Z, this.Row3.Z);
-            }
+            get => new Vector4(this.Row0.Z, this.Row1.Z, this.Row2.Z, this.Row3.Z);
             set
             {
                 this.Row0.Z = value.X;
@@ -1093,10 +1003,7 @@
         /// <summary>Gets the fourth column of this matrix.</summary>
         public Vector4 Column3
         {
-            get
-            {
-                return new Vector4(this.Row0.W, this.Row1.W, this.Row2.W, this.Row3.W);
-            }
+            get => new Vector4(this.Row0.W, this.Row1.W, this.Row2.W, this.Row3.W);
             set
             {
                 this.Row0.W = value.X;
@@ -1111,14 +1018,8 @@
         /// </summary>
         public float M11
         {
-            get
-            {
-                return this.Row0.X;
-            }
-            set
-            {
-                this.Row0.X = value;
-            }
+            get => this.Row0.X;
+            set => this.Row0.X = value;
         }
 
         /// <summary>
@@ -1126,14 +1027,8 @@
         /// </summary>
         public float M12
         {
-            get
-            {
-                return this.Row0.Y;
-            }
-            set
-            {
-                this.Row0.Y = value;
-            }
+            get => this.Row0.Y;
+            set => this.Row0.Y = value;
         }
 
         /// <summary>
@@ -1141,14 +1036,8 @@
         /// </summary>
         public float M13
         {
-            get
-            {
-                return this.Row0.Z;
-            }
-            set
-            {
-                this.Row0.Z = value;
-            }
+            get => this.Row0.Z;
+            set => this.Row0.Z = value;
         }
 
         /// <summary>
@@ -1156,14 +1045,8 @@
         /// </summary>
         public float M14
         {
-            get
-            {
-                return this.Row0.W;
-            }
-            set
-            {
-                this.Row0.W = value;
-            }
+            get => this.Row0.W;
+            set => this.Row0.W = value;
         }
 
         /// <summary>
@@ -1171,14 +1054,8 @@
         /// </summary>
         public float M21
         {
-            get
-            {
-                return this.Row1.X;
-            }
-            set
-            {
-                this.Row1.X = value;
-            }
+            get => this.Row1.X;
+            set => this.Row1.X = value;
         }
 
         /// <summary>
@@ -1186,14 +1063,8 @@
         /// </summary>
         public float M22
         {
-            get
-            {
-                return this.Row1.Y;
-            }
-            set
-            {
-                this.Row1.Y = value;
-            }
+            get => this.Row1.Y;
+            set => this.Row1.Y = value;
         }
 
         /// <summary>
@@ -1201,14 +1072,8 @@
         /// </summary>
         public float M23
         {
-            get
-            {
-                return this.Row1.Z;
-            }
-            set
-            {
-                this.Row1.Z = value;
-            }
+            get => this.Row1.Z;
+            set => this.Row1.Z = value;
         }
 
         /// <summary>
@@ -1216,14 +1081,8 @@
         /// </summary>
         public float M24
         {
-            get
-            {
-                return this.Row1.W;
-            }
-            set
-            {
-                this.Row1.W = value;
-            }
+            get => this.Row1.W;
+            set => this.Row1.W = value;
         }
 
         /// <summary>
@@ -1231,14 +1090,8 @@
         /// </summary>
         public float M31
         {
-            get
-            {
-                return this.Row2.X;
-            }
-            set
-            {
-                this.Row2.X = value;
-            }
+            get => this.Row2.X;
+            set => this.Row2.X = value;
         }
 
         /// <summary>
@@ -1246,14 +1099,8 @@
         /// </summary>
         public float M32
         {
-            get
-            {
-                return this.Row2.Y;
-            }
-            set
-            {
-                this.Row2.Y = value;
-            }
+            get => this.Row2.Y;
+            set => this.Row2.Y = value;
         }
 
         /// <summary>
@@ -1261,14 +1108,8 @@
         /// </summary>
         public float M33
         {
-            get
-            {
-                return this.Row2.Z;
-            }
-            set
-            {
-                this.Row2.Z = value;
-            }
+            get => this.Row2.Z;
+            set => this.Row2.Z = value;
         }
 
         /// <summary>
@@ -1276,14 +1117,8 @@
         /// </summary>
         public float M34
         {
-            get
-            {
-                return this.Row2.W;
-            }
-            set
-            {
-                this.Row2.W = value;
-            }
+            get => this.Row2.W;
+            set => this.Row2.W = value;
         }
 
         /// <summary>
@@ -1291,14 +1126,8 @@
         /// </summary>
         public float M41
         {
-            get
-            {
-                return this.Row3.X;
-            }
-            set
-            {
-                this.Row3.X = value;
-            }
+            get => this.Row3.X;
+            set => this.Row3.X = value;
         }
 
         /// <summary>
@@ -1306,14 +1135,8 @@
         /// </summary>
         public float M42
         {
-            get
-            {
-                return this.Row3.Y;
-            }
-            set
-            {
-                this.Row3.Y = value;
-            }
+            get => this.Row3.Y;
+            set => this.Row3.Y = value;
         }
 
         /// <summary>
@@ -1321,14 +1144,8 @@
         /// </summary>
         public float M43
         {
-            get
-            {
-                return this.Row3.Z;
-            }
-            set
-            {
-                this.Row3.Z = value;
-            }
+            get => this.Row3.Z;
+            set => this.Row3.Z = value;
         }
 
         /// <summary>
@@ -1336,14 +1153,8 @@
         /// </summary>
         public float M44
         {
-            get
-            {
-                return this.Row3.W;
-            }
-            set
-            {
-                this.Row3.W = value;
-            }
+            get => this.Row3.W;
+            set => this.Row3.W = value;
         }
 
         /// <summary>
@@ -1351,10 +1162,7 @@
         /// </summary>
         public Vector4 Diagonal
         {
-            get
-            {
-                return new Vector4(this.Row0.X, this.Row1.Y, this.Row2.Z, this.Row3.W);
-            }
+            get => new Vector4(this.Row0.X, this.Row1.Y, this.Row2.Z, this.Row3.W);
             set
             {
                 this.Row0.X = value.X;
@@ -1367,13 +1175,7 @@
         /// <summary>
         /// Gets the trace of the matrix, the sum of the values along the diagonal.
         /// </summary>
-        public float Trace
-        {
-            get
-            {
-                return this.Row0.X + this.Row1.Y + this.Row2.Z + this.Row3.W;
-            }
-        }
+        public float Trace => this.Row0.X + this.Row1.Y + this.Row2.Z + this.Row3.W;
 
         /// <summary>Gets or sets the value at a specified row and column.</summary>
         public float this[int rowIndex, int columnIndex]
@@ -1517,13 +1319,13 @@
         /// <summary>
         /// Returns the rotation component of this instance. Quite slow.
         /// </summary>
-        /// <param name="row_normalise">Whether the method should row-normalise (i.e. remove scale from) the Matrix. Pass false if you know it's already normalised.</param>
-        public Quaternion ExtractRotation(bool row_normalise = true)
+        /// <param name="rowNormalise">Whether the method should row-normalise (i.e. remove scale from) the Matrix. Pass false if you know it's already normalised.</param>
+        public Quaternion ExtractRotation(bool rowNormalise = true)
         {
             Vector3 vector3_1 = this.Row0.Xyz;
             Vector3 vector3_2 = this.Row1.Xyz;
             Vector3 vector3_3 = this.Row2.Xyz;
-            if (row_normalise)
+            if (rowNormalise)
             {
                 vector3_1 = vector3_1.Normalized();
                 vector3_2 = vector3_2.Normalized();

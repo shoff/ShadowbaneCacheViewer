@@ -64,12 +64,7 @@
             mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create(cacheObject.CacheIndex.Identity));
             mainStringBuilder.AppendFormat(MaterialLib, this.name);
 
-            // we'll treat each renderInfo as a separate Mesh for now.
-            // foreach (var obj in cacheObject.RenderInfoList)
-
-            // cacheObject.RenderList.AsParallel().ForAll(obj => this.CreateObject(obj, cacheObject, modelDirectory));
             // save the obj
-
             using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj",
                 FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {

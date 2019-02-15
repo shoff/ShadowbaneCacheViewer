@@ -22,7 +22,7 @@
             this.factory = MeshFactory.Instance;
         }
 
-        [Fact(Skip=Skip.CREATES_FILES)]
+        [Fact]
         public async Task Save_All_To_File()
         {
             CreateFolders();

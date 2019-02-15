@@ -22,7 +22,7 @@
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        private const string UsesCentimeters = "# This file uses centimeters as units for non-parametric coordinates.\r\n";
+        private const string UsesCentimeters = "# This file uses centimeters as units for non-parametric coordinates.\r\n\r\n";
         private const string MaterialLib = "mtllib {0}.mtl\r\n";
         private const string Vertice = "v {0} {1} {2}\r\n";
         private const string Normal = "vn {0} {1} {2}\r\n";
@@ -35,7 +35,7 @@
         private const string MaterialSpecualrNs = "Ns 10.000\r\n";
         private const string MaterialDefaultIllumination = "illum 4\r\n";
         private const string MapTo = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-        
+
         private readonly Textures texturesArchive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
         private readonly Dictionary<string, string> indexMaterialDictionary = new Dictionary<string, string>();
         private readonly StringBuilder prefab = new StringBuilder();
@@ -55,12 +55,12 @@
 
         public static MeshOnlyObjExporter Instance => new MeshOnlyObjExporter();
 
-        public async Task CreatePrefabIndividualFiles(List<Mesh> meshModels, string modelName)
+        public async Task CreateIndividualObjFiles(List<Mesh> meshModels, string modelName)
         {
             if (meshModels == null || meshModels.Count == 0)
             {
                 logger?.Error(
-                    $"An empty or null mesh collection passed to CreatePrefabAsync for model {modelName ?? "no-name"} aborting creation.");
+                    $"An empty or null mesh collection passed to CreateSingleObjFile for model {modelName ?? "no-name"} aborting creation.");
                 return;
             }
 
@@ -93,12 +93,12 @@
             }
         }
 
-        public async Task CreatePrefabAsync(List<Mesh> meshModels, string modelName)
+        public async Task CreateSingleObjFile(List<Mesh> meshModels, string modelName)
         {
             if (meshModels == null || meshModels.Count == 0)
             {
                 logger?.Error(
-                    $"An empty or null mesh collection passed to CreatePrefabAsync for model {modelName ?? "no-name"} aborting creation.");
+                    $"An empty or null mesh collection passed to CreateSingleObjFile for model {modelName ?? "no-name"} aborting creation.");
                 return;
             }
 
@@ -114,20 +114,21 @@
 
             // Builds the .obj header/information header
             this.prefab.AppendLine(MayaObjHeaderFactory.Instance.Create(modelName));
-            this.prefab.AppendFormat(MaterialLib, modelName);
             this.prefab.Append(UsesCentimeters); // TODO validate this flag
-
-            var vertexBuilder = new StringBuilder();
-            var normalsBuilder = new StringBuilder();
-            var texturesBuilder = new StringBuilder();
-
+            this.prefab.AppendFormat(MaterialLib, modelName);
+            
             foreach (var mesh in meshModels)
             {
+                var vertexBuilder = new StringBuilder();
+                var normalsBuilder = new StringBuilder();
+                var texturesBuilder = new StringBuilder();
+
                 try
                 {
                     var meshName = string.Join(string.Empty, "Mesh_", mesh.CacheIndex.Identity.ToString(CultureInfo.InvariantCulture));
                     this.indexMaterialDictionary.Add(meshName, string.Empty);
-                    // do the textures first because this is the most likely place to have an exception thrown. Die young leave a beautiful corpse.
+
+                    // do the textures first because this is the most likely place to have an exception thrown.
                     this.SaveTextures(mesh, meshName);
 
                     // now create the material entry for the mesh
@@ -135,13 +136,22 @@
                     this.AppendMaterial(this.indexMaterialDictionary[meshName], $"Mesh_{mesh.Id}");
 
                     // v 
-                    vertexBuilder.AppendLine(this.BuildVerts(mesh));
+                    vertexBuilder.AppendLine("g default");
+                    vertexBuilder.Append(this.BuildVerts(mesh));
 
                     // vt
-                    texturesBuilder.AppendLine(this.BuildTextures(mesh));
-                    
+                    texturesBuilder.Append(this.BuildTextures(mesh));
+
                     // vn
-                    normalsBuilder.AppendLine(this.BuildNormals(mesh));
+                    normalsBuilder.Append(this.BuildNormals(mesh));
+
+                    string faces = this.BuildFaces(mesh);
+
+                    // combine them all
+                    this.prefab.Append(vertexBuilder.ToString());
+                    this.prefab.Append(texturesBuilder.ToString());
+                    this.prefab.Append(normalsBuilder);
+                    this.prefab.Append(faces);
                 }
                 catch (Exception e)
                 {
@@ -149,14 +159,6 @@
                 }
             }
             
-            // combine them all
-            this.prefab.AppendLine(vertexBuilder.ToString());
-            this.prefab.AppendLine(texturesBuilder.ToString());
-            this.prefab.AppendLine(normalsBuilder.ToString());
-
-            // now build the faces
-            this.BuildFaces(meshModels, this.prefab);
-
             using (var fs = new FileStream(this.ModelDirectory + "\\" + modelName + ".obj",
                     FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
@@ -173,7 +175,6 @@
                 File.Delete(mtlFile);
             }
 
-            //File.WriteAllText(mtlFile, material.ToString());
             using (var fs1 = new FileStream(this.ModelDirectory + "\\" + modelName + ".mtl",
                 FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
@@ -185,10 +186,10 @@
         }
 
         public string ModelDirectory { get; set; } = FileLocations.Instance.GetExportFolder();
-        
+
         private string BuildVerts(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var v in mesh.Vertices)
             {
                 sb.AppendFormat(Vertice, v[0].ToString("0.0#####"), v[1].ToString("0.0#####"), v[2].ToString("0.0#####"));
@@ -199,7 +200,7 @@
 
         private string BuildTextures(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var t in mesh.TextureVectors)
             {
                 sb.AppendFormat(Texture, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
@@ -210,7 +211,7 @@
 
         private string BuildNormals(Mesh mesh)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var vn in mesh.Normals)
             {
                 sb.AppendFormat(Normal, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"), vn[2].ToString("0.000000"));
@@ -219,19 +220,54 @@
             return sb.ToString();
         }
 
-        private void BuildFaces(List<Mesh> meshes, StringBuilder sb)
+        private string BuildFaces(Mesh mesh)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("s off"); // smoothing groups off
+            sb.AppendLine($"g Mesh_{mesh.Id}");
+            sb.AppendLine($"usemtl Mesh_{mesh.Id}");
+
+            for (int i = 0; i < mesh.Indices.Count; i+=3)
+            {
+                 var a = (ushort)(mesh.Indices[i].Position);
+                 var b = (ushort)(mesh.Indices[i].TextureCoordinate);
+                 var c = (ushort)(mesh.Indices[i].Normal);
+
+                var d = (ushort)(mesh.Indices[i+1].Position);
+                var e = (ushort)(mesh.Indices[i+1].TextureCoordinate);
+                var f = (ushort)(mesh.Indices[i+1].Normal);
+
+                var g = (ushort)(mesh.Indices[i + 2].Position);
+                var h = (ushort)(mesh.Indices[i + 2].TextureCoordinate);
+                var j = (ushort)(mesh.Indices[i + 3].Normal);
+
+                sb.Append("f " + a + @"/" + b + @"/" + c + " " + d + @"/" + e + @"/" + f + " " + g + @"/" + h + @"/" + j + "\r\n");
+            }
+            //foreach (var wavefrontVertex in mesh.Indices)
+            //{
+            //    var a = (ushort)(wavefrontVertex.Position);
+            //    var b = (ushort)(wavefrontVertex.TextureCoordinate);
+            //    var c = (ushort)(wavefrontVertex.Normal);
+
+            //    // experiment with this
+            //    // sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+            //    sb.Append("f " + a + @"/" + b + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+
+            //}
+
+            return sb.ToString();
+        }
+
+        private void BuildFaces(List<Mesh> meshes, StringBuilder sb, string materialName = "lambert3SG")
         {
             int currentIndexCount = 0;
 
             foreach (var mesh in meshes)
             {
                 currentIndexCount++;
-
-                // TODO this does not spit out the faces the same as the exporter from Maya does
-                // g Mesh_124163:default1
-                // usemtl initialShadingGroup
-                sb.AppendLine($"g Mesh_{mesh.Id}:Mesh_{mesh.Id}");
-                sb.AppendLine($"usemtl Mesh_{mesh.Id}");
+                sb.AppendLine("s off"); // smoothing groups off
+                sb.AppendLine($"g Mesh_{mesh.Id}");
+                sb.AppendLine($"usemtl {materialName}");
 
                 foreach (var wavefrontVertex in mesh.Indices)
                 {
@@ -243,14 +279,13 @@
                 }
             }
         }
-        
-        private void SaveTextures(Mesh mesh, string meshName)
+
+        private void SaveTextures(Mesh mesh, string meshName, string materialName = "lambert3SG")
         {
             if (mesh.Textures.Any())
             {
                 for (var i = 0; i < mesh.Textures.Count; i++)
                 {
-                    // Debug.Assert(mesh.Textures.Count == 1);
                     var texture = mesh.Textures[i];
                     var asset = this.texturesArchive[texture.TextureId];
 
@@ -261,7 +296,7 @@
                         bitmap.Save(textureDirectory, ImageFormat.Png);
 
                         // TODO figure this shit out right here
-                        var usmtl = string.Format(UseMaterial, $"Mesh_{mesh.Id}");
+                        var usmtl = string.Format(UseMaterial, "lambert3SG");
                         if (this.indexMaterialDictionary[meshName] != string.Empty)
                         {
                             // we're on more than one texture here ... shit

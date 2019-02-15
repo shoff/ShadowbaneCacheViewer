@@ -16,17 +16,8 @@
         [JsonIgnore]
         public ArraySegment<byte> Item1 { get; set; }
 
-        public string Item1AsString => Item1.ToHexString(" ");
-
         [JsonIgnore]
         public ArraySegment<byte> Item2 { get; set; }
-
-        public string Item2AsString => Item2.ToHexString(" ");
-
-        [JsonIgnore]
-        public ArraySegment<byte> Item3 { get; set; }
-
-        public string Item3AsString => Item3.ToHexString(" ");
 
         public long BuildTime { get; set; }
 

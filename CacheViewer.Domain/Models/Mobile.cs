@@ -8,11 +8,14 @@
     using Data;
     using Exportable;
     using Extensions;
+    using Factories;
+    using Geometry;
     using NLog;
 
     public class Mobile : AnimationObject
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly RenderInformationFactory renderInformationFactory = RenderInformationFactory.Instance;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Mobile" /> class.
@@ -30,126 +33,21 @@
             this.StatArray = new List<uint>();
         }
 
-        /// <summary>
-        ///     Gets or sets the is pet or rune.
-        /// </summary>
-        /// <value>
-        ///     The is pet or rune.
-        /// </value>
         public uint IsPetOrRune { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the object identifier.
-        /// </summary>
-        /// <value>
-        ///     The object identifier.
-        /// </value>
         public decimal ObjId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the size of the second name.
-        /// </summary>
-        /// <value>
-        ///     The size of the second name.
-        /// </value>
         public uint SecondNameSize { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the ai description.
-        /// </summary>
-        /// <value>
-        ///     The ai description.
-        /// </value>
         public string AiDescription { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the mob token.
-        /// </summary>
-        /// <value>
-        ///     The mob token.
-        /// </value>
         public uint MobToken { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the z offset.
-        /// </summary>
-        /// <value>
-        ///     The z offset.
-        /// </value>
         public float ZOffset { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the skills map.
-        /// </summary>
-        /// <value>
-        ///     The skills map.
-        /// </value>
         public Dictionary<string, List<uint>> SkillsMap { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the stat array.
-        /// </summary>
-        /// <value>
-        ///     The stat array.
-        /// </value>
         public List<uint> StatArray { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the gender.
-        /// </summary>
-        /// <value>
-        ///     The gender.
-        /// </value>
         public int Gender { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the training power bonus.
-        /// </summary>
-        /// <value>
-        ///     The training power bonus.
-        /// </value>
         public int TrainingPowerBonus { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the type of the rune.
-        /// </summary>
-        /// <value>
-        ///     The type of the rune.
-        /// </value>
         public int RuneType { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the rune category.
-        /// </summary>
-        /// <value>
-        ///     The rune category.
-        /// </value>
         public uint RuneCategory { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the rune stack rank.
-        /// </summary>
-        /// <value>
-        ///     The rune stack rank.
-        /// </value>
         public int RuneStackRank { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the rune cost.
-        /// </summary>
-        /// <value>
-        ///     The rune cost.
-        /// </value>
         public int RuneCost { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the number of skills required.
-        /// </summary>
-        /// <value>
-        ///     The number of skills required.
-        /// </value>
         public int NumberOfSkillsRequired { get; set; }
-
         /// <summary>
         ///     Gets or sets the level required.
         /// </summary>
@@ -157,126 +55,21 @@
         ///     The level required.
         /// </value>
         public int LevelRequired { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the power identifier.
-        /// </summary>
-        /// <value>
-        ///     The power identifier.
-        /// </value>
         public int PowerId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the exit message.
-        /// </summary>
-        /// <value>
-        ///     The exit message.
-        /// </value>
         public string ExitMessage { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the size of the name.
-        /// </summary>
-        /// <value>
-        ///     The size of the name.
-        /// </value>
         public int NameSize { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the pet name count.
-        /// </summary>
-        /// <value>
-        ///     The pet name count.
-        /// </value>
         public int PetNameCount { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the prohibits race toggle.
-        /// </summary>
-        /// <value>
-        ///     The prohibits race toggle.
-        /// </value>
         public byte ProhibitsRaceToggle { get; set; }
-
-        /// <summary>
-        ///     Gets or sets some kind of type hash.
-        /// </summary>
-        /// <value>
-        ///     Some kind of type hash.
-        /// </value>
         public uint SomeKindOfTypeHash { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the required gender.
-        /// </summary>
-        /// <value>
-        ///     The required gender.
-        /// </value>
         public int RequiredGender { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the minimum required level.
-        /// </summary>
-        /// <value>
-        ///     The minimum required level.
-        /// </value>
         public int MinRequiredLevel { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the prohibits disc toggle.
-        /// </summary>
-        /// <value>
-        ///     The prohibits disc toggle.
-        /// </value>
         public byte ProhibitsDiscToggle { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the prohibits class toggle.
-        /// </summary>
-        /// <value>
-        ///     The prohibits class toggle.
-        /// </value>
         public byte ProhibitsClassToggle { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the four int array.
-        /// </summary>
-        /// <value>
-        ///     The four int array.
-        /// </value>
         public int[] FourIntArray { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the four thousand int.
-        /// </summary>
-        /// <value>
-        ///     The four thousand int.
-        /// </value>
         public int FourThousandInt { get; set; }
-
-        /// <summary>
-        ///     Gets or sets something with pets.
-        /// </summary>
-        /// <value>
-        ///     Something with pets.
-        /// </value>
         public int SomethingWithPets { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the wolfpack create date.
-        /// </summary>
-        /// <value>
-        ///     The wolfpack create date.
-        /// </value>
         public DateTime WolfpackCreateDate { get; set; }
 
-        /// <summary>
-        ///     Parses the specified data.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
-        /// <exception cref="IOException">An I/O error occurs. </exception>
-        // ReSharper disable once FunctionComplexityOverflow
         public override void Parse()
         {
             this.ObjId = this.CacheIndex.Identity;
@@ -321,11 +114,8 @@
                 this.RuneCategory = reader.ReadUInt32(); // Rune Icon
 
                 this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
-
                 this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
-
                 var u11 = reader.ReadUInt32();
-
                 this.MobToken = reader.ReadUInt32();
                 /*
                     if(mobToken == 612015249){
@@ -420,6 +210,76 @@
                     var alsoName = reader.ReadAsciiString(this.SecondNameSize);
                 }
 
+                //StructureValidationResult validationResult = null;
+                MobileRenderFinder finder = null;
+
+                while (reader.CanRead(20) && this.RenderIds.Count == 0)
+                {
+                    finder = this.GetFinder(reader);
+
+                    if (finder.IsValid)
+                    {
+                        this.RenderIds.Add(finder.RenderId);
+
+                        reader.BaseStream.Position -= 28;
+                        this.RenderCount = reader.ReadInt32();
+                        reader.BaseStream.Position += 24;
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = (finder.InitialOffset + 1);
+                    }
+                }
+
+                while (reader.CanRead(20) && finder?.NullTerminator == 0)
+                {
+                    finder = GetFinder(reader);
+                    if (finder.IsValid)
+                    {
+                        this.RenderIds.Add(finder.RenderId);
+                    }
+                }
+
+                // see  if there is a counter to another group of ids
+                if (finder?.NullTerminator > 0)
+                {
+                    for (int i = 0; i < finder?.NullTerminator; i++)
+                    {
+                        if (reader.CanRead(8))
+                        {
+                            reader.ReadInt32();
+
+                            var id = reader.ReadInt32();
+                            if (this.renderInformationFactory.IsValidRenderId(id))
+                            {
+                                this.RenderIds.Add(id);
+                            }
+                        }
+                    }
+                }
+
+                // another counter?
+                int renderCounter = 0;
+                if (reader.CanRead(4))
+                {
+                    renderCounter = reader.ReadInt32();
+                }
+
+                for (int i = 0; i < renderCounter; i++)
+                {
+                    if (reader.CanRead(8))
+                    {
+                        reader.ReadInt32();
+
+                        var id = reader.ReadInt32();
+                        if (this.renderInformationFactory.IsValidRenderId(id))
+                        {
+                            this.RenderIds.Add(id);
+                        }
+                    }
+                }
+
+                #region old shit
                 //reader.ReadUInt32(); //All them Pets = 34
                 //reader.ReadUInt32(); //All 0s
                 //reader.ReadUInt32(); //All them Pets = 231
@@ -848,7 +708,61 @@
                 //+ "(" + i + ")" + "(" + k + ")" 
 
                 //System.out.println(counter2 + "/" + counter3);
+                #endregion
             }
         }
+
+        
+
+        public MobileRenderFinder GetFinder(BinaryReader reader)
+        {
+            var finder = new MobileRenderFinder
+            {
+                InitialOffset = reader.BaseStream.Position,
+                RenderId = reader.ReadInt32(),
+                Identity = reader.ReadToVector3(),
+                NullTerminator = reader.ReadUInt32(),
+                IsValid = true
+            };
+
+            // TODO verify that these should be the same for all mobs
+            if (!this.renderInformationFactory.IsValidRenderId(finder.RenderId))
+            {
+                finder.IsValid = false;
+                return finder;
+            }
+
+            if (finder.Identity != MobileRenderFinder.V1)
+            {
+                finder.IsValid = false;
+                return finder;
+            }
+
+            return finder;
+        }
+
+        public void ParseAndAssemble(ArraySegment<byte> assetItem1)
+        {
+            this.Parse();
+            foreach (var render in this.RenderIds)
+            {
+                // TODO this doesn't handle duplicate ids
+                var renderInformation = this.renderInformationFactory.Create(render, 0, true);
+                this.Renders.Add(renderInformation);
+            }
+        }
+    }
+
+    public class MobileRenderFinder
+    {
+        public static readonly Vector3 V1 = new Vector3(1, 1, 1);
+        // size of 20
+
+        // pattern renderId float 1, float 1, float 1 null
+        public long InitialOffset { get; set; }
+        public int RenderId { get; set; }  // 4
+        public Vector3 Identity { get; set; } // 12
+        public uint NullTerminator { get; set; } // 4
+        public bool IsValid { get; set; }
     }
 }

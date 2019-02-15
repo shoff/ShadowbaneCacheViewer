@@ -30,6 +30,13 @@
             }
         }
 
+        [Fact]
+        public void Elven_Mercantile_Roof_Render_Object_Is_Correctly_Parsed()
+        {
+            var render = this.renderInformationFactory.Create(424503, 0, true);
+            
+        }
+
         [Fact(Skip = "Long running")]
         public void Figure_Out_First_Twelve_Bytes()
         {
@@ -107,14 +114,14 @@
         }
 
         [Fact]
-        public void Facting_Type_4_12017()
+        public void Testing_Type_4_12017()
         {
             var render = this.renderInformationFactory.Create(12017, 0, true);
             Assert.False(render.HasTexture);
         }
 
         [Fact]
-        public void Facting_Type_4_3026()
+        public void Testing_Type_4_3026()
         {
             var render = this.renderInformationFactory.Create(3026, 0, true);
             Assert.False(render.HasTexture);
@@ -123,7 +130,7 @@
         }
 
         [Fact]
-        public void Facting_Type_4_3010()
+        public void Testing_Type_4_3010()
         {
             var render = this.renderInformationFactory.Create(3010, 0, true);
             Assert.False(render.HasTexture);
@@ -132,7 +139,7 @@
         }
 
         [Fact]
-        public void Facting_A_Type_2()
+        public void Testing_A_Type_2()
         {
             var render = this.renderInformationFactory.Create(110109, 0, true);
             Assert.Equal(2, render.Textures.Count);
@@ -141,7 +148,7 @@
         }
 
         [Fact]
-        public void Facting_Type_1_600088()
+        public void Testing_Type_1_600088()
         {
             var render = this.renderInformationFactory.Create(600088, 0, true);
             Assert.Equal(0, render.RenderCount);
@@ -153,7 +160,7 @@
         }
         
         [Fact]
-        public void Facting_Type_1_42005()
+        public void Testing_Type_1_42005()
         {
             var render = this.renderInformationFactory.Create(42005, 0, true);
             Assert.Equal(0, render.RenderCount);

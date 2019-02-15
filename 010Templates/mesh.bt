@@ -1,0 +1,73 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct testForNull {
+    uint isnull;    
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
+typedef struct {
+    byte garb[34];
+} garb;
+
+//----------------------------------------------
+
+// header
+int null1;
+time_t unixUpdatedTimeStamp;
+int unk3;
+time_t unixCreatedTimeStamp;
+int unk5;
+tVector3f min;
+tVector3f max;
+ushort null2;
+// /header
+
+int vertexCount;       
+tVector3f verts[vertexCount];
+
+int normalsCount;
+tVector3f normals[normalsCount];
+
+int textureCount;
+tVector2f textures[textureCount];
+
+// ushort indices[indiceCount];
+// experimenting
+
+int vertex2Count;
+tVector3f verts2[vertex2Count];
+
+int indiceCount;
+ushort indices[indiceCount];

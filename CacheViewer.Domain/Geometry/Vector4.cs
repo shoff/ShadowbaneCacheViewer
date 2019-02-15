@@ -358,60 +358,6 @@
             result.W = vector.W / scale.W;
         }
 
-        /// <summary>Calculate the component-wise minimum of two vectors</summary>
-        /// <param name="a">First operand</param>
-        /// <param name="b">Second operand</param>
-        /// <returns>The component-wise minimum</returns>
-        [Obsolete("Use ComponentMin() instead.")]
-        public static Vector4 Min(Vector4 a, Vector4 b)
-        {
-            a.X = (double)a.X < (double)b.X ? a.X : b.X;
-            a.Y = (double)a.Y < (double)b.Y ? a.Y : b.Y;
-            a.Z = (double)a.Z < (double)b.Z ? a.Z : b.Z;
-            a.W = (double)a.W < (double)b.W ? a.W : b.W;
-            return a;
-        }
-
-        /// <summary>Calculate the component-wise minimum of two vectors</summary>
-        /// <param name="a">First operand</param>
-        /// <param name="b">Second operand</param>
-        /// <param name="result">The component-wise minimum</param>
-        [Obsolete("Use ComponentMin() instead.")]
-        public static void Min(ref Vector4 a, ref Vector4 b, out Vector4 result)
-        {
-            result.X = (double)a.X < (double)b.X ? a.X : b.X;
-            result.Y = (double)a.Y < (double)b.Y ? a.Y : b.Y;
-            result.Z = (double)a.Z < (double)b.Z ? a.Z : b.Z;
-            result.W = (double)a.W < (double)b.W ? a.W : b.W;
-        }
-
-        /// <summary>Calculate the component-wise maximum of two vectors</summary>
-        /// <param name="a">First operand</param>
-        /// <param name="b">Second operand</param>
-        /// <returns>The component-wise maximum</returns>
-        [Obsolete("Use ComponentMax() instead.")]
-        public static Vector4 Max(Vector4 a, Vector4 b)
-        {
-            a.X = (double)a.X > (double)b.X ? a.X : b.X;
-            a.Y = (double)a.Y > (double)b.Y ? a.Y : b.Y;
-            a.Z = (double)a.Z > (double)b.Z ? a.Z : b.Z;
-            a.W = (double)a.W > (double)b.W ? a.W : b.W;
-            return a;
-        }
-
-        /// <summary>Calculate the component-wise maximum of two vectors</summary>
-        /// <param name="a">First operand</param>
-        /// <param name="b">Second operand</param>
-        /// <param name="result">The component-wise maximum</param>
-        [Obsolete("Use ComponentMax() instead.")]
-        public static void Max(ref Vector4 a, ref Vector4 b, out Vector4 result)
-        {
-            result.X = (double)a.X > (double)b.X ? a.X : b.X;
-            result.Y = (double)a.Y > (double)b.Y ? a.Y : b.Y;
-            result.Z = (double)a.Z > (double)b.Z ? a.Z : b.Z;
-            result.W = (double)a.W > (double)b.W ? a.W : b.W;
-        }
-
         /// <summary>
         /// Returns a vector created from the smallest of the corresponding components of the given vectors.
         /// </summary>
@@ -695,7 +641,7 @@
         public static Vector4 Transform(Vector4 vec, Matrix4 mat)
         {
             Vector4 result;
-            Vector4.Transform(ref vec, ref mat, out result);
+            Transform(ref vec, ref mat, out result);
             return result;
         }
 

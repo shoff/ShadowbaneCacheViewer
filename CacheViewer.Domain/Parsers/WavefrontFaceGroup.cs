@@ -35,25 +35,5 @@ namespace CacheViewer.Domain.Parsers
         /// </value>
         public List<WavefrontFace> Faces { get; set; }
 
-        /// <summary>
-        ///     Gets the triangle count.
-        /// </summary>
-        /// <value>
-        ///     The triangle count.
-        /// </value>
-        public int TriangleCount
-        {
-            get
-            {
-                var count = 0;
-
-                foreach (var face in this.Faces)
-                {
-                    count += face.TriangleCount;
-                }
-
-                return count;
-            }
-        }
     }
 }

@@ -199,9 +199,8 @@
                 await Task.Run(async () =>
                 {
                     var service = new StructureService();
-                    await service.SaveAllAsync(this.SelectedCacheObject.Name.Replace(" ", ""),
-                        this.SelectedCacheObject.Name,
-                        this.SelectedCacheObject.Flag, this.SaveTypeRadioButton1.Checked);
+                    await service.SaveAssembledModelAsync(this.SelectedCacheObject.Name.Replace(" ", ""),
+                        this.SelectedCacheObject, this.SaveTypeRadioButton1.Checked);
                 });
             }
             catch (Exception ex)

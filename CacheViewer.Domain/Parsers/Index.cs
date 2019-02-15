@@ -8,15 +8,15 @@ namespace CacheViewer.Domain.Parsers
     ///     it has an index for the position, texture coordinate and normal.
     ///     Each of those indices points to a location in a list of vectors.
     /// </remarks>
-    public class WavefrontVertex
+    public class Index
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="WavefrontVertex" /> struct.
+        /// Initializes a new instance of the <see cref="Index" /> struct.
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="textureCoordinate">The TextureCoordinate.</param>
         /// <param name="normal">The normal.</param>
-        public WavefrontVertex(int position, int textureCoordinate, int normal)
+        public Index(int position, int textureCoordinate, int normal)
         {
             this.Position = position;
             this.TextureCoordinate = textureCoordinate;

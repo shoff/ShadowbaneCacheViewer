@@ -83,6 +83,7 @@
     <Compile Include="Domain\Factories\RenderInformationFactoryTests.cs" />
     <Compile Include="Domain\Factories\TextureFactoryTests.cs" />
     <Compile Include="Domain\Models\InteractiveTests.cs" />
+    <Compile Include="Domain\Models\MobileTests.cs" />
     <Compile Include="Domain\Models\StructureTests.cs" />
     <Compile Include="Domain\Parsers\WavefrontReaderTests.cs" />
     <Compile Include="Domain\Prefabs\StructureServiceTests.cs" />
@@ -306,9 +307,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

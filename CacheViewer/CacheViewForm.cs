@@ -180,7 +180,7 @@ namespace CacheViewer
                 await Task.Run(async () =>
                 {
                     var service = new StructureService();
-                    await service.SaveAllAsync(item.Name.Replace(" ", ""), item.Name, item.Flag, this.SaveTypeRadioButton1.Checked);
+                    await service.SaveAssembledModelAsync(item.Name.Replace(" ", ""), item, this.SaveTypeRadioButton1.Checked);
                 });
                 this.ResetSaveButtons();
             }

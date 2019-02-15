@@ -94,7 +94,7 @@
                 // if they aren't dividable by 3 then something is borked.
                 if (mesh.NumberOfIndices > 0 && mesh.NumberOfIndices % 3 == 0)
                 {
-                    mesh.IndicesOffset = mesh.IndicesOffset;
+                    mesh.IndicesOffset = (ulong)reader.BaseStream.Position;
                     var dataLength = mesh.NumberOfIndices * 2;
 
                     if (reader.BaseStream.Position - dataLength < 0)
@@ -107,7 +107,40 @@
                         int position = reader.ReadUInt16();
                         int textureCoordinate = reader.ReadUInt16();
                         int normal = reader.ReadUInt16();
-                        mesh.Indices.Add(new WavefrontVertex(position, textureCoordinate, normal));
+                        mesh.Indices.Add(new Index(position, textureCoordinate, normal));
+                    }
+                }
+                else
+                {
+                    logger?.Warn($"{mesh.Id} has {mesh.NumberOfIndices} which are not divisible by 3");
+                    // experimenting  
+                    reader.BaseStream.Position += mesh.NumberOfIndices * 12; // i think in these cases they are a second skin?
+
+                    // try it again 
+                    mesh.NumberOfIndices = reader.ReadUInt32();
+
+                    // if they aren't dividable by 3 then something is borked.
+                    if (mesh.NumberOfIndices > 0 && mesh.NumberOfIndices % 3 == 0)
+                    {
+                        mesh.IndicesOffset = (ulong)reader.BaseStream.Position;
+                        var dataLength = mesh.NumberOfIndices * 2;
+
+                        if (reader.BaseStream.Position - dataLength < 0)
+                        {
+                            throw new OutOfDataException();
+                        }
+
+                        for (var i = 0; i < mesh.NumberOfIndices; i += 3)
+                        {
+                            int position = reader.ReadUInt16();
+                            int textureCoordinate = reader.ReadUInt16();
+                            int normal = reader.ReadUInt16();
+                            mesh.Indices.Add(new Index(position, textureCoordinate, normal));
+                        }
+                    }
+                    else
+                    {
+                        logger?.Error($"{mesh.Id} is unparsable, indeces and vert counts don't match.");
                     }
                 }
             }

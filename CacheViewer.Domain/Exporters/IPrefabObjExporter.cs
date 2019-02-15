@@ -6,8 +6,8 @@
 
     public interface IPrefabObjExporter
     {
-        Task CreatePrefabIndividualFiles(List<Mesh> meshModels, string modelName);
-        Task CreatePrefabAsync(List<Mesh> meshModels, string modelName);
+        Task CreateIndividualObjFiles(List<Mesh> meshModels, string modelName);
+        Task CreateSingleObjFile(List<Mesh> meshModels, string modelName);
         string ModelDirectory { get; set; }
     }
 }
