@@ -291,6 +291,12 @@
     <PackageReference Include="NLog">
       <Version>4.5.11</Version>
     </PackageReference>
+    <PackageReference Include="OpenTK">
+      <Version>3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="OpenTK.GLControl">
+      <Version>3.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

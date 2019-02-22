@@ -21,7 +21,7 @@
     public partial class SBTreeControl : UserControl
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
+        private StructureService structureService;
         public event EventHandler<ParseErrorEventArgs> OnParseError;
         public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage;
         public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected;
@@ -50,7 +50,6 @@
         private readonly List<TreeNode> unknownNodes = new List<TreeNode>();
         private readonly List<TreeNode> particleNodes = new List<TreeNode>();
 
-
         // Archives
         private readonly CacheObjectFactory cacheObjectFactory;
         private readonly RenderInformationFactory renderInformationFactory;
@@ -70,6 +69,7 @@
                 this.SaveButton.Enabled = false;
                 this.cacheObjectFactory = CacheObjectFactory.Instance;
                 this.renderInformationFactory = RenderInformationFactory.Instance;
+                this.structureService = new StructureService();
                 this.TotalCacheObject = this.cacheObjectFactory.Indexes.Count;
             }
 
@@ -241,7 +241,12 @@
             // against the other archives. I will give each "archive" portion for each 
             // cacheObject a listView that ties all the information together at once.
             var cacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-            this.parseObjectWorker.RunWorkerAsync(cacheObject);
+
+            // reparse it correctly
+
+            var co = this.cacheObjectFactory.CreateAndParse(cacheObject.CacheIndex, true);
+            this.OnCacheObjectSelected.Raise(this, new CacheObjectSelectedEventArgs(co));
+            // this.parseObjectWorker.RunWorkerAsync(cacheObject);
         }
 
         private async void ParseSelected(object sender, DoWorkEventArgs e)

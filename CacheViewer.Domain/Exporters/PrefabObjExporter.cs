@@ -116,7 +116,7 @@
             this.prefab.AppendLine(MayaObjHeaderFactory.Instance.Create(modelName));
             this.prefab.Append(UsesCentimeters); // TODO validate this flag
             this.prefab.AppendFormat(MaterialLib, modelName);
-            
+            ushort currentCount = 0;
             foreach (var mesh in meshModels)
             {
                 var vertexBuilder = new StringBuilder();
@@ -145,7 +145,8 @@
                     // vn
                     normalsBuilder.Append(this.BuildNormals(mesh));
 
-                    string faces = this.BuildFaces(mesh);
+                    string faces = this.BuildFaces(mesh, currentCount);
+                    currentCount += (ushort)mesh.VertexCount;
 
                     // combine them all
                     this.prefab.Append(vertexBuilder.ToString());
@@ -158,7 +159,7 @@
                     logger?.Error(e);
                 }
             }
-            
+
             using (var fs = new FileStream(this.ModelDirectory + "\\" + modelName + ".obj",
                     FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
@@ -220,40 +221,24 @@
             return sb.ToString();
         }
 
-        private string BuildFaces(Mesh mesh)
+        private string BuildFaces(Mesh mesh, ushort vertextCount)
         {
+            vertextCount = 0;
             var sb = new StringBuilder();
             sb.AppendLine("s off"); // smoothing groups off
             sb.AppendLine($"g Mesh_{mesh.Id}");
             sb.AppendLine($"usemtl Mesh_{mesh.Id}");
 
-            for (int i = 0; i < mesh.Indices.Count; i+=3)
+            foreach (var wavefrontVertex in mesh.Indices)
             {
-                 var a = (ushort)(mesh.Indices[i].Position);
-                 var b = (ushort)(mesh.Indices[i].TextureCoordinate);
-                 var c = (ushort)(mesh.Indices[i].Normal);
+                var a = (ushort)(wavefrontVertex.Position) + vertextCount;
+                var b = (ushort)(wavefrontVertex.TextureCoordinate) + vertextCount;
+                var c = (ushort)(wavefrontVertex.Normal) + vertextCount;
 
-                var d = (ushort)(mesh.Indices[i+1].Position);
-                var e = (ushort)(mesh.Indices[i+1].TextureCoordinate);
-                var f = (ushort)(mesh.Indices[i+1].Normal);
-
-                var g = (ushort)(mesh.Indices[i + 2].Position);
-                var h = (ushort)(mesh.Indices[i + 2].TextureCoordinate);
-                var j = (ushort)(mesh.Indices[i + 3].Normal);
-
-                sb.Append("f " + a + @"/" + b + @"/" + c + " " + d + @"/" + e + @"/" + f + " " + g + @"/" + h + @"/" + j + "\r\n");
+                // experiment with this
+                // sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+                sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
             }
-            //foreach (var wavefrontVertex in mesh.Indices)
-            //{
-            //    var a = (ushort)(wavefrontVertex.Position);
-            //    var b = (ushort)(wavefrontVertex.TextureCoordinate);
-            //    var c = (ushort)(wavefrontVertex.Normal);
-
-            //    // experiment with this
-            //    // sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
-            //    sb.Append("f " + a + @"/" + b + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
-
-            //}
 
             return sb.ToString();
         }

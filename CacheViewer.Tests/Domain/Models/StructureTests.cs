@@ -1,15 +1,28 @@
 ﻿namespace CacheViewer.Tests.Domain.Models
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using CacheViewer.Domain.Factories;
     using CacheViewer.Domain.Models;
+    using CacheViewer.Domain.Services.Prefabs;
     using Xunit;
 
     public class StructureTests
     {
-        // this breaks testing in isolation, but the alternative is to start passing this as an interface
-        // which would impact performance HUGELY so ...
         private readonly CacheObjectFactory cacheObjectFactory = CacheObjectFactory.Instance;
+        private readonly StructureService structureService;
+
+        public StructureTests()
+        {
+            this.structureService = new StructureService();
+        }
+
+        [Fact]
+        public async Task Elven_Tent_Positioned_Creates_Valid_Model()
+        {
+            var cacheObject = this.cacheObjectFactory.CreateAndParse(423400, true);
+            await this.structureService.SaveAssembledModelAsync($"Combined\\{cacheObject.Name}", cacheObject, true);
+        }
 
         [Fact]
         public void CacheId_973400_Should_Find_RenderId_907019()
