@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# Default severity for analyzer diagnostics with category 'Info Code Smell'
+dotnet_analyzer_diagnostic.category-Info Code Smell.severity = none
