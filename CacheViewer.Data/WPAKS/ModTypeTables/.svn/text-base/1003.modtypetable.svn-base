@@ -1,8 +1,0 @@
-#SUFFIX - LEATHER BOOTS (TIMBERLANDS)
-#MIN%	MAX%	TABLEID
-#1	33	727	#"Item Durability"	# DURABILITY +
-30	39	734	"Movement Speed"	# MOVE
-40	57	735	"Resist Crushing"	# RESIST CRUSHING
-58	79	736	"Resist Piercing"	# RESIST PIERCING
-80	100	737	"Resist Slashing"	# RESIST SLASHING
-

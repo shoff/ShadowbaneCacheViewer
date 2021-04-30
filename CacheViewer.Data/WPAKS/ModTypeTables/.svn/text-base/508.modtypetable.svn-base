@@ -1,7 +1,0 @@
-#SUFFIX - METAL ARMOR (DESERT)	
-#MIN%	MAX%	TABLEID	
-1	34	728	"Health"	# HEALTH +
-#34	67	727	#"Item Durability"	# DURABILITY +
-35	56	735	"Resist Crushing"	# RESIST CRUSHING
-57	78	736	"Resist Piercing"	# RESIST PIERCING
-79	100	737	"Resist Slashing"	# RESIST SLASHING

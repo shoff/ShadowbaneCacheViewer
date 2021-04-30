@@ -1,3 +1,0 @@
-# Newbie potion table (added to all mobs under a certain level)
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	100	120	Potions		0	0	0	0

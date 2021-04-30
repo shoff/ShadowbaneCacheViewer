@@ -1,9 +1,0 @@
-#SUFFIX - CENTAUR BOOTS (SWAMP)
-#MIN%	MAX%	TABLEID
-1	40	728	"Health"	# HEALTH +
-#25	40	727	#"Item Durability"	# DURABILITY +
-41	55	749	"Stamina"	# STAMINA +
-56	70	735	"Resist Crushing"	# RESIST CRUSHING
-71	85	736	"Resist Piercing"	# RESIST PIERCING
-86	100	737	"Resist Slashing"	# RESIST SLASHING
-

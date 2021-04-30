@@ -1,6 +1,0 @@
-#& "Skill: Benediction/Restoration"
-#PREFIX - SKILL (2)
-#MIN%	MAX%	ACTION	LEVEL	VALUE
-120	169	PRE-292	0	2	# benediction/restoration (5)
-170	219	PRE-293	0	3	# benediction/restoration (10)
-220	320	PRE-294	0	5	# benediction/restoration (15)

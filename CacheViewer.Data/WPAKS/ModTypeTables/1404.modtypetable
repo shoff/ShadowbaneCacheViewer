@@ -1,9 +1,0 @@
-#SUFFIX - METAL BOOTS (MAELSTROM)	
-#MIN%	MAX%	TABLEID	
-1	20	728	"Health"	# HEALTH +
-#21	40	727	#"Item Durability"	# DURABILITY +
-41	60	749	"Stamina"	# STAMINA +
-61	80	734	"Movement Speed"	# MOVE
-81	87	735	"Resist Crushing"	# RESIST CRUSHING
-88	93	736	"Resist Piercing"	# RESIST PIERCING
-94	100	737	"Resist Slashing"	# RESIST SLASHING

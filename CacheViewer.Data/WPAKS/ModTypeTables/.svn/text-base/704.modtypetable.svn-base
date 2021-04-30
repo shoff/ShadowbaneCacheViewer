@@ -1,8 +1,0 @@
-#SUFFIX - METAL BOOTS (GRASSLANDS)	
-#MIN%	MAX%	TABLEID	
-1	25	734	"Movement Speed"	# MOVE
-26	49	728	"Health"	# HEALTH +
-#51	75	727	#"Item Durability"	# DURABILITY +
-50	66	735	"Resist Crushing"	# RESIST CRUSHING
-67	83	736	"Resist Piercing"	# RESIST PIERCING
-84	100	737	"Resist Slashing"	# RESIST SLASHING

@@ -1,7 +1,0 @@
-# Wastelands Treasure Table
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	40	267	FavorOfferings	0	0	0	0
-41	80	146	WastelandResources	0	0	0	0
-81	90	134	Runestones	0	0	0	0
-91	98	257	NPCDeeds	0	0	0	0
-99	100	126	GlassWeapons	0	0	0	0

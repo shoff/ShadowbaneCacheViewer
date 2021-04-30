@@ -1,9 +1,0 @@
-#SUFFIX - WOODEN SHIELDS (JUNGLE)	
-#MIN%	MAX%	TABLEID	
-#1	20	727	#"Item Durability"	# DURABILITY +
-1	30	728	"Health"	# HEALTH +
-31	43	744	"Resist Lightning"	# RESIST LIGHTNING
-44	56	747	"Resist Poison"	# RESIST POISON
-57	59	774	"Resist Holy"	# RESIST HOLY
-60	80	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
-81	100	753	"Block Chance"	# BLOCK CHANCE

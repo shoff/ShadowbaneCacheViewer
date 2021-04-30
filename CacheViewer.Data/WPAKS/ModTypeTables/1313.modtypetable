@@ -1,5 +1,0 @@
-#SUFFIX - METAL SHIELDS (WORLD)	
-#MIN%	MAX%	TABLEID	
-#1	33	727	#"Item Durability"	# DURABILITY +
-1	50	724	"Piercing Damage Shield"	# DAMAGE SHIELD - PIERCING
-51	100	753	"Block Chance"	# BLOCK CHANCE

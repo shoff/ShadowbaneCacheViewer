@@ -1,5 +1,0 @@
-# Cloth armor gambling treasure table							
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	96	3100	Crap	0	0	0	0
-97	98	3101	EnchantableJackpotHelm	0	202	0	1002
-99	100	3103	Jackpot	0	0	0	0

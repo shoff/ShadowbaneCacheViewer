@@ -1,9 +1,0 @@
-#PREFIX - BOWS
-#MIN%	MAX%	TABLEID	
-1	14	200	"Attack and Armor Pierce"	# ATT & ARMOR PIERCE
-15	29	202	"Attack and Item Durability"	# ATT & DURABILITY
-30	43	203	"Attack and Weapon Speed"	# ATT & WEAPON SPEED
-44	57	204	"Attack Buff"	# ATT +
-58	71	212	"Damage Buff"	# DAM +
-#72	86	239	#"Item Value"	# VALUE
-72	100	214	"Elemental Damage Procs"	# ELEMENTAL

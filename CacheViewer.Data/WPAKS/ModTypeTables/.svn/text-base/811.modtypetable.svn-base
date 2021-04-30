@@ -1,9 +1,0 @@
-#SUFFIX - LUTES (JUNGLE)	
-#MIN%	MAX%	TABLEID	
-1	25	729	"Intelligence"	# INT +
-26	50	731	"Mana"	# MANA +
-51	75	764	"Skill: Bardsong"	# SKILL
-76	86	744	"Resist Lightning"	# RESIST LIGHTNING
-87	97	747	"Resist Poison"	# RESIST POISON
-98	100	774	"Resist Holy"	# RESIST HOLY
-

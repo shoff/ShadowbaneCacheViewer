@@ -148,7 +148,6 @@ csx/
 AppPackages/
 
 # Others
-*.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -190,9 +189,6 @@ Temporary Items
 .apdisk
 *.dll
 *.pdb
-CacheViewer.Domain/bin/Debug/CacheViewer.Domain.dll.config
-CacheViewer.Domain/bin/Debug/ArraySegments.xml
-CacheViewer.Domain/bin/Debug/EntityFramework.SqlServer.xml
-/CacheViewer.Domain/bin/x86/Debug
 /.vs
 /Exports
+cache/*

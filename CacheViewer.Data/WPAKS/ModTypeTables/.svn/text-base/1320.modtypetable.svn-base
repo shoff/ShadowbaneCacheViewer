@@ -1,7 +1,0 @@
-#SUFFIX - CENTAUR BOOTS (WORLD)
-#MIN%	MAX%	TABLEID
-#1	39	727	#"Item Durability"	# DURABILITY +
-1	33	735	"Resist Crushing"	# RESIST CRUSHING
-34	66	736	"Resist Piercing"	# RESIST PIERCING
-67	100	737	"Resist Slashing"	# RESIST SLASHING
-

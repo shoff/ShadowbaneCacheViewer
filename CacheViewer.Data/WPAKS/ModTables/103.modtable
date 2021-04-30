@@ -1,6 +1,0 @@
-#PREFIX - ELEMENTAL DAMAGE
-#MIN%	MAX%	ACTION	LEVEL	VALUE
-1	75	Freezing	0	2
-76	150	Burning	0	2
-151	225	Sparking	0	2
-226	300	Overwhelming	0	2

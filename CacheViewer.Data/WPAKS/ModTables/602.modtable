@@ -1,5 +1,0 @@
-#SUFFIX - DAMAGE SHIELD									
-#MIN%	MAX%	ACTION	LEVEL	VALUE
-1	100	ofBrambles	0	2
-101	200	ofThorns	0	2
-201	300	ofSpikes	0	3

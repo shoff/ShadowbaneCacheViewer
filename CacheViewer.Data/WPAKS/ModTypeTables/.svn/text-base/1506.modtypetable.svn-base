@@ -1,8 +1,0 @@
-#SUFFIX - METAL GLOVES (OBLIVION)	
-#MIN%	MAX%	TABLEID	
-1	30	728	"Health"	# HEALTH +
-31	60	750	"Strength"	# STR +
-#61	80	727	#"Item Durability"	# DURABILITY +
-81	87	735	"Resist Crushing"	# RESIST CRUSHING
-88	93	736	"Resist Piercing"	# RESIST PIERCING
-94	100	737	"Resist Slashing"	# RESIST SLASHING

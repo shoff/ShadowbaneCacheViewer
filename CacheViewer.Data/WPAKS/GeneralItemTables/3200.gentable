@@ -1,5 +1,0 @@
-# Rune gambling					
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE
-1	96	3200	Crap	0	0
-97	98	3201	JackpotStatRunes	0	0
-99	100	3202	JackpotDisciplines	0	0

@@ -1,7 +1,0 @@
-# Ancient Forest Treasure Tables
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	40	268	FavorOfferings	0	0	0	0
-41	80	140	AncientForestResources	0	0	0	0
-81	90	132	IntRunestones	0	0	0	0
-91	98	258	NPCDeeds	0	0	0	0
-99	100	126	GlassWeapons	0	0	0	0

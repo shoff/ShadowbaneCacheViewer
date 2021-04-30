@@ -1,8 +1,0 @@
-#SUFFIX - METAL BOOTS (JUNGLE)	
-#MIN%	MAX%	TABLEID	
-1	30	728	"Health"	# HEALTH +
-#26	50	727	#"Item Durability"	# DURABILITY +
-31	55	734	"Movement Speed"	# MOVE
-56	70	735	"Resist Crushing"	# RESIST CRUSHING
-71	85	736	"Resist Piercing"	# RESIST PIERCING
-86	100	737	"Resist Slashing"	# RESIST SLASHING

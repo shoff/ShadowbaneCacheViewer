@@ -1,8 +1,0 @@
-#MAELSTROM Treasure Tables
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	10	160	RealmCharters	0	0	0	0
-11	20	259	NPCDeeds	0	0	0	0
-21	30	124	Runestones	0	0	0	0
-31	66	269	FavorOfferings	0	0	0	0
-67	98	150	MaelstromResources	0	0	0	0
-99	100	126	GlassWeapons	0	0	0	0

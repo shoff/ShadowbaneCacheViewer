@@ -1,8 +1,0 @@
-#SUFFIX - SCEPTRES (WORLD)	
-#MIN%	MAX%	TABLEID	
-#1	20	727	#"Item Durability"	# DURABILITY +
-21	40	732	"Maximum Damage Buff"	# MAXDAM +
-41	60	733	"Minimum Damage Buff"	# MINDAM+
-61	80	751	"Weapon Speed"	# WEAPON SPEED
-81	98	700	"Buff All Stats"	# ALL STAT +
-99	100	782	Holy Damage Proc	# DAMAGE - HOLY

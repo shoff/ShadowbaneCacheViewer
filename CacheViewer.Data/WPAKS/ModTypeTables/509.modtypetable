@@ -1,9 +1,0 @@
-#SUFFIX - BOWS (DESERT)	
-#MIN%	MAX%	TABLEID	
-1	25	732	"Maximum Damage Buff"	# MAXDAM +
-26	50	733	"Minimum Damage Buff"	# MINDAM+
-51	75	701	"Armor Piercing"	# ARMOR PIERCE
-76	81	708	"Fire Damage Proc"	# DAMAGE - FIRE
-82	88	712	"Poison Damage Proc"	# DAMAGE - POISON
-89	94	713	"Stamina Damage Proc"	# DAMAGE - STAMINA
-95	100	766	"Bleeding Damage Proc"	# DAMAGE - BLEEDING

@@ -1,9 +1,0 @@
-#SUFFIX - METAL GLOVES (MOUNTAINS)	
-#MIN%	MAX%	TABLEID	
-1	20	728	"Health"	# HEALTH +
-#21	40	727	#"Item Durability"	# DURABILITY +
-41	60	726	"Dexterity"	# DEX +
-61	80	750	"Strength"	# STR +
-81	87	735	"Resist Crushing"	# RESIST CRUSHING
-88	93	736	"Resist Piercing"	# RESIST PIERCING
-94	100	737	"Resist Slashing"	# RESIST SLASHING

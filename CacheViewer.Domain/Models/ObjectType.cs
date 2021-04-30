@@ -1,4 +1,0 @@
-﻿namespace CacheViewer.Domain.Models
-{
-
-}

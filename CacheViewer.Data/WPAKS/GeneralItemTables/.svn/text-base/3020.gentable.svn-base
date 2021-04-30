@@ -1,5 +1,0 @@
-# Crossbow gambling treasure table							
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	97	3020	Crap	0	0	0	0
-98	98	3021	EnchantableJackpot	0	207	0	1009
-99	100	3022	Jackpot	0	0	0	0

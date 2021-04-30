@@ -1,8 +1,0 @@
-#SUFFIX - METAL BOOTS (TIMBERLANDS)
-#MIN%	MAX%	TABLEID
-#1	33	727	#"Item Durability"	# DURABILITY +
-30	49	734	"Movement Speed"	# MOVE
-50	66	735	"Resist Crushing"	# RESIST CRUSHING
-67	82	736	"Resist Piercing"	# RESIST PIERCING
-83	100	737	"Resist Slashing"	# RESIST SLASHING
-

@@ -1,5 +1,0 @@
-#SUFFIX - ARMOR PIERCING
-#MIN%	MAX%	ACTION	LEVEL	VALUE
-1	100	ofBashing	0	3
-101	200	ofPunturing	0	6
-201	300	ofPiercing	0	12

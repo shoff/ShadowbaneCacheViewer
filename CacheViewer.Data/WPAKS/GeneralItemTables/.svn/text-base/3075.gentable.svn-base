@@ -1,5 +1,0 @@
-# UA gambling treasure table							
-#MIN%	MAX%	TABLEID	ITEMTYPE	PMOD	PMODTABLE	SMOD	SMODTABLE
-1	97	3075	Crap	0	0	0	0
-98	98	3076	EnchantableJackpot	0	215	0	1017
-99	100	3077	Jackpot	0	0	0	0

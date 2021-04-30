@@ -1,7 +1,0 @@
-#SUFFIX - CLOTH ARMOR (WASTELANDS)	
-#MIN%	MAX%	TABLEID	
-1	33	728	"Health"	# HEALTH +
-#34	67	727	#"Item Durability"	# DURABILITY +
-34	55	735	"Resist Crushing"	# RESIST CRUSHING
-56	77	736	"Resist Piercing"	# RESIST PIERCING
-78	100	737	"Resist Slashing"	# RESIST SLASHING
