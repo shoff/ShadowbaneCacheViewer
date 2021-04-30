@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Geometry", "src\Shadowbane.Geometry\Shadowbane.Geometry.csproj", "{4DD87CF6-7899-447C-8BAA-65E701FF763E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D2C93FC4-5A00-43D0-987B-91BB1CEB6F58} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
+		{4DD87CF6-7899-447C-8BAA-65E701FF763E} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57BF6F85-F66E-4A85-A73B-E0851F0E3973}
