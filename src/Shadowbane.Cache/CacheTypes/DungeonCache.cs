@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal sealed class DungeonCache : CacheArchive
+    public sealed class DungeonCache : CacheArchive
     {
         public DungeonCache()
             : base("Dungeon.cache".AsMemory())

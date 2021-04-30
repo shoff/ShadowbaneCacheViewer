@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal sealed class PaletteCache : CacheArchive
+    public sealed class PaletteCache : CacheArchive
     {
         public PaletteCache()
             : base("Palette.cache".AsMemory())

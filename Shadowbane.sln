@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Geometry", "src\Shadowbane.Geometry\Shadowbane.Geometry.csproj", "{4DD87CF6-7899-447C-8BAA-65E701FF763E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Exporter.Wavefront", "src\Shadowbane.Exporter.Wavefront\Shadowbane.Exporter.Wavefront.csproj", "{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader", "src\Shadowbane.Cache.Loader\Shadowbane.Cache.Loader.csproj", "{298732B8-C1D3-40EA-9129-C10B9A07E53B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader.Tests", "tests\Shadowbane.Cache.Loader.Tests\Shadowbane.Cache.Loader.Tests.csproj", "{CBB89740-477F-4827-90CD-513C87D27ADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +42,18 @@ Global
 		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{298732B8-C1D3-40EA-9129-C10B9A07E53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{298732B8-C1D3-40EA-9129-C10B9A07E53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{298732B8-C1D3-40EA-9129-C10B9A07E53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{298732B8-C1D3-40EA-9129-C10B9A07E53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB89740-477F-4827-90CD-513C87D27ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB89740-477F-4827-90CD-513C87D27ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB89740-477F-4827-90CD-513C87D27ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB89740-477F-4827-90CD-513C87D27ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +62,9 @@ Global
 		{D2C93FC4-5A00-43D0-987B-91BB1CEB6F58} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 		{4DD87CF6-7899-447C-8BAA-65E701FF763E} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
+		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
+		{298732B8-C1D3-40EA-9129-C10B9A07E53B} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
+		{CBB89740-477F-4827-90CD-513C87D27ADD} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57BF6F85-F66E-4A85-A73B-E0851F0E3973}

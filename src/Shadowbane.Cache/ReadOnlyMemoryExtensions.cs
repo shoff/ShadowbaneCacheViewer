@@ -16,6 +16,12 @@
             return reader;
         }
 
+        public static BinaryReader CreateBinaryReaderUtf8(this ReadOnlyMemory<byte> segment)
+        {
+            var reader = new BinaryReader(segment.AsStream(), Encoding.UTF8);
+            return reader;
+        }
+
         public static ReadOnlyMemory<byte> Compress(this ReadOnlyMemory<byte> memory)
         {
             var deflator = new Deflater();

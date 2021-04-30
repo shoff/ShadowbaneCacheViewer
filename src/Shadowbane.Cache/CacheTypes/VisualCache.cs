@@ -2,9 +2,8 @@
 {
     using System;
 
-    internal sealed class VisualCache : CacheArchive
+    public sealed class VisualCache : CacheArchive
     {
-
         public VisualCache()
             : base("Visual.cache".AsMemory())
         {

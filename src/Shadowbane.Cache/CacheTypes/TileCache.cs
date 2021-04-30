@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal sealed class TileCache : CacheArchive
+    public sealed class TileCache : CacheArchive
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Tile" /> class.

@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal sealed class TestCache : CacheArchive
+    public sealed class TestCache : CacheArchive
     {
 
         public TestCache()
