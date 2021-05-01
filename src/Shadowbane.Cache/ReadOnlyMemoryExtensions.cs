@@ -3,6 +3,7 @@
     using System;
     using System.Buffers;
     using System.IO;
+    using System.Numerics;
     using System.Text;
     using ICSharpCode.SharpZipLib.Zip.Compression;
     using Microsoft.Toolkit.HighPerformance;
@@ -20,6 +21,27 @@
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF8);
             return reader;
+        }
+        public static Vector3 ReadToVector3(this BinaryReader reader)
+        {
+            return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+
+        public static string ReadAsciiString(this BinaryReader reader, uint counter)
+        {
+            var byteArray = reader.ReadBytes((int)counter * 2);
+
+            var enc = new ASCIIEncoding();
+
+            var tvTemp = enc.GetString(byteArray);
+
+            //remove all the \0 and trim the string
+            return tvTemp.Replace("\0", "").Trim();
+        }
+
+        public static bool CanRead(this BinaryReader reader, uint bytesToRead)
+        {
+            return reader.BaseStream.Position + bytesToRead <= reader.BaseStream.Length;
         }
 
         public static ReadOnlyMemory<byte> Compress(this ReadOnlyMemory<byte> memory)

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.VisualBasic.CompilerServices;
 
     public interface ICacheObject : IComparable<ICacheObject>
     {
@@ -10,11 +9,11 @@
         uint RenderId { get; }
         string Name { get; }
         ObjectType Flag { get; }
-        int CursorOffset { get; }
-        ArraySegment<byte> Data { get; }
-        int InnerOffset { get; }
-        int RenderCount { get; set; }
-        ICollection<int> RenderIds { get; set; }
+        uint CursorOffset { get; }
+        ReadOnlyMemory<byte> Data { get; }
+        uint InnerOffset { get; }
+        uint RenderCount { get; set; }
+        ICollection<uint> RenderIds { get; set; }
         ICollection<RenderInformation> Renders { get; set; }
         void Parse();
     }
