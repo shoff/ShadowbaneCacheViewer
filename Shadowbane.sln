@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0E58955A-2EDD-420C-884E-4497B81B3ACF}"
 EndProject
@@ -23,6 +26,37 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader", "src\Shadowbane.Cache.Loader\Shadowbane.Cache.Loader.csproj", "{298732B8-C1D3-40EA-9129-C10B9A07E53B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader.Tests", "tests\Shadowbane.Cache.Loader.Tests\Shadowbane.Cache.Loader.Tests.csproj", "{CBB89740-477F-4827-90CD-513C87D27ADD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cache", "cache", "{D63B8873-E57F-46E0-A68D-C377EF1455B0}"
+	ProjectSection(SolutionItems) = preProject
+		cache\CObjects.cache = cache\CObjects.cache
+		cache\CZone.cache = cache\CZone.cache
+		cache\Dungeon.cache = cache\Dungeon.cache
+		cache\Mesh.cache = cache\Mesh.cache
+		cache\Motion.cache = cache\Motion.cache
+		cache\Palette.cache = cache\Palette.cache
+		cache\Render.cache = cache\Render.cache
+		cache\Skeleton.cache = cache\Skeleton.cache
+		cache\Sound.cache = cache\Sound.cache
+		cache\TerrainAlpha.cache = cache\TerrainAlpha.cache
+		cache\Textures.cache = cache\Textures.cache
+		cache\Tile.cache = cache\Tile.cache
+		cache\Visual.cache = cache\Visual.cache
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "010_Templates", "010_Templates", "{8046E302-B509-4030-A4F3-6470A44C0D05}"
+	ProjectSection(SolutionItems) = preProject
+		010Templates\CacheObjects.bt = 010Templates\CacheObjects.bt
+		010Templates\Cacheobjects1.bt = 010Templates\Cacheobjects1.bt
+		010Templates\mesh.bt = 010Templates\mesh.bt
+		010Templates\RenderInfo1800.bt = 010Templates\RenderInfo1800.bt
+		010Templates\RenderInfo4025.bt = 010Templates\RenderInfo4025.bt
+		010Templates\RenderInfoWithJointName.bt = 010Templates\RenderInfoWithJointName.bt
+		010Templates\Skeleton.bt = 010Templates\Skeleton.bt
+		010Templates\type13.bt = 010Templates\type13.bt
+		010Templates\Type4.bt = 010Templates\Type4.bt
+		010Templates\Type9.bt = 010Templates\Type9.bt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
