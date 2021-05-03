@@ -5,7 +5,7 @@
     public sealed class TextureCache : CacheArchive
     {
         public TextureCache()
-            : base("Textures.cache".AsMemory())
+            : base("Textures.cache")
         {
         }
     }

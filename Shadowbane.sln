@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Geometry", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Exporter.Wavefront", "src\Shadowbane.Exporter.Wavefront\Shadowbane.Exporter.Wavefront.csproj", "{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader", "src\Shadowbane.Cache.Loader\Shadowbane.Cache.Loader.csproj", "{298732B8-C1D3-40EA-9129-C10B9A07E53B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.IO", "src\Shadowbane.Cache.Loader\Shadowbane.Cache.IO.csproj", "{298732B8-C1D3-40EA-9129-C10B9A07E53B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Loader.Tests", "tests\Shadowbane.Cache.Loader.Tests\Shadowbane.Cache.Loader.Tests.csproj", "{CBB89740-477F-4827-90CD-513C87D27ADD}"
 EndProject
@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cache", "cache", "{D63B8873
 		cache\Skeleton.cache = cache\Skeleton.cache
 		cache\Sound.cache = cache\Sound.cache
 		cache\TerrainAlpha.cache = cache\TerrainAlpha.cache
+		cache\test.cache = cache\test.cache
 		cache\Textures.cache = cache\Textures.cache
 		cache\Tile.cache = cache\Tile.cache
 		cache\Visual.cache = cache\Visual.cache

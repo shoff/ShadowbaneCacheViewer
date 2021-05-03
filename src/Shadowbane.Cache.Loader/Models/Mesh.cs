@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader.Models
+﻿namespace Shadowbane.Cache.IO.Models
 {
     using System;
     using System.Collections.Generic;
@@ -94,28 +94,28 @@
             this.meshSize = (size.X + size.Y + size.Z) / 3;
 
             // front face
-            Bounds[0] = max;                        // Top left
-            Bounds[1] = new Vector3(min.X, max.Y, max.Z); // Top right
-            Bounds[2] = new Vector3(min.X, min.Y, max.Z); // Bottom right
-            Bounds[3] = new Vector3(max.Z, min.Y, max.Z); // bottom left
+            this.Bounds[0] = max;                        // Top left
+            this.Bounds[1] = new Vector3(min.X, max.Y, max.Z); // Top right
+            this.Bounds[2] = new Vector3(min.X, min.Y, max.Z); // Bottom right
+            this.Bounds[3] = new Vector3(max.Z, min.Y, max.Z); // bottom left
 
             // right face
-            Bounds[4] = new Vector3(min.X, max.Y, max.Z); // top left
-            Bounds[5] = new Vector3(min.X, max.Y, min.Z); // top right
-            Bounds[6] = min;                        // bottm right
-            Bounds[7] = new Vector3(min.X, min.Y, max.Z); // bottom left
+            this.Bounds[4] = new Vector3(min.X, max.Y, max.Z); // top left
+            this.Bounds[5] = new Vector3(min.X, max.Y, min.Z); // top right
+            this.Bounds[6] = min;                        // bottm right
+            this.Bounds[7] = new Vector3(min.X, min.Y, max.Z); // bottom left
 
             // back face
-            Bounds[8] = new Vector3(min.X, max.Y, min.Z);     // Top left
-            Bounds[9] = new Vector3(max.X, max.Y, min.Z);     // top right
-            Bounds[10] = new Vector3(max.X, min.Y, min.Z);    // bottom right
-            Bounds[11] = min;                           // bottom left
+            this.Bounds[8] = new Vector3(min.X, max.Y, min.Z);     // Top left
+            this.Bounds[9] = new Vector3(max.X, max.Y, min.Z);     // top right
+            this.Bounds[10] = new Vector3(max.X, min.Y, min.Z);    // bottom right
+            this.Bounds[11] = min;                           // bottom left
 
             // left face
-            Bounds[12] = new Vector3(max.X, max.Y, min.Z);    // Top left
-            Bounds[13] = max;                           // Top right
-            Bounds[14] = new Vector3(max.X, min.Y, max.Z);    // bottom right
-            Bounds[15] = new Vector3(max.X, min.Y, min.Z);    // bottom left
+            this.Bounds[12] = new Vector3(max.X, max.Y, min.Z);    // Top left
+            this.Bounds[13] = max;                           // Top right
+            this.Bounds[14] = new Vector3(max.X, min.Y, max.Z);    // bottom right
+            this.Bounds[15] = new Vector3(max.X, min.Y, min.Z);    // bottom left
 
         }
 

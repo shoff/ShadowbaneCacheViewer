@@ -24,17 +24,5 @@
             Assert.Equal(expected, actual);
         }
 
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count_Loading_From_Mapped_File()
-        {
-            this.visualCache
-                .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-            var expected = 480;
-            var actual = this.visualCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
     }
 }

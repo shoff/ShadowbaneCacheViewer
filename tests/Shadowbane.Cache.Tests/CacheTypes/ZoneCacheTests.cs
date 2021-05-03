@@ -23,18 +23,5 @@
             var actual = this.zoneCache.IndexCount;
             Assert.Equal(expected, actual);
         }
-
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count_Loading_From_Mapped_File()
-        {
-            this.zoneCache
-                .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-            var expected = 861;
-            var actual = this.zoneCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
     }
 }

@@ -5,7 +5,7 @@
     public sealed class TerrainAlphaCache : CacheArchive
     {
         public TerrainAlphaCache()
-            : base("TerrainAlpha.cache".AsMemory())
+            : base("TerrainAlpha.cache")
         {
         }
     }

@@ -5,7 +5,7 @@
     public sealed class RenderCache : CacheArchive
     {
         public RenderCache()
-            : base("Render.cache".AsMemory())
+            : base("Render.cache")
         {
         }
 

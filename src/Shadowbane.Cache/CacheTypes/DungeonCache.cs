@@ -5,7 +5,7 @@
     public sealed class DungeonCache : CacheArchive
     {
         public DungeonCache()
-            : base("Dungeon.cache".AsMemory())
+            : base("Dungeon.cache")
         {
         }
     }

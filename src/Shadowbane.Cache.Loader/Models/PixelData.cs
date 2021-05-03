@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader.Models
+﻿namespace Shadowbane.Cache.IO.Models
 {
     public struct PixelData
     {

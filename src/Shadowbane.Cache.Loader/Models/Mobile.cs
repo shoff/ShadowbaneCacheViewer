@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader.Models
+﻿namespace Shadowbane.Cache.IO.Models
 {
     using System;
     using System.Collections.Generic;
@@ -48,10 +48,10 @@
 
         public override void Parse()
         {
-            this.ObjId = this.CacheIndex.Identity;
+            this.ObjId = this.CacheIndex.identity;
 
             this.FourIntArray = new int[4];
-            using var reader = Data.CreateBinaryReaderUtf32(0);
+            using var reader = this.Data.CreateBinaryReaderUtf32(0);
 
             // TNLC
             reader.ReadInt32();

@@ -5,7 +5,7 @@
     public sealed class SkeletonCache : CacheArchive
     {
         public SkeletonCache()
-            : base("Skeleton.cache".AsMemory())
+            : base("Skeleton.cache")
         {
         }
     }

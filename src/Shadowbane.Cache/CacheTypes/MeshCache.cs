@@ -5,7 +5,7 @@
     public class MeshCache : CacheArchive
     {
         public MeshCache()
-            : base("Mesh.cache".AsMemory())
+            : base("Mesh.cache")
         {
         }
     }

@@ -6,7 +6,7 @@
     {
 
         public TestCache()
-            : base("Unknown.cache".AsMemory())
+            : base("Test.cache")
         {
         }
     }

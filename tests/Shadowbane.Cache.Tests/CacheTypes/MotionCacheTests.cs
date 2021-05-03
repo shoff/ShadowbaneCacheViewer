@@ -24,17 +24,5 @@
             Assert.Equal(expected, actual);
         }
 
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count_Loading_From_Mapped_File()
-        {
-            this.motionCache
-                .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-            var expected = 1503;
-            var actual = this.motionCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
     }
 }

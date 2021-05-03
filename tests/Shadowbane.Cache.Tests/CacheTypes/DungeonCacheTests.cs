@@ -23,18 +23,5 @@
             var actual = this.dungeonCache.IndexCount;
             Assert.Equal(expected, actual);
         }
-
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count_Loading_From_Mapped_File()
-        {
-            this.dungeonCache
-                .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-            var expected = 0;
-            var actual = this.dungeonCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
     }
 }

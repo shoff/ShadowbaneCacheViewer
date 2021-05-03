@@ -1,13 +1,15 @@
 ﻿namespace Shadowbane.Cache
 {
+    using System.Runtime.InteropServices;
     using System.Text;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct CacheHeader
     {
         public uint indexCount;
         public uint dataOffset; // File offset to where the data chunks begin
         public uint fileSize;   // total size of the file
         public uint junk1;      // 0xFFFF ffff
-        public long indexOffset;
         
         public override string ToString()
         {

@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader.Models
+﻿namespace Shadowbane.Cache.IO.Models
 {
     using System;
     using System.Collections.Generic;
@@ -49,7 +49,7 @@
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"# RenderIdentity: {this.CacheIndex.Identity}");
+            sb.AppendLine($"# RenderIdentity: {this.CacheIndex.identity}");
             sb.AppendLine($"# MeshId: {this.MeshId.ToString(CultureInfo.InvariantCulture)}");
             sb.AppendLine($"# Joint name: {this.JointName ?? "Not a joint"}");
             sb.AppendLine($"# Notes: {this.Notes}");

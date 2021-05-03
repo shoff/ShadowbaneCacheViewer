@@ -7,12 +7,12 @@
     public sealed class IndexNotFoundException : ApplicationException
     {
 
-        public IndexNotFoundException(Type type, int indexId)
+        public IndexNotFoundException(Type type, uint indexId)
             : base($"{type.Name} could not find a CacheIndex for identity {indexId}")
         {
         }
 
-        public IndexNotFoundException(string name, int indexId)
+        public IndexNotFoundException(string name, uint indexId)
             : base($"{name} could not find a CacheIndex for identity {indexId}")
         {
         }

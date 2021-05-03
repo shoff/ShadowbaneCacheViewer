@@ -5,7 +5,7 @@
     public sealed class PaletteCache : CacheArchive
     {
         public PaletteCache()
-            : base("Palette.cache".AsMemory())
+            : base("Palette.cache")
         {
         }
     }

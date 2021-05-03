@@ -4,6 +4,6 @@
 
     public static class CacheLocation
     {
-        public static DirectoryInfo CacheFolder => new DirectoryInfo(@"C:\dev\Shadowbane\cache");
+        public static DirectoryInfo CacheFolder => new DirectoryInfo(@"C:\dev\ShadowbaneCacheViewer\cache");
     }
 }

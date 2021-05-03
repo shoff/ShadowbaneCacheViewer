@@ -24,17 +24,5 @@
             Assert.Equal(expected, actual);
         }
 
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count_Loading_From_Mapped_File()
-        {
-            this.terrainAlphaCache
-                .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-            var expected = 20912;
-            var actual = this.terrainAlphaCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
     }
 }

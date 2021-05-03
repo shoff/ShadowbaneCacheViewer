@@ -1,62 +1,74 @@
-﻿namespace Shadowbane.Cache.Loader
+﻿// ReSharper disable ConvertToAutoProperty
+#pragma warning disable IDE0032 // Use auto property
+
+namespace Shadowbane.Cache.IO
 {
     using CacheTypes;
 
     internal static class ArchiveLoader
     {
-        internal static MeshCache MeshArchive => 
+        private static readonly MeshCache meshArchive =
             (MeshCache)new MeshCache()
-            .LoadCacheHeader()
-            .LoadWithMemoryMappedFile();
-
-        internal static TextureCache TextureArchive =>
-            (TextureCache) new TextureCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static ObjectCache ObjectArchive =>
-            (ObjectCache) new ObjectCache()
+                .LoadIndexes();
+        private static readonly TextureCache textureArchive =
+            (TextureCache)new TextureCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static SoundCache SoundArchive =>
+                .LoadIndexes();
+        private static readonly ObjectCache objectArchive =
+            (ObjectCache)new ObjectCache()
+                .LoadCacheHeader()
+                .LoadIndexes();
+        private static readonly SoundCache soundArchive =
             (SoundCache)new SoundCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static SkeletonCache SkeletonArchive =>
+                .LoadIndexes();
+        private static readonly SkeletonCache skeletonArchive =
             (SkeletonCache)new SkeletonCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static ZoneCache ZoneArchive =>
+                .LoadIndexes();
+        private static readonly ZoneCache zoneArchive =
             (ZoneCache)new ZoneCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static VisualCache VisualArchive =>
+                .LoadIndexes();
+        private static readonly VisualCache visualArchive =
             (VisualCache)new VisualCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-
-        internal static PaletteCache PaletteArchive =>
+                .LoadIndexes();
+        private static readonly PaletteCache paletteArchive =
             (PaletteCache)new PaletteCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-        
-        internal static TileCache TileArchive =>
+                .LoadIndexes();
+        private static readonly TileCache tileArchive =
             (TileCache)new TileCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-        
-        internal static RenderCache RenderArchive =>
+                .LoadIndexes();
+        private static readonly RenderCache renderArchive =
             (RenderCache)new RenderCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
-        
-        internal static MotionCache MotionArchive =>
+                .LoadIndexes();
+
+        private static readonly MotionCache motionArchive =
             (MotionCache)new MotionCache()
                 .LoadCacheHeader()
-                .LoadWithMemoryMappedFile();
+                .LoadIndexes();
+        //private static readonly TestCache testArchive =
+        //    (TestCache)new TestCache()
+        //        .LoadCacheHeader()
+        //        .LoadWithMemoryMappedFile();
+
+        internal static MeshCache MeshArchive => meshArchive;
+        internal static TextureCache TextureArchive => textureArchive;
+        internal static ObjectCache ObjectArchive => objectArchive;
+        internal static SoundCache SoundArchive => soundArchive;
+        internal static SkeletonCache SkeletonArchive => skeletonArchive;
+        internal static ZoneCache ZoneArchive => zoneArchive;
+        internal static VisualCache VisualArchive => visualArchive;
+        internal static PaletteCache PaletteArchive => paletteArchive;
+        internal static TileCache TileArchive => tileArchive;
+        internal static RenderCache RenderArchive => renderArchive;
+        internal static MotionCache MotionArchive => motionArchive;
+        //internal static TestCache TestArchive => testArchive;
     }
 }
+#pragma warning restore IDE0032 // Use auto property

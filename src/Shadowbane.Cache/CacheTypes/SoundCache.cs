@@ -5,7 +5,7 @@
     public sealed class SoundCache : CacheArchive
     {
         public SoundCache()
-            : base("Sound.cache".AsMemory())
+            : base("Sound.cache")
         {
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader
+﻿namespace Shadowbane.Cache.IO
 {
     public class AssetLoader
     {

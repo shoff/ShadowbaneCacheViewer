@@ -16,7 +16,6 @@
             reader.BaseStream.Position = cacheIndexOffset;
             return reader;
         }
-
         public static BinaryReader CreateBinaryReaderUtf8(this ReadOnlyMemory<byte> segment)
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF8);
@@ -26,24 +25,17 @@
         {
             return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         }
-
         public static string ReadAsciiString(this BinaryReader reader, uint counter)
         {
             var byteArray = reader.ReadBytes((int)counter * 2);
-
             var enc = new ASCIIEncoding();
-
             var tvTemp = enc.GetString(byteArray);
-
-            //remove all the \0 and trim the string
             return tvTemp.Replace("\0", "").Trim();
         }
-
         public static bool CanRead(this BinaryReader reader, uint bytesToRead)
         {
             return reader.BaseStream.Position + bytesToRead <= reader.BaseStream.Length;
         }
-
         public static ReadOnlyMemory<byte> Compress(this ReadOnlyMemory<byte> memory)
         {
             var deflator = new Deflater();
@@ -62,7 +54,45 @@
             shared.Return(buffer);
             return memoryStream.ToArray();
         }
+        public static Span<byte> Compress(this ReadOnlySpan<byte> byteBuffer)
+        {
+            var deflator = new Deflater();
+            deflator.SetInput(byteBuffer.ToArray());
+            deflator.Finish();
+            var shared = ArrayPool<byte>.Shared;
+            using var memoryStream = new MemoryStream(byteBuffer.Length);
+            var buffer = shared.Rent(byteBuffer.Length);
 
+            while (!deflator.IsFinished)
+            {
+                var count = deflator.Deflate(buffer);
+                memoryStream.Write(buffer, 0, count);
+            }
+
+            shared.Return(buffer);
+            return memoryStream.ToArray();
+        }
+        public static Span<byte> Uncompress(this ReadOnlySpan<byte> memory, uint uncompressedSize)
+        {
+            var decompressor = new Inflater();
+            decompressor.SetInput(memory.ToArray());
+            var shared = ArrayPool<byte>.Shared;
+
+            // CreateAndParse an expandable byte array to hold the decompressed data  
+            using var memoryStream = new MemoryStream(memory.Length);
+
+            // Decompress the data  
+            var buffer = shared.Rent((int)uncompressedSize);
+            while (!decompressor.IsFinished)
+            {
+                var count = decompressor.Inflate(buffer);
+                memoryStream.Write(buffer, 0, count);
+            }
+
+            shared.Return(buffer);
+            // Get the decompressed data  
+            return memoryStream.ToArray();
+        }
         public static ReadOnlyMemory<byte> Uncompress(this ReadOnlyMemory<byte> memory, uint uncompressedSize)
         {
             var decompressor = new Inflater();
