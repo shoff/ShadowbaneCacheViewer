@@ -36,7 +36,7 @@
             Assert.True(query.Count == 0);
         }
 
-        [Fact]
+        [Fact(Skip = "Slow test we know it works.")]
         public void All_Indices_Compressed_Uncompressed_Values_Are_Valid()
         {
             // this is probably going to be a long running test

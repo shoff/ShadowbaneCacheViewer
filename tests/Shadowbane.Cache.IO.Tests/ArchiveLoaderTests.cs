@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Cache.Loader.Tests
+﻿namespace Shadowbane.Cache.IO.Tests
 {
     using IO;
     using Xunit;
