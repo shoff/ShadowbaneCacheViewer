@@ -1,10 +1,13 @@
-﻿namespace Shadowbane.Cache.IO.Models
+﻿#pragma warning disable IDE0032 // Use auto property
+namespace Shadowbane.Cache.IO.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Text;
     using Geometry;
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MeshHeader
     {
 
@@ -43,7 +46,7 @@
         public List<Vector3> Normals { get; set; } = new List<Vector3>();
         public List<Vector2> TextureVectors { get; set; } = new List<Vector2>();
         public ulong IndicesOffset { get; set; }
-        public List<Index> Indices { get; set; } = new List<Index>();
+        public List<Models.Index> Indices { get; set; } = new List<Index>();
         public int Id { get; set; }
         public ulong NormalsOffset { get; set; }
         public uint NormalsCount { get; set; }
@@ -88,6 +91,10 @@
             // do nothing for now
         }
 
+        public void SetBounds()
+        {
+            this.SetBounds(this.Header.min, this.Header.max);
+        }
         public void SetBounds(Vector3 min, Vector3 max)
         {
             Vector3 size = max - min;
@@ -152,3 +159,5 @@
         }
     }
 }
+
+#pragma warning restore IDE0032 // Use auto property

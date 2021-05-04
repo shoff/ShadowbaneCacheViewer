@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Numerics;
+    using Geometry;
 
     public class Mobile : AnimationObject
     {
@@ -726,9 +726,8 @@
             this.Parse();
             foreach (var render in this.RenderIds)
             {
-                // TODO this doesn't handle duplicate ids
-                var renderInformation = RenderableObjectBuilder.Instance.Create(render, 0, true);
-                    // this.renderInformationFactory.Create(render, 0, true);
+                var asset = ArchiveLoader.RenderArchive[render];
+                var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
                 this.Renders.Add(renderInformation);
             }
         }
@@ -742,7 +741,7 @@
         // pattern renderId float 1, float 1, float 1 null
         public long InitialOffset { get; set; }
         public uint RenderId { get; set; }  // 4
-        public Vector3 Identity { get; set; } // 12
+        public Shadowbane.Geometry.Vector3 Identity { get; set; } // 12
         public uint NullTerminator { get; set; } // 4
         public bool IsValid { get; set; }
     }

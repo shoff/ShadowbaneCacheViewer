@@ -3,13 +3,28 @@
     using System;
     using System.Buffers;
     using System.IO;
-    using System.Numerics;
+    using System.Runtime.InteropServices;
     using System.Text;
+    using Geometry;
     using ICSharpCode.SharpZipLib.Zip.Compression;
     using Microsoft.Toolkit.HighPerformance;
 
     public static class ReadOnlyMemoryExtensions
     {
+        public static T ByteArrayToStructure<T>(this ReadOnlySpan<byte> bytes)
+            where T : struct
+        {
+            var handle = GCHandle.Alloc(bytes.ToArray(), GCHandleType.Pinned);
+            try
+            {
+                var ptr = handle.AddrOfPinnedObject();
+                return (T)Marshal.PtrToStructure(ptr, typeof(T));
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
         public static BinaryReader CreateBinaryReaderUtf32(this ReadOnlyMemory<byte> segment, long cacheIndexOffset)
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF32);
@@ -114,5 +129,7 @@
             // Get the decompressed data  
             return memoryStream.ToArray();
         }
+
+
     }
 }

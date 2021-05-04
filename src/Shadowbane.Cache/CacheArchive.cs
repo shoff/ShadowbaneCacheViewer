@@ -49,20 +49,7 @@ namespace Shadowbane.Cache
             }
             return item;
         }
-        private static T ByteArrayToStructure<T>(ReadOnlySpan<byte> bytes) 
-            where T : struct
-        {
-            var handle = GCHandle.Alloc(bytes.ToArray(), GCHandleType.Pinned);
-            try
-            {
-                var ptr = handle.AddrOfPinnedObject();
-                return (T)Marshal.PtrToStructure(ptr, typeof(T));
-            }
-            finally
-            {
-                handle.Free();
-            }
-        }
+
         public virtual CacheArchive LoadIndexes()
         {
             // using var reader = this.bufferData.CreateBinaryReaderUtf32(this.indexOffset);
@@ -70,7 +57,7 @@ namespace Shadowbane.Cache
             for (var i = 0; i < this.cacheHeader.indexCount; i++)
             {
                 var indexData = this.bufferData.Span.Slice((int) (this.indexOffset + cacheIndexSize * i), cacheIndexSize);
-                var index = ByteArrayToStructure<CacheIndex>(indexData);
+                var index = indexData.ByteArrayToStructure<CacheIndex>();
                 this.cacheIndices.Add(index);
             }
 
@@ -85,6 +72,7 @@ namespace Shadowbane.Cache
         }
         public virtual CacheArchive LoadCacheHeader()
         {
+            // TODO convert this to just use the extension
             using var reader = this.bufferData.CreateBinaryReaderUtf32(0);
             // fill in the CacheHeader struct for this file.
             // number of entries in this stream?
@@ -109,11 +97,6 @@ namespace Shadowbane.Cache
 
             this.indexOffset = reader.BaseStream.Position;
             reader.Close();
-
-            // this.IdentityArray = new int[this.cacheHeader.indexCount];
-            // this.CacheIndices = new CacheIndex[this.cacheHeader.indexCount];
-            //logger?.Info($"Creating identityArray for {this.name} with {this.cacheHeader.indexCount} indeces.");
-            //logger?.Info($"{this.name} had junk UInt32 in cache header with value {this.cacheHeader.junk1}");
             return this;
         }
         public virtual CacheAsset this[uint id]
@@ -126,11 +109,9 @@ namespace Shadowbane.Cache
                 {
                     throw new IndexNotFoundException("no name", id);
                 }
+                // these "identities" are in fact duped, it could be either a male/female thing or a "versioning" strategy..
                 var cacheIndex = this.cacheIndices.First(x => x.identity == id);
-                // using var reader = this.bufferData.CreateBinaryReaderUtf32(cacheIndex.offset);
-
                 var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int) cacheIndex.compressedSize);
-                    // new ReadOnlyMemory<byte>(reader.ReadBytes((int)cacheIndex.compressedSize));
                 var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
                 return asset;
             }

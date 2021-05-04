@@ -5,7 +5,7 @@ namespace Shadowbane.Cache.IO
 {
     using CacheTypes;
 
-    internal static class ArchiveLoader
+    public static class ArchiveLoader
     {
         private static readonly MeshCache meshArchive =
             (MeshCache)new MeshCache()
@@ -57,17 +57,17 @@ namespace Shadowbane.Cache.IO
         //        .LoadCacheHeader()
         //        .LoadWithMemoryMappedFile();
 
-        internal static MeshCache MeshArchive => meshArchive;
-        internal static TextureCache TextureArchive => textureArchive;
-        internal static ObjectCache ObjectArchive => objectArchive;
-        internal static SoundCache SoundArchive => soundArchive;
-        internal static SkeletonCache SkeletonArchive => skeletonArchive;
-        internal static ZoneCache ZoneArchive => zoneArchive;
-        internal static VisualCache VisualArchive => visualArchive;
-        internal static PaletteCache PaletteArchive => paletteArchive;
-        internal static TileCache TileArchive => tileArchive;
-        internal static RenderCache RenderArchive => renderArchive;
-        internal static MotionCache MotionArchive => motionArchive;
+        public static MeshCache MeshArchive => meshArchive;
+        public static TextureCache TextureArchive => textureArchive;
+        public static ObjectCache ObjectArchive => objectArchive;
+        public static SoundCache SoundArchive => soundArchive;
+        public static SkeletonCache SkeletonArchive => skeletonArchive;
+        public static ZoneCache ZoneArchive => zoneArchive;
+        public static VisualCache VisualArchive => visualArchive;
+        public static PaletteCache PaletteArchive => paletteArchive;
+        public static TileCache TileArchive => tileArchive;
+        public static RenderCache RenderArchive => renderArchive;
+        public static MotionCache MotionArchive => motionArchive;
         //internal static TestCache TestArchive => testArchive;
     }
 }

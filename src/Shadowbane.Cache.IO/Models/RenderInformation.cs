@@ -16,7 +16,6 @@
         public uint UnknownIntTwo { get; set; }
         public uint UnknownCounterOrBool { get; set; }
         public int ByteCount { get; set; }
-        public int Order { get; set; }
         public bool HasMesh { get; set; }
         public Mesh Mesh { get; set; }
         public object[] Unknown { get; set; }

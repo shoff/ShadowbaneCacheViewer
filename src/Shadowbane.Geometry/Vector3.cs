@@ -4,6 +4,8 @@
     using System.Globalization;
     using System.Runtime.InteropServices;
     using static MathHelper;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct Vector3 : IEquatable<Vector3>
     {
         public static readonly Vector3 UnitX = new Vector3(1f, 0.0f, 0.0f);
@@ -13,6 +15,7 @@
         public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
         public static readonly int SizeInBytes = Marshal.SizeOf((object)new Vector3());
         private static readonly string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+
         public float X;
         public float Y;
         public float Z;

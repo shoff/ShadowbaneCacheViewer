@@ -2,6 +2,12 @@
 {
     using System;
 
+    public enum AssetOrder
+    {
+        One,
+        Two
+    }
+
     public class CacheAsset
     {
         // I'm beginning to wonder if Item1 and Item2 are actually Male/Female versions of this
@@ -9,8 +15,9 @@
             (this.CacheIndex, this.Asset) = (cacheIndex, asset);
 
         public CacheIndex CacheIndex { get; }
-        public ReadOnlyMemory<byte> Asset { get; set; }
-
+        public ReadOnlyMemory<byte> Asset { get; }
+        public bool HasMultipleIdentityEntries { get; set; }
+        public AssetOrder Order { get; set; }
         public override string ToString()
         {
             return this.CacheIndex.identity.ToString();
