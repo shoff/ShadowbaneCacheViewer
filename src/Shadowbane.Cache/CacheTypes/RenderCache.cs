@@ -1,6 +1,5 @@
 ﻿namespace Shadowbane.Cache.CacheTypes
 {
-    using System;
     using System.Linq;
 
     public sealed class RenderCache : CacheArchive
@@ -39,7 +38,7 @@
                 return null;
             }
             
-            // these "identities" are in fact duped, it could be either a male/female thing or a "versioning" strategy..
+            // these "identities" are in fact duped, they are always byte for byte identical.
             var cacheIndices = this.cacheIndices.Where(x => x.identity == id).Select(x => x).ToArray();
 
             var cacheIndex = cacheIndices[0];

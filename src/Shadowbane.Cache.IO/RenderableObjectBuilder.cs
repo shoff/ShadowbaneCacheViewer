@@ -11,14 +11,12 @@
         public static RenderInformation Create(CacheIndex cacheIndex)
         {
             var asset = ArchiveLoader.RenderArchive[cacheIndex.identity];
-
             var renderInformation = new RenderInformation
             {
                 CacheIndex = cacheIndex,
                 ByteCount = asset.Asset.Length,
                 Unknown = new object[6]
             };
-
             // for now let's save them all in a folder for analysis
             FileWriter.Writer.Write(asset.Asset.Span, storeFolder, $"{asset.CacheIndex.identity}-{asset.Order}");
             if (asset.HasMultipleIdentityEntries)
@@ -26,7 +24,6 @@
                 var secondAsset = ArchiveLoader.RenderArchive.GetSecondIndex(cacheIndex.identity);
                 FileWriter.Writer.Write(secondAsset.Asset.Span, storeFolder, $"{secondAsset.CacheIndex.identity}-{secondAsset.Order}");
             }
-
             using var reader = asset.Asset.CreateBinaryReaderUtf32(35);
             renderInformation.HasMesh = reader.ReadUInt32() == 1;
             renderInformation.Unknown[0] = reader.ReadUInt32();
@@ -45,34 +42,29 @@
                     $"{renderInformation.JointNameSize} was read. This is obviously incorrect.");
 #pragma warning restore S112 // General exceptions should never be thrown
             }
-
             if (reader.BaseStream.Position + renderInformation.JointNameSize <= renderInformation.ByteCount)
             {
                 renderInformation.JointName = reader.ReadAsciiString(renderInformation.JointNameSize);
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
-
             if (reader.BaseStream.Position + 12 <= renderInformation.ByteCount)
             {
                 // object scale ?
                 renderInformation.Scale = reader.ReadToVector3();
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
-
             if (reader.CanRead(4))
             {
                 // I think this is probably a bool or flag of some kind
                 renderInformation.Unknown[2] = reader.ReadUInt32();
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
-
             if (reader.CanRead(12))
             {
                 // object position ?
                 renderInformation.Position = reader.ReadToVector3();
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
-
             if (reader.CanRead(4))
             {
                 renderInformation.ChildCount = reader.ReadInt32();
@@ -90,14 +82,12 @@
                     }
                 }
             }
-
             // Texture count
             if (reader.CanRead(1))
             {
                 renderInformation.HasTexture = reader.ReadByte() == 1;
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
-
             if (renderInformation.HasTexture)
             {
                 if (reader.CanRead(4))

@@ -1,9 +1,10 @@
-﻿namespace Shadowbane.Cache.IO.Models
+﻿namespace Shadowbane.Models
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
+    using Cache;
     using Geometry;
 
     public class RenderInformation

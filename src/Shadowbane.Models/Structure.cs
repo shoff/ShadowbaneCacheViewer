@@ -2,8 +2,6 @@
 {
     using System;
     using Cache;
-    using Cache.IO;
-    using Cache.IO.Models;
 
     public class Structure : ModelObject
     {
@@ -26,27 +24,10 @@
         public uint NumberOfMeshes { get; private set; }
         public StructureValidationResult ValidationResult { get; private set; }
 
-        private bool ValidRenderId(uint id)
-        {
-            if (id == 0)
-            {
-                return false;
-            }
-
-            if (ArchiveLoader.RenderArchive[id] == null)
-            {
-                return false;
-            }
-
-            var range = id > this.CacheIndex.identity ?
-                Math.Abs(id - this.CacheIndex.identity) :
-                Math.Abs(this.CacheIndex.identity - id);
-
-            return range <= ValidRange;
-        }
 
         public override void Parse()
         {
+            // TODO need to figure out the commented out stuff below
             using var reader = this.Data.CreateBinaryReaderUtf32(0);
             _ = reader.ReadInt32();
             _ = (ObjectType)reader.ReadInt32();
@@ -61,43 +42,43 @@
             // should be 12 since the trailing byte may not be there if we are at the end of the file
             // once we have found a valid id then we will jump forward more than a byte at a time.
 
-            while (reader.CanRead(12) && this.RenderIds.Count == 0)
-            {
-                this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
+            //while (reader.CanRead(12) && this.RenderIds.Count == 0)
+            //{
+            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
 
-                if (this.ValidationResult.IsValid)
-                {
-                    this.RenderIds.Add(this.ValidationResult.Id);
-                    this.RenderCount = (uint) reader.StructureRenderCount(this.ValidationResult);
-                }
-                else
-                {
-                    reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
-                }
-            }
+            //    if (this.ValidationResult.IsValid)
+            //    {
+            //        this.RenderIds.Add(this.ValidationResult.Id);
+            //        this.RenderCount = (uint) reader.StructureRenderCount(this.ValidationResult);
+            //    }
+            //    else
+            //    {
+            //        reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
+            //    }
+            //}
 
-            while (reader.CanRead(12) && this.ValidationResult.IsValid &&
-                this.ValidationResult.NullTerminator == 0)
-            {
-                this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
-                if (this.ValidationResult.IsValid)
-                {
-                    this.RenderIds.Add(this.ValidationResult.Id);
-                }
-            }
+            //while (reader.CanRead(12) && this.ValidationResult.IsValid &&
+            //    this.ValidationResult.NullTerminator == 0)
+            //{
+            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
+            //    if (this.ValidationResult.IsValid)
+            //    {
+            //        this.RenderIds.Add(this.ValidationResult.Id);
+            //    }
+            //}
         }
 
-        public void ParseAndAssemble()
-        {
-            this.Parse();
-            foreach (var render in this.RenderIds)
-            {
-                // TODO this doesn't handle duplicate ids
-                var asset = ArchiveLoader.RenderArchive[render];
-                var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
-                this.Renders.Add(renderInformation);
-            }
-        }
+        //public void ParseAndAssemble()
+        //{
+        //    this.Parse();
+        //    foreach (var render in this.RenderIds)
+        //    {
+        //        // TODO this doesn't handle duplicate ids
+        //        var asset = ArchiveLoader.RenderArchive[render];
+        //        var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
+        //        this.Renders.Add(renderInformation);
+        //    }
+        //}
 
         public class StructureValidationResult
         {

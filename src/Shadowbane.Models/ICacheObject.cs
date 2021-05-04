@@ -1,7 +1,8 @@
-﻿namespace Shadowbane.Cache.IO.Models
+﻿namespace Shadowbane.Models
 {
     using System;
     using System.Collections.Generic;
+    using Cache;
 
     public interface ICacheObject : IComparable<ICacheObject>
     {

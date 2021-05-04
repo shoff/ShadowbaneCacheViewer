@@ -1,9 +1,9 @@
-﻿namespace Shadowbane.Models
+﻿namespace Shadowbane.Cache.IO
 {
     using System;
     using System.IO;
     using Cache;
-    using Cache.IO;
+    using Models;
 
     public static class BinaryReaderExtensions
     {

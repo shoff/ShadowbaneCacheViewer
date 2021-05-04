@@ -2,7 +2,6 @@
 {
     using System;
     using Cache;
-    using Cache.IO.Models;
 
     public abstract class AnimationObject : ModelObject
     {

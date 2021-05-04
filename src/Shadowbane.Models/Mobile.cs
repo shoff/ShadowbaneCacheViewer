@@ -5,8 +5,6 @@
     using System.Diagnostics;
     using System.IO;
     using Cache;
-    using Cache.IO;
-    using Cache.IO.Models;
     using Geometry;
 
     public class Mobile : AnimationObject
@@ -43,12 +41,6 @@
         public int RuneStackRank { get; set; }
         public int RuneCost { get; set; }
         public int NumberOfSkillsRequired { get; set; }
-        /// <summary>
-        ///     Gets or sets the level required.
-        /// </summary>
-        /// <value>
-        ///     The level required.
-        /// </value>
         public int LevelRequired { get; set; }
         public int PowerId { get; set; }
         public string ExitMessage { get; set; }
@@ -70,49 +62,47 @@
             this.ObjId = this.CacheIndex.identity;
 
             this.FourIntArray = new int[4];
-            using (var reader = Data.CreateBinaryReaderUtf32(0))
+            using var reader = this.Data.CreateBinaryReaderUtf32(0);
+            // TNLC
+            reader.ReadInt32();
+            reader.ReadInt32();
+
+            // flag
+            this.NameSize = reader.ReadInt32();
+            reader.BaseStream.Position += this.NameSize * 2;
+
+            // reader.BaseStream.Position = this.InnerOffset;
+            _ = reader.ReadByte();
+
+            //This block seems to be static for all Type 13 Objects
+            // this should always be 00 00 80 3F
+            _ = reader.ReadSingle();
+
+            var time = reader.ReadUInt32();
+            this.WolfpackCreateDate = DateTime.UnixEpoch.AddSeconds(time);
+
+            _ = reader.ReadToVector3();
+            var u1 = reader.ReadUInt32(); //0
+            Debug.Assert(u1 == 0);
+
+            //4000
+            this.FourThousandInt = reader.ReadInt32();
+
+            // should be all zeros
+            for (var ed = 0; ed < 6; ed++)
             {
-                // TNLC
-                reader.ReadInt32();
-                reader.ReadInt32();
+                var u2 = reader.ReadUInt32();
+                Debug.Assert(u2 == 0);
+            }
 
-                // flag
-                this.NameSize = reader.ReadInt32();
-                reader.BaseStream.Position += this.NameSize * 2;
-
-                // reader.BaseStream.Position = this.InnerOffset;
-                _ = reader.ReadByte();
-
-                //This block seems to be static for all Type 13 Objects
-                // this should always be 00 00 80 3F
-                _ = reader.ReadSingle();
-
-                var time = reader.ReadUInt32();
-                this.WolfpackCreateDate = DateTime.UnixEpoch.AddSeconds(time);
-
-                _ = reader.ReadToVector3();
-                var u1 = reader.ReadUInt32(); //0
-                Debug.Assert(u1 == 0);
-
-                //4000
-                this.FourThousandInt = reader.ReadInt32();
-
-                // should be all zeros
-                for (var ed = 0; ed < 6; ed++)
-                {
-                    var u2 = reader.ReadUInt32();
-                    Debug.Assert(u2 == 0);
-                }
-
-                // is this a boolean?
-                _ = reader.ReadByte(); //Data block 00
-                this.RuneCategory = reader.ReadUInt32(); // Rune Icon
-
-                this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
-                this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
-                _ = reader.ReadUInt32();
-                this.MobToken = reader.ReadUInt32();
-                /*
+            // is this a boolean?
+            _ = reader.ReadByte(); //Data block 00
+            this.RuneCategory = reader.ReadUInt32(); // Rune Icon
+            this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
+            this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
+            _ = reader.ReadUInt32();
+            this.MobToken = reader.ReadUInt32();
+            /*
                     if(mobToken == 612015249){
                         uint aiSize;
                         wchar_t ai[aiSize];
@@ -121,253 +111,255 @@
                         uint padding[3];
                     }
                  */
-                if (this.MobToken == 612015249)
-                {
-                    // Determines Aggro Type
-                    var strSize = reader.ReadUInt32();
-                    this.AiDescription = reader.ReadAsciiString(strSize);
+            if (this.MobToken == 612015249)
+            {
+                // Determines Aggro Type
+                var strSize = reader.ReadUInt32();
+                this.AiDescription = reader.ReadAsciiString(strSize);
 
-                    // this needs to be read here because its 4 if mobtoken is this
+                // this needs to be read here because its 4 if mobtoken is this
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+            }
+            else if (this.MobToken == 2085359803)
+            {
+                reader.ReadByte();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+            }
+            else
+            {
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+            }
+
+            _ = reader.ReadSingle();
+            _ = reader.ReadUInt32(); // All runes have this, set to 1.0.
+            this.SomeKindOfTypeHash = reader.ReadUInt32(); //Some kind of type hash
+
+            var petIndicator = reader.ReadUInt32();
+
+            if (petIndicator == 0)
+            {
+                for (var be = 0; be < 18; be++)
+                {
                     reader.ReadUInt32();
-                    reader.ReadUInt32();
+                }
+
+                var thirtyTwo = reader.ReadUInt32();
+                Debug.Assert(thirtyTwo == 32);
+
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+
+                // unknown short
+                reader.ReadUInt16();
+
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+
+                if (this.MobToken == 3851523961)
+                {
+                    // CSR
+                    // skip two reads
                     reader.ReadUInt32();
                     reader.ReadUInt32();
                 }
-                else if (this.MobToken == 2085359803)
+            }
+            else
+            {
+                for (var pj = 0; pj < 5; pj++)
                 {
-                    reader.ReadByte();
                     reader.ReadUInt32();
+                }
+
+                var petTextSize = reader.ReadUInt32();
+                _ = reader.ReadAsciiString(petTextSize);
+                _ = reader.ReadUInt16();
+                for (var pj = 0; pj < 33; pj++)
+                {
                     reader.ReadUInt32();
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
+                }
+            }
+
+            this.SecondNameSize = reader.ReadUInt32();
+            if (this.SecondNameSize == this.NameSize)
+            {
+                _ = reader.ReadAsciiString(this.SecondNameSize);
+            }
+
+            //StructureValidationResult validationResult = null;
+            MobileRenderFinder finder = null;
+
+            while (reader.CanRead(20) && this.RenderIds.Count == 0)
+            {
+                finder = this.GetFinder(reader);
+
+                if (finder.IsValid)
+                {
+                    this.RenderIds.Add(finder.RenderId);
+
+                    reader.BaseStream.Position -= 28;
+                    this.RenderCount = reader.ReadUInt32();
+                    reader.BaseStream.Position += 24;
                 }
                 else
                 {
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
+                    reader.BaseStream.Position = (finder.InitialOffset + 1);
                 }
+            }
 
-                _ = reader.ReadSingle();
-                _ = reader.ReadUInt32(); // All runes have this, set to 1.0.
-                this.SomeKindOfTypeHash = reader.ReadUInt32(); //Some kind of type hash
-
-                var petIndicator = reader.ReadUInt32();
-
-                if (petIndicator == 0)
+            while (reader.CanRead(20) && finder?.NullTerminator == 0)
+            {
+                finder = GetFinder(reader);
+                if (finder.IsValid)
                 {
-                    for (var be = 0; be < 18; be++)
-                    {
-                        reader.ReadUInt32();
-                    }
-
-                    var thirtyTwo = reader.ReadUInt32();
-                    Debug.Assert(thirtyTwo == 32);
-
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-
-                    // unknown short
-                    reader.ReadUInt16();
-
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-                    reader.ReadUInt32();
-
-                    if (this.MobToken == 3851523961)
-                    {
-                        // CSR
-                        // skip two reads
-                        reader.ReadUInt32();
-                        reader.ReadUInt32();
-                    }
+                    this.RenderIds.Add(finder.RenderId);
                 }
-                else
-                {
-                    for (var pj = 0; pj < 5; pj++)
-                    {
-                        reader.ReadUInt32();
-                    }
+            }
 
-                    var petTextSize = reader.ReadUInt32();
-                    _ = reader.ReadAsciiString(petTextSize);
-                    _ = reader.ReadUInt16();
-                    for (var pj = 0; pj < 33; pj++)
-                    {
-                        reader.ReadUInt32();
-                    }
-                }
-
-                this.SecondNameSize = reader.ReadUInt32();
-                if (this.SecondNameSize == this.NameSize)
-                {
-                    _ = reader.ReadAsciiString(this.SecondNameSize);
-                }
-
-                //StructureValidationResult validationResult = null;
-                MobileRenderFinder finder = null;
-
-                while (reader.CanRead(20) && this.RenderIds.Count == 0)
-                {
-                    finder = this.GetFinder(reader);
-
-                    if (finder.IsValid)
-                    {
-                        this.RenderIds.Add(finder.RenderId);
-
-                        reader.BaseStream.Position -= 28;
-                        this.RenderCount = reader.ReadUInt32();
-                        reader.BaseStream.Position += 24;
-                    }
-                    else
-                    {
-                        reader.BaseStream.Position = (finder.InitialOffset + 1);
-                    }
-                }
-
-                while (reader.CanRead(20) && finder?.NullTerminator == 0)
-                {
-                    finder = GetFinder(reader);
-                    if (finder.IsValid)
-                    {
-                        this.RenderIds.Add(finder.RenderId);
-                    }
-                }
-
-                // see  if there is a counter to another group of ids
-                if (finder?.NullTerminator > 0)
-                {
-                    for (int i = 0; i < finder.NullTerminator; i++)
-                    {
-                        if (reader.CanRead(8))
-                        {
-                            reader.ReadInt32();
-
-                            var id = reader.ReadUInt32();
-                            if (ArchiveLoader.RenderArchive[id] != null)
-                            {
-                                this.RenderIds.Add(id);
-                            }
-                        }
-                    }
-                }
-
-                // another counter?
-                int renderCounter = 0;
-                if (reader.CanRead(4))
-                {
-                    renderCounter = reader.ReadInt32();
-                }
-
-                for (uint i = 0; i < renderCounter; i++)
+            // see  if there is a counter to another group of ids
+            if (finder?.NullTerminator > 0)
+            {
+                for (int i = 0; i < finder.NullTerminator; i++)
                 {
                     if (reader.CanRead(8))
                     {
                         reader.ReadInt32();
 
                         var id = reader.ReadUInt32();
-                        if (ArchiveLoader.RenderArchive[id] != null)
-                        {
-                            this.RenderIds.Add(id);
-                        }
+                        this.RenderIds.Add(id);
+                        //if (ArchiveLoader.RenderArchive[id] != null)
+                        //{
+                        //    this.RenderIds.Add(id);
+                        //}
                     }
                 }
+            }
 
-                #region old shit
-                //reader.ReadUInt32(); //All them Pets = 34
-                //reader.ReadUInt32(); //All 0s
-                //reader.ReadUInt32(); //All them Pets = 231
-                //reader.ReadUInt32(); //All 0s
-                //reader.ReadUInt32(); //All them Pets = Really large
+            // another counter?
+            int renderCounter = 0;
+            if (reader.CanRead(4))
+            {
+                renderCounter = reader.ReadInt32();
+            }
 
-                //// Always ends up Pet
-                //this.PetNameCount = reader.ReadInt32();
+            for (uint i = 0; i < renderCounter; i++)
+            {
+                if (reader.CanRead(8))
+                {
+                    reader.ReadInt32();
 
-                //byte[] newString11 = new byte[PetNameCount];
+                    var id = reader.ReadUInt32();
+                    this.RenderIds.Add(id);
+                    //if (ArchiveLoader.RenderArchive[id] != null)
+                    //{
+                    //    this.RenderIds.Add(id);
+                    //}
+                }
+            }
 
-                //for (int i = 0; i < PetNameCount; i++)
-                //{
-                //    newString11[i] = reader.ReadByte();
-                //    reader.ReadByte(); //Discard due to Unicode
-                //    return;
-                //}
+            #region old shit
+            //reader.ReadUInt32(); //All them Pets = 34
+            //reader.ReadUInt32(); //All 0s
+            //reader.ReadUInt32(); //All them Pets = 231
+            //reader.ReadUInt32(); //All 0s
+            //reader.ReadUInt32(); //All them Pets = Really large
 
-                //for (int i = 0; i < 4; i++)
-                //{
-                //    reader.ReadUInt32();
-                //    //Debug.Assert(reader.ReadUInt32() == 0); //All 0s            
-                //}
+            //// Always ends up Pet
+            //this.PetNameCount = reader.ReadInt32();
 
-                ////reader.ReadUInt32(); //All 0s
-                ////reader.ReadUInt32(); //All 0s
-                ////reader.ReadUInt32(); //All 0s
-                ////reader.ReadUInt32(); //All 0s
-                //this.SomethingWithPets = reader.ReadInt32(); // Something with Pets
+            //byte[] newString11 = new byte[PetNameCount];
 
-                //for (int i = 0; i < 8; i++)
-                //{
-                //    reader.ReadUInt32();
-                //    //Debug.Assert(reader.ReadUInt32() == 0); //All 0s
-                //}
+            //for (int i = 0; i < PetNameCount; i++)
+            //{
+            //    newString11[i] = reader.ReadByte();
+            //    reader.ReadByte(); //Discard due to Unicode
+            //    return;
+            //}
 
-                //if (reader.ReadUInt32() == 32)
-                //{
-                //    if (reader.ReadByte() == 32)
-                //    {
-                //        reader.ReadUInt32();
-                //    }
-                //    else
-                //    {
-                //        reader.ReadUInt32();
-                //        reader.ReadByte();
-                //        reader.ReadByte();
-                //        reader.ReadByte(); //Resync
-                //    }
-                //}
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    reader.ReadUInt32();
+            //    //Debug.Assert(reader.ReadUInt32() == 0); //All 0s            
+            //}
 
-                //this.FourIntArray[0] = reader.ReadInt32();
-                //this.FourIntArray[1] = reader.ReadInt32();
-                //this.FourIntArray[2] = reader.ReadInt32();
-                //this.FourIntArray[3] = reader.ReadInt32();
+            ////reader.ReadUInt32(); //All 0s
+            ////reader.ReadUInt32(); //All 0s
+            ////reader.ReadUInt32(); //All 0s
+            ////reader.ReadUInt32(); //All 0s
+            //this.SomethingWithPets = reader.ReadInt32(); // Something with Pets
 
-                //reader.ReadByte();
-                //reader.ReadByte();
+            //for (int i = 0; i < 8; i++)
+            //{
+            //    reader.ReadUInt32();
+            //    //Debug.Assert(reader.ReadUInt32() == 0); //All 0s
+            //}
 
-                //this.NameSize = reader.ReadInt32();
-                //if (this.NameSize != this.Name.Length)
-                //{
-                //    reader.ReadUInt32();
-                //    reader.ReadUInt32();
-                //    this.NameSize = reader.ReadInt32();
-                //}
+            //if (reader.ReadUInt32() == 32)
+            //{
+            //    if (reader.ReadByte() == 32)
+            //    {
+            //        reader.ReadUInt32();
+            //    }
+            //    else
+            //    {
+            //        reader.ReadUInt32();
+            //        reader.ReadByte();
+            //        reader.ReadByte();
+            //        reader.ReadByte(); //Resync
+            //    }
+            //}
 
-                //// pretty sure they didn't mean to do this.
-                //if (this.NameSize != this.Name.Length)
-                //{
-                //    reader.ReadUInt32();
-                //    reader.ReadUInt32();
-                //    reader.ReadUInt32();
-                //    this.NameSize = reader.ReadInt32();
-                //}
+            //this.FourIntArray[0] = reader.ReadInt32();
+            //this.FourIntArray[1] = reader.ReadInt32();
+            //this.FourIntArray[2] = reader.ReadInt32();
+            //this.FourIntArray[3] = reader.ReadInt32();
 
-                //// Mob Name... the syncing above makes me hate myself
+            //reader.ReadByte();
+            //reader.ReadByte();
 
-                //if (this.NameSize > 500)
-                //{
-                //    this.ExitMessage = "this.NameSize exceeded 500 which is not possible.";
-                //    // should never hit this.
-                //    return;
-                //}
+            //this.NameSize = reader.ReadInt32();
+            //if (this.NameSize != this.Name.Length)
+            //{
+            //    reader.ReadUInt32();
+            //    reader.ReadUInt32();
+            //    this.NameSize = reader.ReadInt32();
+            //}
 
-                //byte[] newString = new byte[this.NameSize];
+            //// pretty sure they didn't mean to do this.
+            //if (this.NameSize != this.Name.Length)
+            //{
+            //    reader.ReadUInt32();
+            //    reader.ReadUInt32();
+            //    reader.ReadUInt32();
+            //    this.NameSize = reader.ReadInt32();
+            //}
 
-                //for (int x = 0; x < this.NameSize; x++)
-                //{
-                //    newString[x] = reader.ReadByte();
-                //    reader.ReadByte(); //Discard due to Unicode
-                //}
-                /*
+            //// Mob Name... the syncing above makes me hate myself
+
+            //if (this.NameSize > 500)
+            //{
+            //    this.ExitMessage = "this.NameSize exceeded 500 which is not possible.";
+            //    // should never hit this.
+            //    return;
+            //}
+
+            //byte[] newString = new byte[this.NameSize];
+
+            //for (int x = 0; x < this.NameSize; x++)
+            //{
+            //    newString[x] = reader.ReadByte();
+            //    reader.ReadByte(); //Discard due to Unicode
+            //}
+            /*
                 for (int i = 0; i < 6; i++)
                 {
                     Debug.Assert(reader.ReadUInt32() == 0); //All 0s
@@ -621,7 +613,7 @@
                 {
                 } */
 
-                /*
+            /*
 
         //reader.ReadUInt32(); //HITPOINTS!
         //reader.ReadUInt32(); //MANA!
@@ -679,9 +671,9 @@
             System.console();
         */
 
-                // uint i = 0;
+            // uint i = 0;
 
-                /*
+            /*
         int legitNameSize = reader.ReadUInt32();
         if(legitNameSize != n.length)
             System.out.println("BE SCURRED OF " + new String(n));
@@ -698,13 +690,12 @@
         System.out.println(new String(finalName));
         */
 
-                //byte i = reader.ReadByte();
-                //byte k = reader.ReadByte();
-                //+ "(" + i + ")" + "(" + k + ")" 
+            //byte i = reader.ReadByte();
+            //byte k = reader.ReadByte();
+            //+ "(" + i + ")" + "(" + k + ")" 
 
-                //System.out.println(counter2 + "/" + counter3);
-                #endregion
-            }
+            //System.out.println(counter2 + "/" + counter3);
+            #endregion
         }
 
 
@@ -721,11 +712,11 @@
             };
 
             // TODO verify that these should be the same for all mobs
-            if (ArchiveLoader.RenderArchive[finder.RenderId] == null)
-            {
-                finder.IsValid = false;
-                return finder;
-            }
+            //if (ArchiveLoader.RenderArchive[finder.RenderId] == null)
+            //{
+            //    finder.IsValid = false;
+            //    return finder;
+            //}
 
             if (finder.Identity != MobileRenderFinder.V1)
             {
@@ -736,17 +727,17 @@
             return finder;
         }
 
-        public void ParseAndAssemble(ReadOnlyMemory<byte> assetItem1)
-        {
-            this.Parse();
-            foreach (var render in this.RenderIds)
-            {
-                // TODO this doesn't handle duplicate ids
-                var cacheIndex = ArchiveLoader.RenderArchive[render];
-                var renderInformation = RenderableObjectBuilder.Create(cacheIndex.CacheIndex);
-                this.Renders.Add(renderInformation);
-            }
-        }
+        //public void ParseAndAssemble(ReadOnlyMemory<byte> assetItem1)
+        //{
+        //    this.Parse();
+        //    foreach (var render in this.RenderIds)
+        //    {
+        //        // TODO this doesn't handle duplicate ids
+        //        var cacheIndex = ArchiveLoader.RenderArchive[render];
+        //        var renderInformation = RenderableObjectBuilder.Create(cacheIndex.CacheIndex);
+        //        this.Renders.Add(renderInformation);
+        //    }
+        //}
     }
 
     public class MobileRenderFinder

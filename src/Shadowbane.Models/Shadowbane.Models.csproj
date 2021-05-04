@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shadowbane.Cache\Shadowbane.Cache.csproj" />
   </ItemGroup>
 

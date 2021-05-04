@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using Cache;
-    using Cache.IO.Models;
 
     public abstract class CacheObject : ICacheObject
     {
@@ -18,7 +17,7 @@
             this.InnerOffset = innerOffset;
         }
 
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public ICollection<uint> RenderIds { get; set; } = new HashSet<uint>();
         public ICollection<RenderInformation> Renders { get; set; } = new HashSet<RenderInformation>();
         public int UnParsedBytes { get; set; }

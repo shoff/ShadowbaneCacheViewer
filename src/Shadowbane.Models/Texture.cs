@@ -4,7 +4,6 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using Cache;
-    using Cache.IO.Models;
 
     public class Texture
     {

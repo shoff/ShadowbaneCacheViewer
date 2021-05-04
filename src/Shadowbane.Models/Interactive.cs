@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using Cache;
-    using Cache.IO;
-    using Cache.IO.Models;
 
     public class Interactive : AnimationObject
     {
@@ -23,6 +21,7 @@
         }
         public override void Parse()
         {
+            // TODO need to figure out the below commented out code.
             using var reader = this.Data.CreateBinaryReaderUtf32(0);
             _ = reader.ReadInt32();
             _ = (ObjectType)reader.ReadInt32();
@@ -37,42 +36,42 @@
             // should be 12 since the trailing byte may not be there if we are at the end of the file
             // once we have found a valid id then we will jump forward more than a byte at a time.
 
-            while (reader.CanRead(12) && this.RenderIds.Count == 0)
-            {
-                this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
+            //while (reader.CanRead(12) && this.RenderIds.Count == 0)
+            //{
+            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
 
-                if (this.ValidationResult.IsValid)
-                {
-                    this.RenderIds.Add(this.ValidationResult.Id);
-                    this.RenderCount = (uint) reader.StructureRenderCount(this.ValidationResult);
-                }
-                else
-                {
-                    reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
-                }
-            }
+            //    if (this.ValidationResult.IsValid)
+            //    {
+            //        this.RenderIds.Add(this.ValidationResult.Id);
+            //        this.RenderCount = (uint) reader.StructureRenderCount(this.ValidationResult);
+            //    }
+            //    else
+            //    {
+            //        reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
+            //    }
+            //}
 
-            while (reader.CanRead(12) && this.ValidationResult.IsValid &&
-                this.ValidationResult.NullTerminator == 0)
-            {
-                this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
-                if (this.ValidationResult.IsValid)
-                {
-                    this.RenderIds.Add(this.ValidationResult.Id);
-                }
-            }
+            //while (reader.CanRead(12) && this.ValidationResult.IsValid &&
+            //    this.ValidationResult.NullTerminator == 0)
+            //{
+            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
+            //    if (this.ValidationResult.IsValid)
+            //    {
+            //        this.RenderIds.Add(this.ValidationResult.Id);
+            //    }
+            //}
         }
 
 
-        public void ParseAndAssemble()
-        {
-            this.Parse();
-            foreach (var render in this.RenderIds)
-            {
-                var asset = ArchiveLoader.RenderArchive[render];
-                var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
-                this.Renders.Add(renderInformation);
-            }
-        }
+        //public void ParseAndAssemble()
+        //{
+        //    this.Parse();
+        //    foreach (var render in this.RenderIds)
+        //    {
+        //        var asset = ArchiveLoader.RenderArchive[render];
+        //        var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
+        //        this.Renders.Add(renderInformation);
+        //    }
+        //}
     }
 }

@@ -1,10 +1,10 @@
 ﻿#pragma warning disable IDE0032 // Use auto property
-namespace Shadowbane.Cache.IO.Models
+namespace Shadowbane.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
+    using Cache;
     using Geometry;
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -46,7 +46,7 @@ namespace Shadowbane.Cache.IO.Models
         public List<Vector3> Normals { get; set; } = new List<Vector3>();
         public List<Vector2> TextureVectors { get; set; } = new List<Vector2>();
         public ulong IndicesOffset { get; set; }
-        public List<Models.Index> Indices { get; set; } = new List<Index>();
+        public List<Models.Index> Indices { get; set; } = new List<Models.Index>();
         public int Id { get; set; }
         public ulong NormalsOffset { get; set; }
         public uint NormalsCount { get; set; }
