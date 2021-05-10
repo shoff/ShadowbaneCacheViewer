@@ -4,26 +4,27 @@ namespace Shadowbane.Models
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
-    using Cache;
     using Geometry;
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MeshHeader
     {
-
         //50 byte header
         // 46th byte of the header is the vertex count
         // following the header (immediately after the vertex count
         // is VertexCount * 4 (float) * 3 (Vector)
         // At the end of this chunk is another count (which always seems to be the same as the one in the header)
-
         public uint null1; // 4
-        public double unixUpdatedTimeStamp; // 8
-        public double unk3; // 
-        public double unixCreatedTimeStamp;
-        public double unk5;
-        public Vector3 min;
-        public Vector3 max;
+        public uint unixUpdatedTimeStamp; // 8
+        public uint unk3; // 
+        public uint unixCreatedTimeStamp;
+        public uint unk5;
+        public float minx;
+        public float miny;
+        public float minz;
+        public float maxx;
+        public float maxy;
+        public float maxz;
         public ushort null2;
     }
 
@@ -31,23 +32,22 @@ namespace Shadowbane.Models
     {
         private float meshSize;
 
-        public Mesh()
+        public Mesh(uint identity)
         {
+            this.Identity = identity;
             this.Bounds = new Vector3[16];
         }
-
-        public CacheIndex CacheIndex { get; set; }
+        public uint Identity { get; }
         public uint VertexCount { get; set; }
         public uint VertexBufferSize { get; set; }
         public MeshHeader Header { get; set; }
-        public List<Texture> Textures { get; set; } = new List<Texture>();
-        public List<Vector3> Vertices { get; set; } = new List<Vector3>();
+        public ICollection<Texture> Textures { get; } = new List<Texture>();
+        public ICollection<Vector3> Vertices { get; private set; } = new List<Vector3>();
         public ulong VerticesOffset { get; set; }
-        public List<Vector3> Normals { get; set; } = new List<Vector3>();
-        public List<Vector2> TextureVectors { get; set; } = new List<Vector2>();
+        public ICollection<Vector3> Normals { get; } = new List<Vector3>();
+        public ICollection<Vector2> TextureVectors { get; } = new List<Vector2>();
         public ulong IndicesOffset { get; set; }
-        public List<Models.Index> Indices { get; set; } = new List<Models.Index>();
-        public int Id { get; set; }
+        public ICollection<Models.Index> Indices { get; } = new List<Models.Index>();
         public ulong NormalsOffset { get; set; }
         public uint NormalsCount { get; set; }
         public uint NormalsBufferSize { get; set; }
@@ -55,7 +55,7 @@ namespace Shadowbane.Models
         public uint TextureCoordinatesCount { get; set; }
         public byte[] UnknownData { get; set; }
         public long OffsetToUnknownData { get; set; }
-        public uint NumberOfIndices { get; set; }
+        public int NumberOfIndices { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Position { get; set; }
         public Vector3[] Bounds { get; }
@@ -93,8 +93,10 @@ namespace Shadowbane.Models
 
         public void SetBounds()
         {
-            this.SetBounds(this.Header.min, this.Header.max);
+            this.SetBounds(new Vector3(this.Header.minx, this.Header.miny, this.Header.minz), 
+                new Vector3(this.Header.maxx, this.Header.maxy, this.Header.maxz));
         }
+
         public void SetBounds(Vector3 min, Vector3 max)
         {
             Vector3 size = max - min;
@@ -150,7 +152,6 @@ namespace Shadowbane.Models
         public string GetMeshInformation()
         {
             var sb = new StringBuilder();
-            sb.Append(this.CacheIndex.ToString());
             sb.Append($"Vertex count {this.VertexCount} - Vertex offset {this.VerticesOffset}\r\n");
             sb.Append($"Normals count {this.NormalsCount} - Normals offset {this.NormalsOffset}\r\n");
             sb.Append($"Indices count {this.Indices.Count} - Indices offset {this.IndicesOffset}\r\n");

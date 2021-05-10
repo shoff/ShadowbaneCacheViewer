@@ -17,6 +17,39 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0D8BF7A-5FAA-49B7-82E2-1F8E09AE4235}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Native\animation.cpp = Native\animation.cpp
+		Native\animation.h = Native\animation.h
+		Native\animcontrol.cpp = Native\animcontrol.cpp
+		Native\animcontrol.h = Native\animcontrol.h
+		Native\cachelib.cpp = Native\cachelib.cpp
+		Native\cachelib.h = Native\cachelib.h
+		Native\canvas.cpp = Native\canvas.cpp
+		Native\canvas.h = Native\canvas.h
+		Native\enums.h = Native\enums.h
+		Native\eulerangle.cpp = Native\eulerangle.cpp
+		Native\eulerangle.h = Native\eulerangle.h
+		Native\matrix.h = Native\matrix.h
+		Native\model.cpp = Native\model.cpp
+		Native\model.h = Native\model.h
+		Native\objects.cpp = Native\objects.cpp
+		Native\objects.h = Native\objects.h
+		Native\quattypes.h = Native\quattypes.h
+		Native\resource.h = Native\resource.h
+		Native\SBCacheViewer.cpp = Native\SBCacheViewer.cpp
+		Native\SBCacheViewer.h = Native\SBCacheViewer.h
+		Native\sbviewer.cpp = Native\sbviewer.cpp
+		Native\sbviewer.h = Native\sbviewer.h
+		Native\skeleton.cpp = Native\skeleton.cpp
+		Native\skeleton.h = Native\skeleton.h
+		Native\stdafx.cpp = Native\stdafx.cpp
+		Native\stdafx.h = Native\stdafx.h
+		Native\texture.cpp = Native\texture.cpp
+		Native\texture.h = Native\texture.h
+		Native\texturemanager.h = Native\texturemanager.h
+		Native\vec3d.h = Native\vec3d.h
+		Native\vec4d.h = Native\vec4d.h
+		Native\zones.cpp = Native\zones.cpp
+		Native\zones.h = Native\zones.h
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Geometry", "src\Shadowbane.Geometry\Shadowbane.Geometry.csproj", "{4DD87CF6-7899-447C-8BAA-65E701FF763E}"
@@ -63,9 +96,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Cache.Exporter.F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "exporters", "exporters", "{2916BC6B-F8D1-4C1D-A6F3-FE7D7B4ECC70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Models", "src\Shadowbane.Models\Shadowbane.Models.csproj", "{64DCB862-3D2A-408E-8283-40CD19964A1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Models", "src\Shadowbane.Models\Shadowbane.Models.csproj", "{64DCB862-3D2A-408E-8283-40CD19964A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Models.Tests", "tests\Shadowbane.Models.Tests\Shadowbane.Models.Tests.csproj", "{EC3D99E9-8809-4475-981F-C5FA5BA77809}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Models.Tests", "tests\Shadowbane.Models.Tests\Shadowbane.Models.Tests.csproj", "{EC3D99E9-8809-4475-981F-C5FA5BA77809}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

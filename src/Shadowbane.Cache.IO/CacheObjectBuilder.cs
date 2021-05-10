@@ -1,13 +1,14 @@
 ﻿namespace Shadowbane.Cache.IO
 {
-    using System;
     using Models;
 
     public class CacheObjectBuilder
     {
-        public ICacheObject CreateAndParse(CacheIndex cacheIndex, bool assemble = false)
+        public ICacheObject CreateAndParse(CacheIndex cacheIndex)
         {
-            throw new NotImplementedException();
+            var asset = ArchiveLoader.ObjectArchive[cacheIndex.identity];
+
+            return null;
         }
     }
 }

@@ -25,6 +25,7 @@
                 handle.Free();
             }
         }
+
         public static BinaryReader CreateBinaryReaderUtf32(this ReadOnlyMemory<byte> segment, long cacheIndexOffset)
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF32);
@@ -39,6 +40,10 @@
         public static Vector3 ReadToVector3(this BinaryReader reader)
         {
             return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+        public static Vector2 ReadToVector2(this BinaryReader reader)
+        {
+            return new Vector2(reader.ReadSingle(), reader.ReadSingle());
         }
         public static string ReadAsciiString(this BinaryReader reader, uint counter)
         {

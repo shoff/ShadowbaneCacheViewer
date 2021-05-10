@@ -40,7 +40,15 @@
         [Fact]
         public void Identity_Is_Unique()
         {
-            Assert.True(this.skeletonCache.CacheIndices.GroupBy(x => x.identity).All(g => g.Count() == 1));
+            var query = this.skeletonCache.CacheIndices
+                .GroupBy(x => x.identity)
+                .Where(g => g.Count() > 1)
+                .Select(y => new { Identity = y.Key, Counter = y.Count() })
+                .ToList();
+
+            var moreThan2 = query
+                .Where(a => a.Counter > 1).Select(a => a).ToList();
+            Assert.True(moreThan2.Count == 0);
         }
     }
 }

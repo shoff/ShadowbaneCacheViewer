@@ -2,7 +2,7 @@
 {
     using Xunit;
 
-    public partial class RenderableObjectBuilderTests : CacheLoaderBaseTest
+    public class RenderableObjectBuilderTests : CacheLoaderBaseTest
     {
         [Fact]
         public void All_Duplicate_RenderIds_Have_Duplicate_Identical_Data()

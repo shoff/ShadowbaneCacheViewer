@@ -40,12 +40,15 @@
         [Fact]
         public void Identity_Is_Unique()
         {
-            var query = this.textureCache.CacheIndices.GroupBy(x => x)
+            var query = this.textureCache.CacheIndices
+                .GroupBy(x => x.identity)
                 .Where(g => g.Count() > 1)
-                .Select(y => new { Element = y.Key, Counter = y.Count() })
+                .Select(y => new { Identity = y.Key, Counter = y.Count() })
                 .ToList();
 
-            Assert.True(query.Count == 0);
+            var moreThan2 = query
+                .Where(a => a.Counter > 1).Select(a => a).ToList();
+            Assert.True(moreThan2.Count == 0);
         }
     }
 }

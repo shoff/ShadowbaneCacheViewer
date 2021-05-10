@@ -1,110 +1,66 @@
 ﻿namespace Shadowbane.Cache.IO
 {
     using System;
-    using System.Buffers.Text;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using Geometry;
     using Models;
 
-    public static class MeshBuilder
+    public class MeshBuilder
     {
-        public static Mesh Create(uint identity)
+        private const int MAX_VERTS = 1000000;
+        private const int MAX_NORMALS = 1000000;
+        private const int MAX_TEXTURES = 1000000;
+        private const int MAX_INDICES = 1000000;
+
+        public Mesh Create(ReadOnlyMemory<byte> buffer, uint identity)
         {
-            var cacheIndex = ArchiveLoader.MeshArchive[identity];
-            var buffer = cacheIndex.Asset.Span;
-            var mesh = new Mesh();
+            var mesh = new Mesh(identity);
             var headerSize = Marshal.SizeOf<MeshHeader>();
-            mesh.Header = buffer.Slice(0, headerSize).ByteArrayToStructure<MeshHeader>();
+            mesh.Header = buffer.Slice(0, headerSize).Span.ByteArrayToStructure<MeshHeader>();
             mesh.SetBounds();
+            using var reader = buffer.CreateBinaryReaderUtf32(46);
+            var numberOfVerts = reader.ReadInt32();
+            if (numberOfVerts > MAX_VERTS)
+            {
+                throw new InvalidMeshException($"{numberOfVerts} exceeds the sane MAX_VERTS {MAX_VERTS} count.");
+            }
+
+            for (int i = 0; i < numberOfVerts; i++)
+            {
+                mesh.Vertices.Add(reader.ReadToVector3());
+            }
+
+            var numberOfNormals = reader.ReadInt32();
+            if (numberOfNormals > MAX_NORMALS)
+            {
+                throw new InvalidMeshException($"{numberOfNormals} exceeds the sane MAX_NORMALS {MAX_NORMALS} count.");
+            }
+            for (int i = 0; i < numberOfNormals; i++)
+            {
+                mesh.Normals.Add(reader.ReadToVector3());
+            }
             
-            //// YUCK!
-            //using var reader = new ReadOnlyMemory<byte>
-            //    (buffer.Slice(46).ToArray()).CreateBinaryReaderUtf32(0);
-            var ptr = 46;
-            Utf8Parser.TryParse(buffer.Slice(ptr), out int nVerts, out var _);
-            ptr += 4;
-
-            var floatSize = Marshal.SizeOf<float>();
-            var vBufSize = nVerts * floatSize * 3;
-            mesh.Vertices = new List<Vector3>(nVerts);
-            var preVerts = ptr;
-
-            for (int i = 0; i < nVerts; i++)
+            var numberOfTextures = reader.ReadInt32();
+            if (numberOfTextures > MAX_TEXTURES)
             {
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float x, out var _);
-                ptr += floatSize;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float y, out var _);
-                ptr += floatSize;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float z, out var _);
-                ptr += floatSize;
-                mesh.Vertices.Add(new Vector3(x, y, z));
+                throw new InvalidMeshException($"{numberOfTextures} exceeds the sane MAX_TEXTURES {MAX_TEXTURES} count.");
             }
-
-            Debug.Assert(preVerts + vBufSize == ptr);
-
-            // normals
-            Utf8Parser.TryParse(buffer.Slice(ptr), out int nNormals, out var _);
-            ptr += 4;
-            
-            var normalsBufSize = nNormals * floatSize * 3;
-            mesh.Normals = new List<Vector3>(normalsBufSize);
-            var preNormals = ptr;
-
-            for (int i = 0; i < normalsBufSize; i++)
+            for (int i = 0; i < numberOfTextures; i++)
             {
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float x, out var _);
-                ptr += floatSize;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float y, out var _);
-                ptr += floatSize;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float z, out var _);
-                ptr += floatSize;
-                mesh.Normals.Add(new Vector3(x, y, z));
+                mesh.TextureVectors.Add(reader.ReadToVector2());
             }
-            Debug.Assert(preNormals + normalsBufSize == ptr);
-
-            // textures
-            Utf8Parser.TryParse(buffer.Slice(ptr), out int nTextures, out var _);
-            ptr += 4;
-
-            var tBufSize = nNormals * floatSize * 2;
-            var preTextures = ptr;
-            mesh.TextureVectors = new List<Vector2>();
-
-            for (int i = 0; i < tBufSize; i++)
-            {
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float x, out var _);
-                ptr += floatSize;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out float y, out var _);
-                ptr += floatSize;
-                mesh.TextureVectors.Add(new Vector2(x, y));
-            }
-
-            Debug.Assert(preTextures + tBufSize == ptr);
-
             // indices
-            Utf8Parser.TryParse(buffer.Slice(ptr), out uint nIndices, out var _);
-            ptr += 4;
-
-            mesh.NumberOfIndices = nIndices;
-            mesh.Indices = new List<Models.Index>();
-
-            var uint16Size = Marshal.SizeOf<UInt16>();
-            for (var i = 0; i < mesh.NumberOfIndices; i += 3)
+            var numberOfIndices = reader.ReadInt32();
+            mesh.NumberOfIndices = numberOfIndices;
+            if (numberOfIndices > MAX_INDICES)
             {
-                Utf8Parser.TryParse(buffer.Slice(ptr), out UInt16 position, out var _);
-                ptr += uint16Size;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out UInt16 textureCoordinates, out var _);
-                ptr += uint16Size;
-                Utf8Parser.TryParse(buffer.Slice(ptr), out UInt16 normal, out var _);
-                ptr += uint16Size;
-                mesh.Indices.Add(new Models.Index(position, textureCoordinates, normal));
+                throw new InvalidMeshException($"{numberOfIndices} exceeds the sane MAX_INDICES {MAX_INDICES} count.");
             }
-
+            for (var i = 0; i < numberOfIndices; i += 3)
+            {
+                mesh.Indices.Add(new Models.Index(
+                    reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
+            }
             return mesh;
         }
-
-
     }
 }

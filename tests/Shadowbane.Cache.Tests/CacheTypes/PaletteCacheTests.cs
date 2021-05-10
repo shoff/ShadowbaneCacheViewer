@@ -23,6 +23,6 @@
             var actual = this.paletteCache.IndexCount;
             Assert.Equal(expected, actual);
         }
-
+        
     }
 }
