@@ -25,7 +25,6 @@
                 handle.Free();
             }
         }
-
         public static BinaryReader CreateBinaryReaderUtf32(this ReadOnlyMemory<byte> segment, long cacheIndexOffset = 0)
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF32);
@@ -134,7 +133,14 @@
             // Get the decompressed data  
             return memoryStream.ToArray();
         }
-
+        public static int SafeReadInt32(this BinaryReader reader)
+        {
+            return !reader.CanRead(4) ? 0 : reader.ReadInt32();
+        }
+        public static uint SafeReadUInt32(this BinaryReader reader)
+        {
+            return !reader.CanRead(4) ? 0 : reader.ReadUInt32();
+        }
 
     }
 }

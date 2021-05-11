@@ -1,6 +1,7 @@
 ﻿namespace Shadowbane.Models
 {
     using System;
+    using System.IO;
     using Cache;
 
     public class Structure : ModelObject
@@ -12,73 +13,111 @@
         {
         }
 
-        public int BytesOfZeroData { get; private set; }
-        public bool BValue1 { get; private set; }
-        public bool BValue2 { get; private set; }
-        public bool BValue3 { get; private set; }
-        public bool BWalkData { get; private set; }
-        public uint InventoryTextureId { get; private set; }
-        public uint IUnk { get; private set; }
-        public uint MapTex { get; private set; }
-        public uint NumberOfMeshes { get; private set; }
-        public StructureValidationResult ValidationResult { get; private set; }
+        public int BytesOfZeroData { get; set; }
+        public bool BValue1 { get; set; }
+        public bool BValue2 { get; set; }
+        public bool BValue3 { get; set; }
+        public bool BWalkData { get; set; }
+        public uint InventoryTextureId { get; set; }
+        public uint IUnk { get; set; }
+        public uint MapTex { get; set; }
+        public uint NumberOfMeshes { get; set; }
+        public StructureValidationResult ValidationResult { get; set; }
 
 
         public override ICacheObject Parse()
         {
-            // TODO need to figure out the commented out stuff below
-            using var reader = this.Data.CreateBinaryReaderUtf32();
-            _ = reader.ReadInt32();
-            _ = (ObjectType)reader.ReadInt32();
-            var nameLength = reader.ReadUInt32();
-            var name = reader.ReadAsciiString(nameLength);
-
-            if (string.IsNullOrWhiteSpace(this.Name))
-            {
-                this.Name = name;
-            }
-
+            using var reader = this.Data.CreateBinaryReaderUtf32(this.CursorOffset);
             // should be 12 since the trailing byte may not be there if we are at the end of the file
             // once we have found a valid id then we will jump forward more than a byte at a time.
 
-            //while (reader.CanRead(12) && this.RenderIds.Count == 0)
-            //{
-            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
+            while (reader.CanRead(12) && this.RenderIds.Count == 0)
+            {
+                this.ValidationResult = ValidateCobjectIdType4(reader, this.Identity);
 
-            //    if (this.ValidationResult.IsValid)
-            //    {
-            //        this.RenderIds.Add(this.ValidationResult.Id);
-            //        this.RenderCount = (uint) reader.StructureRenderCount(this.ValidationResult);
-            //    }
-            //    else
-            //    {
-            //        reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
-            //    }
-            //}
+                if (this.ValidationResult.IsValid)
+                {
+                    this.RenderIds.Add(this.ValidationResult.Id);
+                    this.RenderCount = (uint)StructureRenderCount(reader, this.ValidationResult);
+                }
+                else
+                {
+                    reader.BaseStream.Position = (this.ValidationResult.InitialOffset + 1);
+                }
+            }
 
-            //while (reader.CanRead(12) && this.ValidationResult.IsValid &&
-            //    this.ValidationResult.NullTerminator == 0)
-            //{
-            //    this.ValidationResult = reader.ValidateCobjectIdType4(this.CacheIndex.identity);
-            //    if (this.ValidationResult.IsValid)
-            //    {
-            //        this.RenderIds.Add(this.ValidationResult.Id);
-            //    }
-            //}
+            while (reader.CanRead(12) && this.ValidationResult.IsValid &&
+                this.ValidationResult.NullTerminator == 0)
+            {
+                this.ValidationResult = ValidateCobjectIdType4(reader, this.Identity);
+                if (this.ValidationResult.IsValid)
+                {
+                    this.RenderIds.Add(this.ValidationResult.Id);
+                }
+            }
             return this;
         }
 
-        //public void ParseAndAssemble()
-        //{
-        //    this.Parse();
-        //    foreach (var render in this.RenderIds)
-        //    {
-        //        // TODO this doesn't handle duplicate ids
-        //        var asset = ArchiveLoader.RenderArchive[render];
-        //        var renderInformation = RenderableObjectBuilder.Create(asset.CacheIndex);
-        //        this.Renders.Add(renderInformation);
-        //    }
-        //}
+        private int StructureRenderCount(BinaryReader reader, StructureValidationResult result)
+        {
+            var distance = result.NullTerminatorRead ? 26 : 25;
+            reader.BaseStream.Position -= distance;
+            var count = reader.ReadInt32();
+            reader.BaseStream.Position += distance - 4;
+            return count;
+        }
+
+        private StructureValidationResult ValidateCobjectIdType4(BinaryReader reader, uint identity)
+        {
+            var result = new StructureValidationResult
+            {
+                InitialOffset = reader.BaseStream.Position,
+                Id = reader.SafeReadUInt32(),
+                BytesLeftInObject = (int)(reader.BaseStream.Length - reader.BaseStream.Position),
+                IsValid = false,
+                NullTerminatorRead = false,
+                NullTerminator = StructureValidationResult.NOT_READ,
+                Range = 0
+            };
+
+            if (result.Id <= 0 || identity > 999 && result.Id < 1000)
+            {
+                return result;
+            }
+
+            // range check to make sure that the id and identity aren't 
+            // too far apart as they should be relatively close to each other.
+            result.Range = (int)(result.Id > identity ?
+                Math.Abs(identity - result.Id) :
+                Math.Abs(result.Id - identity));
+
+            if (Math.Abs(result.Range) > 5000)
+            {
+                return result;
+            }
+
+            // TODO a registry of render ids at app start?
+            //if (!RenderInformationFactory.Instance.IsValidRenderId(result.Id))
+            //{
+            //    return result;
+            //}
+
+            result.IsValidRenderId = true;
+
+            result.FirstInt = reader.ReadUInt32();
+            result.SecondInt = reader.ReadUInt32();
+
+            if (reader.CanRead(1))
+            {
+                result.NullTerminator = reader.ReadByte();
+                result.NullTerminatorRead = true;
+            }
+
+            result.EndingOffset = reader.BaseStream.Position;
+            result.BytesLeftInObject = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
+            result.IsValid = result.PaddingIsValid;
+            return result;
+        }
 
         public class StructureValidationResult
         {
