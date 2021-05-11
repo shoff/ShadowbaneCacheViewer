@@ -23,4 +23,25 @@
             base.GetObjectData(info, context);
         }
     }
+
+    [Serializable]
+    public sealed class InvalidMeshException : Exception
+    {
+        public InvalidMeshException(string message)
+            : base(message)
+        {
+        }
+
+        private InvalidMeshException(
+            SerializationInfo serializationInfo,
+            StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+        }
+    }
 }
