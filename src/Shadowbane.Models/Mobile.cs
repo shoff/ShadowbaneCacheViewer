@@ -10,18 +10,9 @@
     public class Mobile : AnimationObject
     {
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Mobile" /> class.
-        /// </summary>
-        /// <param name="cacheIndex">Index of the cache.</param>
-        /// <param name="flag">The flag.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="data">The data.</param>
-        /// <param name="innerOffset">The inner offset.</param>
-        public Mobile(CacheIndex cacheIndex, ObjectType flag, string name, uint offset, ArraySegment<byte> data,
+        public Mobile(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
             uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+            : base(identity, ObjectType.Mobile, name, offset, data, innerOffset)
         {
             this.StatArray = new List<uint>();
         }
@@ -57,12 +48,12 @@
         public int SomethingWithPets { get; set; }
         public DateTime WolfpackCreateDate { get; set; }
 
-        public override void Parse()
+        public override ICacheObject Parse()
         {
-            this.ObjId = this.CacheIndex.identity;
+            this.ObjId = this.Identity; // huh?
 
             this.FourIntArray = new int[4];
-            using var reader = this.Data.CreateBinaryReaderUtf32(0);
+            using var reader = this.Data.CreateBinaryReaderUtf32();
             // TNLC
             reader.ReadInt32();
             reader.ReadInt32();
@@ -696,6 +687,7 @@
 
             //System.out.println(counter2 + "/" + counter3);
             #endregion
+            return this;
         }
 
 

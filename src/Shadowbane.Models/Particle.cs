@@ -3,16 +3,16 @@
     using System;
     using Cache;
 
-    public class Simple : ModelObject
+    public class Particle : ModelObject
     {
 
-        public Simple(
-            uint identity, 
-            string name, 
-            uint offset, 
+        public Particle(
+            uint identity,
+            string name,
+            uint offset,
             ReadOnlyMemory<byte> data,
             uint innerOffset)
-            : base(identity, ObjectType.Simple, name, offset, data, innerOffset)
+            : base(identity, ObjectType.Particle, name, offset, data, innerOffset)
         {
         }
 

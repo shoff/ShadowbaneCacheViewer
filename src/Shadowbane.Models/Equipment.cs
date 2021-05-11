@@ -1,7 +1,6 @@
 ﻿namespace Shadowbane.Models
 {
     using System;
-    using System.IO;
     using Cache;
 
     public class Equipment : ModelObject
@@ -10,15 +9,15 @@
         private uint inventoryTextureId;
         private uint mapTex;
 
-        public Equipment(CacheIndex cacheIndex, ObjectType flag, string name, uint offset, ReadOnlyMemory<byte> data,
+        public Equipment(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
             uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+            : base(identity, ObjectType.Equipment, name, offset, data, innerOffset)
         {
         }
 
-        public override void Parse()
+        public override ICacheObject Parse()
         {
-            using var reader = this.Data.CreateBinaryReaderUtf32(0);
+            using var reader = this.Data.CreateBinaryReaderUtf32(this.CursorOffset);
             // ReSharper disable once NotAccessedVariable
             uint iUnk = 0;
             reader.BaseStream.Position = this.CursorOffset;
@@ -68,6 +67,7 @@
 
             //var ri = this.renderRepository.BuildRenderInfo(cii);
             //this.renderInfo.Add(ri);
+            return this;
         }
 
         //private void ValidateRenderId(BinaryReader reader)

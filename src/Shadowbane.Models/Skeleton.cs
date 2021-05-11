@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Shadowbane.Cache;
-
-namespace Shadowbane.Models
+﻿namespace Shadowbane.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using Cache;
+
     public class Skeleton
     {
         public Skeleton(ReadOnlyMemory<byte> data, int id)
@@ -11,7 +11,7 @@ namespace Shadowbane.Models
             this.MotionIds = new HashSet<long>();
             this.SkeletonId = id;
 
-            using (var reader = data.CreateBinaryReaderUtf32(0))
+            using (var reader = data.CreateBinaryReaderUtf32())
             {
                 var textLength = reader.ReadUInt32();
                 this.SkeletonText = reader.ReadAsciiString(textLength);

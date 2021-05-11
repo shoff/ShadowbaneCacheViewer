@@ -6,30 +6,22 @@
 
     public abstract class CacheObject : ICacheObject
     {
-        protected CacheObject(CacheIndex cacheIndex, ObjectType flag, string name,
-            uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
-        {
-            this.CacheIndex = cacheIndex;
-            this.Flag = flag;
-            this.Name = name;
-            this.CursorOffset = offset;
-            this.Data = data;
-            this.InnerOffset = innerOffset;
-        }
+        protected CacheObject(uint identity, ObjectType flag, string name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset) =>
+            (this.Identity, this.Flag, this.Name, this.CursorOffset, this.Data, this.InnerOffset) =
+            (identity, flag, name, offset, data, innerOffset);
 
-        public uint Id { get; set; }
-        public ICollection<uint> RenderIds { get; set; } = new HashSet<uint>();
-        public ICollection<RenderInformation> Renders { get; set; } = new HashSet<RenderInformation>();
+        public uint Identity { get; }
+        public ICollection<uint> RenderIds { get; } = new HashSet<uint>();
+        public ICollection<RenderInformation> Renders { get;} = new HashSet<RenderInformation>();
         public int UnParsedBytes { get; set; }
-        public CacheIndex CacheIndex { get; set; }
         public uint RenderId { get; set; }
-        public string Name { get; set; }
-        public ObjectType Flag { get; set; }
-        public uint CursorOffset { get; set; }
-        public ReadOnlyMemory<byte> Data { get; set; }
-        public uint InnerOffset { get; set; }
+        public string Name { get; protected set; }
+        public ObjectType Flag { get; }
+        public uint CursorOffset { get; }
+        public ReadOnlyMemory<byte> Data { get; }
+        public uint InnerOffset { get; }
         public uint RenderCount { get; set; }
-        public abstract void Parse();
+        public abstract ICacheObject Parse();
         public int CompareTo(ICacheObject other)
         {
             if (other == null || this.Flag > other.Flag)

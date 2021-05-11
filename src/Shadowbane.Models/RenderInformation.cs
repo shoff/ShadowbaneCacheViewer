@@ -45,13 +45,14 @@
         public long UnreadByteCount { get; set; }
         public uint JointNameSize { get; set; }
         public DateTime? ModifiedDate { get; set; }
-
+        public bool IsValid { get; set; } = true;
+        public uint Identity { get; set; }
         public override string ToString()
         {
             var sb = new StringBuilder();
             sb.AppendLine($"# RenderIdentity: {this.CacheIndex.identity}");
             sb.AppendLine($"# MeshId: {this.MeshId.ToString(CultureInfo.InvariantCulture)}");
-            sb.AppendLine($"# Joint name: {this.JointName ?? "Not a joint"}");
+            sb.AppendLine($"# Joint name: {this.JointName.ToString() ?? "Not a joint"}");
             sb.AppendLine($"# Notes: {this.Notes}");
             sb.AppendLine($"# Children: {this.RenderCount}");
             sb.AppendLine($"# Scale: {this.Scale.ToString()}");

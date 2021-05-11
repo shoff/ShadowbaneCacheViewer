@@ -25,8 +25,7 @@
                 handle.Free();
             }
         }
-
-        public static BinaryReader CreateBinaryReaderUtf32(this ReadOnlyMemory<byte> segment, long cacheIndexOffset)
+        public static BinaryReader CreateBinaryReaderUtf32(this ReadOnlyMemory<byte> segment, long cacheIndexOffset = 0)
         {
             var reader = new BinaryReader(segment.AsStream(), Encoding.UTF32);
             reader.BaseStream.Position = cacheIndexOffset;
@@ -116,14 +115,14 @@
         public static ReadOnlyMemory<byte> Uncompress(this ReadOnlyMemory<byte> memory, uint uncompressedSize)
         {
             var decompressor = new Inflater();
-            decompressor.SetInput(memory.ToArray()); 
+            decompressor.SetInput(memory.ToArray());
             var shared = ArrayPool<byte>.Shared;
 
             // CreateAndParse an expandable byte array to hold the decompressed data  
             using var memoryStream = new MemoryStream(memory.Length);
 
             // Decompress the data  
-            var buffer = shared.Rent((int) uncompressedSize);
+            var buffer = shared.Rent((int)uncompressedSize);
             while (!decompressor.IsFinished)
             {
                 var count = decompressor.Inflate(buffer);
@@ -134,7 +133,14 @@
             // Get the decompressed data  
             return memoryStream.ToArray();
         }
-
+        public static int SafeReadInt32(this BinaryReader reader)
+        {
+            return !reader.CanRead(4) ? 0 : reader.ReadInt32();
+        }
+        public static uint SafeReadUInt32(this BinaryReader reader)
+        {
+            return !reader.CanRead(4) ? 0 : reader.ReadUInt32();
+        }
 
     }
 }

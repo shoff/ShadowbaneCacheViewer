@@ -6,9 +6,14 @@
 
     public abstract class ModelObject : CacheObject
     {
-        protected ModelObject(CacheIndex cacheIndex, ObjectType flag, string name, uint offset, ReadOnlyMemory<byte> data,
+        protected ModelObject(
+            uint identity, 
+            ObjectType flag, 
+            string name, 
+            uint offset, 
+            ReadOnlyMemory<byte> data,
             uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+            : base(identity, flag, name, offset, data, innerOffset)
         {
         }
 

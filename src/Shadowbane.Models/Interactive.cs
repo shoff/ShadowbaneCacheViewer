@@ -14,15 +14,15 @@
 
         public Structure.StructureValidationResult ValidationResult { get; private set; }
 
-        public Interactive(CacheIndex cacheIndex, ObjectType flag, string name, uint offset, ReadOnlyMemory<byte> data,
+        public Interactive(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
             uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+            : base(identity, ObjectType.Interactive, name, offset, data, innerOffset)
         {
         }
-        public override void Parse()
+        public override ICacheObject Parse()
         {
             // TODO need to figure out the below commented out code.
-            using var reader = this.Data.CreateBinaryReaderUtf32(0);
+            using var reader = this.Data.CreateBinaryReaderUtf32();
             _ = reader.ReadInt32();
             _ = (ObjectType)reader.ReadInt32();
             var nameLength = reader.ReadUInt32();
@@ -60,6 +60,7 @@
             //        this.RenderIds.Add(this.ValidationResult.Id);
             //    }
             //}
+            return this;
         }
 
 
