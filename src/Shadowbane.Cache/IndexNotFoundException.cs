@@ -22,4 +22,15 @@
         {
         }
     }
+
+    [Serializable]
+    public sealed class InvalidMeshException : ApplicationException
+    {
+        public InvalidMeshException(string message)
+            : base(message){}
+        private InvalidMeshException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+        }
+    }
 }

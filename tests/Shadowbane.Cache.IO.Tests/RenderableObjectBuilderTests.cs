@@ -1,9 +1,37 @@
 ﻿namespace Shadowbane.Cache.IO.Tests
 {
+    using System;
+    using System.IO;
     using Xunit;
 
     public class RenderableObjectBuilderTests : CacheLoaderBaseTest
     {
+        [Fact]
+        public void All_Render_Indices_Are_Exportable()
+        {
+            foreach (var index in ArchiveLoader.RenderArchive.CacheIndices)
+            {
+                if (!BadRenderIds.IsInList(index))
+                {
+                    try
+                    {
+                        var information = RenderableObjectBuilder.Create(index, true);
+                        
+                        if (information.IsValid)
+                        {
+                            // holy fucking shit a valid one.
+                            File.AppendAllLines(AppDomain.CurrentDomain.BaseDirectory + "valid_render_ids.txt",
+                                new[] { information.Identity.ToString() });
+                        }
+                    }
+                    catch (ParseException)
+                    {
+                        File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "bad_ids.txt", $"{index.identity},");
+                    }
+                }
+            }
+        }
+
         [Fact]
         public void All_Duplicate_RenderIds_Have_Duplicate_Identical_Data()
         {
