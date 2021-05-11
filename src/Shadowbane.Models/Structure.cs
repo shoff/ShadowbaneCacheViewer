@@ -91,7 +91,7 @@
                 Math.Abs(identity - result.Id) :
                 Math.Abs(result.Id - identity));
 
-            if (Math.Abs(result.Range) > 5000)
+            if (Math.Abs(result.Range) > VALID_RANGE)
             {
                 return result;
             }
