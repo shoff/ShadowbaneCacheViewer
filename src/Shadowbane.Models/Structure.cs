@@ -5,11 +5,10 @@
 
     public class Structure : ModelObject
     {
-        private const int ValidRange = 5000;
+        private const int VALID_RANGE = 5000;
 
-        public Structure(CacheIndex cacheIndex, ObjectType flag,
-            string name, uint offset, ArraySegment<byte> data, uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+        public Structure(uint identity, string name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
+            : base(identity, ObjectType.Structure, name, offset, data, innerOffset)
         {
         }
 
@@ -25,10 +24,10 @@
         public StructureValidationResult ValidationResult { get; private set; }
 
 
-        public override void Parse()
+        public override ICacheObject Parse()
         {
             // TODO need to figure out the commented out stuff below
-            using var reader = this.Data.CreateBinaryReaderUtf32(0);
+            using var reader = this.Data.CreateBinaryReaderUtf32();
             _ = reader.ReadInt32();
             _ = (ObjectType)reader.ReadInt32();
             var nameLength = reader.ReadUInt32();
@@ -66,6 +65,7 @@
             //        this.RenderIds.Add(this.ValidationResult.Id);
             //    }
             //}
+            return this;
         }
 
         //public void ParseAndAssemble()

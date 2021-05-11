@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using ChaosMonkey.Guards;
     using Geometry;
 
     public class WavefrontReader
@@ -23,11 +24,7 @@
         
         public WavefrontObject Read(Stream stream)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
+            Guard.IsNotNull(stream, nameof(stream));
             // CreateAndParse the stream reader for the file
             using var reader = new StreamReader(stream);
 
@@ -132,11 +129,6 @@
 
         private static float[] ParseFloatArray(string str, int count)
         {
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                throw new ArgumentNullException(str);
-            }
-
             // CreateAndParse an array of floats of arbitrary length from a string representation,
             // where the floats are separated by whitespace.
             var floats = new float[count];
@@ -163,11 +155,7 @@
 
         public Vector2 ParseVector2(string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                throw new ArgumentNullException(str);
-            }
-
+            Guard.IsNotNullOrWhitespace(str, nameof(str));
             // Parse a 3D vector from a string definition in the form of: 2.0 3.0 1.0
             var components = ParseFloatArray(str, 3);
             if (components.Length != 3)
@@ -181,10 +169,7 @@
 
         public Vector3 ParseVector3(string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                throw new ArgumentNullException(str);
-            }
+            Guard.IsNotNullOrWhitespace(str, nameof(str));
 
             // Parse a 3D vector from a string definition in the form of: 1.0 2.0 3.0 1.0
             var components = ParseFloatArray(str, 4);
@@ -194,10 +179,7 @@
 
         public WavefrontFace ParseFace(string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                throw new ArgumentNullException(str);
-            }
+            Guard.IsNotNullOrWhitespace(str, nameof(str));
 
             // Parse a OBJ face from a string definition.
             // Split the face definition at whitespace
@@ -218,10 +200,7 @@
 
         public Index ParseVertex(string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                throw new ArgumentNullException(str);
-            }
+            Guard.IsNotNullOrWhitespace(str, nameof(str));
 
             // Parse an OBJ vertex from a string definition in the forms of: 
             //     1/2/3

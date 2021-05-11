@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ChaosMonkey.Guards.NetStandard" Version="1.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
+    <ProjectReference Include="..\Shadowbane.Models\Shadowbane.Models.csproj" />
   </ItemGroup>
 
 </Project>

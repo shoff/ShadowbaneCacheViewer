@@ -41,13 +41,13 @@ namespace Shadowbane.Models
         public uint VertexCount { get; set; }
         public uint VertexBufferSize { get; set; }
         public MeshHeader Header { get; set; }
-        public ICollection<Texture> Textures { get; } = new List<Texture>();
+        public IList<Texture> Textures { get; } = new List<Texture>();
         public ICollection<Vector3> Vertices { get; private set; } = new List<Vector3>();
         public ulong VerticesOffset { get; set; }
         public ICollection<Vector3> Normals { get; } = new List<Vector3>();
         public ICollection<Vector2> TextureVectors { get; } = new List<Vector2>();
         public ulong IndicesOffset { get; set; }
-        public ICollection<Models.Index> Indices { get; } = new List<Models.Index>();
+        public IList<Index> Indices { get; } = new List<Models.Index>();
         public ulong NormalsOffset { get; set; }
         public uint NormalsCount { get; set; }
         public uint NormalsBufferSize { get; set; }

@@ -5,9 +5,9 @@
 
     public abstract class AnimationObject : ModelObject
     {
-        protected AnimationObject(CacheIndex cacheIndex, ObjectType flag, string name, uint offset,
+        protected AnimationObject(uint identity, ObjectType flag, string name, uint offset,
             ReadOnlyMemory<byte> data, uint innerOffset)
-            : base(cacheIndex, flag, name, offset, data, innerOffset)
+            : base(identity, flag, name, offset, data, innerOffset)
         {
         }
 

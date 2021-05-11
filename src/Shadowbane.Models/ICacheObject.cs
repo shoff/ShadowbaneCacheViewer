@@ -6,7 +6,7 @@
 
     public interface ICacheObject : IComparable<ICacheObject>
     {
-        CacheIndex CacheIndex { get; }
+        uint Identity { get; }
         uint RenderId { get; }
         string Name { get; }
         ObjectType Flag { get; }
@@ -14,8 +14,8 @@
         ReadOnlyMemory<byte> Data { get; }
         uint InnerOffset { get; }
         uint RenderCount { get; set; }
-        ICollection<uint> RenderIds { get; set; }
-        ICollection<RenderInformation> Renders { get; set; }
-        void Parse();
+        ICollection<uint> RenderIds { get; }
+        ICollection<RenderInformation> Renders { get; }
+        ICacheObject Parse();
     }
 }
