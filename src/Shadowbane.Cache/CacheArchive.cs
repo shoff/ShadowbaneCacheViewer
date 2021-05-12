@@ -52,7 +52,6 @@ namespace Shadowbane.Cache
 
         public virtual CacheArchive LoadIndexes()
         {
-            // using var reader = this.bufferData.CreateBinaryReaderUtf32(this.indexOffset);
             var cacheIndexSize = Marshal.SizeOf<CacheIndex>();
             for (var i = 0; i < this.cacheHeader.indexCount; i++)
             {
@@ -107,7 +106,7 @@ namespace Shadowbane.Cache
             {
                 if (id == 0 || this.cacheIndices.All(i => i.identity != id))
                 {
-                    throw new IndexNotFoundException("no name", id);
+                    return new CacheAsset(new CacheIndex(), new ReadOnlyMemory<byte>());
                 }
                 // these "identities" are in fact duped, it could be either a male/female thing or a "versioning" strategy..
                 var cacheIndex = this.cacheIndices.First(x => x.identity == id);

@@ -7,7 +7,6 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Cache;
     using ChaosMonkey.Guards;
     using Models;
 
@@ -26,22 +25,10 @@
         private const string MATERIAL_SPECUALR_NS = "Ns 10.000";
         private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 2\r\n";
         private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-        private readonly string modelDirectory; // = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "\\Models\\");
         private string name;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ObjExporter" /> class.
-        /// </summary>
-        public ObjExporter()
-        {
-            this.modelDirectory = CacheLocation.OutputFolder.FullName;
-        }
 
-        /// <summary>
-        ///     Exports the specified cache object.
-        /// </summary>
-        /// <param name="cacheObject">The cache object.</param>
-        public void Export(ICacheObject cacheObject)
+        public void Export(ICacheObject cacheObject, string outputDirectory)
         {
             Guard.IsNotNull(cacheObject, nameof(cacheObject));
             var mainStringBuilder = new StringBuilder();
@@ -52,20 +39,15 @@
                 ? cacheObject.Identity + "_"
                 : cacheObject.Name.Replace(" ", "_");
 
-            var exportDirectory = this.EnsureDirectory(this.name);
+            var exportDirectory = this.EnsureDirectory(this.name, outputDirectory);
             mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create((int) cacheObject.Identity));
             mainStringBuilder.AppendFormat(MATERIAL_LIB, this.name);
 
             // save the obj
-            using (var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj",
-                FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-            {
-                using (var writer = new StreamWriter(fs))
-                {
-                    writer.Write(mainStringBuilder.ToString());
-                }
-            }
-
+            using var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            using var writer = new StreamWriter(fs);
+            writer.Write(mainStringBuilder.ToString());
+            
             // save the material
             var mtlFile = exportDirectory + "\\" + this.name + ".mtl";
             if (File.Exists(mtlFile))
@@ -73,15 +55,9 @@
                 File.Delete(mtlFile);
             }
 
-            using (var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create,
-                    FileAccess.ReadWrite,
-                    FileShare.ReadWrite))
-            {
-                using (var writer = new StreamWriter(fs1))
-                {
-                    writer.Write(materialBuilder.ToString());
-                }
-            }
+            using var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            using var writer1 = new StreamWriter(fs1);
+            writer1.Write(materialBuilder.ToString());
         }
 
         public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder,
@@ -108,8 +84,8 @@
             }
 
             mainStringBuilder.AppendFormat(SB_RENDER_ID, mesh.Identity);
-
             var mapFiles = new List<string>();
+            
             if (mesh.Textures.Any())
             {
                 //var archive = (Textures)ArchiveFactory.Instance.Build(CacheFile.Textures);
@@ -119,7 +95,7 @@
                     //var asset = ArchiveLoader.
                     //    archive[texture.TextureId];
                     //using var map = mesh.Textures[i].TextureMap(asset.Item1);
-                    var map = mesh.Textures[i].Image;
+                    using var map = mesh.Textures[i].Image;
                     var mapName = directory + "\\" +
                         mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".jpg";
                     mapFiles.Add(mapName);
@@ -198,9 +174,9 @@
             materialBuilder.AppendFormat(MAP_TO, mapName.Substring(mapName.LastIndexOf('\\') + 1));
         }
 
-        private string EnsureDirectory(string name)
+        private string EnsureDirectory(string name, string modelDirectory)
         {
-            var fullName = Path.Combine(this.modelDirectory, name);
+            var fullName = Path.Combine(modelDirectory, name);
 
             if (Directory.Exists(fullName))
             {
@@ -211,29 +187,6 @@
             return fullName;
         }
 
-        class MayaObjHeaderFactory
-        {
-            private const string SB_CACHE_ID = "# Shadowbane cacheObject id: {0}\r\n";
-            private const string SB_CACHE_NAME = "# Shadowbane cacheObject: {0}\r\n";
-            private const string SB_CREATED = "# created on: {0}\r\n";
 
-            public static MayaObjHeaderFactory Instance => new MayaObjHeaderFactory();
-
-            public string Create(int identity)
-            {
-                var id = string.Format(SB_CACHE_ID, identity);
-                var created = string.Format(SB_CREATED, DateTime.Now);
-                var createdAll = string.Join(string.Empty, id, created);
-                return createdAll;
-            }
-
-            public string Create(string name)
-            {
-                var id = string.Format(SB_CACHE_NAME, name);
-                var created = string.Format(SB_CREATED, DateTime.Now);
-                var createdAll = string.Join(string.Empty, id, created);
-                return createdAll;
-            }
-        }
     }
 }

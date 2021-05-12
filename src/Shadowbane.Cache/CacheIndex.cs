@@ -12,6 +12,11 @@
         public uint unCompressedSize;
         public uint compressedSize;
 
+        public bool IsValid()
+        {
+            return this.unCompressedSize > 0 && this.identity > 0 && this.compressedSize > 0;
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();

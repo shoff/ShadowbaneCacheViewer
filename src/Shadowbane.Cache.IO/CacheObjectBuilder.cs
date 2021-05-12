@@ -6,7 +6,7 @@
 
     public class CacheObjectBuilder
     {
-        public object CreateAndParse(uint identity)
+        public ICacheObject CreateAndParse(uint identity)
         {
             var asset = ArchiveLoader.ObjectArchive[identity];
             using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
@@ -32,9 +32,17 @@
             var nameLength = reader.ReadUInt32();
             var name = reader.ReadAsciiString(nameLength);
             reader.BaseStream.Position += 25;
-            var offset = (uint)reader.BaseStream.Position + 25;
-            return new Simple(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            var offset = (uint)reader.BaseStream.Position;
+            var simple = new Simple(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
+
+            foreach (var renderId in simple.RenderIds)
+            {
+                var renderInformation = RenderableObjectBuilder.Build(renderId);
+                simple.Renders.Add(renderInformation);
+            }
+
+            return simple;
         }
         
         private ICacheObject Structure(BinaryReader reader, CacheAsset asset)

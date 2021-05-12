@@ -18,6 +18,7 @@
         public ReadOnlyMemory<byte> Asset { get; }
         public bool HasMultipleIdentityEntries { get; set; }
         public AssetOrder Order { get; set; }
+        public bool IsValid => this.Asset.Length > 0 && this.CacheIndex.IsValid();
         public override string ToString()
         {
             return this.CacheIndex.identity.ToString();

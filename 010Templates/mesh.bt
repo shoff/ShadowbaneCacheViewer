@@ -38,6 +38,18 @@ string tVector2fRead( tVector2f &v ) {
 };
 
 typedef struct {
+    USHORT    p;
+    USHORT    t;
+    USHORT    n;
+} tIndexf <read=tIndexfRead>;
+
+string tIndexffRead( tIndexf &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.p, v.t, v.n);
+ return s;
+};
+
+typedef struct {
     byte garb[34];
 } garb;
 
@@ -63,11 +75,7 @@ tVector3f normals[normalsCount];
 int textureCount;
 tVector2f textures[textureCount];
 
-// ushort indices[indiceCount];
-// experimenting
+int indicesCount;
 
-int vertex2Count;
-tVector3f verts2[vertex2Count];
-
-int indiceCount;
-ushort indices[indiceCount];
+local int iCount = indicesCount / 3;
+tIndexf indices[iCount];

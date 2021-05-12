@@ -47,14 +47,12 @@ namespace Shadowbane.Models
         public ICollection<Vector3> Normals { get; } = new List<Vector3>();
         public ICollection<Vector2> TextureVectors { get; } = new List<Vector2>();
         public ulong IndicesOffset { get; set; }
-        public IList<Index> Indices { get; } = new List<Models.Index>();
+        public IList<Index> Indices { get; } = new List<Index>();
         public ulong NormalsOffset { get; set; }
         public uint NormalsCount { get; set; }
         public uint NormalsBufferSize { get; set; }
         public ulong TextureOffset { get; set; }
         public uint TextureCoordinatesCount { get; set; }
-        public byte[] UnknownData { get; set; }
-        public long OffsetToUnknownData { get; set; }
         public int NumberOfIndices { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Position { get; set; }
@@ -93,7 +91,7 @@ namespace Shadowbane.Models
 
         public void SetBounds()
         {
-            this.SetBounds(new Vector3(this.Header.minx, this.Header.miny, this.Header.minz), 
+            this.SetBounds(new Vector3(this.Header.minx, this.Header.miny, this.Header.minz),
                 new Vector3(this.Header.maxx, this.Header.maxy, this.Header.maxz));
         }
 

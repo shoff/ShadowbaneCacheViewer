@@ -46,6 +46,10 @@
         }
         public static string ReadAsciiString(this BinaryReader reader, uint counter)
         {
+            if (counter < 2) // utf so must be at least 2 bytes
+            {
+                return null;
+            }
             var byteArray = reader.ReadBytes((int)counter * 2);
             var enc = new ASCIIEncoding();
             var tvTemp = enc.GetString(byteArray);
@@ -140,6 +144,14 @@
         public static uint SafeReadUInt32(this BinaryReader reader)
         {
             return !reader.CanRead(4) ? 0 : reader.ReadUInt32();
+        }
+        public static Vector3 SafeReadToVector3(this BinaryReader reader)
+        {
+            return !reader.CanRead(12) ? new Vector3() :  new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+        }
+        public static Vector2 SafeReadToVector2(this BinaryReader reader)
+        {
+            return !reader.CanRead(8) ? new Vector2() : new Vector2(reader.ReadSingle(), reader.ReadSingle());
         }
 
     }

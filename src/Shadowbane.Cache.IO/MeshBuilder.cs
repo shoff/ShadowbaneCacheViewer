@@ -2,6 +2,7 @@
 {
     using System;
     using System.Runtime.InteropServices;
+    using Exporter.File;
     using Models;
 
     public class MeshBuilder
@@ -11,12 +12,20 @@
         private const int MAX_TEXTURES = 1000000;
         private const int MAX_INDICES = 1000000;
 
-        public Mesh Create(ReadOnlyMemory<byte> buffer, uint identity)
+        public Mesh SaveRawMeshData(ReadOnlyMemory<byte> buffer, uint identity)
+        {
+            var asset = ArchiveLoader.MeshArchive[identity];
+            FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.MeshOutputFolder.FullName, $"{identity}.sbmesh");
+            return this.Build(buffer, identity);
+        }
+
+        public Mesh Build(ReadOnlyMemory<byte> buffer, uint identity)
         {
             var mesh = new Mesh(identity);
             var headerSize = Marshal.SizeOf<MeshHeader>();
             mesh.Header = buffer.Slice(0, headerSize).Span.ByteArrayToStructure<MeshHeader>();
             mesh.SetBounds();
+
             using var reader = buffer.CreateBinaryReaderUtf32(46);
             var numberOfVerts = reader.ReadInt32();
             if (numberOfVerts > MAX_VERTS)
