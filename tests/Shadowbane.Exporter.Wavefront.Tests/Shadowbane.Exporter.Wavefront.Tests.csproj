@@ -21,12 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\old viewer\ShadowbaneCacheViewer\src\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
-    <ProjectReference Include="..\..\..\old viewer\ShadowbaneCacheViewer\src\Shadowbane.Cache\Shadowbane.Cache.csproj" />
-    <ProjectReference Include="..\..\..\old viewer\ShadowbaneCacheViewer\src\Shadowbane.Exporter.Wavefront\Shadowbane.Exporter.Wavefront.csproj" />
-    <ProjectReference Include="..\..\..\old viewer\ShadowbaneCacheViewer\src\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
-    <ProjectReference Include="..\..\..\old viewer\ShadowbaneCacheViewer\src\Shadowbane.Models\Shadowbane.Models.csproj" />
-  </ItemGroup>
-
 </Project>
