@@ -107,7 +107,9 @@ namespace Shadowbane.Cache
             {
                 if (id == 0 || this.cacheIndices.All(i => i.identity != id))
                 {
-                    throw new IndexNotFoundException("no name", id);
+                    // TODO should I throw here or just return default...
+                    // throw new IndexNotFoundException("no name", id);
+                    return default;
                 }
                 // these "identities" are in fact duped, it could be either a male/female thing or a "versioning" strategy..
                 var cacheIndex = this.cacheIndices.First(x => x.identity == id);

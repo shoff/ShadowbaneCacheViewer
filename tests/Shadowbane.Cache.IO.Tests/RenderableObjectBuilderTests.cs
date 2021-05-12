@@ -1,6 +1,5 @@
 ﻿namespace Shadowbane.Cache.IO.Tests
 {
-    using System;
     using System.IO;
     using Xunit;
 
@@ -11,26 +10,42 @@
         {
             foreach (var index in ArchiveLoader.RenderArchive.CacheIndices)
             {
-                if (!BadRenderIds.IsInList(index))
+                try
                 {
-                    try
+                    var information = RenderableObjectBuilder.Create(index, true);
+
+                    if (information.IsValid)
                     {
-                        var information = RenderableObjectBuilder.Create(index, true);
-                        
-                        if (information.IsValid)
-                        {
-                            // holy fucking shit a valid one.
-                            File.AppendAllLines(AppDomain.CurrentDomain.BaseDirectory + "valid_render_ids.txt",
-                                new[] { information.Identity.ToString() });
-                        }
+                        // holy fucking shit a valid one.
+                        File.AppendAllLines(CacheLocation.RenderOutputFolder + "valid_render_ids.txt",
+                            new[] { information.Identity.ToString() });
                     }
-                    catch (ParseException)
-                    {
-                        File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "bad_ids.txt", $"{index.identity},");
-                    }
+                }
+                catch (ParseException)
+                {
+                    File.AppendAllText(CacheLocation.RenderOutputFolder + "bad_ids.txt", $"{index.identity},");
                 }
             }
         }
+
+        //[Fact]
+        //public void All_Textures_Are_Correct()
+        //{
+        //    foreach (var index in ArchiveLoader.TextureArchive.CacheIndices)
+        //    {
+        //        var asset = ArchiveLoader.TextureArchive[index.identity];
+        //        var texture = new Texture(asset.Asset, index.identity);
+
+        //        if (texture.Image != null)
+        //        {
+        //            texture.Image.Save($"{CacheLocation.TextureFolder.FullName}\\{texture.TextureId}.jpg");
+        //        }
+        //        else
+        //        {
+        //            FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.TextureFolder.FullName + "\\bad_image_data", $"{index.identity}-{asset.Order}");
+        //        }
+        //    }
+        //}
 
         [Fact]
         public void All_Duplicate_RenderIds_Have_Duplicate_Identical_Data()

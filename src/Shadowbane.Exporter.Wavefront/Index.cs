@@ -8,6 +8,7 @@
             this.TextureCoordinate = textureCoordinate;
             this.Normal = normal;
         }
+
         public int Position { get; set; }
         public int Normal { get; set; }
         public int TextureCoordinate { get; set; }
