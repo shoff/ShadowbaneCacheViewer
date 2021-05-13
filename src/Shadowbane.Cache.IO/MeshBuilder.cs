@@ -27,17 +27,19 @@
             mesh.SetBounds();
 
             using var reader = buffer.CreateBinaryReaderUtf32(46);
+
+            // verts
             var numberOfVerts = reader.ReadInt32();
             if (numberOfVerts > MAX_VERTS)
             {
                 throw new InvalidMeshException($"{numberOfVerts} exceeds the sane MAX_VERTS {MAX_VERTS} count.");
             }
-
             for (int i = 0; i < numberOfVerts; i++)
             {
                 mesh.Vertices.Add(reader.ReadToVector3());
             }
 
+            // normals
             var numberOfNormals = reader.ReadInt32();
             if (numberOfNormals > MAX_NORMALS)
             {
@@ -48,6 +50,7 @@
                 mesh.Normals.Add(reader.ReadToVector3());
             }
             
+            // textures
             var numberOfTextures = reader.ReadInt32();
             if (numberOfTextures > MAX_TEXTURES)
             {
@@ -57,6 +60,7 @@
             {
                 mesh.TextureVectors.Add(reader.ReadToVector2());
             }
+
             // indices
             var numberOfIndices = reader.ReadInt32();
             mesh.NumberOfIndices = numberOfIndices;
@@ -64,10 +68,10 @@
             {
                 throw new InvalidMeshException($"{numberOfIndices} exceeds the sane MAX_INDICES {MAX_INDICES} count.");
             }
+
             for (var i = 0; i < numberOfIndices; i += 3)
             {
-                mesh.Indices.Add(new Models.Index(
-                    reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
+                mesh.Indices.Add(new Models.Index(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
             }
             return mesh;
         }

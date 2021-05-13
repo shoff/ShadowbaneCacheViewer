@@ -65,10 +65,9 @@ namespace Shadowbane.Cache
                 this.LowestId = (int) this.cacheIndices.First().identity;
                 this.HighestId = (int) this.cacheIndices.Last().identity;
             }
-
-            // reader.Close(); // shouldn't need to do this
             return this;
         }
+
         public virtual CacheArchive LoadCacheHeader()
         {
             // TODO convert this to just use the extension
@@ -98,6 +97,7 @@ namespace Shadowbane.Cache
             reader.Close();
             return this;
         }
+
         public virtual CacheAsset this[uint id]
         {
             // TODO figure out if passing the ReadOnlyMemory<byte> here is really better than say
@@ -108,7 +108,7 @@ namespace Shadowbane.Cache
                 {
                     return new CacheAsset(new CacheIndex(), new ReadOnlyMemory<byte>());
                 }
-                // these "identities" are in fact duped, it could be either a male/female thing or a "versioning" strategy..
+                // these "identities" are in fact duped, but the underlying data is ALWAYS identical so not sure why they duped them
                 var cacheIndex = this.cacheIndices.First(x => x.identity == id);
                 var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int) cacheIndex.compressedSize);
                 var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());

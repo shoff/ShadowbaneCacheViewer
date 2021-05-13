@@ -83,12 +83,17 @@
 
             renderInformation.JointName = reader.ReadAsciiString(renderInformation.JointNameSize); // should be 
             renderInformation.Scale = reader.SafeReadToVector3();
+            renderInformation.Mesh.Scale = renderInformation.Scale;
+
             renderInformation.LastOffset = reader.BaseStream.Position;
             // I think this is probably a bool or flag of some kind
             renderInformation.Unknown[2] = reader.SafeReadUInt32();
             renderInformation.LastOffset = reader.BaseStream.Position;
+            // these need to go to mesh not here :)
             // object position ?
             renderInformation.Position = reader.SafeReadToVector3();
+            renderInformation.Mesh.Position = renderInformation.Position;
+
             renderInformation.LastOffset = reader.BaseStream.Position;
             renderInformation.ChildCount = reader.SafeReadInt32();
             renderInformation.LastOffset = reader.BaseStream.Position;
@@ -148,11 +153,11 @@
                             var textureAsset = ArchiveLoader.TextureArchive[textureId];
                             if (textureAsset.IsValid)
                             {
-                                var texture = new Texture(asset.Asset, textureId);
+                                var texture = new Texture(textureAsset.Asset, textureId);
                                 if (texture.Image == null && texture.PixelFormat == PixelFormat.Indexed && saveIndexedTextures)
                                 {
                                     // probably an indexed image lets save it to look at the bytes
-                                    FileWriter.Writer.Write(textureAsset.Asset.Span, $"{CacheLocation.TextureFolder.FullName}indexed-images", $"{identity}.sbtex");
+                                    FileWriter.Writer.Write(textureAsset.Asset.Span, $"{CacheLocation.TextureFolder.FullName}\\indexed-images", $"{identity}.sbtex");
 
                                 }
 

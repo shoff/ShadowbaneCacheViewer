@@ -2,15 +2,11 @@
 {
     public class Index
     {
-        public Index(ushort position, ushort textureCoordinate, ushort normal)
-        {
-            this.Position = position;
-            this.TextureCoordinate = textureCoordinate;
-            this.Normal = normal;
-        }
+        public Index(ushort position, ushort textureCoordinate, ushort normal) =>
+            (this.Position, this.TextureCoordinate, this.Normal) = (position, textureCoordinate, normal);
 
-        public ushort Position { get; set; }
-        public ushort Normal { get; set; }
-        public ushort TextureCoordinate { get; set; }
+        public ushort Position { get; }
+        public ushort Normal { get; }
+        public ushort TextureCoordinate { get; }
     }
 }

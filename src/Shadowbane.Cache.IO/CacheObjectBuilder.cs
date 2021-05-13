@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using Models;
 
     public class CacheObjectBuilder
@@ -36,7 +37,8 @@
             var simple = new Simple(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
 
-            foreach (var renderId in simple.RenderIds)
+            // sucks to have a bad render ids list but baby steps I guess
+            foreach (var renderId in simple.RenderIds.Where(r=> !BadRenderIds.IsInList(r)))
             {
                 var renderInformation = RenderableObjectBuilder.Build(renderId);
                 simple.Renders.Add(renderInformation);
@@ -52,8 +54,17 @@
             reader.BaseStream.Position += 25;
 
             var offset = (uint)reader.BaseStream.Position + 25;
-            return new Structure(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            var structure =  new Structure(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
+
+            // sucks to have a bad render ids list but baby steps I guess
+            foreach (var renderId in structure.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+            {
+                var renderInformation = RenderableObjectBuilder.Build(renderId);
+                structure.Renders.Add(renderInformation);
+            }
+
+            return structure;
         }
         
         private ICacheObject Interactive(BinaryReader reader, CacheAsset asset)

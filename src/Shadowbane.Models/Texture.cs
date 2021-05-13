@@ -16,7 +16,13 @@
             this.Width = reader.ReadInt32();
             this.Height = reader.ReadInt32();
             this.Depth = reader.ReadInt32();
-
+            this.PixelFormat = this.Depth switch
+            {
+                1 => PixelFormat.Undefined,
+                4 => PixelFormat.Format32bppArgb,
+                65536 => PixelFormat.Indexed,
+                _ => PixelFormat.Format24bppRgb
+            };
             reader.BaseStream.Position += 14;
             this.Image = this.TextureMap(reader, data);
         }
@@ -31,23 +37,16 @@
 
         public int Depth { get; }
 
-        public PixelFormat PixelFormat { get; private set; }
+        public PixelFormat PixelFormat { get; }
 
         public Bitmap TextureMap(BinaryReader reader, ReadOnlyMemory<byte> buffer)
         {
-            if (this.Depth == 1 || this.Width < 1 || this.Height < 1)
+            if (this.PixelFormat == PixelFormat.Undefined || this.Width < 1 || this.Height < 1)
             {
                 //format = PixelFormat.Alpha; /* Gl.GL_LUMINANCE;*/
                 // for now just return as this is not valid for GDI bitmaps :(
                 return null;
             }
-
-            this.PixelFormat = this.Depth switch
-            {
-                4 => PixelFormat.Format32bppArgb,
-                65536 => PixelFormat.Indexed,
-                _ => PixelFormat.Format24bppRgb
-            };
 
             Bitmap myBitmap;
             if (this.PixelFormat == PixelFormat.Indexed)

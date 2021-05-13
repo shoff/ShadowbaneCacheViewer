@@ -102,6 +102,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Models.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Exporter.Wavefront.Tests", "tests\Shadowbane.Exporter.Wavefront.Tests\Shadowbane.Exporter.Wavefront.Tests.csproj", "{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Exporter.File.Tests", "tests\Shadowbane.Cache.Exporter.File.Tests\Shadowbane.Cache.Exporter.File.Tests.csproj", "{84AD8B54-B6EF-410E-B1E6-38191E604D6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,6 +150,10 @@ Global
 		{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +170,7 @@ Global
 		{64DCB862-3D2A-408E-8283-40CD19964A1A} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{EC3D99E9-8809-4475-981F-C5FA5BA77809} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 		{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
+		{84AD8B54-B6EF-410E-B1E6-38191E604D6B} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57BF6F85-F66E-4A85-A73B-E0851F0E3973}

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Models;
     using Xunit;
 
     public class RenderableObjectBuilderTests : CacheLoaderBaseTest
@@ -53,10 +52,11 @@
             var information = RenderableObjectBuilder.Build(426407);
 
         }
+
         [Fact]
         public void Save_All_Render_Indices_Texture_Bytes_With_Indexed_Textures()
         {
-            foreach (var index in ArchiveLoader.RenderArchive.CacheIndices.Where(c=> c.identity == 426407))
+            foreach (var index in ArchiveLoader.RenderArchive.CacheIndices.Where(c=> c.identity == 442002))
             {
                 try
                 {
@@ -95,25 +95,6 @@
                 }
             }
         }
-
-        //[Fact]
-        //public void All_Textures_Are_Correct()
-        //{
-        //    foreach (var index in ArchiveLoader.TextureArchive.CacheIndices)
-        //    {
-        //        var asset = ArchiveLoader.TextureArchive[index.identity];
-        //        var texture = new Texture(asset.Asset, index.identity);
-
-        //        if (texture.Image != null)
-        //        {
-        //            texture.Image.Save($"{CacheLocation.TextureFolder.FullName}\\{texture.TextureId}.jpg");
-        //        }
-        //        else
-        //        {
-        //            FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.TextureFolder.FullName + "\\bad_image_data", $"{index.identity}-{asset.Order}");
-        //        }
-        //    }
-        //}
 
         [Fact]
         public void All_Duplicate_RenderIds_Have_Duplicate_Identical_Data()

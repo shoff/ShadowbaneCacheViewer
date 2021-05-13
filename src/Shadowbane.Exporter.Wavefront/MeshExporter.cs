@@ -17,9 +17,9 @@
         private const string DOUBLE_SLASH = "\\";
         private const string DEFAULT_GROUP = "g default\r\n";
         private const string MATERIAL_LIB = "mtllib {0}.mtl\r\n";
-        private const string VERTEX = "v {0} {1} {2}\r\n";
+        private const string VERTEX = "v {0} {1} {2} 1.0\r\n";
         private const string NORMAL = "vn {0} {1} {2}\r\n";
-        private const string TEXTURE = "vt {0} {1}\r\n";
+        private const string TEXTURE = "vt {0} {1} 0\r\n";
         private const string MATERIAL_NAME = "newmtl {0}\r\n";
         private const string USE_MATERIAL = "usemtl {0}\r\n";
         private const string MATERIAL_WHITE = "Ka 1.000 1.000 1.000\r\n";
@@ -28,7 +28,7 @@
         private const string MATERIAL_SPECULAR_NS = "Ns 10.000\r\n";
         private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 4\r\n";
         private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-
+        private const string AT_SLASH = @"/";
         public static async Task<bool> ExportAsync(Mesh mesh, string modelDirectory, string modelName = null)
         {
             Guard.IsNotNull(mesh, nameof(mesh));
@@ -165,23 +165,23 @@
             // TODO this does not spit out the faces the same as the exporter from Maya does
             sb.AppendLine("s off"); // smoothing groups off
             sb.AppendLine($"g Mesh_{mesh.Identity}");
-            sb.AppendLine($"usemtl Mesh_{mesh.Identity}");
+            sb.AppendLine($"usemtl Mesh_{mesh.Identity}"); // I'm not sure I like this strategy.
 
             foreach (var wavefrontVertex in mesh.Indices)
             {
                 var a = (ushort)(wavefrontVertex.Position + currentIndexCount);
                 var b = (ushort)(wavefrontVertex.TextureCoordinate + currentIndexCount);
                 var c = (ushort)(wavefrontVertex.Normal + currentIndexCount);
+                var line = $"f {a}{AT_SLASH}{a}{AT_SLASH}{a} {b}{AT_SLASH}{b}{AT_SLASH}{b} {c}{AT_SLASH}{c}{AT_SLASH}{c}";
+                sb.AppendLine(line);
 
-                sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
+                // sb.Append("f " + a + " " + b + " " + " " + c + "\r\n");
+                // sb.Append("f " + a + @"/" + a + @"/" + a + " " + b + @"/" + b + @"/" + b + " " + c + @"/" + c + @"/" + c + "\r\n");
             }
 
         }
 
-
-        // TODO this doesn't belong here.
-        private static void SaveTextures(Mesh mesh, string meshName, 
-            string modelDirectory,
+        private static void SaveTextures(Mesh mesh, string meshName, string modelDirectory,
             Dictionary<string, string> indexMaterialDictionary)
         {
             if (!mesh.Textures.Any())
@@ -198,9 +198,11 @@
                     continue;
                 }
 
+                // why not store them as the texture identity rather than the mesh identity?
                 var textureFile = $"{modelDirectory}{DOUBLE_SLASH}{mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_")}_{i}.png";
                 texture.Image?.Save(textureFile, ImageFormat.Png);
-                var usmtl = string.Format(USE_MATERIAL, $"Mesh_{mesh.Identity}");
+
+                // var usmtl = string.Format(USE_MATERIAL, $"Mesh_{mesh.Identity}");
 
                 if (indexMaterialDictionary[meshName] != string.Empty)
                 {

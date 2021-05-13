@@ -22,8 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Shadowbane.Cache.Exporter.File\Shadowbane.Cache.Exporter.File.csproj" />
     <ProjectReference Include="..\..\src\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
+    <ProjectReference Include="..\..\src\Shadowbane.Cache\Shadowbane.Cache.csproj" />
     <ProjectReference Include="..\..\src\Shadowbane.Exporter.Wavefront\Shadowbane.Exporter.Wavefront.csproj" />
+    <ProjectReference Include="..\..\src\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
   </ItemGroup>
 
 </Project>

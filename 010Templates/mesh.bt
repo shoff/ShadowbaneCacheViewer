@@ -43,7 +43,7 @@ typedef struct {
     USHORT    n;
 } tIndexf <read=tIndexfRead>;
 
-string tIndexffRead( tIndexf &v ) {
+string tIndexfRead( tIndexf &v ) {
  string s;   
  SPrintf( s, "(%f %f %f)", v.p, v.t, v.n);
  return s;

@@ -1,7 +1,6 @@
-﻿namespace Shadowbane.Cache.IO.Tests
+﻿namespace Shadowbane.Cache.IO
 {
     using System;
-    using System.Collections.Generic;
 
     public static class BadRenderIds
     {
@@ -15,6 +14,17 @@
             }
             return  Array.IndexOf(parseExceptionThrown, index.identity) > -1;
         }
+
+        public static bool IsInList(uint identity)
+        {
+            var bad = Array.IndexOf(badIds, identity);
+            if (bad > -1)
+            {
+                return true;
+            }
+            return Array.IndexOf(parseExceptionThrown, identity) > -1;
+        }
+
         private static readonly uint[] badIds = { 1, 2, 4, 5, 6 };
         private static readonly uint[] parseExceptionThrown =
         {
