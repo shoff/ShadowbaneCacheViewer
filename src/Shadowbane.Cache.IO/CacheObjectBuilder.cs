@@ -73,8 +73,17 @@
             var name = reader.ReadAsciiString(nameLength);
             reader.BaseStream.Position += 25;
             var offset = (uint)reader.BaseStream.Position + 25;
-            return new Interactive(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            var interactive = new Interactive(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
+
+            // sucks to have a bad render ids list but baby steps I guess
+            foreach (var renderId in interactive.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+            {
+                var renderInformation = RenderableObjectBuilder.Build(renderId);
+                interactive.Renders.Add(renderInformation);
+            }
+
+            return interactive;
         }
         
         private ICacheObject Equipment(BinaryReader reader, CacheAsset asset)
@@ -83,8 +92,17 @@
             var name = reader.ReadAsciiString(nameLength);
             reader.BaseStream.Position += 25;
             var offset = (uint)reader.BaseStream.Position + 25;
-            return new Equipment(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            var equipment = new Equipment(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
+
+            // sucks to have a bad render ids list but baby steps I guess
+            foreach (var renderId in equipment.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+            {
+                var renderInformation = RenderableObjectBuilder.Build(renderId);
+                equipment.Renders.Add(renderInformation);
+            }
+
+            return equipment;
         }
         
         private ICacheObject Mobile(BinaryReader reader, CacheAsset asset)
@@ -94,8 +112,17 @@
             reader.BaseStream.Position += 25;
 
             var offset = (uint)reader.BaseStream.Position + 25;
-            return new Mobile(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            var mobile =  new Mobile(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
                 .Parse();
+
+            // sucks to have a bad render ids list but baby steps I guess
+            foreach (var renderId in mobile.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+            {
+                var renderInformation = RenderableObjectBuilder.Build(renderId);
+                mobile.Renders.Add(renderInformation);
+            }
+
+            return mobile;
         }
        
         private ICacheObject Deed(BinaryReader reader, CacheAsset asset)
