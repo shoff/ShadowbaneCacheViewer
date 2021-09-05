@@ -9,7 +9,6 @@
 
     public class Mobile : AnimationObject
     {
-
         public Mobile(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
             uint innerOffset)
             : base(identity, ObjectType.Mobile, name, offset, data, innerOffset)
@@ -91,7 +90,9 @@
             this.RuneCategory = reader.ReadUInt32(); // Rune Icon
             this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
             this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
-            _ = reader.ReadUInt32();
+            var sanity = reader.ReadUInt32();
+            Debug.Assert(sanity <= 0);
+
             this.MobToken = reader.ReadUInt32();
             /*
                     if(mobToken == 612015249){
@@ -196,7 +197,6 @@
                 if (finder.IsValid)
                 {
                     this.RenderIds.Add(finder.RenderId);
-
                     reader.BaseStream.Position -= 28;
                     this.RenderCount = reader.ReadUInt32();
                     reader.BaseStream.Position += 24;
@@ -224,13 +224,8 @@
                     if (reader.CanRead(8))
                     {
                         reader.ReadInt32();
-
                         var id = reader.ReadUInt32();
                         this.RenderIds.Add(id);
-                        //if (ArchiveLoader.RenderArchive[id] != null)
-                        //{
-                        //    this.RenderIds.Add(id);
-                        //}
                     }
                 }
             }
@@ -247,13 +242,8 @@
                 if (reader.CanRead(8))
                 {
                     reader.ReadInt32();
-
                     var id = reader.ReadUInt32();
                     this.RenderIds.Add(id);
-                    //if (ArchiveLoader.RenderArchive[id] != null)
-                    //{
-                    //    this.RenderIds.Add(id);
-                    //}
                 }
             }
 
@@ -689,9 +679,7 @@
             #endregion
             return this;
         }
-
-
-
+        
         public MobileRenderFinder GetFinder(BinaryReader reader)
         {
             var finder = new MobileRenderFinder

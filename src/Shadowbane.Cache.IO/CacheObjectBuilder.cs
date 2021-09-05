@@ -116,7 +116,7 @@
                 .Parse();
 
             // sucks to have a bad render ids list but baby steps I guess
-            foreach (var renderId in mobile.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+            foreach (uint renderId in mobile.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
             {
                 var renderInformation = RenderableObjectBuilder.Build(renderId);
                 mobile.Renders.Add(renderInformation);

@@ -2,6 +2,7 @@
 {
     public sealed class ObjectCache : CacheArchive
     {
+       
         public ObjectCache()
             : base("CObjects.cache")
         {

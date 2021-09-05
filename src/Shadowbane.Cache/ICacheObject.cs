@@ -1,8 +1,7 @@
-﻿namespace Shadowbane.Models
+﻿namespace Shadowbane.Cache
 {
     using System;
     using System.Collections.Generic;
-    using Cache;
 
     public interface ICacheObject : IComparable<ICacheObject>
     {
@@ -15,7 +14,7 @@
         uint InnerOffset { get; }
         uint RenderCount { get; set; }
         ICollection<uint> RenderIds { get; }
-        ICollection<RenderInformation> Renders { get; }
+        ICollection<IRenderable> Renders { get; }
         ICacheObject Parse();
     }
 }

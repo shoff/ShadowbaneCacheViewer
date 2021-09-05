@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Models
+﻿namespace Shadowbane.Geometry
 {
     public class Index
     {

@@ -1,4 +1,4 @@
-﻿namespace Shadowbane.Models
+﻿namespace Shadowbane.Cache
 {
     public enum ObjectType
     {

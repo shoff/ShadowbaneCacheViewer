@@ -1,10 +1,9 @@
 ﻿#pragma warning disable IDE0032 // Use auto property
-namespace Shadowbane.Models
+namespace Shadowbane.Geometry
 {
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
-    using Geometry;
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MeshHeader
@@ -41,7 +40,7 @@ namespace Shadowbane.Models
         public uint VertexCount { get; set; }
         public uint VertexBufferSize { get; set; }
         public MeshHeader Header { get; set; }
-        public IList<Texture> Textures { get; } = new List<Texture>();
+        public IList<ITexture> Textures { get; } = new List<ITexture>();
         public ICollection<Vector3> Vertices { get; private set; } = new List<Vector3>();
         public ulong VerticesOffset { get; set; }
         public ICollection<Vector3> Normals { get; } = new List<Vector3>();

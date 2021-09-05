@@ -12,7 +12,7 @@
 
         public uint Identity { get; }
         public ICollection<uint> RenderIds { get; } = new HashSet<uint>();
-        public ICollection<RenderInformation> Renders { get;} = new HashSet<RenderInformation>();
+        public ICollection<IRenderable> Renders { get;} = new HashSet<IRenderable>();
         public int UnParsedBytes { get; set; }
         public uint RenderId { get; set; }
         public string Name { get; protected set; }

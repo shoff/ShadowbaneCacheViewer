@@ -11,6 +11,7 @@
     public class CacheAsset
     {
         // I'm beginning to wonder if Item1 and Item2 are actually Male/Female versions of this
+        // hello old steve, this is a newer steve, we still don't know in 2021!
         public CacheAsset(CacheIndex cacheIndex, ReadOnlyMemory<byte> asset) => 
             (this.CacheIndex, this.Asset) = (cacheIndex, asset);
 

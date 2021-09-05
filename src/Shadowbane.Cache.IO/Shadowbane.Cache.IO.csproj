@@ -12,7 +12,6 @@
     <ProjectReference Include="..\Shadowbane.Cache.Exporter.File\Shadowbane.Cache.Exporter.File.csproj" />
     <ProjectReference Include="..\Shadowbane.Cache\Shadowbane.Cache.csproj" />
     <ProjectReference Include="..\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
-    <ProjectReference Include="..\Shadowbane.Models\Shadowbane.Models.csproj" />
   </ItemGroup>
 
 </Project>

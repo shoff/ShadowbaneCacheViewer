@@ -6,7 +6,7 @@ namespace Shadowbane.Models
     using Cache;
     using Geometry;
 
-    public class RenderInformation
+    public class RenderInformation : IRenderable
     {
         public uint RenderType { get; set; }
         public uint FirstInt { get; set; }
@@ -26,13 +26,12 @@ namespace Shadowbane.Models
         public ICollection<string> Notes { get; set; } = new HashSet<string>();
         public int ChildCount { get; set; }
         public List<int> ChildRenderIdList { get; set; } = new List<int>();
-        public List<RenderInformation> Children { get; } = new List<RenderInformation>();
+        public List<IRenderable> Children { get; } = new List<IRenderable>();
         public long LastOffset { get; set; }
         public long UnreadByteCount { get; set; }
         public uint JointNameSize { get; set; }
         public bool IsValid { get; set; } = true;
         public uint Identity { get; set; }
-
         public override string ToString()
         {
             var sb = new StringBuilder();

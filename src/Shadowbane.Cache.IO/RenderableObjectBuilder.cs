@@ -5,6 +5,7 @@
     using System.IO;
     using System.Text;
     using Exporter.File;
+    using Geometry;
     using Models;
 
     public static class RenderableObjectBuilder
@@ -18,7 +19,15 @@
             return Build(cacheIndex.identity, saveToFile);
         }
 
-        public static RenderInformation Build(uint identity, bool saveToFile = false, bool saveIndexedTextures = false)
+        public static RenderInformation BuildAndExport(CacheIndex cacheIndex)
+        {
+            return Build(cacheIndex.identity, true);
+        }
+
+        public static RenderInformation Build(uint identity, 
+            bool saveToFile = false, 
+            bool saveIndexedTextures = false,
+            bool parseChildren = false)
         {
             var asset = ArchiveLoader.RenderArchive[identity];
             var renderInformation = new RenderInformation
@@ -83,7 +92,11 @@
 
             renderInformation.JointName = reader.ReadAsciiString(renderInformation.JointNameSize); // should be 
             renderInformation.Scale = reader.SafeReadToVector3();
-            renderInformation.Mesh.Scale = renderInformation.Scale;
+            if (renderInformation.HasMesh && renderInformation.Mesh != null)
+            //if (renderInformation.Mesh != null)
+            {
+                renderInformation.Mesh.Scale = renderInformation.Scale;
+            }
 
             renderInformation.LastOffset = reader.BaseStream.Position;
             // I think this is probably a bool or flag of some kind
@@ -92,7 +105,11 @@
             // these need to go to mesh not here :)
             // object position ?
             renderInformation.Position = reader.SafeReadToVector3();
-            renderInformation.Mesh.Position = renderInformation.Position;
+            if (renderInformation.HasMesh && renderInformation.Mesh != null)
+            //if (renderInformation.Mesh != null)
+            {
+                renderInformation.Mesh.Position = renderInformation.Position;
+            }
 
             renderInformation.LastOffset = reader.BaseStream.Position;
             renderInformation.ChildCount = reader.SafeReadInt32();
@@ -104,6 +121,11 @@
                 reader.SafeReadInt32();
                 var childId = reader.SafeReadInt32();
                 renderInformation.ChildRenderIdList.Add(childId);
+
+                if (parseChildren)
+                {
+                    renderInformation.Children.Add(Build((uint) childId));
+                }
 
             }
 

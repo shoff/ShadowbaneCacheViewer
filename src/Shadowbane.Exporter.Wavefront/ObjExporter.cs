@@ -7,7 +7,10 @@
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ChaosMonkey.Guards;
+    using Geometry;
     using Models;
 
     public class ObjExporter
@@ -22,45 +25,47 @@
         private const string MATERIAL_WHITE = "Ka 1.000 1.000 1.000\r\n";
         private const string MATERIAL_DIFFUSE = "Kd 1.000 1.000 1.000\r\n";
         private const string MATERIAL_SPECULAR = "Ks 0.000 0.000 0.000\r\n ";
-        private const string MATERIAL_SPECUALR_NS = "Ns 10.000";
+        private const string MATERIAL_SPECULAR_NS = "Ns 10.000";
         private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 2\r\n";
         private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-        private string name;
-
-
-        public void Export(ICacheObject cacheObject, string outputDirectory)
+        
+        public static async Task ExportAsync(RenderInformation cacheObject, string outputDirectory, CancellationToken cancellationToken)
         {
             Guard.IsNotNull(cacheObject, nameof(cacheObject));
             var mainStringBuilder = new StringBuilder();
             var materialBuilder = new StringBuilder();
 
             // todo - not all objects seem to have names
-            this.name = string.IsNullOrEmpty(cacheObject.Name)
-                ? cacheObject.Identity + "_"
-                : cacheObject.Name.Replace(" ", "_");
+            var name = CreateName(cacheObject);
 
-            var exportDirectory = this.EnsureDirectory(this.name, outputDirectory);
+            var exportDirectory = EnsureDirectory(name, outputDirectory);
             mainStringBuilder.Append(MayaObjHeaderFactory.Instance.Create((int) cacheObject.Identity));
-            mainStringBuilder.AppendFormat(MATERIAL_LIB, this.name);
+            mainStringBuilder.AppendFormat(MATERIAL_LIB, name);
 
             // save the obj
-            using var fs = new FileStream(exportDirectory + "\\" + this.name + ".obj", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            using var fs = new FileStream($"{exportDirectory}\\{name}.obj", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
             using var writer = new StreamWriter(fs);
             writer.Write(mainStringBuilder.ToString());
             
             // save the material
-            var mtlFile = exportDirectory + "\\" + this.name + ".mtl";
+            var mtlFile = $"{exportDirectory}\\{name}.mtl";
             if (File.Exists(mtlFile))
             {
                 File.Delete(mtlFile);
             }
 
-            using var fs1 = new FileStream(exportDirectory + "\\" + this.name + ".mtl", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+            using var fs1 = new FileStream(mtlFile, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
             using var writer1 = new StreamWriter(fs1);
-            writer1.Write(materialBuilder.ToString());
+            await writer1.WriteAsync(materialBuilder.ToString());
         }
 
-        public void CreateObject(Mesh mesh, StringBuilder mainStringBuilder,
+        private static string CreateName(RenderInformation cacheObject)
+        {
+            var name = cacheObject.Identity + "_";
+            return name;
+        }
+
+        public void CreateObject(string name, Mesh mesh, StringBuilder mainStringBuilder,
             StringBuilder materialBuilder, string directory)
         {
             if (mesh == null)
@@ -106,7 +111,7 @@
             // for now let's just see if we can even get one to work
             if (mapFiles.Count > 0)
             {
-                this.CreateMaterial(mapFiles[0], materialBuilder);
+                this.CreateMaterial(name, mapFiles[0], materialBuilder);
             }
 
             foreach (var v in mesh.Vertices)
@@ -163,18 +168,18 @@
         // map_d lenna_alpha.tga      # the alpha texture map
         // map_bump lenna_bump.tga    # the bump map
         // bump lenna_bump.tga        # some implementations use 'bump' instead of 'map_Bump'
-        private void CreateMaterial(string mapName, StringBuilder materialBuilder)
+        private void CreateMaterial(string name, string mapName, StringBuilder materialBuilder)
         {
-            materialBuilder.AppendFormat(MATERIAL_NAME, this.name);
+            materialBuilder.AppendFormat(MATERIAL_NAME, name);
             materialBuilder.Append(MATERIAL_WHITE);
             materialBuilder.Append(MATERIAL_DIFFUSE);
             materialBuilder.Append(MATERIAL_SPECULAR);
-            materialBuilder.Append(MATERIAL_SPECUALR_NS);
+            materialBuilder.Append(MATERIAL_SPECULAR_NS);
             materialBuilder.Append(MATERIAL_DEFAULT_ILLUMINATION);
             materialBuilder.AppendFormat(MAP_TO, mapName.Substring(mapName.LastIndexOf('\\') + 1));
         }
 
-        private string EnsureDirectory(string name, string modelDirectory)
+        private static string EnsureDirectory(string name, string modelDirectory)
         {
             var fullName = Path.Combine(modelDirectory, name);
 

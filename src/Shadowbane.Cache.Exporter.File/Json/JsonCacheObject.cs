@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Geometry;
     using Models;
 
     public class JsonCacheObject

@@ -3,7 +3,8 @@
     using System;
     using System.Runtime.InteropServices;
     using Exporter.File;
-    using Models;
+    using Geometry;
+    using Index = Geometry.Index;
 
     public class MeshBuilder
     {
@@ -71,7 +72,7 @@
 
             for (var i = 0; i < numberOfIndices; i += 3)
             {
-                mesh.Indices.Add(new Models.Index(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
+                mesh.Indices.Add(new Index(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
             }
             return mesh;
         }

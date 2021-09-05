@@ -115,7 +115,7 @@ namespace Shadowbane.Cache
                 return asset;
             }
         }
-        internal IReadOnlyCollection<CacheIndex> CacheIndices => this.cacheIndices.AsReadOnly();
+        public IReadOnlyCollection<CacheIndex> CacheIndices => this.cacheIndices.AsReadOnly();
         public int HighestId { get; private set; }
         public int LowestId { get; private set; }
         public string Name => this.name;

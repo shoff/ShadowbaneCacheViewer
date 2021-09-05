@@ -5,9 +5,10 @@
     using System.Drawing.Imaging;
     using System.IO;
     using Cache;
+    using Geometry;
     using Microsoft.Toolkit.HighPerformance;
 
-    public class Texture
+    public class Texture : ITexture
     {
         public Texture(ReadOnlyMemory<byte> data, uint id)
         {
@@ -16,6 +17,7 @@
             this.Width = reader.ReadInt32();
             this.Height = reader.ReadInt32();
             this.Depth = reader.ReadInt32();
+
             this.PixelFormat = this.Depth switch
             {
                 1 => PixelFormat.Undefined,
