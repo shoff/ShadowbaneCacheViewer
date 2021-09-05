@@ -14,23 +14,23 @@
         private const int MAX_TEXTURE_COUNT = 20;
         private static readonly MeshBuilder meshBuilder = new MeshBuilder();
 
-        public static RenderInformation Build(CacheIndex cacheIndex, bool saveToFile = false)
+        public static Renderable Build(CacheIndex cacheIndex, bool saveToFile = false)
         {
             return Build(cacheIndex.identity, saveToFile);
         }
 
-        public static RenderInformation BuildAndExport(CacheIndex cacheIndex)
+        public static Renderable BuildAndExport(CacheIndex cacheIndex)
         {
             return Build(cacheIndex.identity, true);
         }
 
-        public static RenderInformation Build(uint identity, 
+        public static Renderable Build(uint identity, 
             bool saveToFile = false, 
             bool saveIndexedTextures = false,
             bool parseChildren = false)
         {
             var asset = ArchiveLoader.RenderArchive[identity];
-            var renderInformation = new RenderInformation
+            var renderInformation = new Renderable
             {
                 Identity = identity,
                 CacheIndex = ArchiveLoader.RenderArchive[identity].CacheIndex,

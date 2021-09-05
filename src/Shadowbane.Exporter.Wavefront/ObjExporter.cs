@@ -29,7 +29,7 @@
         private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 2\r\n";
         private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
         
-        public static async Task ExportAsync(RenderInformation cacheObject, string outputDirectory, CancellationToken cancellationToken)
+        public static async Task ExportAsync(Renderable cacheObject, string outputDirectory, CancellationToken cancellationToken)
         {
             Guard.IsNotNull(cacheObject, nameof(cacheObject));
             var mainStringBuilder = new StringBuilder();
@@ -59,7 +59,7 @@
             await writer1.WriteAsync(materialBuilder.ToString());
         }
 
-        private static string CreateName(RenderInformation cacheObject)
+        private static string CreateName(Renderable cacheObject)
         {
             var name = cacheObject.Identity + "_";
             return name;

@@ -6,7 +6,7 @@ namespace Shadowbane.Models
     using Cache;
     using Geometry;
 
-    public class RenderInformation : IRenderable
+    public class Renderable : IRenderable
     {
         public uint RenderType { get; set; }
         public uint FirstInt { get; set; }

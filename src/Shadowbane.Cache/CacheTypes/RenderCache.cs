@@ -23,9 +23,11 @@
 
                 var cacheIndex = this.cacheIndices.First(x => x.identity == id);
                 var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int)cacheIndex.compressedSize);
-                var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
+                var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray())
+                {
+                    HasMultipleIdentityEntries = this.cacheIndices.Count(c => c.identity == id) > 1
+                };
 
-                asset.HasMultipleIdentityEntries = this.cacheIndices.Count(c => c.identity == id) > 1;
 
                 return asset;
             }
