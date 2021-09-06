@@ -1,11 +1,12 @@
 ﻿namespace Shadowbane.Exporter.Wavefront.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using Cache;
     using Cache.IO;
-    using Models;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -24,32 +25,40 @@
             int noChildren = 0;
             int haveChildren = 0;
             var cache = ArchiveLoader.ObjectArchive;
+            var messages = new List<string>();
+            var renderablesWithChildren = new List<uint>();
+
             foreach (var ci in cache.CacheIndices)
             {
                 try
                 {
                     var modelDirectory = SetupModelDirectory(ci.identity);
-                    var renderableObject = RenderableObjectBuilder.Build(ci.identity);
+                    var renderableObject = RenderableObjectBuilder.RecurseBuild(ci);
+
                     if (renderableObject.ChildCount > 0 &&
                         renderableObject.Children.Count == renderableObject.ChildCount)
                     {
+                        renderablesWithChildren.Add(renderableObject.Identity);
                         haveChildren++;
                     }
                     else
                     {
                         noChildren++;
                     }
-
-                    await ObjExporter.ExportAsync(renderableObject, modelDirectory, default);
+                    //await ObjExporter.ExportAsync(renderableObject, modelDirectory, default);
                 }
                 catch (Exception e)
                 {
-                   //testOutputHelper.WriteLine(e.Message);
+                    messages.Add(e.Message);
                 }
             }
 
+            await File.WriteAllTextAsync($"{AppDomain.CurrentDomain.BaseDirectory}\\renderablesWithChildren.csv",
+                string.Concat(renderablesWithChildren.Select(s => $"{s},\r\n")));
+
             testOutputHelper.WriteLine(noChildren.ToString());
             testOutputHelper.WriteLine(haveChildren.ToString());
+            testOutputHelper.WriteLine(string.Concat(messages));
         }
 
         [Theory]

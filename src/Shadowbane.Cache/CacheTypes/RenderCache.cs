@@ -28,7 +28,6 @@
                     HasMultipleIdentityEntries = this.cacheIndices.Count(c => c.identity == id) > 1
                 };
 
-
                 return asset;
             }
         }

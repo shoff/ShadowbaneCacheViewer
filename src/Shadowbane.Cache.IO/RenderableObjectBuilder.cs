@@ -5,7 +5,6 @@
     using System.IO;
     using System.Text;
     using Exporter.File;
-    using Geometry;
     using Models;
 
     public static class RenderableObjectBuilder
@@ -19,15 +18,21 @@
             return Build(cacheIndex.identity, saveToFile);
         }
 
-        public static Renderable BuildAndExport(CacheIndex cacheIndex)
+        public static Renderable RecurseBuildAndExport(CacheIndex cacheIndex)
         {
-            return Build(cacheIndex.identity, true);
+            return Build(cacheIndex.identity, saveToFile:true, saveIndexedTextures: true, parseChildren: true);
+        }
+
+        public static Renderable RecurseBuild(CacheIndex cacheIndex)
+        {
+            return Build(cacheIndex.identity, saveToFile: false, saveIndexedTextures: false, parseChildren: true, buildTexture: false);
         }
 
         public static Renderable Build(uint identity, 
             bool saveToFile = false, 
             bool saveIndexedTextures = false,
-            bool parseChildren = false)
+            bool parseChildren = false,
+            bool buildTexture = true)
         {
             var asset = ArchiveLoader.RenderArchive[identity];
             var renderInformation = new Renderable
@@ -124,7 +129,8 @@
 
                 if (parseChildren)
                 {
-                    renderInformation.Children.Add(Build((uint) childId));
+                    renderInformation.Children.Add(
+                        Build((uint) childId, saveToFile, saveIndexedTextures, true, buildTexture));
                 }
 
             }
@@ -135,7 +141,7 @@
                 renderInformation.LastOffset = reader.BaseStream.Position;
             }
 
-            if (renderInformation.HasTexture)
+            if (renderInformation.HasTexture && buildTexture)
             {
                 // I don't believe this is correct.
                 // lets save any render info where the count is greater than 1 but less than max
