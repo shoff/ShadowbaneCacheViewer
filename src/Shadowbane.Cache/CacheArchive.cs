@@ -125,7 +125,6 @@ namespace Shadowbane.Cache
         public DateTime CreationDate => this.fileInfo.CreationTime;
         public DateTime LastWriteTime => this.fileInfo.LastWriteTime;
         public Guid InstanceId { get; }
-        
         public void Dispose()
         {
             Dispose(true);

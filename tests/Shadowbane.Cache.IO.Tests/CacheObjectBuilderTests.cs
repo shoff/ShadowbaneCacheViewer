@@ -1,6 +1,7 @@
 ﻿namespace Shadowbane.Cache.IO.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -160,10 +161,15 @@
                                 : $"{structure.Name}-{structure.Identity}";
                             var modelDirectory = $"{CacheLocation.StructureFolder}{modelDirectoryName}";
 
+                            List<Task<bool>> renderTasks = new List<Task<bool>>();
+
                             foreach (var render in structure.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
                             {
-                                await MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{structure.Name}-{render.Identity}");
+                                renderTasks.Add(MeshExporter.ExportAsync(render.Mesh, modelDirectory,
+                                    $"{structure.Name}-{render.Identity}"));
                             }
+
+                            await Task.WhenAll(renderTasks);
                         }
                     }
                 }
@@ -192,11 +198,13 @@
                         var modelDirectoryName = string.IsNullOrWhiteSpace(simple.Name) ? simple.Identity.ToString()
                             : $"{simple.Name}-{simple.Identity}";
                         var modelDirectory = $"{CacheLocation.SimpleFolder}{modelDirectoryName}";
+                        List<Task<bool>> renderTasks = new List<Task<bool>>();
 
                         foreach (var render in simple.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
                         {
-                            await MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{simple.Name}-{render.Identity}");
+                            renderTasks.Add(MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{simple.Name}-{render.Identity}"));
                         }
+                        await Task.WhenAll(renderTasks);
                     }
                 }
             }

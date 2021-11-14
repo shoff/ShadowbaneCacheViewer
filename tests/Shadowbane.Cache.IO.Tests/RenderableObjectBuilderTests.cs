@@ -11,7 +11,7 @@
         [Fact]
         public void Record_All_RIs_With_Multiple_Textures()
         {
-            File.AppendAllLines(CacheLocation.RenderOutputFolder + "multiple_textures.csv", new string[]
+            File.AppendAllLines(CacheLocation.RenderOutputFolder + "multiple_textures.csv", new[]
                 {"Identity,RenderType,ChildCount,LastOffset,MeshId,TextureCount,TextureIds,JointName"});
             var renders = new List<string>();
             foreach (var index in ArchiveLoader.RenderArchive.CacheIndices)
@@ -50,7 +50,6 @@
         {
             var asset = ArchiveLoader.RenderArchive[426407];
             var information = RenderableObjectBuilder.Build(426407);
-
         }
 
         [Fact]
