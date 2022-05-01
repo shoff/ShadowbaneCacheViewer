@@ -1,51 +1,45 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes
+﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+
+using System.Linq;
+using System.Threading.Tasks;
+using Cache.CacheTypes;
+using Xunit;
+
+public class ObjectCacheTests : CacheBaseTest
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Cache.CacheTypes;
-    using Xunit;
+    private readonly ObjectCache objectsCache;
 
-    public class ObjectCacheTests : CacheBaseTest
+    public ObjectCacheTests()
     {
-        private readonly ObjectCache objectsCache;
+        this.objectsCache = new ObjectCache();
+    }
 
-        public ObjectCacheTests()
+
+    [Fact]
+    public void Cache_Validates()
+    {
+        this.objectsCache.Validate();
+    }
+
+    [Fact]
+    public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
+    {
+        // this is probably going to be a long running test
+        Parallel.ForEach(this.objectsCache.CacheIndices, item =>
         {
-            this.objectsCache = new ObjectCache();
-        }
+            var cacheAsset = this.objectsCache[item.identity];
+            Assert.NotNull(cacheAsset);
+        });
+    }
 
-        [Fact]
-        public void Cache_Has_Correct_Index_Count()
-        {
-            this.objectsCache
-                .LoadCacheHeader()
-                .LoadIndexes();
+    [Fact]
+    public void Identity_Is_Unique()
+    {
+        var query = this.objectsCache.CacheIndices.GroupBy(x => x)
+            .Where(g => g.Count() > 1)
+            .Select(y => new { Element = y.Key, Counter = y.Count() })
+            .ToList();
 
-            var expected = 10618;
-            var actual = this.objectsCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
-        
-        [Fact]
-        public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
-        {
-            // this is probably going to be a long running test
-            Parallel.ForEach(this.objectsCache.CacheIndices, item =>
-            {
-                var cacheAsset = this.objectsCache[item.identity];
-                Assert.NotNull(cacheAsset);
-            });
-        }
-
-        [Fact]
-        public void Identity_Is_Unique()
-        {
-            var query = this.objectsCache.CacheIndices.GroupBy(x => x)
-                .Where(g => g.Count() > 1)
-                .Select(y => new { Element = y.Key, Counter = y.Count() })
-                .ToList();
-
-            Assert.True(query.Count == 0);
-        }
+        Assert.True(query.Count == 0);
     }
 }

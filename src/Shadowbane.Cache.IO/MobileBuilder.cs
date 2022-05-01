@@ -1,7 +1,6 @@
-﻿namespace Shadowbane.Cache.IO
+﻿namespace Shadowbane.Cache.IO;
+
+public class MobileBuilder
 {
-    public class MobileBuilder
-    {
         
-    }
 }

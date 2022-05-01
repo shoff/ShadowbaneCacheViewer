@@ -1,28 +1,22 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes
+﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+
+using Cache.CacheTypes;
+using Xunit;
+
+public class PaletteCacheTests : CacheBaseTest
 {
-    using Cache.CacheTypes;
-    using Xunit;
+    private readonly PaletteCache paletteCache;
 
-    public class PaletteCacheTests : CacheBaseTest
+    public PaletteCacheTests()
     {
-        private readonly PaletteCache paletteCache;
-
-        public PaletteCacheTests()
-        {
-            this.paletteCache = new PaletteCache();
-        }
-
-        [Fact]
-        public void Cache_Has_Correct_Index_Count()
-        {
-            this.paletteCache
-                .LoadCacheHeader()
-                .LoadIndexes();
-
-            var expected = 0;
-            var actual = this.paletteCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
-        
+        this.paletteCache = new PaletteCache();
     }
+
+
+    [Fact]
+    public void Cache_Validates()
+    {
+        this.paletteCache.Validate();
+    }
+
 }

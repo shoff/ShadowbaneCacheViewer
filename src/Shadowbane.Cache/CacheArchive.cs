@@ -1,140 +1,152 @@
-﻿#pragma warning disable IDE0032 // Use auto property
-namespace Shadowbane.Cache
+﻿// ReSharper disable ArrangeAccessorOwnerBody
+#pragma warning disable IDE0032 // Use auto property
+namespace Shadowbane.Cache;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+
+public abstract class CacheArchive
 {
-    using System;
-    using System.Buffers;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.InteropServices;
+    protected ReadOnlyMemory<byte> bufferData;
+    protected FileInfo fileInfo;
+    private CacheHeader cacheHeader;
+    protected string name;
+    protected readonly List<CacheIndex> cacheIndices = new();
+    private long indexOffset;
 
-    public abstract class CacheArchive : IDisposable
+    protected CacheArchive(string name)
     {
-        protected ReadOnlyMemory<byte> bufferData;
-        protected FileInfo fileInfo;
-        protected CacheHeader cacheHeader;
-        protected string name;
-        protected string saveName;
-        protected readonly List<CacheIndex> cacheIndices = new List<CacheIndex>();
-        private readonly IMemoryOwner<byte> memoryOwner;
-        private long indexOffset;
+        this.InstanceId = Guid.NewGuid();
+        this.name = name;
+        this.fileInfo = new FileInfo(Path.Combine(CacheLocation.CacheFolder.FullName, this.name));
+        this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
+        this.Header();
+        this.Indexes();
+    }
 
-        protected CacheArchive(string name)
+    internal ReadOnlySpan<byte> Decompress(uint uncompressedSize, ReadOnlySpan<byte> memory)
+    {
+        if (memory.Length == uncompressedSize)
         {
-            this.InstanceId = Guid.NewGuid();
-            this.memoryOwner = MemoryPool<byte>.Shared.Rent();
-            this.name = name;
-            this.fileInfo = new FileInfo(Path.Combine(CacheLocation.CacheFolder.FullName, this.name));
-            this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
+            return memory;
         }
 
-        ~CacheArchive()
+        var item = memory.Uncompress(uncompressedSize);
+
+        if (item.Length != uncompressedSize)
         {
-            this.Dispose(false);
+            throw new InvalidCompressionSizeException
+                ($"Index raw size should be {uncompressedSize} , but was {item.Length}");
+        }
+        return item;
+    }
+
+    private void Indexes()
+    {
+        var cacheIndexSize = Marshal.SizeOf<CacheIndex>();
+
+        for (var i = 0; i < this.cacheHeader.indexCount; i++)
+        {
+            var indexData = this.bufferData.Span.Slice((int)(this.indexOffset + cacheIndexSize * i), cacheIndexSize);
+            var index = indexData.ByteArrayToStructure<CacheIndex>();
+            this.cacheIndices.Add(index);
         }
 
-        internal ReadOnlySpan<byte> Decompress(uint uncompressedSize, ReadOnlySpan<byte> memory)
+        if (this.cacheIndices.Any()) // dungeon has none
         {
-            if (memory.Length == uncompressedSize)
-            {
-                return memory;
-            }
-
-            var item = memory.Uncompress(uncompressedSize);
-
-            if (item.Length != uncompressedSize)
-            {
-                throw new InvalidCompressionSizeException
-                    ($"Index raw size should be {uncompressedSize} , but was {item.Length}");
-            }
-            return item;
-        }
-
-        public virtual CacheArchive LoadIndexes()
-        {
-            var cacheIndexSize = Marshal.SizeOf<CacheIndex>();
-            for (var i = 0; i < this.cacheHeader.indexCount; i++)
-            {
-                var indexData = this.bufferData.Span.Slice((int) (this.indexOffset + cacheIndexSize * i), cacheIndexSize);
-                var index = indexData.ByteArrayToStructure<CacheIndex>();
-                this.cacheIndices.Add(index);
-            }
-
-            if (this.cacheIndices.Any()) // dungeon has none
-            {
-                this.LowestId = (int) this.cacheIndices.First().identity;
-                this.HighestId = (int) this.cacheIndices.Last().identity;
-            }
-            return this;
-        }
-
-        public virtual CacheArchive LoadCacheHeader()
-        {
-            // TODO convert this to just use the extension
-            using var reader = this.bufferData.CreateBinaryReaderUtf32(0);
-            // fill in the CacheHeader struct for this file.
-            // number of entries in this stream?
-            this.cacheHeader.indexCount = reader.ReadUInt32();
-            this.cacheHeader.dataOffset = reader.ReadUInt32();
-            this.cacheHeader.fileSize = reader.ReadUInt32();
-            this.cacheHeader.junk1 = reader.ReadUInt32();
-
-            // check if this file size is correct
-            if ((int) this.cacheHeader.fileSize != this.fileInfo.Length)
-            {
-                var length = "0";
-                if (this.fileInfo.Exists)
-                {
-                    // ReSharper disable once ExceptionNotDocumented
-                    length = this.fileInfo.Length.ToString();
-                }
-
-                throw new HeaderFileSizeException(
-                    $"{this.Name} Header states file should be {this.cacheHeader.fileSize} in size, but FileInfo object reported {length} as actual size.");
-            }
-
-            this.indexOffset = reader.BaseStream.Position;
-            reader.Close();
-            return this;
-        }
-
-        public virtual CacheAsset this[uint id]
-        {
-            // TODO figure out if passing the ReadOnlyMemory<byte> here is really better than say
-            // TODO having a shared ArrayPool<byte> and renting/returning a simply byte[]
-            get
-            {
-                if (id == 0 || this.cacheIndices.All(i => i.identity != id))
-                {
-                    return new CacheAsset(new CacheIndex(), new ReadOnlyMemory<byte>());
-                }
-                // these "identities" are in fact duped, but the underlying data is ALWAYS identical so not sure why they duped them
-                var cacheIndex = this.cacheIndices.First(x => x.identity == id);
-                var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int) cacheIndex.compressedSize);
-                var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
-                return asset;
-            }
-        }
-        public IReadOnlyCollection<CacheIndex> CacheIndices => this.cacheIndices.AsReadOnly();
-        public int HighestId { get; private set; }
-        public int LowestId { get; private set; }
-        public string Name => this.name;
-        public long IndexOffset => this.indexOffset;
-        public int IndexCount => this.cacheIndices.Count;
-        public uint DataOffset => this.cacheHeader.dataOffset;
-        public DateTime CreationDate => this.fileInfo.CreationTime;
-        public DateTime LastWriteTime => this.fileInfo.LastWriteTime;
-        public Guid InstanceId { get; }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-
+            this.LowestId = (int)this.cacheIndices.First().identity;
+            this.HighestId = (int)this.cacheIndices.Last().identity;
         }
     }
+
+    private void Header()
+    {
+        // TODO convert this to just use the extension
+        using var reader = this.bufferData.CreateBinaryReaderUtf32();
+        // fill in the CacheHeader struct for this file.
+        // number of entries in this stream?
+        this.cacheHeader.indexCount = reader.ReadUInt32();
+        this.cacheHeader.dataOffset = reader.ReadUInt32();
+        this.cacheHeader.fileSize = reader.ReadUInt32();
+        this.cacheHeader.junk1 = reader.ReadUInt32();
+
+        // check if this file size is correct
+        if ((int)this.cacheHeader.fileSize != this.fileInfo.Length)
+        {
+            var length = "0";
+            if (this.fileInfo.Exists)
+            {
+                // ReSharper disable once ExceptionNotDocumented
+                length = this.fileInfo.Length.ToString();
+            }
+
+            throw new HeaderFileSizeException(
+                $"{this.Name} Header states file should be {this.cacheHeader.fileSize} in size, but FileInfo object reported {length} as actual size.");
+        }
+
+        this.indexOffset = reader.BaseStream.Position;
+        reader.Close();
+    }
+
+    public virtual CacheAsset this[uint id]
+    {
+        // TODO figure out if passing the ReadOnlyMemory<byte> here is really better than say
+        // TODO having a shared ArrayPool<byte> and renting/returning a simply byte[]
+        get
+        {
+            if (id == 0 || this.cacheIndices.All(i => i.identity != id))
+            {
+                return new CacheAsset(new CacheIndex(), new ReadOnlyMemory<byte>());
+            }
+            // these "identities" are in fact duped, but the underlying data is ALWAYS identical so not sure why they duped them
+            var cacheIndex = this.cacheIndices.First(x => x.identity == id);
+            var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int)cacheIndex.compressedSize);
+            var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
+            return asset;
+        }
+    }
+
+    public IReadOnlyCollection<CacheIndex> CacheIndices
+    {
+        get
+        {
+            // ReSharper disable once ArrangeAccessorOwnerBody
+            return cacheIndices.AsReadOnly();
+        }
+    }
+
+    public int HighestId { get; protected set; }
+
+    public int LowestId { get; protected set; }
+
+    public string Name
+    {
+        get { return this.name; }
+    }
+
+    public int IndexCount
+    {
+        get { return this.cacheIndices.Count; }
+    }
+
+    public uint DataOffset
+    {
+        get { return this.cacheHeader.dataOffset; }
+    }
+
+    public Guid InstanceId { get; }
+
+    public CacheHeader CacheHeader
+    {
+        get => this.cacheHeader;
+        set => this.cacheHeader = value;
+    }
+
+    public abstract CacheArchive Validate();
+
 }
 #pragma warning restore IDE0032 // Use auto property
 /*

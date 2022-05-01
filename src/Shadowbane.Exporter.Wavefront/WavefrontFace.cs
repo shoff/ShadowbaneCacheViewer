@@ -1,14 +1,13 @@
-﻿namespace Shadowbane.Exporter.Wavefront
+﻿namespace Shadowbane.Exporter.Wavefront;
+
+using System.Collections.Generic;
+
+
+public class WavefrontFace
 {
-    using System.Collections.Generic;
+    public ICollection<Index> Vertices { get; set; } = new HashSet<Index>();
 
+    // why did I subtract 2?
+    public int TriangleCount => this.Vertices.Count - 2;
 
-    public class WavefrontFace
-    {
-        public ICollection<Index> Vertices { get; set; } = new HashSet<Index>();
-
-        // why did I subtract 2?
-        public int TriangleCount => this.Vertices.Count - 2;
-
-    }
 }

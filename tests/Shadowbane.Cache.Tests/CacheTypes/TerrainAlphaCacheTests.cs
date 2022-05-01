@@ -1,47 +1,47 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes
+﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+
+using System.Linq;
+using System.Threading.Tasks;
+using Cache.CacheTypes;
+using Xunit;
+
+public class TerrainAlphaCacheTests : CacheBaseTest
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Cache.CacheTypes;
-    using Xunit;
+    private readonly TerrainAlphaCache terrainAlphaCache;
 
-    public class TerrainAlphaCacheTests : CacheBaseTest
+    public TerrainAlphaCacheTests()
     {
-        private readonly TerrainAlphaCache terrainAlphaCache;
+        this.terrainAlphaCache = new TerrainAlphaCache();
+    }
 
-        public TerrainAlphaCacheTests()
+    [Fact]
+    public void Cache_Has_Correct_Index_Count()
+    {
+        var expected = 20912;
+        var actual = this.terrainAlphaCache.IndexCount;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
+    {
+        // this is probably going to be a long running test
+        Parallel.ForEach(this.terrainAlphaCache.CacheIndices, item =>
         {
-            this.terrainAlphaCache = new TerrainAlphaCache();
-        }
+            var cacheAsset = this.terrainAlphaCache[item.identity];
+            Assert.NotNull(cacheAsset);
+        });
+    }
 
-        [Fact]
-        public void Cache_Has_Correct_Index_Count()
-        {
-            this.terrainAlphaCache
-                .LoadCacheHeader()
-                .LoadIndexes();
+    [Fact]
+    public void Identity_Is_Unique()
+    {
+        Assert.True(this.terrainAlphaCache.CacheIndices.GroupBy(x => x.identity).All(g => g.Count() == 1));
+    }
 
-            var expected = 20912;
-            var actual = this.terrainAlphaCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
-        {
-            // this is probably going to be a long running test
-            Parallel.ForEach(this.terrainAlphaCache.CacheIndices, item =>
-            {
-                var cacheAsset = this.terrainAlphaCache[item.identity];
-                Assert.NotNull(cacheAsset);
-            });
-        }
-
-        [Fact]
-        public void Identity_Is_Unique()
-        {
-            Assert.True(this.terrainAlphaCache.CacheIndices.GroupBy(x => x.identity).All(g => g.Count() == 1));
-        }
-
+    [Fact]
+    public void Cache_Validates()
+    {
+        this.terrainAlphaCache.Validate();
     }
 }

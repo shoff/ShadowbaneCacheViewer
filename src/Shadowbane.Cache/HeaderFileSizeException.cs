@@ -1,13 +1,12 @@
-﻿namespace Shadowbane.Cache
-{
-    using System;
+﻿namespace Shadowbane.Cache;
 
-    [Serializable]
-    public sealed class HeaderFileSizeException : Exception
+using System;
+
+[Serializable]
+public sealed class HeaderFileSizeException : Exception
+{
+    public HeaderFileSizeException(string message)
+        : base(message)
     {
-        public HeaderFileSizeException(string message)
-            : base(message)
-        {
-        }
     }
 }

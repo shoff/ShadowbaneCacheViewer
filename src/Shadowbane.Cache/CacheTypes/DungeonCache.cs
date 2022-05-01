@@ -1,12 +1,28 @@
-﻿namespace Shadowbane.Cache.CacheTypes
-{
-    using System;
+﻿namespace Shadowbane.Cache.CacheTypes;
 
-    public sealed class DungeonCache : CacheArchive
+using FluentValidation;
+
+public sealed class DungeonCache : CacheArchive
+{
+    public const string CACHE_NAME = "Dungeon.cache";
+    public DungeonCache()
+        : base(CACHE_NAME)
     {
-        public DungeonCache()
-            : base("Dungeon.cache")
+    }
+
+    public override CacheArchive Validate()
+    {
+        new Validator().ValidateAndThrow(this);
+        return this;
+    }
+
+    private class Validator : AbstractValidator<CacheArchive>
+    {
+        public Validator()
         {
+            this.RuleFor(c => c)
+                .Must(ch => ch.CacheHeader.indexCount == ch.CacheIndices.Count)
+                .WithMessage("cache header index count does not match index count");
         }
     }
 }

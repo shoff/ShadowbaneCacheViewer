@@ -1,64 +1,60 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes
+﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Cache.CacheTypes;
+using Xunit;
+
+public class MeshCacheTests : CacheBaseTest
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Cache.CacheTypes;
-    using Xunit;
+    private readonly MeshCache meshCache;
 
-    public class MeshCacheTests : CacheBaseTest
+    public MeshCacheTests()
     {
-        private readonly MeshCache meshCache;
+        this.meshCache = new MeshCache();
+    }
 
-        public MeshCacheTests()
+
+    [Fact]
+    public void Cache_Validates()
+    {
+        this.meshCache.Validate();
+    }
+
+    [Fact]
+    public void Identity_Is_Unique()
+    {
+        var query = this.meshCache.CacheIndices
+            .GroupBy(x => x.identity)
+            .Where(g => g.Count() > 1)
+            .Select(y => new { Identity = y.Key, Counter = y.Count() })
+            .ToList();
+
+        var moreThan2 = query
+            .Where(a => a.Counter > 1).Select(a => a).ToList();
+        Assert.True(moreThan2.Count == 0);
+    }
+
+    [Fact(Skip = "Slow test we know it works.")]
+    public void All_Indices_Compressed_Uncompressed_Values_Are_Valid()
+    {
+        // this is probably going to be a long running test
+        foreach(var item in this.meshCache.CacheIndices)
         {
-            this.meshCache = (MeshCache) new MeshCache()
-                .LoadCacheHeader()
-                .LoadIndexes();
+            var cacheAsset = this.meshCache[item.identity];
+            Assert.NotNull(cacheAsset);
         }
+    }
 
-        [Fact]
-        public void Cache_Has_Correct_Index_Count()
+    [Fact]
+    public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
+    {
+        // this is probably going to be a long running test
+        Parallel.ForEach(this.meshCache.CacheIndices, item =>
         {
-            var expected = 24387;
-            var actual = this.meshCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Identity_Is_Unique()
-        {
-            var query = this.meshCache.CacheIndices
-                .GroupBy(x => x.identity)
-                .Where(g => g.Count() > 1)
-                .Select(y => new { Identity = y.Key, Counter = y.Count() })
-                .ToList();
-
-            var moreThan2 = query
-                .Where(a => a.Counter > 1).Select(a => a).ToList();
-            Assert.True(moreThan2.Count == 0);
-        }
-
-        [Fact(Skip = "Slow test we know it works.")]
-        public void All_Indices_Compressed_Uncompressed_Values_Are_Valid()
-        {
-            // this is probably going to be a long running test
-            foreach(var item in this.meshCache.CacheIndices)
-            {
-                var cacheAsset = this.meshCache[item.identity];
-                Assert.NotNull(cacheAsset);
-            }
-        }
-
-        [Fact]
-        public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
-        {
-            // this is probably going to be a long running test
-            Parallel.ForEach(this.meshCache.CacheIndices, item =>
-            {
-                var cacheAsset = this.meshCache[item.identity];
-                Assert.NotNull(cacheAsset);
-            });
-        }
+            var cacheAsset = this.meshCache[item.identity];
+            Assert.NotNull(cacheAsset);
+        });
     }
 }

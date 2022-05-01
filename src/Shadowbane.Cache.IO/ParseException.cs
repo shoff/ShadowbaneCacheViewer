@@ -1,19 +1,18 @@
-﻿namespace Shadowbane.Cache.IO
-{
-    using System;
-    using System.Runtime.Serialization;
+﻿namespace Shadowbane.Cache.IO;
 
-    [Serializable]
-    public sealed class ParseException : Exception
+using System;
+using System.Runtime.Serialization;
+
+[Serializable]
+public sealed class ParseException : Exception
+{
+    public ParseException(string parseErrorMessage)
+        : base(parseErrorMessage)
     {
-        public ParseException(string parseErrorMessage)
-            : base(parseErrorMessage)
-        {
-        }
+    }
         
-        private ParseException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
-        }
+    private ParseException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        : base(serializationInfo, streamingContext)
+    {
     }
 }

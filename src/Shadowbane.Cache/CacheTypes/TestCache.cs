@@ -1,13 +1,27 @@
-﻿namespace Shadowbane.Cache.CacheTypes
+﻿namespace Shadowbane.Cache.CacheTypes;
+
+using FluentValidation;
+
+public sealed class TestCache : CacheArchive
 {
-    using System;
 
-    public sealed class TestCache : CacheArchive
+    public TestCache()
+        : base("Test.cache")
     {
+    }
+    public override CacheArchive Validate()
+    {
+        new Validator().ValidateAndThrow(this);
+        return this;
+    }
 
-        public TestCache()
-            : base("Test.cache")
+    private class Validator : AbstractValidator<CacheArchive>
+    {
+        public Validator()
         {
+            this.RuleFor(c => c)
+                .Must(ch => ch.CacheHeader.indexCount == ch.CacheIndices.Count)
+                .WithMessage("cache header index count does not match index count");
         }
     }
 }

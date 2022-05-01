@@ -1,89 +1,88 @@
-﻿namespace Shadowbane.Exporter.Wavefront.Tests
+﻿namespace Shadowbane.Exporter.Wavefront.Tests;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Cache;
+using Cache.IO;
+using Xunit;
+using Xunit.Abstractions;
+
+public class ObjExporterTests : ExporterBaseTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Cache;
-    using Cache.IO;
-    using Xunit;
-    using Xunit.Abstractions;
+    private readonly ITestOutputHelper testOutputHelper;
 
-    public class ObjExporterTests : ExporterBaseTest
+    public ObjExporterTests(ITestOutputHelper testOutputHelper)
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        this.testOutputHelper = testOutputHelper;
+    }
 
-        public ObjExporterTests(ITestOutputHelper testOutputHelper)
+    [Fact]
+    public async Task _Find_And_Parse()
+    {
+        int noChildren = 0;
+        int haveChildren = 0;
+        var cache = ArchiveLoader.ObjectArchive;
+        var messages = new List<string>();
+        var renderablesWithChildren = new List<uint>();
+
+        foreach (var ci in cache.CacheIndices)
         {
-            this.testOutputHelper = testOutputHelper;
-        }
-
-        [Fact]
-        public async Task _Find_And_Parse()
-        {
-            int noChildren = 0;
-            int haveChildren = 0;
-            var cache = ArchiveLoader.ObjectArchive;
-            var messages = new List<string>();
-            var renderablesWithChildren = new List<uint>();
-
-            foreach (var ci in cache.CacheIndices)
+            try
             {
-                try
-                {
-                    var modelDirectory = SetupModelDirectory(ci.identity);
-                    var renderableObject = RenderableObjectBuilder.RecurseBuild(ci);
+                var modelDirectory = SetupModelDirectory(ci.identity);
+                var renderableObject = RenderableObjectBuilder.RecurseBuild(ci);
 
-                    if (renderableObject.ChildCount > 0 &&
-                        renderableObject.Children.Count == renderableObject.ChildCount)
-                    {
-                        renderablesWithChildren.Add(renderableObject.Identity);
-                        haveChildren++;
-                    }
-                    else
-                    {
-                        noChildren++;
-                    }
-                    //await ObjExporter.ExportAsync(renderableObject, modelDirectory, default);
-                }
-                catch (Exception e)
+                if (renderableObject.ChildCount > 0 &&
+                    renderableObject.Children.Count == renderableObject.ChildCount)
                 {
-                    messages.Add(e.Message);
+                    renderablesWithChildren.Add(renderableObject.Identity);
+                    haveChildren++;
                 }
+                else
+                {
+                    noChildren++;
+                }
+                //await ObjExporter.ExportAsync(renderableObject, modelDirectory, default);
             }
-
-            await File.WriteAllTextAsync($"{AppDomain.CurrentDomain.BaseDirectory}\\renderablesWithChildren.csv",
-                string.Concat(renderablesWithChildren.Select(s => $"{s},\r\n")));
-
-            testOutputHelper.WriteLine(noChildren.ToString());
-            testOutputHelper.WriteLine(haveChildren.ToString());
-            testOutputHelper.WriteLine(string.Concat(messages));
-        }
-
-        [Theory]
-        [InlineData(5000)]
-        [InlineData(5001)]
-        [InlineData(5002)]
-        [InlineData(5004)]
-        public async Task _DoesIt(uint id)
-        {
-            var modelDirectory = SetupModelDirectory(id);
-            var information = RenderableObjectBuilder.Build((uint)id);
-            await ObjExporter.ExportAsync(information, modelDirectory, default);
-        }
-
-
-        private static string SetupModelDirectory(uint id)
-        {
-            var modelDirectory = $"{CacheLocation.SimpleFolder}{id}";
-
-            if (Directory.Exists(modelDirectory))
+            catch (Exception e)
             {
-                Directory.Delete(modelDirectory, true);
+                messages.Add(e.Message);
             }
-
-            return modelDirectory;
         }
+
+        await File.WriteAllTextAsync($"{AppDomain.CurrentDomain.BaseDirectory}\\renderablesWithChildren.csv",
+            string.Concat(renderablesWithChildren.Select(s => $"{s},\r\n")));
+
+        testOutputHelper.WriteLine(noChildren.ToString());
+        testOutputHelper.WriteLine(haveChildren.ToString());
+        testOutputHelper.WriteLine(string.Concat(messages));
+    }
+
+    [Theory]
+    [InlineData(5000)]
+    [InlineData(5001)]
+    [InlineData(5002)]
+    [InlineData(5004)]
+    public async Task _DoesIt(uint id)
+    {
+        var modelDirectory = SetupModelDirectory(id);
+        var information = RenderableObjectBuilder.Build((uint)id);
+        await ObjExporter.ExportAsync(information, modelDirectory, default);
+    }
+
+
+    private static string SetupModelDirectory(uint id)
+    {
+        var modelDirectory = $"{CacheLocation.SimpleFolder}{id}";
+
+        if (Directory.Exists(modelDirectory))
+        {
+            Directory.Delete(modelDirectory, true);
+        }
+
+        return modelDirectory;
     }
 }

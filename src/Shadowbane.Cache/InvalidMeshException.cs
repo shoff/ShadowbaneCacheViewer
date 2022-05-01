@@ -1,16 +1,15 @@
-﻿namespace Shadowbane.Cache
-{
-    using System;
-    using System.Runtime.Serialization;
+﻿namespace Shadowbane.Cache;
 
-    [Serializable]
-    public sealed class InvalidMeshException : ApplicationException
+using System;
+using System.Runtime.Serialization;
+
+[Serializable]
+public sealed class InvalidMeshException : ApplicationException
+{
+    public InvalidMeshException(string message)
+        : base(message){}
+    private InvalidMeshException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        : base(serializationInfo, streamingContext)
     {
-        public InvalidMeshException(string message)
-            : base(message){}
-        private InvalidMeshException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
-        }
     }
 }

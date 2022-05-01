@@ -1,54 +1,55 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes
+﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+
+using System.Linq;
+using System.Threading.Tasks;
+using Cache.CacheTypes;
+using Xunit;
+
+public class SoundCacheTests : CacheBaseTest
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Cache.CacheTypes;
-    using Xunit;
+    private readonly SoundCache soundCache;
 
-    public class SoundCacheTests : CacheBaseTest
+    public SoundCacheTests()
     {
-        private readonly SoundCache soundCache;
+        this.soundCache = new SoundCache();
+    }
 
-        public SoundCacheTests()
+    [Fact]
+    public void Cache_Has_Correct_Index_Count()
+    {
+        var expected = 1086;
+        var actual = this.soundCache.IndexCount;
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
+    {
+        // this is probably going to be a long running test
+        Parallel.ForEach(this.soundCache.CacheIndices, item =>
         {
-            this.soundCache = new SoundCache();
-        }
+            var cacheAsset = this.soundCache[item.identity];
+            Assert.NotNull(cacheAsset);
+        });
+    }
 
-        [Fact]
-        public void Cache_Has_Correct_Index_Count()
-        {
-            this.soundCache
-                .LoadCacheHeader()
-                .LoadIndexes();
+    [Fact]
+    public void Identity_Is_Unique()
+    {
+        var query = this.soundCache.CacheIndices
+            .GroupBy(x => x.identity)
+            .Where(g => g.Count() > 1)
+            .Select(y => new { Identity = y.Key, Counter = y.Count() })
+            .ToList();
 
-            var expected = 1086;
-            var actual = this.soundCache.IndexCount;
-            Assert.Equal(expected, actual);
-        }
+        var moreThan2 = query
+            .Where(a => a.Counter > 1).Select(a => a).ToList();
+        Assert.True(moreThan2.Count == 0);
+    }
 
-        [Fact]
-        public void All_Indices_Compressed_Uncompressed_Values_Are_Valid_When_Loaded_With_Parallel_ForEach()
-        {
-            // this is probably going to be a long running test
-            Parallel.ForEach(this.soundCache.CacheIndices, item =>
-            {
-                var cacheAsset = this.soundCache[item.identity];
-                Assert.NotNull(cacheAsset);
-            });
-        }
-
-        [Fact]
-        public void Identity_Is_Unique()
-        {
-            var query = this.soundCache.CacheIndices
-                .GroupBy(x => x.identity)
-                .Where(g => g.Count() > 1)
-                .Select(y => new { Identity = y.Key, Counter = y.Count() })
-                .ToList();
-
-            var moreThan2 = query
-                .Where(a => a.Counter > 1).Select(a => a).ToList();
-            Assert.True(moreThan2.Count == 0);
-        }
+    [Fact]
+    public void Cache_Validates()
+    {
+        this.soundCache.Validate();
     }
 }
