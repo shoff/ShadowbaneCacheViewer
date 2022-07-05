@@ -20,11 +20,10 @@ public class RenderCacheTests : CacheBaseTest
     public void Cache_Has_Correct_Index_Count()
     {
         var expected = 41778;
-        var actual = this.renderCache.IndexCount;
+        var actual = this.renderCache.IndexCount + this.renderCache.DuplicateCount;
         Assert.Equal(expected, actual);
     }
 
-    // [Fact(Skip = "Slow test we know it works.")]
     [Fact]
     public void All_Indices_Compressed_Uncompressed_Values_Are_Valid()
     {
@@ -48,7 +47,7 @@ public class RenderCacheTests : CacheBaseTest
     }
 
     [Fact]
-    public void Identity_Is_Not_Unique_On_Renderable_Items()
+    public void Identity_Is_Unique_On_Renderable_Items()
     {
         var query = this.renderCache.CacheIndices
             .GroupBy(x => x.identity)
@@ -58,7 +57,7 @@ public class RenderCacheTests : CacheBaseTest
 
         var moreThan2 = query
             .Where(a => a.Counter > 1).Select(a => a).ToList();
-        Assert.True(moreThan2.Count > 0);
+        Assert.True(moreThan2.Count == 0);
     }
 
     [Fact]

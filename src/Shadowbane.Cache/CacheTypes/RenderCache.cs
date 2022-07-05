@@ -42,7 +42,7 @@ public sealed class RenderCache : CacheArchive
         public Validator()
         {
             this.RuleFor(c => c)
-                .Must(ch => ch.CacheHeader.indexCount == ch.CacheIndices.Count)
+                .Must(ch => ch.CacheHeader.indexCount == ch.CacheIndices.Count + ch.DuplicateCount)
                 .WithMessage("cache header index count does not match index count");
         }
     }

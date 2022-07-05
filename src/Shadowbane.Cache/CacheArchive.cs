@@ -14,7 +14,8 @@ public abstract class CacheArchive
     private readonly FileInfo fileInfo;
     private CacheHeader cacheHeader;
     private readonly string name;
-
+    private uint duplicateCount;
+    
     protected readonly Dictionary<uint, CacheIndex> indices = new();
     //protected readonly List<CacheIndex> cacheIndices = new();
     private long indexOffset;
@@ -56,15 +57,14 @@ public abstract class CacheArchive
         {
             var indexData = this.bufferData.Span.Slice((int)(this.indexOffset + cacheIndexSize * i), cacheIndexSize);
             var index = indexData.ByteArrayToStructure<CacheIndex>();
-            if (this.indices.ContainsKey(index.identity))
+            if (!this.indices.ContainsKey(index.identity))
             {
-                this.indices.Add(index.identity+DUPE_FLAG, index);
+                this.indices.Add(index.identity, index);
             }
             else
             {
-                this.indices.Add(index.identity, index);
-            }   
-            // this.cacheIndices.Add(index);
+                this.duplicateCount = this.DuplicateCount + 1;
+            }
         }
 
         if (this.indices.Any()) // dungeon has none
@@ -156,7 +156,10 @@ public abstract class CacheArchive
         get => this.cacheHeader;
         set => this.cacheHeader = value;
     }
-
+    public uint DuplicateCount
+    {
+        get => this.duplicateCount;
+    }
     public abstract CacheArchive Validate();
 
 }

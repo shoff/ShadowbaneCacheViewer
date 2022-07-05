@@ -8,72 +8,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eee502b7-f2a8-4842-8ef2-d11199e8af7e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/ICacheWriter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shadowbane.Web/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shadowbane.Web/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shadowbane/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shadowbane.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Shadowbane.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/BadRenderIds.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/BadRenderIds.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/BinaryReaderExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/BinaryReaderExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/CacheObjectBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/CacheObjectBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/CacheWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/CacheWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/RenderableObjectBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.IO/RenderableObjectBuilder.cs" afterDir="false" />
+    <list default="true" id="eee502b7-f2a8-4842-8ef2-d11199e8af7e" name="Changes" comment="Adding a web project to play with opengl.js">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Shadowbane/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shadowbane/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheArchive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheArchive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheAsset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheAsset.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/MeshCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/MeshCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/MotionCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/MotionCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/ObjectCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/ObjectCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/PaletteCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/PaletteCache.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/RenderCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/RenderCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/SkeletonCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/SkeletonCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/SoundCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/SoundCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TerrainAlphaCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TerrainAlphaCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TestCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TestCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TextureCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TextureCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TileCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/TileCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/VisualCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/VisualCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/ZoneCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/ZoneCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/IRenderable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/IRenderable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/ReadOnlyMemoryExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/ReadOnlyMemoryExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/MeshExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/MeshExporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/ObjExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/ObjExporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/WavefrontReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Exporter.Wavefront/WavefrontReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/ITexture.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/ITexture.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Index.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Index.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Matrix3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Matrix3.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Matrix4.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Matrix4.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Quaternion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Quaternion.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Shadowbane.Geometry.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Shadowbane.Geometry.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector3.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector4.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Geometry/Vector4.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/AnimationObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/AnimationObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Bone.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Bone.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/CacheObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/CacheObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/CollisionInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/CollisionInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Deed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Deed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Equipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Equipment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Interactive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Interactive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Mobile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Mobile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/ModelObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/ModelObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Particle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Particle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Renderable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Renderable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Shadowbane.Models.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Shadowbane.Models.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Simple.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Simple.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Skeleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Skeleton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Structure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Structure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Texture.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Texture.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Models/Warrant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Models/Warrant.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/MeshBuilderTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/MeshBuilderTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/RenderableObjectBuilderTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/RenderableObjectBuilderTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/CacheTypes/RenderCacheTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/CacheTypes/RenderCacheTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/Shadowbane.Cache.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/Shadowbane.Cache.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/27633a066f89dc9a0c637aaa4ab422ea3485c058fefc65fe8cbaa534bca92/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
@@ -96,6 +47,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -147,8 +99,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1656984490250</updated>
-      <workItem from="1656984495195" duration="7535000" />
+      <workItem from="1656984495195" duration="8590000" />
     </task>
+    <task id="LOCAL-00001" summary="Removes dependency on slow System.Drawing.Common in favor of ImageSharp">
+      <created>1656992324959</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656992324959</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Adding a web project to play with opengl.js">
+      <created>1656992372712</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1656992372712</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,25 +123,26 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Removes dependency on slow System.Drawing.Common in favor of ImageSharp" />
+    <MESSAGE value="Adding a web project to play with opengl.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding a web project to play with opengl.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/CacheTypes/RenderCacheTests.cs</url>
-          <line>32</line>
-          <properties documentPath="C:\dev\ShadowbaneCacheViewer\tests\Shadowbane.Cache.Tests\CacheTypes\RenderCacheTests.cs" initialLine="30" containingFunctionPresentation="method 'All_Indices_Compressed_Uncompressed_Values_Are_Valid'">
-            <startOffsets>
-              <option value="815" />
-            </startOffsets>
-            <endOffsets>
-              <option value="816" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/RenderableObjectBuilderTests.cs</url>
           <line>50</line>
