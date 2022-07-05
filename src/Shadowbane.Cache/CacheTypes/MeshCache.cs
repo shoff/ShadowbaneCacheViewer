@@ -4,20 +4,20 @@ using FluentValidation;
 
 public class MeshCache : CacheArchive
 {
-    public const string CACHE_NAME = "Mesh.cache";
+    private const string CACHE_NAME = "Mesh.cache";
     public MeshCache()
         : base(CACHE_NAME)
     {
     }
 
-    internal uint IdentityAt(int index)
+    internal uint IdentityAt(uint index)
     {
         if (index > this.IndexCount)
         {
             return default;
         }
 
-        return this.cacheIndices[index].identity;
+        return this.indices[index].identity;
     }
     public override CacheArchive Validate()
     {

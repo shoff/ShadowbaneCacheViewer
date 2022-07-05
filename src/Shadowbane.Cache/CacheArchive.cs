@@ -11,12 +11,16 @@ using System.Runtime.InteropServices;
 public abstract class CacheArchive
 {
     protected ReadOnlyMemory<byte> bufferData;
-    protected FileInfo fileInfo;
+    private readonly FileInfo fileInfo;
     private CacheHeader cacheHeader;
-    protected string name;
-    protected readonly List<CacheIndex> cacheIndices = new();
+    private readonly string name;
+
+    protected readonly Dictionary<uint, CacheIndex> indices = new();
+    //protected readonly List<CacheIndex> cacheIndices = new();
     private long indexOffset;
 
+    protected const uint DUPE_FLAG = 900000; // is this big enough?
+    
     protected CacheArchive(string name)
     {
         this.InstanceId = Guid.NewGuid();
@@ -52,13 +56,21 @@ public abstract class CacheArchive
         {
             var indexData = this.bufferData.Span.Slice((int)(this.indexOffset + cacheIndexSize * i), cacheIndexSize);
             var index = indexData.ByteArrayToStructure<CacheIndex>();
-            this.cacheIndices.Add(index);
+            if (this.indices.ContainsKey(index.identity))
+            {
+                this.indices.Add(index.identity+DUPE_FLAG, index);
+            }
+            else
+            {
+                this.indices.Add(index.identity, index);
+            }   
+            // this.cacheIndices.Add(index);
         }
 
-        if (this.cacheIndices.Any()) // dungeon has none
+        if (this.indices.Any()) // dungeon has none
         {
-            this.LowestId = (int)this.cacheIndices.First().identity;
-            this.HighestId = (int)this.cacheIndices.Last().identity;
+            this.LowestId = this.indices.First().Key;
+            this.HighestId = this.indices.Last().Key;
         }
     }
 
@@ -91,18 +103,18 @@ public abstract class CacheArchive
         reader.Close();
     }
 
-    public virtual CacheAsset this[uint id]
+    public virtual CacheAsset? this[uint id]
     {
         // TODO figure out if passing the ReadOnlyMemory<byte> here is really better than say
         // TODO having a shared ArrayPool<byte> and renting/returning a simply byte[]
         get
         {
-            if (id == 0 || this.cacheIndices.All(i => i.identity != id))
+            if (id == 0 || !this.indices.ContainsKey(id))
             {
-                return new CacheAsset(new CacheIndex(), new ReadOnlyMemory<byte>());
+                return null;
             }
             // these "identities" are in fact duped, but the underlying data is ALWAYS identical so not sure why they duped them
-            var cacheIndex = this.cacheIndices.First(x => x.identity == id);
+            var cacheIndex = this.indices[id];
             var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int)cacheIndex.compressedSize);
             var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
             return asset;
@@ -114,13 +126,13 @@ public abstract class CacheArchive
         get
         {
             // ReSharper disable once ArrangeAccessorOwnerBody
-            return cacheIndices.AsReadOnly();
+            return indices.Values.ToList().AsReadOnly();
         }
     }
 
-    public int HighestId { get; protected set; }
+    public uint HighestId { get; protected set; }
 
-    public int LowestId { get; protected set; }
+    public uint LowestId { get; protected set; }
 
     public string Name
     {
@@ -129,7 +141,7 @@ public abstract class CacheArchive
 
     public int IndexCount
     {
-        get { return this.cacheIndices.Count; }
+        get { return this.indices.Count; }
     }
 
     public uint DataOffset

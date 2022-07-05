@@ -1,18 +1,21 @@
 ﻿namespace Shadowbane.Geometry;
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 public interface ITexture
 {
-    Bitmap Image { get; }
+    Image? Image { get; }
     uint TextureId { get; }
     int Width { get; }
     int Height { get; }
     int Depth { get; }
-    PixelFormat PixelFormat { get; }
-    Bitmap TextureMap(BinaryReader reader, ReadOnlyMemory<byte> buffer);
-    Bitmap TextureMap(ReadOnlyMemory<byte> buffer);
+    Image? TextureMap(BinaryReader reader, ReadOnlyMemory<byte> buffer);
+    Image? TextureMap(ReadOnlyMemory<byte> buffer);
+}
+
+public struct PixelFormats
+{
+    
 }

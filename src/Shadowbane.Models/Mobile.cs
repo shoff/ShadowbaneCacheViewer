@@ -1,4 +1,6 @@
-﻿namespace Shadowbane.Models;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+namespace Shadowbane.Models;
 
 using System;
 using System.Collections.Generic;
@@ -7,23 +9,22 @@ using System.IO;
 using Cache;
 using Geometry;
 
-public class Mobile : AnimationObject
+public record Mobile : AnimationObject
 {
     public Mobile(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Mobile, name, offset, data, innerOffset)
     {
-        this.StatArray = new List<uint>();
     }
 
     public uint IsPetOrRune { get; set; }
     public decimal ObjId { get; set; }
     public uint SecondNameSize { get; set; }
-    public string AiDescription { get; set; }
+    public string? AiDescription { get; set; }
     public uint MobToken { get; set; }
     public float ZOffset { get; set; }
-    public Dictionary<string, List<uint>> SkillsMap { get; set; }
-    public List<uint> StatArray { get; set; }
+    public Dictionary<string,List<uint>> SkillsMap { get; set; } = new();
+    public List<uint> StatArray { get; } = new();
     public int Gender { get; set; }
     public int TrainingPowerBonus { get; set; }
     public int RuneType { get; set; }
@@ -33,7 +34,7 @@ public class Mobile : AnimationObject
     public int NumberOfSkillsRequired { get; set; }
     public int LevelRequired { get; set; }
     public int PowerId { get; set; }
-    public string ExitMessage { get; set; }
+    public string? ExitMessage { get; set; }
     public int NameSize { get; set; }
     public int PetNameCount { get; set; }
     public byte ProhibitsRaceToggle { get; set; }
@@ -42,11 +43,12 @@ public class Mobile : AnimationObject
     public int MinRequiredLevel { get; set; }
     public byte ProhibitsDiscToggle { get; set; }
     public byte ProhibitsClassToggle { get; set; }
-    public int[] FourIntArray { get; set; }
+    public int[] FourIntArray { get; set; } = new int[4];
     public int FourThousandInt { get; set; }
     public int SomethingWithPets { get; set; }
     public DateTime WolfpackCreateDate { get; set; }
 
+    // ReSharper disable once CognitiveComplexity
     public override ICacheObject Parse()
     {
         this.ObjId = this.Identity; // huh?
@@ -188,7 +190,7 @@ public class Mobile : AnimationObject
         }
 
         //StructureValidationResult validationResult = null;
-        MobileRenderFinder finder = null;
+        MobileRenderFinder? finder = null;
 
         while (reader.CanRead(20) && this.RenderIds.Count == 0)
         {
@@ -680,7 +682,7 @@ public class Mobile : AnimationObject
         return this;
     }
         
-    public MobileRenderFinder GetFinder(BinaryReader reader)
+    public MobileRenderFinder? GetFinder(BinaryReader reader)
     {
         var finder = new MobileRenderFinder
         {

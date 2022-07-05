@@ -5,7 +5,7 @@ using FluentValidation;
 
 public sealed class MotionCache : CacheArchive
 {
-    public const string CACHE_NAME = "Motion.cache";
+    private const string CACHE_NAME = "Motion.cache";
     public MotionCache()
         : base(CACHE_NAME)
     {

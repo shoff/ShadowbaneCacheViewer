@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using ChaosMonkey.Guards;
 using Geometry;
 using Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 
 public static class MeshExporter
 {
@@ -30,6 +32,7 @@ public static class MeshExporter
     private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 4\r\n";
     private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
     private const string AT_SLASH = @"/";
+    
     public static async Task<bool> ExportAsync(Mesh mesh, string modelDirectory, string modelName = null)
     {
         Guard.IsNotNull(mesh, nameof(mesh));
@@ -201,7 +204,7 @@ public static class MeshExporter
 
             // why not store them as the texture identity rather than the mesh identity?
             var textureFile = $"{modelDirectory}{DOUBLE_SLASH}{mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_")}_{i}.png";
-            texture.Image?.Save(textureFile, ImageFormat.Png);
+            texture.Image?.SaveAsPng(textureFile);
 
             // var usmtl = string.Format(USE_MATERIAL, $"Mesh_{mesh.Identity}");
 
@@ -231,9 +234,9 @@ public static class MeshExporter
             {
                 var texture = mesh.Textures[i];
 
-                var mapName = directory + "\\" + mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".png";
+                var mapName = $"{directory}\\{mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_")}_{i}.png";
                 mapFiles.Add(mapName);
-                texture.Image.Save(mapName, ImageFormat.Png);
+                texture.Image?.SaveAsPng(mapName);
 
                 mainStringBuilder.AppendFormat(USE_MATERIAL, $"Mesh_{mesh.Identity}");
                 mainStringBuilder.AppendLine("s off");

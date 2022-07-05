@@ -4,8 +4,10 @@ using FluentValidation;
 
 public sealed class SkeletonCache : CacheArchive
 {
+    private const string CACHE_NAME = "Skeleton.cache";
+
     public SkeletonCache()
-        : base("Skeleton.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public class Simple : ModelObject
+public record Simple : ModelObject
 {
 
     public Simple(

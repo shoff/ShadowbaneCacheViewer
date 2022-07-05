@@ -4,8 +4,9 @@ using FluentValidation;
 
 public sealed class TextureCache : CacheArchive
 {
+    private const string CACHE_NAME = "Textures.cache";
     public TextureCache()
-        : base("Textures.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

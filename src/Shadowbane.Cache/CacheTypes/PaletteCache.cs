@@ -5,8 +5,9 @@ using FluentValidation;
 
 public sealed class PaletteCache : CacheArchive
 {
+    private const string CACHE_NAME = "Palette.cache";
     public PaletteCache()
-        : base("Palette.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

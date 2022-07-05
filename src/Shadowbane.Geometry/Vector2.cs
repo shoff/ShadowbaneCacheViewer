@@ -1,4 +1,5 @@
-﻿namespace Shadowbane.Geometry;
+﻿// ReSharper disable MemberCanBePrivate.Global
+namespace Shadowbane.Geometry;
 
 using System;
 using System.Globalization;
@@ -7,23 +8,23 @@ using static MathHelper;
 
 public struct Vector2 : IEquatable<Vector2>
 {
-    public static readonly Vector2 UnitX = new(1f, 0.0f);
-    public static readonly Vector2 UnitY = new(0.0f, 1f);
-    public static readonly Vector2 Zero = new(0.0f, 0.0f);
-    public static readonly Vector2 One = new(1f, 1f);
-    public static readonly int SizeInBytes = Marshal.SizeOf((object)new Vector2());
+    public static readonly Vector2 unitX = new(1f, 0.0f);
+    public static readonly Vector2 unitY = new(0.0f, 1f);
+    public static readonly Vector2 zero = new(0.0f, 0.0f);
+    public static readonly Vector2 one = new(1f, 1f);
+    public static readonly int sizeInBytes = Marshal.SizeOf((object)new Vector2());
     private static readonly string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-    public float X;
-    public float Y;
+    public float x;
+    public float y;
     public Vector2(float value)
     {
-        this.X = value;
-        this.Y = value;
+        this.x = value;
+        this.y = value;
     }
     public Vector2(float x, float y)
     {
-        this.X = x;
-        this.Y = y;
+        this.x = x;
+        this.y = y;
     }
     public float this[int index]
     {
@@ -31,12 +32,12 @@ public struct Vector2 : IEquatable<Vector2>
         {
             if (index == 0)
             {
-                return this.X;
+                return this.x;
             }
 
             if (index == 1)
             {
-                return this.Y;
+                return this.y;
             }
 
             throw new IndexOutOfRangeException("You tried to access this vector at index: " + index);
@@ -45,7 +46,7 @@ public struct Vector2 : IEquatable<Vector2>
         {
             if (index == 0)
             {
-                this.X = value;
+                this.x = value;
             }
             else
             {
@@ -54,15 +55,15 @@ public struct Vector2 : IEquatable<Vector2>
                     throw new IndexOutOfRangeException("You tried to set this vector at index: " + index);
                 }
 
-                this.Y = value;
+                this.y = value;
             }
         }
     }
-    public float Length => (float)Math.Sqrt(this.X * (double)this.X + this.Y * (double)this.Y);
-    public float LengthFast => 1f / InverseSqrtFast((float)(this.X * (double)this.X + this.Y * (double)this.Y));
-    public float LengthSquared => (float)(this.X * (double)this.X + this.Y * (double)this.Y);
-    public Vector2 PerpendicularRight => new(this.Y, -this.X);
-    public Vector2 PerpendicularLeft => new(-this.Y, this.X);
+    public float Length => (float)Math.Sqrt(this.x * (double)this.x + this.y * (double)this.y);
+    public float LengthFast => 1f / InverseSqrtFast((float)(this.x * (double)this.x + this.y * (double)this.y));
+    public float LengthSquared => (float)(this.x * (double)this.x + this.y * (double)this.y);
+    public Vector2 PerpendicularRight => new(this.y, -this.x);
+    public Vector2 PerpendicularLeft => new(-this.y, this.x);
     public Vector2 Normalized()
     {
         Vector2 vector2 = this;
@@ -72,14 +73,14 @@ public struct Vector2 : IEquatable<Vector2>
     public void Normalize()
     {
         float num = 1f / this.Length;
-        this.X *= num;
-        this.Y *= num;
+        this.x *= num;
+        this.y *= num;
     }
     public void NormalizeFast()
     {
-        float num = InverseSqrtFast((float)(this.X * (double)this.X + this.Y * (double)this.Y));
-        this.X *= num;
-        this.Y *= num;
+        float num = InverseSqrtFast((float)(this.x * (double)this.x + this.y * (double)this.y));
+        this.x *= num;
+        this.y *= num;
     }
     public static Vector2 Add(Vector2 a, Vector2 b)
     {
@@ -88,8 +89,8 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Add(ref Vector2 a, ref Vector2 b, out Vector2 result)
     {
-        result.X = a.X + b.X;
-        result.Y = a.Y + b.Y;
+        result.x = a.x + b.x;
+        result.y = a.y + b.y;
     }
     public static Vector2 Subtract(Vector2 a, Vector2 b)
     {
@@ -98,8 +99,8 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Subtract(ref Vector2 a, ref Vector2 b, out Vector2 result)
     {
-        result.X = a.X - b.X;
-        result.Y = a.Y - b.Y;
+        result.x = a.x - b.x;
+        result.y = a.y - b.y;
     }
     public static Vector2 Multiply(Vector2 vector, float scale)
     {
@@ -108,8 +109,8 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Multiply(ref Vector2 vector, float scale, out Vector2 result)
     {
-        result.X = vector.X * scale;
-        result.Y = vector.Y * scale;
+        result.x = vector.x * scale;
+        result.y = vector.y * scale;
     }
     public static Vector2 Multiply(Vector2 vector, Vector2 scale)
     {
@@ -118,8 +119,8 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Multiply(ref Vector2 vector, ref Vector2 scale, out Vector2 result)
     {
-        result.X = vector.X * scale.X;
-        result.Y = vector.Y * scale.Y;
+        result.x = vector.x * scale.x;
+        result.y = vector.y * scale.y;
     }
     public static Vector2 Divide(Vector2 vector, float scale)
     {
@@ -128,8 +129,8 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Divide(ref Vector2 vector, float scale, out Vector2 result)
     {
-        result.X = vector.X / scale;
-        result.Y = vector.Y / scale;
+        result.x = vector.x / scale;
+        result.y = vector.y / scale;
     }
     public static Vector2 Divide(Vector2 vector, Vector2 scale)
     {
@@ -138,30 +139,30 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void Divide(ref Vector2 vector, ref Vector2 scale, out Vector2 result)
     {
-        result.X = vector.X / scale.X;
-        result.Y = vector.Y / scale.Y;
+        result.x = vector.x / scale.x;
+        result.y = vector.y / scale.y;
     }
     public static Vector2 ComponentMin(Vector2 a, Vector2 b)
     {
-        a.X = (double)a.X < (double)b.X ? a.X : b.X;
-        a.Y = (double)a.Y < (double)b.Y ? a.Y : b.Y;
+        a.x = a.x < (double)b.x ? a.x : b.x;
+        a.y = a.y < (double)b.y ? a.y : b.y;
         return a;
     }
     public static void ComponentMin(ref Vector2 a, ref Vector2 b, out Vector2 result)
     {
-        result.X = (double)a.X < (double)b.X ? a.X : b.X;
-        result.Y = (double)a.Y < (double)b.Y ? a.Y : b.Y;
+        result.x = a.x < (double)b.x ? a.x : b.x;
+        result.y = a.y < (double)b.y ? a.y : b.y;
     }
     public static Vector2 ComponentMax(Vector2 a, Vector2 b)
     {
-        a.X = (double)a.X > (double)b.X ? a.X : b.X;
-        a.Y = (double)a.Y > (double)b.Y ? a.Y : b.Y;
+        a.x = a.x > (double)b.x ? a.x : b.x;
+        a.y = a.y > (double)b.y ? a.y : b.y;
         return a;
     }
     public static void ComponentMax(ref Vector2 a, ref Vector2 b, out Vector2 result)
     {
-        result.X = (double)a.X > (double)b.X ? a.X : b.X;
-        result.Y = (double)a.Y > (double)b.Y ? a.Y : b.Y;
+        result.x = a.x > (double)b.x ? a.x : b.x;
+        result.y = a.y > (double)b.y ? a.y : b.y;
     }
     public static Vector2 MagnitudeMin(Vector2 left, Vector2 right)
     {
@@ -174,7 +175,7 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void MagnitudeMin(ref Vector2 left, ref Vector2 right, out Vector2 result)
     {
-        result = (double)left.LengthSquared < (double)right.LengthSquared ? left : right;
+        result = left.LengthSquared < (double)right.LengthSquared ? left : right;
     }
     public static Vector2 MagnitudeMax(Vector2 left, Vector2 right)
     {
@@ -187,7 +188,7 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static void MagnitudeMax(ref Vector2 left, ref Vector2 right, out Vector2 result)
     {
-        result = (double)left.LengthSquared >= (double)right.LengthSquared ? left : right;
+        result = left.LengthSquared >= (double)right.LengthSquared ? left : right;
     }
     [Obsolete("Use MagnitudeMin() instead.")]
     public static Vector2 Min(Vector2 left, Vector2 right)
@@ -211,87 +212,85 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public static Vector2 Clamp(Vector2 vec, Vector2 min, Vector2 max)
     {
-        vec.X = (double)vec.X < (double)min.X ? min.X : ((double)vec.X > (double)max.X ? max.X : vec.X);
-        vec.Y = (double)vec.Y < (double)min.Y ? min.Y : ((double)vec.Y > (double)max.Y ? max.Y : vec.Y);
+        vec.x = vec.x < (double)min.x ? min.x : (vec.x > (double)max.x ? max.x : vec.x);
+        vec.y = vec.y < (double)min.y ? min.y : (vec.y > (double)max.y ? max.y : vec.y);
         return vec;
     }
     public static void Clamp(ref Vector2 vec, ref Vector2 min, ref Vector2 max, out Vector2 result)
     {
-        result.X = (double)vec.X < (double)min.X ? min.X : ((double)vec.X > (double)max.X ? max.X : vec.X);
-        result.Y = (double)vec.Y < (double)min.Y ? min.Y : ((double)vec.Y > (double)max.Y ? max.Y : vec.Y);
+        result.x = vec.x < (double)min.x ? min.x : (vec.x > (double)max.x ? max.x : vec.x);
+        result.y = vec.y < (double)min.y ? min.y : (vec.y > (double)max.y ? max.y : vec.y);
     }
     public static float Distance(Vector2 vec1, Vector2 vec2)
     {
-        float result;
-        Distance(ref vec1, ref vec2, out result);
+        Distance(ref vec1, ref vec2, out var result);
         return result;
     }
     public static void Distance(ref Vector2 vec1, ref Vector2 vec2, out float result)
     {
-        result = (float)Math.Sqrt((vec2.X - (double)vec1.X) * (vec2.X - (double)vec1.X) + (vec2.Y - (double)vec1.Y) * (vec2.Y - (double)vec1.Y));
+        result = (float)Math.Sqrt((vec2.x - (double)vec1.x) * (vec2.x - (double)vec1.x) + (vec2.y - (double)vec1.y) * (vec2.y - (double)vec1.y));
     }
     public static float DistanceSquared(Vector2 vec1, Vector2 vec2)
     {
-        float result;
-        DistanceSquared(ref vec1, ref vec2, out result);
+        DistanceSquared(ref vec1, ref vec2, out var result);
         return result;
     }
     public static void DistanceSquared(ref Vector2 vec1, ref Vector2 vec2, out float result)
     {
-        result = (float)((vec2.X - (double)vec1.X) * (vec2.X - (double)vec1.X) + (vec2.Y - (double)vec1.Y) * (vec2.Y - (double)vec1.Y));
+        result = (float)((vec2.x - (double)vec1.x) * (vec2.x - (double)vec1.x) + (vec2.y - (double)vec1.y) * (vec2.y - (double)vec1.y));
     }
     public static Vector2 Normalize(Vector2 vec)
     {
         float num = 1f / vec.Length;
-        vec.X *= num;
-        vec.Y *= num;
+        vec.x *= num;
+        vec.y *= num;
         return vec;
     }
     public static void Normalize(ref Vector2 vec, out Vector2 result)
     {
         float num = 1f / vec.Length;
-        result.X = vec.X * num;
-        result.Y = vec.Y * num;
+        result.x = vec.x * num;
+        result.y = vec.y * num;
     }
     public static Vector2 NormalizeFast(Vector2 vec)
     {
-        float num = InverseSqrtFast((float)(vec.X * (double)vec.X + vec.Y * (double)vec.Y));
-        vec.X *= num;
-        vec.Y *= num;
+        float num = InverseSqrtFast((float)(vec.x * (double)vec.x + vec.y * (double)vec.y));
+        vec.x *= num;
+        vec.y *= num;
         return vec;
     }
     public static void NormalizeFast(ref Vector2 vec, out Vector2 result)
     {
-        float num = InverseSqrtFast((float)(vec.X * (double)vec.X + vec.Y * (double)vec.Y));
-        result.X = vec.X * num;
-        result.Y = vec.Y * num;
+        float num = InverseSqrtFast((float)(vec.x * (double)vec.x + vec.y * (double)vec.y));
+        result.x = vec.x * num;
+        result.y = vec.y * num;
     }
     public static float Dot(Vector2 left, Vector2 right)
     {
-        return (float)(left.X * (double)right.X + left.Y * (double)right.Y);
+        return (float)(left.x * (double)right.x + left.y * (double)right.y);
     }
     public static void Dot(ref Vector2 left, ref Vector2 right, out float result)
     {
-        result = (float)(left.X * (double)right.X + left.Y * (double)right.Y);
+        result = (float)(left.x * (double)right.x + left.y * (double)right.y);
     }
     public static float PerpDot(Vector2 left, Vector2 right)
     {
-        return (float)(left.X * (double)right.Y - left.Y * (double)right.X);
+        return (float)(left.x * (double)right.y - left.y * (double)right.x);
     }
     public static void PerpDot(ref Vector2 left, ref Vector2 right, out float result)
     {
-        result = (float)(left.X * (double)right.Y - left.Y * (double)right.X);
+        result = (float)(left.x * (double)right.y - left.y * (double)right.x);
     }
     public static Vector2 Lerp(Vector2 a, Vector2 b, float blend)
     {
-        a.X = blend * (b.X - a.X) + a.X;
-        a.Y = blend * (b.Y - a.Y) + a.Y;
+        a.x = blend * (b.x - a.x) + a.x;
+        a.y = blend * (b.y - a.y) + a.y;
         return a;
     }
     public static void Lerp(ref Vector2 a, ref Vector2 b, float blend, out Vector2 result)
     {
-        result.X = blend * (b.X - a.X) + a.X;
-        result.Y = blend * (b.Y - a.Y) + a.Y;
+        result.x = blend * (b.x - a.x) + a.x;
+        result.y = blend * (b.y - a.y) + a.y;
     }
     public static Vector2 BaryCentric(Vector2 a, Vector2 b, Vector2 c, float u, float v)
     {
@@ -309,72 +308,72 @@ public struct Vector2 : IEquatable<Vector2>
         Multiply(ref result2, v, out result2);
         Add(ref result, ref result2, out result);
     }
-    public static Vector2 Transform(Vector2 vec, Quaternion quat)
+    public static Vector2 Transform(Vector2 vec, Quaternion quaternion)
     {
         Vector2 result;
-        Transform(ref vec, ref quat, out result);
+        Transform(ref vec, ref quaternion, out result);
         return result;
     }
-    public static void Transform(ref Vector2 vec, ref Quaternion quat, out Vector2 result)
+    public static void Transform(ref Vector2 vec, ref Quaternion quaternion, out Vector2 result)
     {
-        Quaternion result1 = new Quaternion(vec.X, vec.Y, 0.0f, 0.0f);
+        Quaternion result1 = new Quaternion(vec.x, vec.y, 0.0f, 0.0f);
         Quaternion result2;
-        Quaternion.Invert(ref quat, out result2);
+        Quaternion.Invert(ref quaternion, out result2);
         Quaternion result3;
-        Quaternion.Multiply(ref quat, ref result1, out result3);
+        Quaternion.Multiply(ref quaternion, ref result1, out result3);
         Quaternion.Multiply(ref result3, ref result2, out result1);
-        result.X = result1.X;
-        result.Y = result1.Y;
+        result.x = result1.X;
+        result.y = result1.Y;
     }
     public Vector2 Yx
     {
-        get => new(this.Y, this.X);
+        get => new(this.y, this.x);
         set
         {
-            this.Y = value.X;
-            this.X = value.Y;
+            this.y = value.x;
+            this.x = value.y;
         }
     }
     public static Vector2 operator +(Vector2 left, Vector2 right)
     {
-        left.X += right.X;
-        left.Y += right.Y;
+        left.x += right.x;
+        left.y += right.y;
         return left;
     }
     public static Vector2 operator -(Vector2 left, Vector2 right)
     {
-        left.X -= right.X;
-        left.Y -= right.Y;
+        left.x -= right.x;
+        left.y -= right.y;
         return left;
     }
     public static Vector2 operator -(Vector2 vec)
     {
-        vec.X = -vec.X;
-        vec.Y = -vec.Y;
+        vec.x = -vec.x;
+        vec.y = -vec.y;
         return vec;
     }
     public static Vector2 operator *(Vector2 vec, float scale)
     {
-        vec.X *= scale;
-        vec.Y *= scale;
+        vec.x *= scale;
+        vec.y *= scale;
         return vec;
     }
     public static Vector2 operator *(float scale, Vector2 vec)
     {
-        vec.X *= scale;
-        vec.Y *= scale;
+        vec.x *= scale;
+        vec.y *= scale;
         return vec;
     }
     public static Vector2 operator *(Vector2 vec, Vector2 scale)
     {
-        vec.X *= scale.X;
-        vec.Y *= scale.Y;
+        vec.x *= scale.x;
+        vec.y *= scale.y;
         return vec;
     }
     public static Vector2 operator /(Vector2 vec, float scale)
     {
-        vec.X /= scale;
-        vec.Y /= scale;
+        vec.x /= scale;
+        vec.y /= scale;
         return vec;
     }
     public static bool operator ==(Vector2 left, Vector2 right)
@@ -387,28 +386,25 @@ public struct Vector2 : IEquatable<Vector2>
     }
     public override string ToString()
     {
-        return string.Format("({0}{2} {1})", this.X, this.Y, listSeparator);
+        return string.Format("({0}{2} {1})", this.x, this.y, listSeparator);
     }
     public override int GetHashCode()
     {
-        return this.X.GetHashCode() * 397 ^ this.Y.GetHashCode();
+        return this.x.GetHashCode() * 397 ^ this.y.GetHashCode();
     }
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (!(obj is Vector2))
-        {
-            return false;
-        }
-
-        return this.Equals((Vector2)obj);
+        return obj is Vector2 vector2 && this.Equals(vector2);
     }
     public bool Equals(Vector2 other)
     {
-        if (this.X == (double)other.X)
+        if (Math.Abs(this.x - (double)other.x) < TOLERANCE)
         {
-            return this.Y == (double)other.Y;
+            return Math.Abs(this.y - (double)other.y) < TOLERANCE;
         }
 
         return false;
     }
+
+    private const double TOLERANCE = 0.0000001; 
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 // TODO this is simply a brainstorming placeholder, do not use.
-public class CacheWriter
+public class CacheWriter : ICacheWriter
 {
     public void WriteNewHeader(CacheArchive cacheArchive, CacheHeader cacheHeader)
     {

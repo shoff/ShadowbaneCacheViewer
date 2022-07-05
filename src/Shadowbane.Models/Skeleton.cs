@@ -8,7 +8,6 @@ public class Skeleton
 {
     public Skeleton(ReadOnlyMemory<byte> data, int id)
     {
-        this.MotionIds = new HashSet<long>();
         this.SkeletonId = id;
 
         using (var reader = data.CreateBinaryReaderUtf32())
@@ -33,7 +32,7 @@ public class Skeleton
 
     public int DistinctMotionIdCount { get; set; }
     public uint MotionCount { get; set; }
-    public string SkeletonText { get; set; }
+    public string? SkeletonText { get; set; }
     public int SkeletonId { get; set; }
-    public ICollection<long> MotionIds { get; set; }
+    public ICollection<long> MotionIds { get; set; } = new List<long>();
 }

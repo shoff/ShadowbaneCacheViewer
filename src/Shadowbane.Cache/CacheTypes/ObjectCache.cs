@@ -4,11 +4,13 @@ using FluentValidation;
 
 public sealed class ObjectCache : CacheArchive
 {
-       
+    private const string CACHE_NAME = "CObjects.cache";
+
     public ObjectCache()
-        : base("CObjects.cache")
+        : base(CACHE_NAME)
     {
     }
+
     public override CacheArchive Validate()
     {
         new Validator().ValidateAndThrow(this);

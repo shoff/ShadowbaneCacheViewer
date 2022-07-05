@@ -13,7 +13,7 @@ public class Renderable : IRenderable
     public int ByteCount { get; set; }
     public bool HasMesh { get; set; }
     public Mesh? Mesh { get; set; }
-    public object[] Unknown { get; } = new object[6];
+    public uint[] Unknown { get; } = new uint[6];
     public uint MeshId { get; set; }
     public string? JointName { get; set; }
     public Vector3 Scale { get; set; }

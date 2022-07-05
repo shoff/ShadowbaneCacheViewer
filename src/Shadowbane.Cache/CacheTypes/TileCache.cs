@@ -4,11 +4,9 @@ using FluentValidation;
 
 public sealed class TileCache : CacheArchive
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="Tile" /> class.
-    /// </summary>
+    private const string CACHE_NAME = "Tile.cache";
     public TileCache()
-        : base("Tile.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

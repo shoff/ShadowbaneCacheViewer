@@ -1,10 +1,9 @@
 ﻿namespace Shadowbane.Models;
 
 using System;
-using System.Collections.Generic;
 using Cache;
 
-public abstract class ModelObject : CacheObject
+public abstract record ModelObject : CacheObject
 {
     protected ModelObject(
         uint identity, 
@@ -16,6 +15,4 @@ public abstract class ModelObject : CacheObject
         : base(identity, flag, name, offset, data, innerOffset)
     {
     }
-
-    public ICollection<Exception> Errors { get; } = new List<Exception>();
 }

@@ -46,7 +46,10 @@ public static class RenderableObjectBuilder
         if (saveToFile && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}{identity}-{asset.Order}"))
         {
             // for now let's save them all in a folder for analysis
-            FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.RenderOutputFolder.FullName, $"{identity}-{asset.Order}.sbri");
+            FileWriter.Writer.Write(
+                asset.Asset.Span, 
+                CacheLocation.RenderOutputFolder.FullName,
+                $"{identity}-{asset.Order}.sbri");
         }
 
         using var reader = asset.Asset.CreateBinaryReaderUtf32();
@@ -121,7 +124,7 @@ public static class RenderableObjectBuilder
         renderInformation.ChildCount = reader.SafeReadInt32();
         renderInformation.LastOffset = reader.BaseStream.Position;
 
-        for (int i = 0; i < renderInformation.ChildCount; i++)
+        for (var i = 0; i < renderInformation.ChildCount; i++)
         {
             // null bytes
             reader.SafeReadInt32();
@@ -187,7 +190,6 @@ public static class RenderableObjectBuilder
                             {
                                 // probably an indexed image lets save it to look at the bytes
                                 FileWriter.Writer.Write(textureAsset.Asset.Span, $"{CacheLocation.TextureFolder.FullName}\\indexed-images", $"{identity}.sbtex");
-
                             }
 
                             renderInformation.Mesh?.Textures?.Add(texture);

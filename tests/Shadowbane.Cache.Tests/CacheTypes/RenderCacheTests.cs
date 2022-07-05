@@ -1,4 +1,6 @@
-﻿namespace Shadowbane.Cache.Tests.CacheTypes;
+﻿using Shadowbane.Cache.IO;
+
+namespace Shadowbane.Cache.Tests.CacheTypes;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ public class RenderCacheTests : CacheBaseTest
 
     public RenderCacheTests()
     {
-        this.renderCache = (RenderCache) new ();
+        this.renderCache = ArchiveLoader.RenderArchive;
     }
 
     [Fact]
@@ -22,7 +24,8 @@ public class RenderCacheTests : CacheBaseTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Slow test we know it works.")]
+    // [Fact(Skip = "Slow test we know it works.")]
+    [Fact]
     public void All_Indices_Compressed_Uncompressed_Values_Are_Valid()
     {
         // this is probably going to be a long running test

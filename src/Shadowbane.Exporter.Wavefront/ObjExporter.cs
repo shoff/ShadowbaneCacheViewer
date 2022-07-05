@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using ChaosMonkey.Guards;
 using Geometry;
 using Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 public class ObjExporter
 {
@@ -28,6 +30,8 @@ public class ObjExporter
     private const string MATERIAL_SPECULAR_NS = "Ns 10.000";
     private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 2\r\n";
     private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
+    private static readonly JpegEncoder jpegEncoder = new JpegEncoder();
+
         
     public static async Task ExportAsync(Renderable cacheObject, string outputDirectory, CancellationToken cancellationToken)
     {
@@ -101,10 +105,9 @@ public class ObjExporter
                 //    archive[texture.TextureId];
                 //using var map = mesh.Textures[i].TextureMap(asset.Item1);
                 using var map = mesh.Textures[i].Image;
-                var mapName = directory + "\\" +
-                              mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_") + "_" + i + ".jpg";
+                var mapName = $"{directory}\\{mesh.Identity.ToString(CultureInfo.InvariantCulture).Replace(" ", "_")}_{i}.jpg";
                 mapFiles.Add(mapName);
-                map.Save(mapName, ImageFormat.Jpeg);
+                map.SaveAsJpeg(mapName, jpegEncoder);
             }
         }
 

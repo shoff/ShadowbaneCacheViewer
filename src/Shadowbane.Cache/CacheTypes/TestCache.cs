@@ -4,9 +4,9 @@ using FluentValidation;
 
 public sealed class TestCache : CacheArchive
 {
-
+    private const string CACHE_NAME = "Test.cache";
     public TestCache()
-        : base("Test.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

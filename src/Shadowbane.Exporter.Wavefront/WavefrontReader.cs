@@ -160,7 +160,7 @@ public class WavefrontReader
         var components = ParseFloatArray(str, 3);
         if (components.Length != 3)
         {
-            return Vector2.Zero;
+            return Vector2.zero;
         }
 
         var vec = new Vector2(components[0], components[1]);

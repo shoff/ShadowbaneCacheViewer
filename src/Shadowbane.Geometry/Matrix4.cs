@@ -332,7 +332,7 @@ public struct Matrix4 : IEquatable<Matrix4>
         if (d > 0.0)
         {
             double num1 = Math.Sqrt(d);
-            quaternion.W = (float)num1;
+            quaternion.w = (float)num1;
             double num2 = 1.0 / (4.0 * num1);
             quaternion.X = (float)((vector3_2[2] - (double)vector3_3[1]) * num2);
             quaternion.Y = (float)((vector3_3[0] - (double)vector3_1[2]) * num2);
@@ -343,7 +343,7 @@ public struct Matrix4 : IEquatable<Matrix4>
             double num1 = 2.0 * Math.Sqrt(1.0 + vector3_1[0] - vector3_2[1] - vector3_3[2]);
             quaternion.X = (float)(0.25 * num1);
             double num2 = 1.0 / num1;
-            quaternion.W = (float)((vector3_3[1] - (double)vector3_2[2]) * num2);
+            quaternion.w = (float)((vector3_3[1] - (double)vector3_2[2]) * num2);
             quaternion.Y = (float)((vector3_2[0] + (double)vector3_1[1]) * num2);
             quaternion.Z = (float)((vector3_3[0] + (double)vector3_1[2]) * num2);
         }
@@ -352,7 +352,7 @@ public struct Matrix4 : IEquatable<Matrix4>
             double num1 = 2.0 * Math.Sqrt(1.0 + vector3_2[1] - vector3_1[0] - vector3_3[2]);
             quaternion.Y = (float)(0.25 * num1);
             double num2 = 1.0 / num1;
-            quaternion.W = (float)((vector3_3[0] - (double)vector3_1[2]) * num2);
+            quaternion.w = (float)((vector3_3[0] - (double)vector3_1[2]) * num2);
             quaternion.X = (float)((vector3_2[0] + (double)vector3_1[1]) * num2);
             quaternion.Z = (float)((vector3_3[1] + (double)vector3_2[2]) * num2);
         }
@@ -361,7 +361,7 @@ public struct Matrix4 : IEquatable<Matrix4>
             double num1 = 2.0 * Math.Sqrt(1.0 + vector3_3[2] - vector3_1[0] - vector3_2[1]);
             quaternion.Z = (float)(0.25 * num1);
             double num2 = 1.0 / num1;
-            quaternion.W = (float)((vector3_2[0] - (double)vector3_1[1]) * num2);
+            quaternion.w = (float)((vector3_2[0] - (double)vector3_1[1]) * num2);
             quaternion.X = (float)((vector3_3[0] + (double)vector3_1[2]) * num2);
             quaternion.Y = (float)((vector3_3[1] + (double)vector3_2[2]) * num2);
         }
@@ -855,7 +855,7 @@ public struct Matrix4 : IEquatable<Matrix4>
     {
         return ((this.Row0.GetHashCode() * 397 ^ this.Row1.GetHashCode()) * 397 ^ this.Row2.GetHashCode()) * 397 ^ this.Row3.GetHashCode();
     }
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (!(obj is Matrix4))
         {

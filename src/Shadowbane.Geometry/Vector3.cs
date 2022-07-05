@@ -34,8 +34,8 @@ public struct Vector3 : IEquatable<Vector3>
     }
     public Vector3(Vector2 v)
     {
-        this.X = v.X;
-        this.Y = v.Y;
+        this.X = v.x;
+        this.Y = v.y;
         this.Z = 0.0f;
     }
     public Vector3(Vector3 v)
@@ -423,9 +423,9 @@ public struct Vector3 : IEquatable<Vector3>
     }
     public static void Transform(ref Vector3 vec, ref Quaternion quat, out Vector3 result)
     {
-        Vector3 xyz = quat.Xyz;
+        Vector3 xyz = quat.xyz;
         Cross(ref xyz, ref vec, out var result1);
-        Multiply(ref vec, quat.W, out var result2);
+        Multiply(ref vec, quat.w, out var result2);
         Add(ref result1, ref result2, out result1);
         Cross(ref xyz, ref result1, out result2);
         Multiply(ref result2, 2f, out result2);
@@ -496,8 +496,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.X, this.Y);
         set
         {
-            this.X = value.X;
-            this.Y = value.Y;
+            this.X = value.x;
+            this.Y = value.y;
         }
     }
     public Vector2 Xz
@@ -505,8 +505,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.X, this.Z);
         set
         {
-            this.X = value.X;
-            this.Z = value.Y;
+            this.X = value.x;
+            this.Z = value.y;
         }
     }
     public Vector2 Yx
@@ -514,8 +514,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.Y, this.X);
         set
         {
-            this.Y = value.X;
-            this.X = value.Y;
+            this.Y = value.x;
+            this.X = value.y;
         }
     }
     public Vector2 Yz
@@ -523,8 +523,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.Y, this.Z);
         set
         {
-            this.Y = value.X;
-            this.Z = value.Y;
+            this.Y = value.x;
+            this.Z = value.y;
         }
     }
     public Vector2 Zx
@@ -532,8 +532,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.Z, this.X);
         set
         {
-            this.Z = value.X;
-            this.X = value.Y;
+            this.Z = value.x;
+            this.X = value.y;
         }
     }
     public Vector2 Zy
@@ -541,8 +541,8 @@ public struct Vector3 : IEquatable<Vector3>
         get => new(this.Z, this.Y);
         set
         {
-            this.Z = value.X;
-            this.Y = value.Y;
+            this.Z = value.x;
+            this.Y = value.y;
         }
     }
     public Vector3 Xzy
@@ -675,7 +675,7 @@ public struct Vector3 : IEquatable<Vector3>
     {
         return (this.X.GetHashCode() * 397 ^ this.Y.GetHashCode()) * 397 ^ this.Z.GetHashCode();
     }
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (!(obj is Vector3))
         {

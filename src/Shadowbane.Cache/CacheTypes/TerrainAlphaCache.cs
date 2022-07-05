@@ -4,8 +4,9 @@ using FluentValidation;
 
 public sealed class TerrainAlphaCache : CacheArchive
 {
+    private const string CACHE_NAME = "TerrainAlpha.cache";
     public TerrainAlphaCache()
-        : base("TerrainAlpha.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

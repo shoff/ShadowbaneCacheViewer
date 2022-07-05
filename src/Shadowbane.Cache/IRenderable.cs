@@ -11,7 +11,7 @@ public interface IRenderable
     int ByteCount { get; set; }
     bool HasMesh { get; set; }
     Mesh? Mesh { get; set; }
-    object[] Unknown { get; }
+    uint[] Unknown { get; }
     uint MeshId { get; set; }
     string? JointName { get; set; }
     Vector3 Scale { get; set; }

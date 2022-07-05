@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Cache;
 
-public class Structure : ModelObject
+public record Structure : ModelObject
 {
     private const int VALID_RANGE = 5000;
 

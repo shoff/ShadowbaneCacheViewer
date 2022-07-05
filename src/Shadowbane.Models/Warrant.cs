@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public class Warrant : CacheObject
+public record Warrant : CacheObject
 {
     public Warrant(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)

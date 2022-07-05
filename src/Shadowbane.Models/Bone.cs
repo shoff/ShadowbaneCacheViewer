@@ -21,7 +21,7 @@ public class Bone
         this.Length = 0.0f;
 
         this.Pos = Vector3.Zero;
-        this.Rot = Quaternion.Identity;
+        this.Rot = Quaternion.identity;
         this.Scale = new Vector3(1, 1, 1);
 
         this.Mat = Matrix4.Zero;// not sure here

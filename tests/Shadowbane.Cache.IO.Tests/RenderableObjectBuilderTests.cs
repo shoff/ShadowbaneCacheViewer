@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Xunit;
 
 public class RenderableObjectBuilderTests : CacheLoaderBaseTest
@@ -19,7 +18,7 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
             try
             {
                 var information = RenderableObjectBuilder.Build(index);
-                if (information == null || information.TextureCount < 2)
+                if (information.TextureCount < 2)
                 {
                     continue;
                 }
@@ -92,40 +91,6 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
             {
                 File.AppendAllText(CacheLocation.RenderOutputFolder + "argument_exception.txt", $"{index.identity},");
             }
-        }
-    }
-
-    [Fact]
-    public void All_Duplicate_RenderIds_Have_Duplicate_Identical_Data()
-    {
-        foreach (var identity in DupeIdStore.DuplicateIdentities)
-        {
-            var asset = ArchiveLoader.RenderArchive[identity];
-            var asset2 = ArchiveLoader.RenderArchive.GetSecondIndex(identity);
-
-            // allows us to save the two render objects to a binary file so we can 
-            // open them up in 010 editor and verify the parsing in the code.
-            _ = RenderableObjectBuilder.Build(asset.CacheIndex);
-
-            Assert.Equal(asset.Asset.ToArray(), asset2.Asset.ToArray());
-            Assert.True(asset.HasMultipleIdentityEntries);
-        }
-    }
-
-    [Fact]
-    public void All_Duplicate_RenderIds_In_Dupe2_Have_Duplicate_Identical_Data()
-    {
-        foreach (var identity in DupeIdStore.Dupes2)
-        {
-            var asset = ArchiveLoader.RenderArchive[identity];
-            var asset2 = ArchiveLoader.RenderArchive.GetSecondIndex(identity);
-
-            // allows us to save the two render objects to a binary file so we can 
-            // open them up in 010 editor and verify the parsing in the code.
-            _ = RenderableObjectBuilder.Build(asset.CacheIndex);
-
-            Assert.Equal(asset.Asset.ToArray(), asset2.Asset.ToArray());
-            Assert.True(asset.HasMultipleIdentityEntries);
         }
     }
 }

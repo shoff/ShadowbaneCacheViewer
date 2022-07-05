@@ -15,7 +15,8 @@ public class CacheObjectBuilder
         return ToObject(flag, reader, asset);
     }
 
-    private ICacheObject ToObject(ObjectType objectType, BinaryReader reader, CacheAsset asset) => objectType switch
+    private ICacheObject ToObject(ObjectType objectType, BinaryReader reader, CacheAsset asset) 
+        => objectType switch
     {
         ObjectType.Simple => SimpleType(reader, asset),
         ObjectType.Structure => Structure(reader, asset),

@@ -4,7 +4,6 @@ using System;
 
 public static class BadRenderIds
 {
-
     public static bool IsInList(CacheIndex index)
     {
         var bad = Array.IndexOf(badIds, index.identity);

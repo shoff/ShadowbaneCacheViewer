@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public class Particle : ModelObject
+public record Particle : ModelObject
 {
 
     public Particle(

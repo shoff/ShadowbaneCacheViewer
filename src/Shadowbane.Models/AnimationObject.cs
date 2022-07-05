@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public abstract class AnimationObject : ModelObject
+public abstract record AnimationObject : ModelObject
 {
     protected AnimationObject(uint identity, ObjectType flag, string name, uint offset,
         ReadOnlyMemory<byte> data, uint innerOffset)
@@ -11,5 +11,5 @@ public abstract class AnimationObject : ModelObject
     {
     }
 
-    public ICacheObject Skeleton { get; set; }
+    public ICacheObject? Skeleton { get; set; }
 }

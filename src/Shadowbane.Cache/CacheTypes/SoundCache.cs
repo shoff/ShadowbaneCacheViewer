@@ -4,8 +4,9 @@ using FluentValidation;
 
 public sealed class SoundCache : CacheArchive
 {
+    private const string CACHE_NAME = "Sound.cache";
     public SoundCache()
-        : base("Sound.cache")
+        : base(CACHE_NAME)
     {
     }
     public override CacheArchive Validate()

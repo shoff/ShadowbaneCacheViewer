@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public class Deed : CacheObject
+public record Deed : CacheObject
 {
     public Deed(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)

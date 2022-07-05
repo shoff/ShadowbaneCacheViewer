@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Cache;
 
-public class Interactive : AnimationObject
+public record Interactive : AnimationObject
 {
     // ReSharper disable once InconsistentNaming
     protected readonly List<CollisionInfo> collisionInfo = new();
@@ -12,13 +12,12 @@ public class Interactive : AnimationObject
     public readonly List<uint> renderIds = new();
     private bool bWalkData;
 
-    public Structure.StructureValidationResult ValidationResult { get; private set; }
-
     public Interactive(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Interactive, name, offset, data, innerOffset)
     {
     }
+    
     public override ICacheObject Parse()
     {
         // TODO need to figure out the below commented out code.
@@ -26,13 +25,9 @@ public class Interactive : AnimationObject
         _ = reader.ReadInt32();
         _ = (ObjectType)reader.ReadInt32();
         var nameLength = reader.ReadUInt32();
-        var name = reader.AsciiString(nameLength);
+        this.Name = reader.AsciiString(nameLength) ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(this.Name))
-        {
-            this.Name = name;
-        }
-
+  
         // should be 12 since the trailing byte may not be there if we are at the end of the file
         // once we have found a valid id then we will jump forward more than a byte at a time.
 

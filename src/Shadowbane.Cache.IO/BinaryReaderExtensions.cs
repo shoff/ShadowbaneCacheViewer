@@ -42,7 +42,6 @@ public static class BinaryReaderExtensions
         }
 
         result.IsValidRenderId = true;
-
         result.FirstInt = reader.ReadUInt32();
         result.SecondInt = reader.ReadUInt32();
 

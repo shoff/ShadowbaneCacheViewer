@@ -3,14 +3,13 @@
 using System;
 using Cache;
 
-public class Equipment : ModelObject
+public record Equipment : ModelObject
 {
     // ReSharper disable NotAccessedField.Local
     private uint inventoryTextureId;
     private uint mapTex;
 
-    public Equipment(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
-        uint innerOffset)
+    public Equipment(uint identity, string name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
         : base(identity, ObjectType.Equipment, name, offset, data, innerOffset)
     {
     }

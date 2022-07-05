@@ -20,7 +20,8 @@ public static class ReadOnlyMemoryExtensions
             IntPtr ptr = handle.AddrOfPinnedObject();
             if(ptr != IntPtr.Zero)
             {
-                 return (T)Marshal.PtrToStructure(ptr, typeof(T));
+                 return (T)(Marshal.PtrToStructure(ptr, typeof(T)) 
+                            ?? throw new InvalidOperationException());   
             }
         }
         finally
@@ -52,7 +53,7 @@ public static class ReadOnlyMemoryExtensions
         return new Vector2(reader.ReadSingle(), reader.ReadSingle());
     }
     
-    public static string AsciiString(this BinaryReader reader, uint counter)
+    public static string? AsciiString(this BinaryReader reader, uint counter)
     {
         if (counter < 2) // utf so must be at least 2 bytes
         {

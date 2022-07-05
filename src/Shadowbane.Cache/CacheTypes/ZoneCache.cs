@@ -4,7 +4,9 @@ using FluentValidation;
 
 public sealed class ZoneCache : CacheArchive
 {
-    public ZoneCache() : base("CZone.cache")
+    private const string CACHE_NAME = "CZone.cache";
+    public ZoneCache() 
+        : base(CACHE_NAME)
     {
     }
 
