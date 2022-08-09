@@ -1,17 +1,15 @@
 ﻿namespace Shadowbane.Exporter.Wavefront;
 
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cache;
 using ChaosMonkey.Guards;
-using Geometry;
 using Models;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 
 public static class MeshExporter
 {
@@ -33,7 +31,7 @@ public static class MeshExporter
     private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
     private const string AT_SLASH = @"/";
     
-    public static async Task<bool> ExportAsync(Mesh mesh, string modelDirectory, string modelName = null)
+    public static async Task<bool> ExportAsync(IMesh mesh, string modelDirectory, string modelName = null)
     {
         Guard.IsNotNull(mesh, nameof(mesh));
         Guard.IsNotNullOrWhitespace(modelDirectory, nameof(modelDirectory));
@@ -103,34 +101,34 @@ public static class MeshExporter
         sb.AppendFormat(MAP_TO, mapName.Substring(mapName.LastIndexOf('\\') + 1));
     }
 
-    private static string BuildVerts(Mesh mesh)
+    private static string BuildVerts(IMesh mesh)
     {
         var sb = new StringBuilder();
         foreach (var v in mesh.Vertices)
         {
-            sb.AppendFormat(VERTEX, v[0].ToString("0.000000"), v[1].ToString("0.000000"), v[2].ToString("0.000000"));
+            sb.AppendFormat(VERTEX, v.X.ToString("0.000000"), v.Y.ToString("0.000000"), v.Z.ToString("0.000000"));
         }
 
         return sb.ToString();
     }
 
-    private static string BuildTextures(Mesh mesh)
+    private static string BuildTextures(IMesh mesh)
     {
         var sb = new StringBuilder();
         foreach (var t in mesh.TextureVectors)
         {
-            sb.AppendFormat(TEXTURE, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
+            sb.AppendFormat(TEXTURE, t.X.ToString("0.000000"), t.Y.ToString("0.000000"));
         }
 
         return sb.ToString();
     }
 
-    private static string BuildNormals(Mesh mesh)
+    private static string BuildNormals(IMesh mesh)
     {
         var sb = new StringBuilder();
         foreach (var vn in mesh.Normals)
         {
-            sb.AppendFormat(NORMAL, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"), vn[2].ToString("0.000000"));
+            sb.AppendFormat(NORMAL, vn.X.ToString("0.000000"), vn.Y.ToString("0.000000"), vn.Z.ToString("0.000000"));
         }
 
         return sb.ToString();
@@ -160,7 +158,7 @@ public static class MeshExporter
     //    }
     //}
 
-    private static void BuildFaces(Mesh mesh, StringBuilder sb)
+    private static void BuildFaces(IMesh mesh, StringBuilder sb)
     {
         int currentIndexCount = 0;
 
@@ -185,7 +183,7 @@ public static class MeshExporter
 
     }
 
-    private static void SaveTextures(Mesh mesh, string meshName, string modelDirectory,
+    private static void SaveTextures(IMesh mesh, string meshName, string modelDirectory,
         Dictionary<string, string> indexMaterialDictionary)
     {
         if (!mesh.Textures.Any())
@@ -251,19 +249,19 @@ public static class MeshExporter
 
         foreach (var v in mesh.Vertices)
         {
-            mainStringBuilder.AppendFormat(VERTEX, v[0].ToString("0.0#####"), v[1].ToString("0.0#####"),
-                v[2].ToString("0.0#####"));
+            mainStringBuilder.AppendFormat(VERTEX, v.Y.ToString("0.0#####"), v.X.ToString("0.0#####"),
+                v.Z.ToString("0.0#####"));
         }
 
         foreach (var t in mesh.TextureVectors)
         {
-            mainStringBuilder.AppendFormat(TEXTURE, t[0].ToString("0.000000"), t[1].ToString("0.000000"));
+            mainStringBuilder.AppendFormat(TEXTURE, t.X.ToString("0.000000"), t.Y.ToString("0.000000"));
         }
 
         foreach (var vn in mesh.Normals)
         {
-            mainStringBuilder.AppendFormat(NORMAL, vn[0].ToString("0.000000"), vn[1].ToString("0.000000"),
-                vn[2].ToString("0.000000"));
+            mainStringBuilder.AppendFormat(NORMAL, vn.X.ToString("0.000000"), vn.Y.ToString("0.000000"),
+                vn.Z.ToString("0.000000"));
         }
 
         // TODO this does not spit out the faces the same as the exporter from Maya does
@@ -271,7 +269,7 @@ public static class MeshExporter
         // usemtl initialShadingGroup
         mainStringBuilder.AppendLine($"g Mesh_{mesh.Identity}:Mesh_{mesh.Identity}");
         mainStringBuilder.AppendLine($"usemtl Mesh_{mesh.Identity}");
-
+        
         foreach (var wavefrontVertex in mesh.Indices)
         {
             var a = (ushort)(wavefrontVertex.Position + 1);

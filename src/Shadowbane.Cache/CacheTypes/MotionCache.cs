@@ -1,6 +1,5 @@
 ﻿namespace Shadowbane.Cache.CacheTypes;
 
-using System;
 using FluentValidation;
 
 public sealed class MotionCache : CacheArchive

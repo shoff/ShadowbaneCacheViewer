@@ -2,7 +2,8 @@
 
 using System;
 using System.IO;
-using Cache;
+using System.Numerics;
+using System.Text;
 using Models;
 
 public static class BinaryReaderExtensions
@@ -65,8 +66,7 @@ public static class BinaryReaderExtensions
         reader.BaseStream.Position += distance - 4;
         return count;
     }
-
-
+    
     public static int MobileRenderCount(this BinaryReader reader, Structure.StructureValidationResult result)
     {
         var distance = 8;
@@ -74,5 +74,32 @@ public static class BinaryReaderExtensions
         var count = reader.ReadInt32();
         reader.BaseStream.Position += distance - 4;
         return count;
+    }
+
+    public static string ReadAsciiString(this BinaryReader reader, uint counter)
+    {
+        var byteArray = reader.ReadBytes((int) counter * 2);
+
+        var enc = new ASCIIEncoding();
+
+        var tvTemp = enc.GetString(byteArray);
+
+        //remove all the \0 and trim the string
+        return tvTemp.Replace("\0", "").Trim();
+    }
+
+    public static bool CanRead(this BinaryReader reader, uint bytesToRead)
+    {
+        return reader.BaseStream.Position + bytesToRead <= reader.BaseStream.Length;
+    }
+
+    public static Vector3 ReadToVector3(this BinaryReader reader)
+    {
+        return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+    }
+
+    public static Vector2 ReadToVector2(this BinaryReader reader)
+    {
+        return new Vector2(reader.ReadSingle(), reader.ReadSingle());
     }
 }

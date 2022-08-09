@@ -1,7 +1,7 @@
 ﻿namespace Shadowbane.Exporter.Wavefront;
 
 using System.Collections.Generic;
-using Geometry;
+using System.Numerics;
 
 public class WavefrontObject
 {

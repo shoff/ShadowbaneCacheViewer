@@ -8,11 +8,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eee502b7-f2a8-4842-8ef2-d11199e8af7e" name="Changes" comment="Adding a web project to play with opengl.js">
+    <list default="true" id="eee502b7-f2a8-4842-8ef2-d11199e8af7e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Shadowbane/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Shadowbane/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheArchive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheArchive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/RenderCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache/CacheTypes/RenderCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/CacheTypes/RenderCacheTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Cache.Tests/CacheTypes/RenderCacheTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shadowbane.Cache.Exporter.File/Json/JsonVector3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shadowbane.Cache.Exporter.File/Json/JsonVector3.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Shadowbane.Exporter.Wavefront.Tests/ExporterBaseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Shadowbane.Exporter.Wavefront.Tests/ExporterBaseTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,16 +24,7 @@
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/27633a066f89dc9a0c637aaa4ab422ea3485c058fefc65fe8cbaa534bca92/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4d2caa33c313215f94e521325625ae592d67991aadffd4512f26794ff4d54d9d/IndexedImageFrame{TPixel}.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/61c0db60aa407e0a413a0c53cd37a4e8379375922d07d2092ce846a697239/Color.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8064fda572d3cecea707a4dc851263d711ba1efb7f4e8c618b92449b8d34a81/Image.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/914f42394dba36e94752621a9b2b6eae325cfc6b297d1ecd93f7ec4d0769d/IPixel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d39845e1c348b53df1d0d2f0b85b7a966447d645fe279c84a1dc18b0a13cc5ad/IPackedVector{TPacked}.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/dcf580d1801e1d1d2b49156feee0668dc453454ed5fa72234a2f484b0db/A8.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/efd3e9c4749621d4a53b45d7117d2a581e02a265c444a040f1387a155db/Dictionary.cs" root0="SKIP_HIGHLIGHTING" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -45,21 +35,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Assembly Explorer",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Shadowbane.Web">
+    <configuration name="Shadowbane.CacheViewer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/Shadowbane.CacheViewer/Shadowbane.CacheViewer.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Shadowbane.Web" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/Shadowbane.Web/Shadowbane.Web.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -100,6 +104,10 @@
       <option name="presentableId" value="Default" />
       <updated>1656984490250</updated>
       <workItem from="1656984495195" duration="8590000" />
+      <workItem from="1657032229525" duration="1560000" />
+      <workItem from="1657036380747" duration="607000" />
+      <workItem from="1658380903042" duration="665000" />
+      <workItem from="1658443946925" duration="521000" />
     </task>
     <task id="LOCAL-00001" summary="Removes dependency on slow System.Drawing.Common in favor of ImageSharp">
       <created>1656992324959</created>
@@ -122,6 +130,7 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -139,24 +148,5 @@
     <MESSAGE value="Removes dependency on slow System.Drawing.Common in favor of ImageSharp" />
     <MESSAGE value="Adding a web project to play with opengl.js" />
     <option name="LAST_COMMIT_MESSAGE" value="Adding a web project to play with opengl.js" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/tests/Shadowbane.Cache.IO.Tests/RenderableObjectBuilderTests.cs</url>
-          <line>50</line>
-          <properties documentPath="C:\dev\ShadowbaneCacheViewer\tests\Shadowbane.Cache.IO.Tests\RenderableObjectBuilderTests.cs" initialLine="50" containingFunctionPresentation="method 'RenderId_426407_Exports_Textured_Mesh'">
-            <startOffsets>
-              <option value="1715" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1771" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

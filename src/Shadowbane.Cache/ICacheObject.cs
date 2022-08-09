@@ -15,5 +15,6 @@ public interface ICacheObject : IComparable<ICacheObject>
     uint RenderCount { get; set; }
     ICollection<uint> RenderIds { get; }
     ICollection<IRenderable> Renders { get; }
+    ICollection<uint> InvalidRenderIds { get; }
     ICacheObject Parse();
 }

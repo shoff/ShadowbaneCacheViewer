@@ -1,7 +1,7 @@
 ﻿namespace Shadowbane.Models;
 
 using System.Collections.Generic;
-using Geometry;
+using System.Numerics;
 
 public class CollisionInfo
 {

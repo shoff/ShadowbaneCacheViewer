@@ -2,9 +2,9 @@
 namespace Shadowbane.Models;
 
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using Cache;
-using Geometry;
 
 public class Renderable : IRenderable
 {
@@ -12,7 +12,7 @@ public class Renderable : IRenderable
     public uint FirstInt { get; set; }
     public int ByteCount { get; set; }
     public bool HasMesh { get; set; }
-    public Mesh? Mesh { get; set; }
+    public IMesh? Mesh { get; set; }
     public uint[] Unknown { get; } = new uint[6];
     public uint MeshId { get; set; }
     public string? JointName { get; set; }

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using static MathHelper;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-public struct Vector3 : IEquatable<Vector3>
+internal struct Vector3 : IEquatable<Vector3>
 {
     public static readonly Vector3 UnitX = new(1f, 0.0f, 0.0f);
     public static readonly Vector3 UnitY = new(0.0f, 1f, 0.0f);

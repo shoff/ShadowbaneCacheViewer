@@ -1,12 +1,13 @@
 ﻿namespace Shadowbane.Models;
 
+using System;
 using System.IO;
 
 public class Sound
 {
-    public Sound(byte[] data)
+    public Sound(ReadOnlyMemory<byte> data)
     {
-        using var ms = new MemoryStream(data);
+        using var ms = new MemoryStream(data.ToArray());
         using var reader = new BinaryReader(ms);
         this.SoundDataLength = reader.ReadInt32();
 

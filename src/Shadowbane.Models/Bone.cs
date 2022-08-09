@@ -1,7 +1,7 @@
 ﻿namespace Shadowbane.Models;
 
 using System;
-using Geometry;
+using System.Numerics;
 
 public class Bone
 {
@@ -21,17 +21,17 @@ public class Bone
         this.Length = 0.0f;
 
         this.Pos = Vector3.Zero;
-        this.Rot = Quaternion.identity;
+        this.Rot = Quaternion.Identity;
         this.Scale = new Vector3(1, 1, 1);
 
-        this.Mat = Matrix4.Zero;// not sure here
-        this.RMat = Matrix4.Identity;
+        this.Mat = Matrix4x4.Identity;// not sure here
+        this.RMat = Matrix4x4.Identity;
         this.Setup = false;
         this.Flip = false;
     }
     public bool Setup { get; set; }
-    public Matrix4 RMat { get; set; }
-    public Matrix4 Mat { get; set; }
+    public Matrix4x4 RMat { get; set; }
+    public Matrix4x4 Mat { get; set; }
     public Vector3 Scale { get; set; }
     public Quaternion Rot { get; set; }
     public Vector3 Pos { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}"
 	ProjectSection(SolutionItems) = preProject
@@ -52,8 +52,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Native\zones.h = Native\zones.h
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Geometry", "src\Shadowbane.Geometry\Shadowbane.Geometry.csproj", "{4DD87CF6-7899-447C-8BAA-65E701FF763E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Exporter.Wavefront", "src\Shadowbane.Exporter.Wavefront\Shadowbane.Exporter.Wavefront.csproj", "{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cache", "cache", "{D63B8873-E57F-46E0-A68D-C377EF1455B0}"
@@ -102,9 +100,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Models.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Exporter.Wavefront.Tests", "tests\Shadowbane.Exporter.Wavefront.Tests\Shadowbane.Exporter.Wavefront.Tests.csproj", "{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Cache.Exporter.File.Tests", "tests\Shadowbane.Cache.Exporter.File.Tests\Shadowbane.Cache.Exporter.File.Tests.csproj", "{84AD8B54-B6EF-410E-B1E6-38191E604D6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.Cache.Exporter.File.Tests", "tests\Shadowbane.Cache.Exporter.File.Tests\Shadowbane.Cache.Exporter.File.Tests.csproj", "{84AD8B54-B6EF-410E-B1E6-38191E604D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.Web", "src\Shadowbane.Web\Shadowbane.Web.csproj", "{34D446B8-63D6-4471-B603-9AA9DA03C388}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowbane.CacheViewer", "src\Shadowbane.CacheViewer\Shadowbane.CacheViewer.csproj", "{4DEE2C51-B75A-413E-9946-EF96CCE4244E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlExtensions", "src\ControlExtensions\ControlExtensions.csproj", "{27B162D0-7464-43B3-8F4F-2613251447FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,10 +120,6 @@ Global
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DD87CF6-7899-447C-8BAA-65E701FF763E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -156,10 +152,14 @@ Global
 		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84AD8B54-B6EF-410E-B1E6-38191E604D6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34D446B8-63D6-4471-B603-9AA9DA03C388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34D446B8-63D6-4471-B603-9AA9DA03C388}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34D446B8-63D6-4471-B603-9AA9DA03C388}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34D446B8-63D6-4471-B603-9AA9DA03C388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DEE2C51-B75A-413E-9946-EF96CCE4244E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DEE2C51-B75A-413E-9946-EF96CCE4244E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DEE2C51-B75A-413E-9946-EF96CCE4244E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DEE2C51-B75A-413E-9946-EF96CCE4244E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B162D0-7464-43B3-8F4F-2613251447FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B162D0-7464-43B3-8F4F-2613251447FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B162D0-7464-43B3-8F4F-2613251447FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B162D0-7464-43B3-8F4F-2613251447FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,7 +167,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D2C93FC4-5A00-43D0-987B-91BB1CEB6F58} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{D88004CB-EFB6-40AC-83E0-D19A514DD10F} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
-		{4DD87CF6-7899-447C-8BAA-65E701FF763E} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{9D5EAFD7-8748-4741-ADCB-0170C4D4A8E7} = {2916BC6B-F8D1-4C1D-A6F3-FE7D7B4ECC70}
 		{85DD85FE-0952-4E7C-A433-47F3258041C8} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{24D27E38-2E7F-4CD9-8FAC-95CC21D0DABE} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
@@ -177,7 +176,8 @@ Global
 		{EC3D99E9-8809-4475-981F-C5FA5BA77809} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 		{0AA72E09-8E0C-4067-BB76-C7B3F51C0A57} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 		{84AD8B54-B6EF-410E-B1E6-38191E604D6B} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
-		{34D446B8-63D6-4471-B603-9AA9DA03C388} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
+		{4DEE2C51-B75A-413E-9946-EF96CCE4244E} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
+		{27B162D0-7464-43B3-8F4F-2613251447FE} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57BF6F85-F66E-4A85-A73B-E0851F0E3973}

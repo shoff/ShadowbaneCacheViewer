@@ -3,8 +3,8 @@
 using System;
 using System.Runtime.InteropServices;
 using Exporter.File;
-using Geometry;
-using Index = Geometry.Index;
+using Models;
+using Index = Cache.Index;
 
 public class MeshBuilder
 {
@@ -63,7 +63,7 @@ public class MeshBuilder
         }
 
         // indices
-        var numberOfIndices = reader.ReadInt32();
+        var numberOfIndices = reader.ReadUInt32();
         mesh.NumberOfIndices = numberOfIndices;
         if (numberOfIndices > MAX_INDICES)
         {

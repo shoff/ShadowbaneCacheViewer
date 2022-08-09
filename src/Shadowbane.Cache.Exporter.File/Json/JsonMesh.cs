@@ -1,7 +1,7 @@
 ﻿namespace Shadowbane.Cache.Exporter.File.Json;
 
 using System.Collections.Generic;
-using Geometry;
+using Models;
 
 public class JsonMesh
 {
@@ -21,7 +21,7 @@ public class JsonMesh
     public uint NormalsBufferSize { get; set; }
     public ulong TextureOffset { get; set; }
     public uint TextureCoordinatesCount { get; set; }
-    public byte[] UnknownData { get; set; }
+    public byte[]? UnknownData { get; set; }
     public long OffsetToUnknownData { get; set; }
     public int NumberOfIndices { get; set; }
     public JsonVector3 Scale { get; set; }

@@ -2,7 +2,7 @@
 namespace Shadowbane.Cache;
 
 using System.Collections.Generic;
-using Geometry;
+using System.Numerics;
 
 public interface IRenderable
 {
@@ -10,7 +10,7 @@ public interface IRenderable
     uint FirstInt { get; set; }
     int ByteCount { get; set; }
     bool HasMesh { get; set; }
-    Mesh? Mesh { get; set; }
+    IMesh? Mesh { get; set; }
     uint[] Unknown { get; }
     uint MeshId { get; set; }
     string? JointName { get; set; }

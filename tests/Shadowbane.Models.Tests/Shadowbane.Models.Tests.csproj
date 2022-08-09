@@ -30,7 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
     <ProjectReference Include="..\..\src\Shadowbane.Cache\Shadowbane.Cache.csproj" />
-    <ProjectReference Include="..\..\src\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
     <ProjectReference Include="..\..\src\Shadowbane.Models\Shadowbane.Models.csproj" />
   </ItemGroup>
 

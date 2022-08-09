@@ -17,7 +17,7 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
         {
             try
             {
-                var information = RenderableObjectBuilder.Build(index);
+                var information = this.renderableObjectBuilder.Build(index);
                 if (information.TextureCount < 2)
                 {
                     continue;
@@ -48,7 +48,7 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
     public void RenderId_426407_Exports_Textured_Mesh()
     {
         var asset = ArchiveLoader.RenderArchive[426407];
-        var information = RenderableObjectBuilder.Build(426407);
+        var information = this.renderableObjectBuilder.Build(426407);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
         {
             try
             {
-                _ = RenderableObjectBuilder.Build(index.identity, saveIndexedTextures: true);
+                _ = this.renderableObjectBuilder.Build(index.identity, saveIndexedTextures: true);
             }
             catch (ParseException)
             {
@@ -74,7 +74,7 @@ public class RenderableObjectBuilderTests : CacheLoaderBaseTest
         {
             try
             {
-                var information = RenderableObjectBuilder.Build(index);
+                var information = this.renderableObjectBuilder.Build(index);
 
                 if (information.IsValid)
                 {

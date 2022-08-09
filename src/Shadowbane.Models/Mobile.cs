@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Numerics;
 using Cache;
-using Geometry;
 
 public record Mobile : AnimationObject
 {
@@ -93,7 +93,7 @@ public record Mobile : AnimationObject
         this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
         this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
         var sanity = reader.ReadUInt32();
-        Debug.Assert(sanity <= 0);
+        //Debug.Assert(sanity <= 0);
 
         this.MobToken = reader.ReadUInt32();
         /*
@@ -146,7 +146,7 @@ public record Mobile : AnimationObject
             }
 
             var thirtyTwo = reader.ReadUInt32();
-            Debug.Assert(thirtyTwo == 32);
+            //Debug.Assert(thirtyTwo == 32);
 
             reader.ReadUInt32();
             reader.ReadUInt32();

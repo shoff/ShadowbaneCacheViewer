@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shadowbane.Geometry\Shadowbane.Geometry.csproj" />
     <ProjectReference Include="..\Shadowbane.Models\Shadowbane.Models.csproj" />
   </ItemGroup>
 

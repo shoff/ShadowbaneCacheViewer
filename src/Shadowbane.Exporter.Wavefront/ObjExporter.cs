@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -10,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ChaosMonkey.Guards;
-using Geometry;
 using Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
@@ -72,20 +70,8 @@ public class ObjExporter
     public void CreateObject(string name, Mesh mesh, StringBuilder mainStringBuilder,
         StringBuilder materialBuilder, string directory)
     {
-        if (mesh == null)
-        {
-            throw new ArgumentNullException(nameof(mesh));
-        }
-
-        if (mainStringBuilder == null)
-        {
-            throw new ArgumentNullException(nameof(mainStringBuilder));
-        }
-
-        if (materialBuilder == null)
-        {
-            throw new ArgumentNullException(nameof(materialBuilder));
-        }
+        Guard.IsNotNull(mesh, nameof(mesh));
+        Guard.IsNotNull(materialBuilder, nameof(materialBuilder));
 
         if (string.IsNullOrWhiteSpace(directory))
         {
@@ -119,17 +105,17 @@ public class ObjExporter
 
         foreach (var v in mesh.Vertices)
         {
-            mainStringBuilder.AppendFormat(VERTICE, v[0], v[1], v[2]);
+            mainStringBuilder.AppendFormat(VERTICE, v.X, v.Y, v.Z);
         }
 
         foreach (var vn in mesh.Normals)
         {
-            mainStringBuilder.AppendFormat(NORMAL, vn[0], vn[1], vn[2]);
+            mainStringBuilder.AppendFormat(NORMAL, vn.X, vn.Y, vn.Z);
         }
 
         foreach (var t in mesh.TextureVectors)
         {
-            mainStringBuilder.AppendFormat(TEXTURE, t[0], t[1]);
+            mainStringBuilder.AppendFormat(TEXTURE, t.X, t.Y);
         }
 
         for (var i = 0; i < mesh.Indices.Count; i++)

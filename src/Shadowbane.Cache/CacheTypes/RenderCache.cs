@@ -1,6 +1,5 @@
 ﻿namespace Shadowbane.Cache.CacheTypes;
 
-using System.Linq;
 using FluentValidation;
 
 public sealed class RenderCache : CacheArchive

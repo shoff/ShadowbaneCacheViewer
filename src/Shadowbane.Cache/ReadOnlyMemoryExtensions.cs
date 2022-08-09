@@ -3,9 +3,9 @@
 using System;
 using System.Buffers;
 using System.IO;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
-using Geometry;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using Microsoft.Toolkit.HighPerformance;
 

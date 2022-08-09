@@ -33,7 +33,7 @@ public class ObjExporterTests : ExporterBaseTest
             try
             {
                 var modelDirectory = SetupModelDirectory(ci.identity);
-                var renderableObject = RenderableObjectBuilder.RecurseBuild(ci);
+                var renderableObject = this.renderableObjectBuilder.RecurseBuild(ci);
 
                 if (renderableObject.ChildCount > 0 &&
                     renderableObject.Children.Count == renderableObject.ChildCount)
@@ -69,7 +69,7 @@ public class ObjExporterTests : ExporterBaseTest
     public async Task _DoesIt(uint id)
     {
         var modelDirectory = SetupModelDirectory(id);
-        var information = RenderableObjectBuilder.Build((uint)id);
+        var information = this.renderableObjectBuilder.Build((uint)id);
         await ObjExporter.ExportAsync(information, modelDirectory, default);
     }
 

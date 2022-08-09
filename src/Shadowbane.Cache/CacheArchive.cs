@@ -3,12 +3,13 @@
 namespace Shadowbane.Cache;
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-public abstract class CacheArchive
+public abstract class CacheArchive : IDisposable
 {
     protected ReadOnlyMemory<byte> bufferData;
     private readonly FileInfo fileInfo;
@@ -17,9 +18,7 @@ public abstract class CacheArchive
     private uint duplicateCount;
     
     protected readonly Dictionary<uint, CacheIndex> indices = new();
-    //protected readonly List<CacheIndex> cacheIndices = new();
     private long indexOffset;
-
     protected const uint DUPE_FLAG = 900000; // is this big enough?
     
     protected CacheArchive(string name)
@@ -27,7 +26,8 @@ public abstract class CacheArchive
         this.InstanceId = Guid.NewGuid();
         this.name = name;
         this.fileInfo = new FileInfo(Path.Combine(CacheLocation.CacheFolder.FullName, this.name));
-        this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
+        this.bufferData = this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
+       
         this.Header();
         this.Indexes();
     }
@@ -162,6 +162,11 @@ public abstract class CacheArchive
     }
     public abstract CacheArchive Validate();
 
+    public void Dispose()
+    {
+        this.bufferData = null; // yes this sucks but MS's documentation does as well
+        
+    }
 }
 #pragma warning restore IDE0032 // Use auto property
 /*

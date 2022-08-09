@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using static MathHelper;
 
-public struct Vector2 : IEquatable<Vector2>
+internal struct Vector2 : IEquatable<Vector2>
 {
     public static readonly Vector2 unitX = new(1f, 0.0f);
     public static readonly Vector2 unitY = new(0.0f, 1f);

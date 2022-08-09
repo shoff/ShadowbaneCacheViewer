@@ -13,6 +13,7 @@ public abstract record CacheObject : ICacheObject
     public uint Identity { get; }
     public ICollection<uint> RenderIds { get; } = new HashSet<uint>();
     public ICollection<IRenderable> Renders { get;} = new HashSet<IRenderable>();
+    public ICollection<uint> InvalidRenderIds => new HashSet<uint>();
     public uint RenderId { get; protected set; }
     public string Name { get; protected set; }
     public ObjectType Flag { get; }

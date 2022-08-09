@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text.RegularExpressions;
 using ChaosMonkey.Guards;
-using Geometry;
+
 
 public class WavefrontReader
 {
@@ -160,7 +161,7 @@ public class WavefrontReader
         var components = ParseFloatArray(str, 3);
         if (components.Length != 3)
         {
-            return Vector2.zero;
+            return Vector2.Zero;
         }
 
         var vec = new Vector2(components[0], components[1]);

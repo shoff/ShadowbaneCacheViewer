@@ -1,34 +1,48 @@
 ﻿namespace Shadowbane.Cache.IO;
 
+using System;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Exporter.File;
 using Models;
+using Serilog;
+using PixelFormat = Models.PixelFormat;
 
-public static class RenderableObjectBuilder
+public class RenderableObjectBuilder
 {
     private const int MAX_JOINT_NAME_SIZE = 100;
     private const int MAX_TEXTURE_COUNT = 20;
     private static readonly MeshBuilder meshBuilder = new();
+    private ILogger logger;
 
-    public static Renderable Build(CacheIndex cacheIndex, bool saveToFile = false)
+    public RenderableObjectBuilder()
+    {
+        this.logger = Log.Logger = new LoggerConfiguration()
+            // add console as logging target
+            .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\Logs\\RenderableObjectBuilder.log", rollingInterval: RollingInterval.Day)
+            // set default minimum level
+            .MinimumLevel.Debug()
+            .CreateLogger();
+    }
+    
+    public Renderable? Build(CacheIndex cacheIndex, bool saveToFile = false)
     {
         return Build(cacheIndex.identity, saveToFile);
     }
 
-    public static Renderable RecurseBuildAndExport(CacheIndex cacheIndex)
+    public Renderable? RecurseBuildAndExport(CacheIndex cacheIndex)
     {
         return Build(cacheIndex.identity, true, true, true);
     }
 
-    public static Renderable RecurseBuild(CacheIndex cacheIndex)
+    public Renderable? RecurseBuild(CacheIndex cacheIndex)
     {
         return Build(cacheIndex.identity, false, false, true, false);
     }
 
-    public static Renderable Build(uint identity, 
+    public Renderable? Build(uint identity, 
         bool saveToFile = false, 
         bool saveIndexedTextures = false,
         bool parseChildren = false,
@@ -36,11 +50,16 @@ public static class RenderableObjectBuilder
     {
         var asset = ArchiveLoader.RenderArchive[identity];
 
+        if (asset == null)
+        {
+            return null;
+        }
+
         var renderInformation = new Renderable
         {
             Identity = identity,
-            CacheIndex = ArchiveLoader.RenderArchive[identity].CacheIndex,
-            ByteCount = asset.Asset.Length
+            CacheIndex = ArchiveLoader.RenderArchive.CacheIndices.First(c => c.identity == identity),
+            ByteCount = asset!.Asset.Length
         };
 
         if (saveToFile && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}{identity}-{asset.Order}"))
@@ -70,7 +89,7 @@ public static class RenderableObjectBuilder
         if (renderInformation.HasMesh && renderInformation.MeshId > 0)
         {
             var meshAsset = ArchiveLoader.MeshArchive[renderInformation.MeshId];
-            var mesh = meshBuilder.Build(meshAsset.Asset, renderInformation.MeshId);
+            var mesh = meshBuilder.Build(meshAsset!.Asset, renderInformation.MeshId);
             if (mesh == null)
             {
                 throw new InvalidMeshException($"Could not build mesh with identity {renderInformation.MeshId}");
@@ -181,18 +200,31 @@ public static class RenderableObjectBuilder
                     var textureId = reader.SafeReadUInt32();
                     if (textureId > 0)
                     {
+                        
                         renderInformation.Textures.Add(textureId);
-                        var textureAsset = ArchiveLoader.TextureArchive[textureId];
+                        CacheAsset textureAsset = ArchiveLoader.TextureArchive[textureId];
+                        
                         if (textureAsset.IsValid)
                         {
-                            var texture = new Texture(textureAsset.Asset, textureId);
-                            if (texture.Image == null && texture.PixelFormat == PixelFormat.Indexed && saveIndexedTextures)
+                            try
                             {
-                                // probably an indexed image lets save it to look at the bytes
-                                FileWriter.Writer.Write(textureAsset.Asset.Span, $"{CacheLocation.TextureFolder.FullName}\\indexed-images", $"{identity}.sbtex");
-                            }
+                                var texture = new Texture(textureAsset.Asset, textureId);
+                                if (texture.Image == null && texture.PixelFormat == PixelFormat.Indexed &&
+                                    saveIndexedTextures)
+                                {
+                                    // probably an indexed image lets save it to look at the bytes
+                                    FileWriter.Writer.Write(textureAsset.Asset.Span,
+                                        $"{CacheLocation.TextureFolder.FullName}\\indexed-images", $"{identity}.sbtex");
+                                }
 
-                            renderInformation.Mesh?.Textures?.Add(texture);
+                                renderInformation.Mesh?.Textures?.Add(texture);
+                            }
+                            catch (Exception e)
+                            {
+                                this.logger.Error(
+                                    $"Unable to create texture for {textureId}! on renderable {identity}!");
+                                continue;
+                            }
                         }
                         else
                         {
