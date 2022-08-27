@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
+    <ProjectReference Include="..\Shadowbane.CacheViewer\Shadowbane.CacheViewer.csproj" />
+    <ProjectReference Include="..\Shadowbane.Cache\Shadowbane.Cache.csproj" />
+    <ProjectReference Include="..\Shadowbane.Models\Shadowbane.Models.csproj" />
+  </ItemGroup>
+
+</Project>

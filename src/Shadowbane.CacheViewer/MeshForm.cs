@@ -12,19 +12,22 @@ using Timer = System.Threading.Timer;
 
 public partial class MeshForm : Form
 {
-    private readonly MeshOnlyObjExporter meshExporter;
-    private readonly MeshFactory meshFactory;
-    private readonly Timer clearTimer;
+    private const string MESH_SUCCESSULLY_EXPORTED = "Mesh successully exported.";
+    private readonly IMeshOnlyObjExporter meshExporter = null!;
+    private readonly IMeshFactory meshFactory = null!;
+    private readonly Timer clearTimer = null!;
 
-    public MeshForm()
+    public MeshForm(
+        IMeshOnlyObjExporter? meshOnlyObjExporter = null,
+        IMeshFactory? meshFactory = null)
     {
         InitializeComponent();
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
             this.clearTimer = new Timer(ClearMessages, null, 10000, 20000);
-            this.meshFactory = new MeshFactory(Program.logger);
-            this.meshExporter = MeshOnlyObjExporter.Instance;
+            this.meshFactory = meshFactory ?? new MeshFactory();
+            this.meshExporter = meshOnlyObjExporter ?? new MeshOnlyObjExporter();
             //this.slimRenderControl1.BorderStyle = BorderStyle.FixedSingle;
         }
 
@@ -52,14 +55,14 @@ public partial class MeshForm : Form
 
     private void LoadModelButton_Click(object sender, EventArgs e)
     {
-        int selectedrowindex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
-        int id = (int)this.CacheIndexesDataGrid.Rows[selectedrowindex].Cells[1].Value;
+        int selectedRowIndex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
+        int id = (int)this.CacheIndexesDataGrid.Rows[selectedRowIndex].Cells[1].Value;
         CacheIndex ci = ArchiveLoader.MeshArchive.CacheIndices.First(x => x.identity == id);
         var model = this.meshFactory.Create(ci);
         //this.slimControl11.SetVerts(model);
     }
 
-    private async void MeshFormLoad(object sender, System.EventArgs e)
+    private void MeshFormLoad(object sender, System.EventArgs e)
     {
         int i = 0;
 
@@ -84,10 +87,10 @@ public partial class MeshForm : Form
 
     private async void SaveSelectedButton_Click(object sender, EventArgs e)
     {
-        int selectedrowindex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
-        uint id = (uint)this.CacheIndexesDataGrid.Rows[selectedrowindex].Cells[1].Value;
+        int selectedRowIndex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
+        uint id = (uint)this.CacheIndexesDataGrid.Rows[selectedRowIndex].Cells[1].Value;
         await this.ExportAsync(id);
-        this.MessageLabel.Text = "Mesh successully exported.";
+        this.MessageLabel.Text = MESH_SUCCESSULLY_EXPORTED;
     }
 
 
@@ -96,7 +99,7 @@ public partial class MeshForm : Form
         foreach (var index in ArchiveLoader.MeshArchive.CacheIndices)
         {
             await ExportAsync(index.identity);
-            this.MessageLabel.Text = "Mesh successully exported.";
+            this.MessageLabel.Text = MESH_SUCCESSULLY_EXPORTED;
         }
     }
 
@@ -109,31 +112,31 @@ public partial class MeshForm : Form
 
     private async void saveToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        int selectedrowindex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
-        uint id = (uint)this.CacheIndexesDataGrid.Rows[selectedrowindex].Cells[1].Value;
+        int selectedRowIndex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
+        uint id = (uint)this.CacheIndexesDataGrid.Rows[selectedRowIndex].Cells[1].Value;
         await this.ExportAsync(id);
-        this.MessageLabel.Text = "Mesh successully exported.";
+        this.MessageLabel.Text = MESH_SUCCESSULLY_EXPORTED;
     }
 
     private async void CacheIndexesDataGrid_SelectionChanged(object sender, EventArgs e)
     {
         // get the row
-        int selectedrowindex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
+        int selectedRowIndex = this.CacheIndexesDataGrid.SelectedCells[0].RowIndex;
 
-        if (selectedrowindex == 0)
+        if (selectedRowIndex == 0)
         {
             // hack
             return;
         }
 
         // get the id
-        int id = (int)this.CacheIndexesDataGrid.Rows[selectedrowindex].Cells[1].Value;
+        int id = (int)this.CacheIndexesDataGrid.Rows[selectedRowIndex].Cells[1].Value;
 
         // get the model index
         CacheIndex ci = ArchiveLoader.MeshArchive.CacheIndices.First(x => x.identity == id);
 
         // get the model
-        Mesh mesh = await Task.Run(() => this.meshFactory.Create(ci));
+        Mesh? mesh = await Task.Run(() => this.meshFactory.Create(ci));
 
         //List<Vertex> verts = new List<Vertex>();
 

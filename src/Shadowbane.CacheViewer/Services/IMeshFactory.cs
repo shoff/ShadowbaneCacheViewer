@@ -5,6 +5,6 @@ using Models;
 
 public interface IMeshFactory
 {
-    Mesh Create(CacheIndex cacheIndex);
+    Mesh? Create(CacheIndex cacheIndex);
     bool HasMeshId(uint id);
 }

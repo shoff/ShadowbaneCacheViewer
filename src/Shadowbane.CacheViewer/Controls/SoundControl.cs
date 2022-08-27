@@ -12,14 +12,12 @@ using Serilog;
 
 public partial class SoundControl : UserControl
 {
-    private readonly ILogger logger;
     public SoundControl()
     {
         this.InitializeComponent();
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
-            this.logger = Program.logger;
             if (!Directory.Exists("./Sounds/"))
             {
                 Directory.CreateDirectory("./Sounds/");
@@ -31,10 +29,14 @@ public partial class SoundControl : UserControl
     {
         try
         {
-
             var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
             var cacheIndex = ArchiveLoader.SoundArchive.CacheIndices.ToArray().First(x => x.identity == id);
-            var data = ArchiveLoader.SoundArchive[cacheIndex.identity].Asset;
+            ReadOnlyMemory<byte> data = ArchiveLoader.SoundArchive[cacheIndex.identity]?.Asset ?? new ReadOnlyMemory<byte>();
+            if (data.Length == 0)
+            {
+                Log.Error($"unable to load sound asset for id {id}");
+                return;
+            }
             Sound sound = new Sound(data);
 
 
@@ -47,15 +49,13 @@ public partial class SoundControl : UserControl
                 fileName = fileName.Substring(fileName.Length - 4) + "1.wav";
             }
 
-            using (WaveFileWriter writer = new WaveFileWriter(fileName, format))
-            {
-                // todo
-                writer.Write(sound.Buffer, 0, sound.Buffer.Length);
-            }
+            using WaveFileWriter writer = new WaveFileWriter(fileName, format);
+            // todo
+            writer.Write(sound.Buffer, 0, sound.Buffer.Length);
         }
         catch (Exception ex)
         {
-            logger.Error(ex, ex.Message);
+            Log.Error(ex, ex.Message);
         }
     }
 
@@ -84,9 +84,9 @@ public partial class SoundControl : UserControl
                     {
                         File.Delete(fileName);
                     }
-                    catch(Exception es)
+                    catch (Exception es)
                     {
-                        logger.Error(es, es.Message);
+                        Log.Error(es, es.Message);
                         fileName = cacheIndex.identity + DateTime.Now.Ticks + ".wav";
                     }
                 }
@@ -99,21 +99,28 @@ public partial class SoundControl : UserControl
         }
         catch (Exception ex)
         {
-            logger.Error(ex, ex.Message);
+            Log.Error(ex, ex.Message);
         }
     }
-        
+
     private void PlaySoundFileButtonClick(object sender, EventArgs e)
     {
         var id = (int)this.SoundsDataGrid.SelectedRows[0].Cells[1].Value;
-        var cacheIndex = ArchiveLoader.SoundArchive.CacheIndices.FirstOrDefault(x=>x.identity == id);
-        var data = ArchiveLoader.SoundArchive[cacheIndex.identity].Asset;
+        var cacheIndex = ArchiveLoader.SoundArchive.CacheIndices.FirstOrDefault(x => x.identity == id);
+        var data = ArchiveLoader.SoundArchive[cacheIndex.identity]?.Asset ?? new ReadOnlyMemory<byte>();
+
+        if (data.Length == 0)
+        {
+            Log.Error($"unable to load sound asset for id {id}");
+            return;
+        }
+        
         Sound sound = new Sound(data);
 
         IWaveProvider provider = new RawSourceWaveStream(
-            new MemoryStream(sound.Buffer), 
+            new MemoryStream(sound.Buffer),
             new WaveFormat(sound.Bitrate, sound.Frequency, sound.NumberOfChannels));
-        var  waveOut = new WaveOutEvent();
+        var waveOut = new WaveOutEvent();
         waveOut.Init(provider);
         waveOut.Play();
         // uint version = 0;

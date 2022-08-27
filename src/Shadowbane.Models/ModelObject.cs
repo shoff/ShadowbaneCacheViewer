@@ -8,7 +8,7 @@ public abstract record ModelObject : CacheObject
     protected ModelObject(
         uint identity, 
         ObjectType flag, 
-        string name, 
+        string? name, 
         uint offset, 
         ReadOnlyMemory<byte> data,
         uint innerOffset)

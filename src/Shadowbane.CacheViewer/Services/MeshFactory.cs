@@ -11,13 +11,6 @@ using IndexNotFoundException = Cache.IndexNotFoundException;
 
 public class MeshFactory : IMeshFactory
 {
-    private readonly ILogger logger;
-
-    public MeshFactory(ILogger logger)
-    {
-        this.logger = logger;
-    }
-
     public async Task SaveToFile(CacheIndex index, string name, string path)
     {
         await ArchiveLoader.MeshArchive.SaveToFileAsync(index, name, path);
@@ -25,7 +18,7 @@ public class MeshFactory : IMeshFactory
 
     public Tuple<uint, uint> IdentityRange => new(ArchiveLoader.MeshArchive.LowestId, ArchiveLoader.MeshArchive.HighestId);
 
-    public Mesh Create(CacheIndex cacheIndex)
+    public Mesh? Create(CacheIndex cacheIndex)
     {
         var mesh = new Mesh(cacheIndex.identity);
 
@@ -33,6 +26,12 @@ public class MeshFactory : IMeshFactory
 
         using (var reader = cacheAsset?.Asset.CreateBinaryReaderUtf32())
         {
+            if (reader == null)
+            {
+                Log.Error($"no reader returned for cache asset {cacheIndex.identity}!");
+                return null;
+            }
+
             mesh.Header = new MeshHeader
             {
                 null1 = reader.ReadUInt32(), // 4
@@ -103,7 +102,7 @@ public class MeshFactory : IMeshFactory
             }
             else
             {
-                logger?.Warning($"{mesh.Identity} has {mesh.NumberOfIndices} which are not divisible by 3");
+                Log.Warning($"{mesh.Identity} has {mesh.NumberOfIndices} which are not divisible by 3");
                 // experimenting  
                 reader.BaseStream.Position += mesh.NumberOfIndices * 12; // i think in these cases they are a second skin?
 
@@ -131,16 +130,16 @@ public class MeshFactory : IMeshFactory
                 }
                 else
                 {
-                    logger?.Error($"{mesh.Identity} is unparsable, indeces and vert counts don't match.");
+                    Log.Error($"{mesh.Identity} is unparsable, indeces and vert counts don't match.");
                 }
             }
         }
 
-        logger?.Information(mesh.GetMeshInformation());
+        Log.Information(mesh.GetMeshInformation());
         return mesh;
     }
 
-    public Mesh Create(uint indexId)
+    public Mesh? Create(uint indexId)
     {
         var cacheIndex = ArchiveLoader.MeshArchive.CacheIndices.FirstOrDefault(x => x.identity == indexId);
         if (cacheIndex.identity > 0)

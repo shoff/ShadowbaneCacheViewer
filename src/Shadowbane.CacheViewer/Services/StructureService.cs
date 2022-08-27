@@ -2,29 +2,26 @@
 
 using System.Text;
 using Cache;
+using ChaosMonkey.Guards;
 using Serilog;
-public interface IPrefabObjExporter
-{
-    Task CreateIndividualObjFiles(ICollection<IMesh>? meshModels, string modelName);
-    Task CreateSingleObjFile(ICollection<IMesh>? meshModels, string modelName);
-    string ModelDirectory { get; set; }
-}
-public class StructureService
+
+public class StructureService : IStructureService
 {
     private readonly ILogger logger;
     private readonly IPrefabObjExporter meshExporter;
     private readonly string folder = AppDomain.CurrentDomain.BaseDirectory + "\\Assembled\\";
 
     public StructureService(
-        ILogger logger,
-        IPrefabObjExporter prefabObjExporter = null)
+        IPrefabObjExporter? prefabObjExporter = null)
     {
-        this.logger = logger;
-        this.meshExporter = prefabObjExporter ?? new PrefabObjExporter(this.logger);
+        this.meshExporter = prefabObjExporter ?? new PrefabObjExporter();
     }
 
     public async Task SaveAssembledModelAsync(string saveFolder, ICacheObject cacheObject, bool singleFile = false)
     {
+        Guard.IsNotNull(saveFolder, nameof(saveFolder));
+        Guard.IsNotNull(cacheObject, nameof(cacheObject));
+        
         var projectFolder = $"{this.folder}{saveFolder}";
         if (!Directory.Exists(projectFolder))
         {

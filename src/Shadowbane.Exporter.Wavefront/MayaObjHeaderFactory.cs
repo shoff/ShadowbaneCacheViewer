@@ -18,7 +18,7 @@ public class MayaObjHeaderFactory
         return createdAll;
     }
 
-    public string Create(string name)
+    public string Create(string? name)
     {
         var id = string.Format(SB_CACHE_NAME, name);
         var created = string.Format(SB_CREATED, DateTime.Now);

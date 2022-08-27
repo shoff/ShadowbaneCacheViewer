@@ -4,13 +4,10 @@ using System;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using System.IO;
-using System.Numerics;
 using Cache;
 using Microsoft.Toolkit.HighPerformance;
 using Serilog;
 using SixLabors.ImageSharp;
-
-using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 
 public class Texture : ITexture
@@ -76,7 +73,7 @@ public class Texture : ITexture
                     .Resize(this.Width, this.Height)
                     .AutoOrient()
                     .RotateFlip(RotateMode.Rotate180, FlipMode.Vertical));
-                image.SaveAsGif($"{ImageSavePath}\\{this.TextureId}.gif");
+                // image.SaveAsGif($"{ImageSavePath}\\{this.TextureId}.gif");
                 return image;
 
             case PixelFormat.Format24bppRgb:
@@ -116,7 +113,7 @@ public class Texture : ITexture
                 });                
                 image1.Mutate(m => m.Flip(FlipMode.Vertical));
 
-                image1.SaveAsPng($"{ImageSavePath}\\{this.TextureId}.png");
+                //image1.SaveAsPng($"{ImageSavePath}\\{this.TextureId}.png");
                 return image1;
 
             case PixelFormat.Format32bppArgb:
@@ -163,7 +160,7 @@ public class Texture : ITexture
                 //        image2[y, x] = clr;
                 //    }
                 //}
-                image2.SaveAsPng($"{ImageSavePath}\\{this.TextureId}.png");
+                //image2.SaveAsPng($"{ImageSavePath}\\{this.TextureId}.png");
 
                 return image2;
         }
@@ -184,6 +181,7 @@ public class Texture : ITexture
         _ => PixelFormat.Format24bppRgb
     };
 
+    // TODO fix this so that anything that is not a 24 or 32 bit image is treated accordingly.
     private PixelFormat GetFormat() => this.Depth switch
     {
         1 => PixelFormat.Alpha,

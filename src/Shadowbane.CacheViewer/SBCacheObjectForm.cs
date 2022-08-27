@@ -9,7 +9,7 @@ using Controls;
 
 public partial class SBCacheObjectForm : Form
 {
-    private ICacheObject selectedObject;
+    private ICacheObject selectedObject = null!;
 
     public SBCacheObjectForm()
     {
@@ -89,15 +89,5 @@ public partial class SBCacheObjectForm : Form
         //        GL.BindTexture(All.Texture2D, render.Mesh.Textures[0].TextureId);
         //    }
         //}
-    }
-
-    private void databaseToolStripMenuItem1_Click(object sender, System.EventArgs e)
-    {
-
-    }
-
-    private void databaseToolStripMenuItem_Click(object sender, System.EventArgs e)
-    {
-
     }
 }

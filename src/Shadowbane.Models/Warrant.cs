@@ -5,7 +5,7 @@ using Cache;
 
 public record Warrant : CacheObject
 {
-    public Warrant(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
+    public Warrant(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Warrant, name, offset, data, innerOffset)
     {

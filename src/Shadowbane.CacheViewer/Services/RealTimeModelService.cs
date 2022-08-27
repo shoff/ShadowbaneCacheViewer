@@ -3,16 +3,17 @@
 using Cache;
 using Cache.IO;
 using Models;
+using Serilog;
 
 public class RealTimeModelService
 {
-    public async Task<List<IMesh>> GenerateModelAsync(uint cacheObjectIdentity)
+    public Task<List<IMesh?>> GenerateModelAsync(uint cacheObjectIdentity)
     {
-        var meshFactory = new MeshFactory(Program.logger);
+        var meshFactory = new MeshFactory();
         var renderEntities = new List<Renderable>();
         var meshEntities = new List<IMesh>();
 
-        var meshModels = new List<IMesh>();
+        var meshModels = new List<IMesh?>();
         foreach (var mesh in meshEntities)
         {
             if (mesh == null)
@@ -31,8 +32,8 @@ public class RealTimeModelService
             meshModels.Add(m);
         }
 
-        Program.logger?.Information(
+        Log.Information(
             $"GenerateModelAsync for {cacheObjectIdentity} returned mesh collection of {meshModels.Count}.");
-        return meshModels;
+        return Task.FromResult(meshModels);
     }
 }

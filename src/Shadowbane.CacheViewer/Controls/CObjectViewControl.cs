@@ -9,14 +9,12 @@ using Serilog;
 
 public partial class CObjectViewControl : UserControl
 {
-    private readonly ILogger logger;
-        
+       
     /// <summary>
     /// Initializes a new instance of the <see cref="CObjectViewControl"/> class.
     /// </summary>
     public CObjectViewControl()
     {
-        this.logger = Program.logger;
         InitializeComponent();
     }
 
@@ -26,11 +24,11 @@ public partial class CObjectViewControl : UserControl
     /// </summary>
     /// <param name="cacheObject">The cache object.</param>
     /// <returns></returns>
-    public async Task Display(ICacheObject cacheObject)
+    public async Task Display(ICacheObject? cacheObject)
     {
         if (cacheObject == null)
         {
-            logger.Error("Null ICacheObject sent to CObjectViewControl.Display");
+            Log.Error("Null ICacheObject sent to CObjectViewControl.Display");
             return;
         }
 

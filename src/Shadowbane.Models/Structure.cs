@@ -8,7 +8,7 @@ public record Structure : ModelObject
 {
     private const int VALID_RANGE = 5000;
 
-    public Structure(uint identity, string name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
+    public Structure(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
         : base(identity, ObjectType.Structure, name, offset, data, innerOffset)
     {
     }

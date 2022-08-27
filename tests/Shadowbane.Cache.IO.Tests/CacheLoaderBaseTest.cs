@@ -8,12 +8,12 @@ using AutoFixture.Kernel;
 
 public class CacheLoaderBaseTest
 {
-    protected readonly RenderableObjectBuilder renderableObjectBuilder;
+    protected readonly RenderableBuilder renderableBuilder;
     protected readonly IFixture fixture;
 
     protected CacheLoaderBaseTest()
     {
-        this.renderableObjectBuilder = new RenderableObjectBuilder();
+        this.renderableBuilder = new RenderableBuilder();
         this.fixture = new Fixture();
         this.fixture.Customize(new DoNotFillCollectionProperties());
         this.fixture.Behaviors.OfType<ThrowingRecursionBehavior>()

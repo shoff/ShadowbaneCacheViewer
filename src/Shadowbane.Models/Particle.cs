@@ -8,7 +8,7 @@ public record Particle : ModelObject
 
     public Particle(
         uint identity,
-        string name,
+        string? name,
         uint offset,
         ReadOnlyMemory<byte> data,
         uint innerOffset)

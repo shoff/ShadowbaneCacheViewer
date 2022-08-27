@@ -5,7 +5,7 @@ using Cache;
 
 public record Deed : CacheObject
 {
-    public Deed(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
+    public Deed(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Deed, name, offset, data, innerOffset)
     {

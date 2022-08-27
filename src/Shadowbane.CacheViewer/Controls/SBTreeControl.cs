@@ -17,12 +17,12 @@ using Shadowbane.CacheViewer.Services;
 
 public partial class SBTreeControl : UserControl
 {
-    private readonly CacheObjectBuilder objectBuilder;
-    private StructureService structureService;
-    public event EventHandler<ParseErrorEventArgs> OnParseError;
-    public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage;
-    public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected;
-    public event EventHandler<InvalidRenderIdEventArgs> OnInvalidRenderId;
+    private readonly ICacheObjectBuilder objectBuilder = null!;
+    private readonly IStructureService structureService = null!;
+    public event EventHandler<ParseErrorEventArgs> OnParseError = null!;
+    public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage = null!;
+    public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected = null!;
+    public event EventHandler<InvalidRenderIdEventArgs> OnInvalidRenderId = null!;
 
     private TreeNode selectedNode = new();
 
@@ -35,7 +35,7 @@ public partial class SBTreeControl : UserControl
     private readonly TreeNode unknownNode = new("Unknown");
     private readonly TreeNode warrantNode = new("Warrants");
     private readonly TreeNode particleNode = new("Particles");
-    
+
     private readonly List<TreeNode> simpleNodes = new();
     private readonly List<TreeNode> structureNodes = new();
     private readonly List<TreeNode> interactiveNodes = new();
@@ -46,22 +46,29 @@ public partial class SBTreeControl : UserControl
     private readonly List<TreeNode> unknownNodes = new();
     private readonly List<TreeNode> particleNodes = new();
     private readonly BackgroundWorker parseObjectWorker;
-    private readonly ILogger logger = Program.logger;
-    
+
     public int TotalCacheObject { get; }
 
     public bool ArchivesLoaded { get; private set; }
 
-    public SBTreeControl()
+    public SBTreeControl() : this(null, null){}
+
+    public SBTreeControl(
+        IStructureService? structureService = null,
+        ICacheObjectBuilder? cacheObjectBuilder = null)
     {
         this.InitializeComponent();
+        // ReSharper disable once LocalizableElement
+        this.ErrorLabel.Text = "Invalid cache object count: ";
         this.MessageLabel.Text = "";
         this.SaveTypeRadioButton1.Checked = true;
+
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
-            this.objectBuilder = new CacheObjectBuilder();
+            this.objectBuilder = cacheObjectBuilder ?? new CacheObjectBuilder();
+            this.structureService = structureService ?? new StructureService();
+
             this.SaveButton.Enabled = false;
-            this.structureService = new StructureService(Program.logger);
             this.TotalCacheObject = GetCounts();
         }
 
@@ -71,14 +78,15 @@ public partial class SBTreeControl : UserControl
             WorkerSupportsCancellation = true
         };
 
-        this.parseObjectWorker.DoWork += this.ParseSelected;
-        this.parseObjectWorker.ProgressChanged += this.ParseObjectWorkerProgressChanged;
-        this.parseObjectWorker.RunWorkerCompleted += this.ParseObjectWorkerRunWorkerCompleted;
+        this.parseObjectWorker.DoWork += this.ParseSelected!;
+        this.parseObjectWorker.ProgressChanged += this.ParseObjectWorkerProgressChanged!;
+        this.parseObjectWorker.RunWorkerCompleted += this.ParseObjectWorkerRunWorkerCompleted!;
     }
     private static int GetCounts()
     {
         return ArchiveLoader.ObjectArchive.IndexCount + ArchiveLoader.RenderArchive.IndexCount + ArchiveLoader.SoundArchive.IndexCount + ArchiveLoader.TextureArchive.IndexCount + ArchiveLoader.MeshArchive.IndexCount + ArchiveLoader.SkeletonArchive.IndexCount + ArchiveLoader.ZoneArchive.IndexCount + ArchiveLoader.VisualArchive.IndexCount;
     }
+
     private async void SBTreeControl_Load(object sender, EventArgs e)
     {
         this.CacheObjectTreeView.Nodes.Add(this.simpleNode);
@@ -90,11 +98,203 @@ public partial class SBTreeControl : UserControl
         this.CacheObjectTreeView.Nodes.Add(this.unknownNode);
         this.CacheObjectTreeView.Nodes.Add(this.warrantNode);
         this.CacheObjectTreeView.Nodes.Add(this.particleNode);
+    }
 
+    private void SetVisibility(PictureBox pb, bool visible)
+    {
+        if (pb.InvokeRequired)
+        {
+            pb.BeginInvoke(new MethodInvoker(() => this.SetVisibility(pb, visible)));
+        }
+        else
+        {
+            pb.Visible = visible;
+            pb.Refresh();
+        }
+    }
+
+    public ICacheObject? SelectedCacheObject { get; set; }
+
+    private async void SaveButtonClick(object sender, EventArgs e)
+    {
+        this.SaveButton.Enabled = false;
+        this.SelectedCacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+
+        try
+        {
+            await Task.Run(async () =>
+            {
+                await this.structureService.SaveAssembledModelAsync(this.SelectedCacheObject.Name.Replace(" ", ""),
+                    this.SelectedCacheObject, this.SaveTypeRadioButton1.Checked);
+            });
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, ex.Message);
+            this.MessageLabel.Text = ex.Message;
+            throw;
+        }
+        this.SaveButton.Enabled = true;
+    }
+
+    private void CacheObjectTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+    {
+        this.MessageLabel.Text = "";
+        if (!this.ArchivesLoaded)
+        {
+            return;
+        }
+
+        if (e.Node == this.selectedNode)
+        {
+            return;
+        }
+
+        if (!this.parseObjectWorker.IsBusy)
+        {
+            if (e.Node != null)
+            {
+                this.selectedNode = e.Node;
+            }
+        }
+        else
+        {
+            this.CacheObjectTreeView.SelectedNode = this.selectedNode;
+            return;
+        }
+
+        // ok so right here, I need to determine what the type of object is 
+        // well ok its going to be a cache object, but find the renderId and the
+        // pertinent information from the renderId by validating the information
+        // against the other archives. I will give each "archive" portion for each 
+        // cacheObject a listView that ties all the information together at once.
+        var cacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+
+        // reparse it correctly
+
+        var co = this.objectBuilder.CreateAndParse(cacheObject.Identity);
+        // this.cacheObjectFactory.CreateAndParse(cacheObject.CacheIndex, true);
+
+        if (co != null)
+        {
+            this.OnCacheObjectSelected.Raise(this, new CacheObjectSelectedEventArgs(co));
+        }
+        else
+        {
+            Log.Error($"object builder could not create cache object with identity {cacheObject.Identity}");
+        }
+        // this.parseObjectWorker.RunWorkerAsync(cacheObject);
+    }
+
+    private async void ParseSelected(object sender, DoWorkEventArgs e)
+    {
+        if (this.parseObjectWorker.CancellationPending)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        var cacheObject = (ICacheObject?)e.Argument;
+        if (cacheObject == null)
+        {
+            Log.Error($"ParseSelected could not cast event args to ICacheObject");
+        }
+        Log.Information($"Selected {cacheObject!.Identity} for parsing.");
+
+        try
+        {
+            cacheObject.Parse();
+
+            if (cacheObject.RenderCount == 0)
+            {
+                Log.Error(Messages.CouldNotFindRenderId, cacheObject.Identity);
+                this.OnInvalidRenderId.Raise(this, new InvalidRenderIdEventArgs(cacheObject));
+                this.parseObjectWorker.CancelAsync();
+                return;
+            }
+
+            var realTimeModelService = new RealTimeModelService();
+
+            this.OnLoadingMessage.Raise(this,
+                new LoadingMessageEventArgs($"Generating model for {cacheObject.Identity}"));
+
+            var models = await realTimeModelService.GenerateModelAsync(cacheObject.Identity);
+
+            if (models == null || !models.Any())
+            {
+                Log.Error(
+                    $"Unable to parse model for {cacheObject.Identity}: {cacheObject.Name}");
+
+                var parseError = new ParseError
+                {
+                    CacheIndexIdentity = cacheObject.Identity.ToString(),
+                    CacheIndexOffset = cacheObject.InnerOffset,
+                    CursorOffset = cacheObject.CursorOffset,
+                    Data = cacheObject.Data.ToArray(),
+                    InnerOffset = cacheObject.InnerOffset,
+                    Name = cacheObject.Name,
+                    ObjectType = cacheObject.Flag,
+                    RenderId = cacheObject.RenderId
+                };
+
+                this.selectedNode.ForeColor = Color.DarkRed;
+                this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
+                this.OnParseError.Raise(this, new ParseErrorEventArgs(parseError));
+                throw new ApplicationException(
+                    $"Unable to parse model for {cacheObject.Identity}: {cacheObject.Name}");
+            }
+
+            var eventArgs = new CacheObjectSelectedEventArgs(cacheObject);
+            this.OnCacheObjectSelected.Raise(this, eventArgs);
+            e.Result = cacheObject;
+        }
+        catch (Exception ex)
+        {
+            this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs(ex.Message));
+            Log.Error(ex, ex.Message);
+        }
+    }
+
+    private const string WORKER_EXCEPTION = "worker exception: ";
+
+    private void ParseObjectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        if (e.Cancelled)
+        {
+            // Console.WriteLine("You canceled!");
+        }
+        else if (e.Error != null) // || e.Result == null)
+        {
+            var message = $@"{WORKER_EXCEPTION}{e.Error}";
+            this.selectedNode.ForeColor = Color.DarkRed;
+            this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
+            this.MessageLabel.Text = message;
+            Log.Error(message);
+        }
+        else
+        {
+            this.SelectedCacheObject = e.Result as ICacheObject;
+            this.OnLoadingMessage.Raise(this,
+                this.SelectedCacheObject == null
+                    ? new LoadingMessageEventArgs("could not cast selection as a ICacheObject")
+                    : new LoadingMessageEventArgs("Parsing complete"));
+        }
+    }
+
+    private void ParseObjectWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+        // Console.WriteLine("Reached " + e.ProgressPercentage + "%");
+    }
+    
+    private async void LoadCacheButton_Click(object sender, EventArgs e)
+    {
         await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
 
         await Task.Run(() =>
         {
+            int validCacheObjects = 0;
+            int invalidCacheObjects = 0;
+
             foreach (var ci in ArchiveLoader.ObjectArchive.CacheIndices)
             {
                 try
@@ -102,8 +302,9 @@ public partial class SBTreeControl : UserControl
                     var cacheObject = this.objectBuilder.CreateAndParse(ci.identity);
                     if (cacheObject == null)
                     {
-                        this.logger!.Error("Unable to create and parse cache object with identity {Identity}",
-                            ci.identity);
+                        string message = $"Unable to create and parse cache object with identity {ci.identity}";
+                        Log.Error(message);
+                        this.InvalidCount.SetText(invalidCacheObjects++.ToString());
                         continue;
                     }
                     string title = string.IsNullOrEmpty(cacheObject.Name) ?
@@ -150,9 +351,10 @@ public partial class SBTreeControl : UserControl
                 }
                 catch (Exception ex)
                 {
-                    this.logger.Error(ex, ex.Message);
+                    Log.Error(ex, ex.Message);
                     throw;
                 }
+                this.ValidCacheCount.SetText(validCacheObjects++.ToString());
             }
         });
 
@@ -173,172 +375,6 @@ public partial class SBTreeControl : UserControl
         this.SaveButton.Enabled = true;
         this.ArchivesLoaded = true;
         this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs("Cache files loaded."));
-    }
-
-    private void SetVisibility(PictureBox pb, bool visible)
-    {
-        if (pb.InvokeRequired)
-        {
-            pb.BeginInvoke(new MethodInvoker(() => this.SetVisibility(pb, visible)));
-        }
-        else
-        {
-            pb.Visible = visible;
-            pb.Refresh();
-        }
-    }
-
-    public ICacheObject SelectedCacheObject { get; set; }
-
-    private async void SaveButtonClick(object sender, EventArgs e)
-    {
-        this.SaveButton.Enabled = false;
-        this.SelectedCacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-
-        try
-        {
-            await Task.Run(async () =>
-            {
-                await this.structureService.SaveAssembledModelAsync(this.SelectedCacheObject.Name.Replace(" ", ""),
-                    this.SelectedCacheObject, this.SaveTypeRadioButton1.Checked);
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger?.Error(ex, ex.Message);
-            this.MessageLabel.Text = ex.Message;
-            throw;
-        }
-        this.SaveButton.Enabled = true;
-    }
-
-    private void CacheObjectTreeView_AfterSelect(object sender, TreeViewEventArgs e)
-    {
-        this.MessageLabel.Text = "";
-        if (!this.ArchivesLoaded)
-        {
-            return;
-        }
-
-        if (e.Node == this.selectedNode)
-        {
-            return;
-        }
-
-        if (!this.parseObjectWorker.IsBusy)
-        {
-            this.selectedNode = e.Node;
-        }
-        else
-        {
-            this.CacheObjectTreeView.SelectedNode = this.selectedNode;
-            return;
-        }
-
-        // ok so right here, I need to determine what the type of object is 
-        // well ok its going to be a cache object, but find the renderId and the
-        // pertinent information from the renderId by validating the information
-        // against the other archives. I will give each "archive" portion for each 
-        // cacheObject a listView that ties all the information together at once.
-        var cacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
-
-        // reparse it correctly
-
-        var co = this.objectBuilder.CreateAndParse(cacheObject.Identity);
-            // this.cacheObjectFactory.CreateAndParse(cacheObject.CacheIndex, true);
-        
-        this.OnCacheObjectSelected.Raise(this, new CacheObjectSelectedEventArgs(co));
-        // this.parseObjectWorker.RunWorkerAsync(cacheObject);
-    }
-
-    private async void ParseSelected(object sender, DoWorkEventArgs e)
-    {
-        if (this.parseObjectWorker.CancellationPending)
-        {
-            e.Cancel = true;
-            return;
-        }
-
-        var cacheObject = (ICacheObject)e.Argument;
-        this.logger.Information($"Selected {cacheObject!.Identity} for parsing.");
-
-        try
-        {
-            cacheObject.Parse();
-
-            if (cacheObject.RenderCount == 0)
-            {
-                this.logger?.Error(Messages.CouldNotFindRenderId, cacheObject.Identity);
-                this.OnInvalidRenderId.Raise(this, new InvalidRenderIdEventArgs(cacheObject));
-                this.parseObjectWorker.CancelAsync();
-                return;
-            }
-
-            var realTimeModelService = new RealTimeModelService();
-
-            this.OnLoadingMessage.Raise(this,
-                new LoadingMessageEventArgs($"Generating model for {cacheObject.Identity}"));
-
-            var models = await realTimeModelService.GenerateModelAsync(cacheObject.Identity);
-
-            if (models == null || !models.Any())
-            {
-                this.logger?.Error(
-                    $"Unable to parse model for {cacheObject.Identity}: {cacheObject.Name}");
-
-                var parseError = new ParseError
-                {
-                    CacheIndexIdentity = cacheObject.Identity.ToString(),
-                    CacheIndexOffset = cacheObject.InnerOffset,
-                    CursorOffset = cacheObject.CursorOffset,
-                    Data = cacheObject.Data.ToArray(),
-                    InnerOffset = cacheObject.InnerOffset,
-                    Name = cacheObject.Name,
-                    ObjectType = cacheObject.Flag,
-                    RenderId = cacheObject.RenderId
-                };
-
-                this.selectedNode.ForeColor = Color.DarkRed;
-                this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
-                this.OnParseError.Raise(this, new ParseErrorEventArgs(parseError));
-                throw new ApplicationException(
-                    $"Unable to parse model for {cacheObject.Identity}: {cacheObject.Name}");
-            }
-
-            var eventArgs = new CacheObjectSelectedEventArgs(cacheObject);
-            this.OnCacheObjectSelected.Raise(this, eventArgs);
-            e.Result = cacheObject;
-        }
-        catch (Exception ex)
-        {
-            this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs(ex.Message));
-            this.logger?.Error(ex, ex.Message);
-        }
-    }
-
-    private void ParseObjectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-    {
-        if (e.Cancelled)
-        {
-            // Console.WriteLine("You canceled!");
-        }
-        else if (e.Error != null) // || e.Result == null)
-        {
-            this.selectedNode.ForeColor = Color.DarkRed;
-            this.selectedNode.BackColor = Color.FromArgb(255, 204, 204);
-            this.MessageLabel.Text = "Worker exception: " + e.Error;
-            this.logger?.Error("Worker exception: " + e.Error);
-        }
-        else
-        {
-            this.SelectedCacheObject = (ICacheObject)e.Result;
-            this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs("Parsing complete"));
-        }
-    }
-
-    private void ParseObjectWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
-    {
-        // Console.WriteLine("Reached " + e.ProgressPercentage + "%");
     }
 }
 
@@ -382,12 +418,12 @@ public class LoadingMessageEventArgs : EventArgs
 
 public class ParseError
 {
-    public string CacheIndexIdentity { get; set; }
+    public string CacheIndexIdentity { get; set; } = null!;
     public uint CacheIndexOffset { get; set; }
     public uint CursorOffset { get; set; }
-    public byte[] Data { get; set; }
+    public byte[] Data { get; set; } = null!;
     public uint InnerOffset { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     public ObjectType ObjectType { get; set; }
     public uint RenderId { get; set; }
 }

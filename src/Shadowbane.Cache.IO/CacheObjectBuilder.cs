@@ -6,20 +6,13 @@ using System.Linq;
 using Models;
 using Serilog;
 
-public class CacheObjectBuilder
+public class CacheObjectBuilder : ICacheObjectBuilder
 {
-    private readonly ILogger logger;
-    private readonly RenderableObjectBuilder renderableObjectBuilder;
+    private readonly IRenderableBuilder? renderableObjectBuilder;
 
-    public CacheObjectBuilder()
+    public CacheObjectBuilder(IRenderableBuilder? renderableBuilder = null)
     {
-        this.logger =logger = Log.Logger = new LoggerConfiguration()
-            // add console as logging target
-            .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\Logs\\CacheObjectBuilder.log", rollingInterval: RollingInterval.Day)
-            // set default minimum level
-            .MinimumLevel.Debug()
-            .CreateLogger();
-        this.renderableObjectBuilder = new RenderableObjectBuilder();
+        this.renderableObjectBuilder = renderableBuilder ?? new RenderableBuilder();
     }
 
     public ICacheObject? CreateAndParse(uint identity)
@@ -27,7 +20,7 @@ public class CacheObjectBuilder
         var asset = ArchiveLoader.ObjectArchive[identity];
         if (asset == null)
         {
-            this.logger.Error($"Unable to create cache object for identity {identity}");
+            Log.Error($"Unable to create cache object for identity {identity}");
             return null;
         }
         
@@ -62,7 +55,14 @@ public class CacheObjectBuilder
         // sucks to have a bad render ids list but baby steps I guess
         foreach (var renderId in simple.RenderIds.Where(r=> !BadRenderIds.IsInList(r)))
         {
-            var renderInformation = this.renderableObjectBuilder.Build(renderId);
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+
+            if (renderInformation == null)
+            {
+                Log.Error($"render builder unable to build renderable {renderId}!");
+                continue;
+            }
+            
             simple.Renders.Add(renderInformation);
         }
 
@@ -84,11 +84,11 @@ public class CacheObjectBuilder
         {
             try
             {
-                var renderInformation = this.renderableObjectBuilder.Build(renderId);
+                var renderInformation = this.renderableObjectBuilder?.Build(renderId);
                 if (renderInformation == null)
                 {
                     // not sure wtf to do or why this is suddenly not correct!
-                    this.logger.Error($"Could not create renderable for {renderId}!");
+                    Log.Error($"Could not create renderable for {renderId}!");
                     continue;
                 }
                 structure.Renders.Add(renderInformation);
@@ -114,7 +114,13 @@ public class CacheObjectBuilder
         // sucks to have a bad render ids list but baby steps I guess
         foreach (var renderId in interactive.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
         {
-            var renderInformation = this.renderableObjectBuilder.Build(renderId);
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+            if (renderInformation == null)
+            {
+                // not sure wtf to do or why this is suddenly not correct!
+                Log.Error($"Could not create renderable for {renderId}!");
+                continue;
+            }
             interactive.Renders.Add(renderInformation);
         }
 
@@ -133,7 +139,13 @@ public class CacheObjectBuilder
         // sucks to have a bad render ids list but baby steps I guess
         foreach (var renderId in equipment.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
         {
-            var renderInformation = this.renderableObjectBuilder.Build(renderId);
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+            if (renderInformation == null)
+            {
+                // not sure wtf to do or why this is suddenly not correct!
+                Log.Error($"Could not create renderable for {renderId}!");
+                continue;
+            }
             equipment.Renders.Add(renderInformation);
         }
 
@@ -153,7 +165,13 @@ public class CacheObjectBuilder
         // sucks to have a bad render ids list but baby steps I guess
         foreach (uint renderId in mobile.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
         {
-            var renderInformation = this.renderableObjectBuilder.Build(renderId);
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+            if (renderInformation == null)
+            {
+                // not sure wtf to do or why this is suddenly not correct!
+                Log.Error($"Could not create renderable for {renderId}!");
+                continue;
+            }
             mobile.Renders.Add(renderInformation);
         }
 

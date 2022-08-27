@@ -6,7 +6,7 @@ using Cache;
 
 public abstract record CacheObject : ICacheObject
 {
-    protected CacheObject(uint identity, ObjectType flag, string name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset) =>
+    protected CacheObject(uint identity, ObjectType flag, string? name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset) =>
         (this.Identity, this.Flag, this.Name, this.CursorOffset, this.Data, this.InnerOffset) =
         (identity, flag, name, offset, data, innerOffset);
 

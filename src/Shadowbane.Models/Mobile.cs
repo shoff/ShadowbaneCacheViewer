@@ -11,7 +11,7 @@ using Cache;
 
 public record Mobile : AnimationObject
 {
-    public Mobile(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
+    public Mobile(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Mobile, name, offset, data, innerOffset)
     {

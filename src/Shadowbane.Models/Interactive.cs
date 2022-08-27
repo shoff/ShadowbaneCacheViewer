@@ -12,7 +12,7 @@ public record Interactive : AnimationObject
     public readonly List<uint> renderIds = new();
     private bool bWalkData;
 
-    public Interactive(uint identity, string name, uint offset, ReadOnlyMemory<byte> data,
+    public Interactive(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
         uint innerOffset)
         : base(identity, ObjectType.Interactive, name, offset, data, innerOffset)
     {

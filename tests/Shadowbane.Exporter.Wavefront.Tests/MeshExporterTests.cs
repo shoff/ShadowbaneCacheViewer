@@ -41,7 +41,7 @@ public class MeshExporterTests : ExporterBaseTest
     {
         // 6500
         var modelDirectory = SetupModelDirectory(6500);
-        var information = this.renderableObjectBuilder.Build(6500);
+        var information = this.renderableBuilder.Build(6500);
         information.Mesh?.ApplyPosition();
         await MeshExporter.ExportAsync(information.Mesh, modelDirectory);
     }
@@ -49,7 +49,7 @@ public class MeshExporterTests : ExporterBaseTest
     {
         // 5000
         var modelDirectory = SetupModelDirectory(5000);
-        var information = this.renderableObjectBuilder.Build(5000);
+        var information = this.renderableBuilder.Build(5000);
         await MeshExporter.ExportAsync(information.Mesh, modelDirectory);
     }
 
@@ -57,7 +57,7 @@ public class MeshExporterTests : ExporterBaseTest
     public async Task RenderId_426407_Exports_Textured_Mesh()
     {
         var modelDirectory = SetupModelDirectory(426407);
-        var information = this.renderableObjectBuilder.Build(426407);
+        var information = this.renderableBuilder.Build(426407);
         await MeshExporter.ExportAsync(information.Mesh, modelDirectory);
     }
 }

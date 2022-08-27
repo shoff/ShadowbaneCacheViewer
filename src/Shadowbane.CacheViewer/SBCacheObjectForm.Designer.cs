@@ -30,13 +30,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.sbTreeControl1 = new Controls.SBTreeControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sbTreeControl1 = new global::Shadowbane.CacheViewer.Controls.SBTreeControl();
-            this.panelContainer1 = new global::Shadowbane.CacheViewer.Code.PanelContainer();
+            this.panelContainer1 = new Shadowbane.CacheViewer.Code.PanelContainer();
             this.MessageLabel = new System.Windows.Forms.Label();
-            //this.glControl1 = new OpenTK.GLControl();
             this.menuStrip1.SuspendLayout();
             this.panelContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -47,58 +46,51 @@
             this.databaseToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1114, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1300, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // sbTreeControl1
+            // databaseToolStripMenuItem
             // 
-            this.sbTreeControl1.Location = new System.Drawing.Point(12, 64);
-            this.sbTreeControl1.MaximumSize = new System.Drawing.Size(268, 637);
-            this.sbTreeControl1.MinimumSize = new System.Drawing.Size(268, 637);
-            this.sbTreeControl1.Name = "sbTreeControl1";
-            this.sbTreeControl1.SelectedCacheObject = null;
-            this.sbTreeControl1.Size = new System.Drawing.Size(268, 637);
-            this.sbTreeControl1.TabIndex = 1;
+            this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(12, 20);
+            // 
+            // databaseToolStripMenuItem1
+            // 
+            this.databaseToolStripMenuItem1.Name = "databaseToolStripMenuItem1";
+            this.databaseToolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
             // 
             // panelContainer1
             // 
-            //this.panelContainer1.Controls.Add(this.glControl1);
             this.panelContainer1.Controls.Add(this.MessageLabel);
             this.panelContainer1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelContainer1.Location = new System.Drawing.Point(301, 24);
+            this.panelContainer1.Location = new System.Drawing.Point(421, 24);
+            this.panelContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panelContainer1.Name = "panelContainer1";
-            this.panelContainer1.Size = new System.Drawing.Size(813, 696);
+            this.panelContainer1.Size = new System.Drawing.Size(879, 807);
             this.panelContainer1.TabIndex = 0;
             // 
             // MessageLabel
             // 
             this.MessageLabel.AutoSize = true;
-            this.MessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MessageLabel.Location = new System.Drawing.Point(13, 656);
+            this.MessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.MessageLabel.Location = new System.Drawing.Point(15, 757);
+            this.MessageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MessageLabel.Name = "MessageLabel";
             this.MessageLabel.Size = new System.Drawing.Size(46, 18);
             this.MessageLabel.TabIndex = 0;
             this.MessageLabel.Text = "label1";
             // 
-            // glControl1
-            // 
-            //this.glControl1.BackColor = System.Drawing.Color.Black;
-            //this.glControl1.Location = new System.Drawing.Point(16, 62);
-            //this.glControl1.Name = "glControl1";
-            //this.glControl1.Size = new System.Drawing.Size(772, 579);
-            //this.glControl1.TabIndex = 1;
-            //this.glControl1.VSync = false;
-            // 
             // SBCacheObjectForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 720);
-            this.Controls.Add(this.sbTreeControl1);
+            this.ClientSize = new System.Drawing.Size(1300, 831);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "SBCacheObjectForm";
             this.Text = "SBCacheObjectForm";
             this.menuStrip1.ResumeLayout(false);

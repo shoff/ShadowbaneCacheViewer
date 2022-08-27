@@ -31,7 +31,7 @@ public static class MeshExporter
     private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
     private const string AT_SLASH = @"/";
     
-    public static async Task<bool> ExportAsync(IMesh mesh, string modelDirectory, string modelName = null)
+    public static async Task<bool> ExportAsync(IMesh mesh, string modelDirectory, string? modelName = null)
     {
         Guard.IsNotNull(mesh, nameof(mesh));
         Guard.IsNotNullOrWhitespace(modelDirectory, nameof(modelDirectory));

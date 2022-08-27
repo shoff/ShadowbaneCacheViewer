@@ -10,7 +10,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        logger = Log.Logger = new LoggerConfiguration()
+        Log.Logger = new LoggerConfiguration()
             // add console as logging target
             .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
             // set default minimum level
@@ -22,6 +22,4 @@ internal static class Program
         ApplicationConfiguration.Initialize();
         Application.Run(new SBCacheObjectForm());
     }
-
-    public static ILogger logger = null!;
 }
