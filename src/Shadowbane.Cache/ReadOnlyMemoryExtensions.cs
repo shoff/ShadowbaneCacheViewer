@@ -6,8 +6,8 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using CommunityToolkit.HighPerformance;
 using ICSharpCode.SharpZipLib.Zip.Compression;
-using Microsoft.Toolkit.HighPerformance;
 
 public static class ReadOnlyMemoryExtensions
 {
