@@ -87,7 +87,7 @@ public partial class SBTreeControl : UserControl
         return ArchiveLoader.ObjectArchive.IndexCount + ArchiveLoader.RenderArchive.IndexCount + ArchiveLoader.SoundArchive.IndexCount + ArchiveLoader.TextureArchive.IndexCount + ArchiveLoader.MeshArchive.IndexCount + ArchiveLoader.SkeletonArchive.IndexCount + ArchiveLoader.ZoneArchive.IndexCount + ArchiveLoader.VisualArchive.IndexCount;
     }
 
-    private async void SBTreeControl_Load(object sender, EventArgs e)
+    private void SBTreeControl_Load(object sender, EventArgs e)
     {
         this.CacheObjectTreeView.Nodes.Add(this.simpleNode);
         this.CacheObjectTreeView.Nodes.Add(this.structureNode);

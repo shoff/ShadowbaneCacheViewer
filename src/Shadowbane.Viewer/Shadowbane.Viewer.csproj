@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Shadowbane.Models\Shadowbane.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

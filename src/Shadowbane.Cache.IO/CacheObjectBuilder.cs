@@ -1,4 +1,6 @@
-﻿namespace Shadowbane.Cache.IO;
+﻿using System.Threading.Tasks;
+
+namespace Shadowbane.Cache.IO;
 
 using System;
 using System.IO;
@@ -13,6 +15,28 @@ public class CacheObjectBuilder : ICacheObjectBuilder
     public CacheObjectBuilder(IRenderableBuilder? renderableBuilder = null)
     {
         this.renderableObjectBuilder = renderableBuilder ?? new RenderableBuilder();
+    }
+
+    public ICacheObject? NameOnly(uint identity)
+    {
+        var asset = ArchiveLoader.ObjectArchive[identity];
+        if (asset == null)
+        {
+            Log.Error($"Unable to create cache object for identity {identity}");
+            return null;
+        }
+
+        using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
+        var flag = (ObjectType)reader.ReadInt32();
+        var nameLength = reader.ReadUInt32();
+        var name = reader.AsciiString(nameLength);
+
+        return new CacheObjectNameOnly()
+        {
+            Identity = identity,
+            Name = name,
+            Flag = flag
+        };
     }
 
     public ICacheObject? CreateAndParse(uint identity)
@@ -32,17 +56,45 @@ public class CacheObjectBuilder : ICacheObjectBuilder
     private ICacheObject? ToObject(ObjectType objectType, BinaryReader reader, CacheAsset asset) 
         => objectType switch
     {
+        ObjectType.Sun => Sun(reader, asset),
         ObjectType.Simple => SimpleType(reader, asset),
         ObjectType.Structure => Structure(reader, asset),
         ObjectType.Interactive => Interactive(reader, asset),
         ObjectType.Equipment => Equipment(reader, asset),
         ObjectType.Mobile => Mobile(reader, asset),
         ObjectType.Deed => Deed(reader, asset),
+        ObjectType.Unknown => Unknown(reader, asset),
         ObjectType.Warrant => Warrant(reader, asset),
         ObjectType.Particle => Particle(reader, asset),
         _ => null
     };
-        
+    
+    private ICacheObject Sun(BinaryReader reader, CacheAsset asset)
+    {
+        var nameLength = reader.ReadUInt32();
+        var name = reader.AsciiString(nameLength);
+        reader.BaseStream.Position += 25;
+        var offset = (uint)reader.BaseStream.Position;
+        var simple = new Simple(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            .Parse();
+
+        // sucks to have a bad render ids list but baby steps I guess
+        foreach (var renderId in simple.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+        {
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+
+            if (renderInformation == null)
+            {
+                Log.Error($"render builder unable to build renderable {renderId}!");
+                continue;
+            }
+
+            simple.Renders.Add(renderInformation);
+        }
+
+        return simple;
+    }
+
     private ICacheObject SimpleType(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
@@ -151,7 +203,33 @@ public class CacheObjectBuilder : ICacheObjectBuilder
 
         return equipment;
     }
-        
+
+    private ICacheObject Unknown(BinaryReader reader, CacheAsset asset)
+    {
+        var nameLength = reader.ReadUInt32();
+        var name = reader.AsciiString(nameLength);
+        reader.BaseStream.Position += 25;
+        var offset = (uint)reader.BaseStream.Position;
+        var simple = new Simple(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
+            .Parse();
+
+        // sucks to have a bad render ids list but baby steps I guess
+        foreach (var renderId in simple.RenderIds.Where(r => !BadRenderIds.IsInList(r)))
+        {
+            var renderInformation = this.renderableObjectBuilder?.Build(renderId);
+
+            if (renderInformation == null)
+            {
+                Log.Error($"render builder unable to build renderable {renderId}!");
+                continue;
+            }
+
+            simple.Renders.Add(renderInformation);
+        }
+
+        return simple;
+    }
+    
     private ICacheObject Mobile(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
@@ -211,4 +289,5 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return new Particle(asset.CacheIndex.identity, name, offset, asset.Asset, offset)
             .Parse();
     }
+
 }

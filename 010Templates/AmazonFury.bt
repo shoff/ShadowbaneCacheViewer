@@ -1,0 +1,174 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct blankAfterRenderId {
+    int blanks[6];
+};
+
+struct testForNull {
+    uint isnull;    
+};
+
+struct unknownData1
+{
+	uint i1;
+	ushort s1;
+	ushort s2;
+	float posX;
+	float posY;
+	float posZ;
+	float f1;
+	float f2;
+	float f3;
+	float f4;
+	float scaleX;
+	float scaleY;
+	float scaleZ;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+    FLOAT    z;
+} tVector3f <read=tVector3fRead>;
+
+string tVector3fRead( tVector3f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f %f)", v.x, v.y, v.z );
+ return s;
+};
+
+typedef struct {
+    FLOAT    x;
+    FLOAT    y;
+} tVector2f <read=tVector2fRead>;
+
+string tVector2fRead( tVector2f &v ) {
+ string s;   
+ SPrintf( s, "(%f %f)", v.x, v.y );
+ return s;
+};
+
+typedef struct {
+    byte garb[34];
+} garb;
+
+//----------------------------------------------
+//----------------------------------------------
+//----------------------------------------------
+
+char tnlc[4];
+int flag;
+int size;
+wchar_t name[size];
+    
+byte unknown1;
+float something1;
+time_t updatedTime;
+tVector3f scale;
+float unknown; 
+// This is where the old .cpp files sends the byte array
+// to the various "types" with ptr += 25
+//----------------------------------------------
+uint some_id_1;
+byte nullbytes1[25];
+uint some_counter_1;
+uint empty_ints[3];
+uint some_id_2;
+
+uint ai_name_counter;
+wchar_t ai[ai_name_counter];
+
+byte nullbytes[89];
+
+uint someNumber;
+uint someOtherNumber;
+uint crazybigint; // 3261557471
+uint nullcb;
+
+uint crazybigint1; // 3256536428
+uint crazybigint2; // 3257963797
+uint nullcb1;
+
+uint crazybigint3; // 3256536428
+uint crazybigint4; // 3257963797
+uint nullcb2;
+
+uint crazybigint5; // 3256536428
+uint crazybigint6; // 3257963797
+uint nullcb3;
+
+uint crazybigint7; 
+uint nullcb4;
+
+uchar dataChar;
+uint runeData;
+
+float ZOffest; // Undead = 2.0, Bats = 4.0
+
+uint petOrRune;
+uint nfi;
+uint mobToken;
+
+// can also be:
+// 3851523961 CSR 
+if(mobToken == 612015249){
+    uint aiSize;
+    wchar_t ai[aiSize];
+    uint padding[4];
+} 
+else if ( mobToken == 2085359803){ 
+    uchar someBool1;
+    uint padding[4];
+} else {
+    uint padding[3];
+}
+
+float unknownFloat4;
+uint nullUint;
+// lot's of different ones over 100
+// maybe wolfpack artist's ids or something?
+uint unknownHash; 
+uint petIndicator;
+if(petIndicator == 0){
+    uint bigempty[18];
+    uint thirthTwo;    
+    uint nullUintArray[3];
+    ushort someShort;
+    uint nullUintArray1[3];
+    
+    if(mobToken == 3851523961){ 
+        // CSR
+        uint nothing[2];   
+    }
+} else{
+    uint petJunk[5];
+    uint petTextSize;
+    wchar_t petText[petTextSize];
+    ushort something;
+    uint petEmpty[33];
+}
+uint nameSize1;
+wchar_t alsoName[nameSize1];
+
+// experiment here 
+uint nullArray[6];
+
+uint afterName1[18];
+//uchar crap[293];
+//uint loreTextSize;
+//wchar_t loreText[loreTextSize];
+
+
+
+
+

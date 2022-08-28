@@ -14,7 +14,6 @@ public class MeshCacheTests : CacheBaseTest
         this.meshCache = new MeshCache();
     }
 
-
     [Fact]
     public void Cache_Validates()
     {

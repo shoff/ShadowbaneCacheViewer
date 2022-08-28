@@ -2,5 +2,6 @@
 
 public interface ICacheObjectBuilder
 {
+    ICacheObject? NameOnly(uint identity);
     ICacheObject? CreateAndParse(uint identity);
 }

@@ -189,65 +189,65 @@ public record Mobile : AnimationObject
             _ = reader.AsciiString(this.SecondNameSize);
         }
 
-        //StructureValidationResult validationResult = null;
-        MobileRenderFinder? finder = null;
+        ////StructureValidationResult validationResult = null;
+        //MobileRenderFinder? finder = null;
 
-        while (reader.CanRead(20) && this.RenderIds.Count == 0)
-        {
-            finder = this.GetFinder(reader);
+        //while (reader.CanRead(20) && this.RenderIds.Count == 0)
+        //{
+        //    finder = this.GetFinder(reader);
 
-            if (finder.IsValid)
-            {
-                this.RenderIds.Add(finder.RenderId);
-                reader.BaseStream.Position -= 28;
-                this.RenderCount = reader.ReadUInt32();
-                reader.BaseStream.Position += 24;
-            }
-            else
-            {
-                reader.BaseStream.Position = (finder.InitialOffset + 1);
-            }
-        }
+        //    if (finder.IsValid)
+        //    {
+        //        this.RenderIds.Add(finder.RenderId);
+        //        reader.BaseStream.Position -= 28;
+        //        this.RenderCount = reader.ReadUInt32();
+        //        reader.BaseStream.Position += 24;
+        //    }
+        //    else
+        //    {
+        //        reader.BaseStream.Position = (finder.InitialOffset + 1);
+        //    }
+        //}
 
-        while (reader.CanRead(20) && finder?.NullTerminator == 0)
-        {
-            finder = GetFinder(reader);
-            if (finder.IsValid)
-            {
-                this.RenderIds.Add(finder.RenderId);
-            }
-        }
+        //while (reader.CanRead(20) && finder?.NullTerminator == 0)
+        //{
+        //    finder = GetFinder(reader);
+        //    if (finder.IsValid)
+        //    {
+        //        this.RenderIds.Add(finder.RenderId);
+        //    }
+        //}
 
-        // see  if there is a counter to another group of ids
-        if (finder?.NullTerminator > 0)
-        {
-            for (int i = 0; i < finder.NullTerminator; i++)
-            {
-                if (reader.CanRead(8))
-                {
-                    reader.ReadInt32();
-                    var id = reader.ReadUInt32();
-                    this.RenderIds.Add(id);
-                }
-            }
-        }
+        //// see  if there is a counter to another group of ids
+        //if (finder?.NullTerminator > 0)
+        //{
+        //    for (int i = 0; i < finder.NullTerminator; i++)
+        //    {
+        //        if (reader.CanRead(8))
+        //        {
+        //            reader.ReadInt32();
+        //            var id = reader.ReadUInt32();
+        //            this.RenderIds.Add(id);
+        //        }
+        //    }
+        //}
 
-        // another counter?
-        int renderCounter = 0;
-        if (reader.CanRead(4))
-        {
-            renderCounter = reader.ReadInt32();
-        }
+        //// another counter?
+        //int renderCounter = 0;
+        //if (reader.CanRead(4))
+        //{
+        //    renderCounter = reader.ReadInt32();
+        //}
 
-        for (uint i = 0; i < renderCounter; i++)
-        {
-            if (reader.CanRead(8))
-            {
-                reader.ReadInt32();
-                var id = reader.ReadUInt32();
-                this.RenderIds.Add(id);
-            }
-        }
+        //for (uint i = 0; i < renderCounter; i++)
+        //{
+        //    if (reader.CanRead(8))
+        //    {
+        //        reader.ReadInt32();
+        //        var id = reader.ReadUInt32();
+        //        this.RenderIds.Add(id);
+        //    }
+        //}
 
         #region old shit
         //reader.ReadUInt32(); //All them Pets = 34

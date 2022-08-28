@@ -3,15 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Cache;
 using Cache.IO;
-using CacheViewer.Controls;
-using CacheViewer.Extensions;
-using CacheViewer.Services;
 using Serilog;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -21,11 +16,7 @@ using UserControl = System.Windows.Controls.UserControl;
 public partial class SBTreeControl : UserControl
 {
     private readonly ICacheObjectBuilder objectBuilder = null!;
-    private readonly IStructureService structureService = null!;
-    public event EventHandler<ParseErrorEventArgs> OnParseError = null!;
-    public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage = null!;
-    public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected = null!;
-    public event EventHandler<InvalidRenderIdEventArgs> OnInvalidRenderId = null!;
+
 
     public event Func<string, string> InvalidObjectParsed;
     public event Func<string, string> ValidObjectParsed;
@@ -49,7 +40,6 @@ public partial class SBTreeControl : UserControl
     private readonly List<TreeViewItem> warrantNodes = new();
     private readonly List<TreeViewItem> unknownNodes = new();
     private readonly List<TreeViewItem> particleNodes = new();
-    private readonly BackgroundWorker parseObjectWorker;
 
     public SBTreeControl()
     {
@@ -72,126 +62,90 @@ public partial class SBTreeControl : UserControl
         unknownNode.Items.Add(unknownNodes);
         warrantNode.Items.Add(warrantNodes);
         particleNode.Items.Add(particleNodes);
+
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
             this.objectBuilder = new CacheObjectBuilder();
-            this.structureService = new StructureService();
-
+            //this.ResetSaveButtons();
+            //Serilog.Log.LogInforamtion.("CacheViewForm completed loading all cache archives.");
+            //this.archivesLoaded = true;
         }
-
-        this.parseObjectWorker = new BackgroundWorker
-        {
-            WorkerReportsProgress = true,
-            WorkerSupportsCancellation = true
-        };
-
-        //this.parseObjectWorker.DoWork += this.ParseSelected!;
-        //this.parseObjectWorker.ProgressChanged += this.ParseObjectWorkerProgressChanged!;
-        //this.parseObjectWorker.RunWorkerCompleted += this.ParseObjectWorkerRunWorkerCompleted!;
-
     }
 
-    private void LoadCacheButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    public async void LoadCacheButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        //await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
-
-        // await Task.Run(() =>
-        //{
         var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-        Task.Factory.StartNew(GetObjects, CancellationToken.None, 
-            TaskCreationOptions.None, scheduler);
+        await GetObjectsAsync();
     }
 
-    public void GetObjects()
+    private Task GetObjectsAsync()
     {
-        try
+        foreach (var cacheIndex in ArchiveLoader.ObjectArchive.CacheIndices)
         {
-            int validCacheObjects = 0;
-            int invalidCacheObjects = 0;
-
-            foreach (var ci in ArchiveLoader.ObjectArchive.CacheIndices)
+            try
             {
-                try
+                ICacheObject? cacheObject = this.objectBuilder.NameOnly(cacheIndex.identity);
+                string title = cacheObject?.Name;
+                //    ?
+                //cacheIndex.identity.ToString(CultureInfo.InvariantCulture) :
+                //$"{cacheIndex.identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
+
+                var node = new TreeViewItem()
                 {
-                    var cacheObject = this.objectBuilder.CreateAndParse(ci.identity);
-                    if (cacheObject == null)
-                    {
-                        string message = $"Unable to create and parse cache object with identity {ci.identity}";
-                        Log.Error(message);
-                        this.InvalidObjectParsed?.Invoke(invalidCacheObjects++.ToString());
-                        continue;
-                    }
+                    Header = title,
+                    Tag = cacheObject,
+                };
 
-                    string title = string.IsNullOrEmpty(cacheObject.Name) ?
-                        ci.identity.ToString(CultureInfo.InvariantCulture) :
-                        $"{ci.identity.ToString(CultureInfo.InvariantCulture)}-{cacheObject.Name}";
-
-                    var node = new TreeViewItem
-                    {
-                        Header = title,
-                        Tag = cacheObject,
-                    };
-
-                    switch (cacheObject.Flag)
-                    {
-                        case ObjectType.Sun:
-                            break;
-                        case ObjectType.Simple:
-                            this.simpleNodes.Add(node);
-                            break;
-                        case ObjectType.Structure:
-                            this.structureNodes.Add(node);
-                            break;
-                        case ObjectType.Interactive:
-                            this.interactiveNodes.Add(node);
-                            break;
-                        case ObjectType.Equipment:
-                            this.equipmentNodes.Add(node);
-                            break;
-                        case ObjectType.Mobile:
-                            this.mobileNodes.Add(node);
-                            break;
-                        case ObjectType.Deed:
-                            this.deedNodes.Add(node);
-                            break;
-                        case ObjectType.Unknown:
-                            this.unknownNodes.Add(node);
-                            break;
-                        case ObjectType.Warrant:
-                            this.warrantNodes.Add(node);
-                            break;
-                        case ObjectType.Particle:
-                            this.particleNodes.Add(node);
-                            break;
-                    }
-                }
-                catch (Exception ex)
+                switch (cacheObject?.Flag)
                 {
-                    Log.Error(ex, ex.Message);
-                    throw;
+                    case ObjectType.Sun:
+                        break;
+                    case ObjectType.Simple:
+                        simpleNodes.Add(node);
+                        break;
+                    case ObjectType.Structure:
+                        structureNodes.Add(node);
+                        break;
+                    case ObjectType.Interactive:
+                        interactiveNodes.Add(node);
+                        break;
+                    case ObjectType.Equipment:
+                        equipmentNodes.Add(node);
+                        break;
+                    case ObjectType.Mobile:
+                        mobileNodes.Add(node);
+                        break;
+                    case ObjectType.Deed:
+                        deedNodes.Add(node);
+                        break;
+                    case ObjectType.Unknown:
+                        unknownNodes.Add(node);
+                        break;
+                    case ObjectType.Warrant:
+                        warrantNodes.Add(node);
+                        break;
+                    case ObjectType.Particle:
+                        particleNodes.Add(node);
+                        break;
                 }
-
-                this.ValidObjectParsed?.Invoke(validCacheObjects++.ToString());
             }
-            // });
-
-            this.simpleNodes.ForEach(s => this.simpleNode.Items.Add(s));
-            this.structureNodes.ForEach(s => this.structureNode.Items.Add(s));
-            this.interactiveNodes.ForEach(s => this.interactiveNode.Items.Add(s));
-            this.equipmentNodes.ForEach(s => this.equipmentNode.Items.Add(s));
-            this.mobileNodes.ForEach(s => this.mobileNode.Items.Add(s));
-            this.deedNodes.ForEach(s => this.deedNode.Items.Add(s));
-            this.unknownNodes.ForEach(s => this.unknownNode.Items.Add(s));
-            this.warrantNodes.ForEach(s => this.warrantNode.Items.Add(s));
-            this.particleNodes.ForEach(s => this.particleNode.Items.Add(s));
-
-            // what a pain in the ass this is Microsoft.
-            this.ArchivesLoaded = true;
-            this.OnLoadingMessage.Raise(this, new LoadingMessageEventArgs("Cache files loaded."));
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.Message);
+            }
         }
-        catch { }
 
+
+        simpleNodes.ForEach(s => this.simpleNode.Items.Add(s));
+        structureNodes.ForEach(s => this.structureNode.Items.Add(s));
+        interactiveNodes.ForEach(s => this.interactiveNode.Items.Add(s));
+        equipmentNodes.ForEach(s => this.equipmentNode.Items.Add(s));
+        mobileNodes.ForEach(s => this.mobileNode.Items.Add(s));
+        deedNodes.ForEach(s => this.deedNode.Items.Add(s));
+        unknownNodes.ForEach(s => this.unknownNode.Items.Add(s));
+        warrantNodes.ForEach(s => this.warrantNode.Items.Add(s));
+        particleNodes.ForEach(s => this.particleNode.Items.Add(s));
+        return Task.CompletedTask;
+        
     }
-
-    public bool ArchivesLoaded { get; set; }
 }

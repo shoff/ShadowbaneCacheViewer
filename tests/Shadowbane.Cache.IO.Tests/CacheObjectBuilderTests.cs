@@ -1,6 +1,13 @@
-﻿namespace Shadowbane.Cache.IO.Tests;
+﻿// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+
+using System.Globalization;
+using System.Threading.Tasks;
+using Shadowbane.Cache.Exporter.File;
+
+namespace Shadowbane.Cache.IO.Tests;
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -8,11 +15,14 @@ using Xunit;
 
 public class CacheObjectBuilderTests
 {
-    private const int TAKE = 100;
-    private static readonly Random counter = new((int)DateTime.UtcNow.Ticks);
+    private static string CACHE_EXPORT_PATH = "CacheObjectExports/";
+
+    private List<string> timings = new();
+
+    private const string PARSE_TIMING_FILE = "timings.csv";
     private readonly CacheObjectBuilder builder;
     private readonly Mock<IRenderableBuilder> renderableBuilder;
-    private static List<object[]> identities = 
+    private static readonly List<object[]> identities = 
         ArchiveLoader.ObjectArchive.CacheIndices
             .Select(x => new object[] { x.identity })
             .ToList();
@@ -23,285 +33,258 @@ public class CacheObjectBuilderTests
         this.builder = new CacheObjectBuilder(this.renderableBuilder.Object);
     }
 
-    public static IEnumerable<object[]> Data_1000 => identities.Skip(0).Take(1000);
-    public static IEnumerable<object[]> Data_2000 => identities.Skip(1000).Take(1000);
-    public static IEnumerable<object[]> Data_3000 => identities.Skip(2000).Take(1000);
-    public static IEnumerable<object[]> Data_4000 => identities.Skip(3000).Take(1000);
-    public static IEnumerable<object[]> Data_5000 => identities.Skip(4000).Take(1000);
-    public static IEnumerable<object[]> Data_6000 => identities.Skip(5000).Take(1000);
-    public static IEnumerable<object[]> Data_7000 => identities.Skip(6000).Take(1000);
-    public static IEnumerable<object[]> Data_8000 => identities.Skip(7000).Take(1000);
-    public static IEnumerable<object[]> Data_9000 => identities.Skip(8000).Take(1000);
-    public static IEnumerable<object[]> Data_10000 => identities.Skip(9000);
-    
+    public static IEnumerable<object[]> Data1000 => identities.Skip(0).Take(1000);
+    public static IEnumerable<object[]> Data2000 => identities.Skip(1000).Take(1000);
+    public static IEnumerable<object[]> Data3000 => identities.Skip(2000).Take(1000);
+    public static IEnumerable<object[]> Data4000 => identities.Skip(3000).Take(1000);
+    public static IEnumerable<object[]> Data5000 => identities.Skip(4000).Take(1000);
+    public static IEnumerable<object[]> Data6000 => identities.Skip(5000).Take(1000);
+    public static IEnumerable<object[]> Data7000 => identities.Skip(6000).Take(1000);
+    public static IEnumerable<object[]> Data8000 => identities.Skip(7000).Take(1000);
+    public static IEnumerable<object[]> Data9000 => identities.Skip(8000).Take(1000);
+    public static IEnumerable<object[]> Data10000 => identities.Skip(9000);
+    public static IEnumerable<object[]> Data0 => identities.Skip(0).Take(100);
+    public static IEnumerable<object[]> Data100 => identities.Skip(100).Take(100);
+    public static IEnumerable<object[]> Data200 => identities.Skip(200).Take(100);
+    public static IEnumerable<object[]> Data300 => identities.Skip(300).Take(100);
+    public static IEnumerable<object[]> Data400 => identities.Skip(400).Take(100);
+    public static IEnumerable<object[]> Data500 => identities.Skip(500).Take(100);
+    public static IEnumerable<object[]> Data600 => identities.Skip(600).Take(100);
+    public static IEnumerable<object[]> Data700 => identities.Skip(700).Take(100);
+    public static IEnumerable<object[]> Data800 => identities.Skip(800).Take(100);
+    public static IEnumerable<object[]> Data900 => identities.Skip(900).Take(100);
+
     [Theory]
-    [MemberData(nameof(Data_1000))]
-    public void Cache_Id_1_1000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data0))]
+    public async Task Cache_Id_1_100_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_2000))]
-    public void Cache_Id_1001_2000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data100))]
+    public async Task Cache_Id_100_200_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_3000))]
-    public void Cache_Id_2001_3000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data200))]
+    public async Task Cache_Id_200_300_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_4000))]
-    public void Cache_Id_3001_4000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data300))]
+    public async Task Cache_Id_300_400_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_5000))]
-    public void Cache_Id_4001_5000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data400))]
+    public async Task Cache_Id_400_500_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_6000))]
-    public void Cache_Id_5001_6000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data500))]
+    public async Task Cache_Id_500_600_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_7000))]
-    public void Cache_Id_6001_7000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data600))]
+    public async Task Cache_Id_600_700_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_8000))]
-    public void Cache_Id_7001_8000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data700))]
+    public async Task Cache_Id_700_800_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
     
     [Theory]
-    [MemberData(nameof(Data_9000))]
-    public void Cache_Id_8001_9000_Parse_Correctly(uint identity)
+    [MemberData(nameof(Data800))]
+    public async Task Cache_Id_800_900_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-    }
-    
-    [Theory]
-    [MemberData(nameof(Data_10000))]
-    public void Cache_Id_9001_Last_Parse_Correctly(uint identity)
-    {
-        var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
 
+    [Theory]
+    [MemberData(nameof(Data900))]
+    public async Task Cache_Id_900_1000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //[Fact]
-    //public async Task Interactives_Parse_Correctly()
+    //[Theory]
+    //[MemberData(nameof(Data1000))]
+    //public void Cache_Id_1_1000_Parse_Correctly(uint identity)
     //{
-    //    foreach (var index in ArchiveLoader.ObjectArchive.CacheIndices.Where(c => !BadRenderIds.IsInList(c)))
-    //    {
-    //        try
-    //        {
-    //            var asset = ArchiveLoader.ObjectArchive[index.identity];
-    //            using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
-    //            var flag = (ObjectType)reader.ReadInt32();
-
-    //            if (flag == ObjectType.Interactive)
-    //            {
-    //                var interactive = this.builder.CreateAndParse(index.identity);
-    //                if (interactive != null)
-    //                {
-    //                    var modelDirectoryName = string.IsNullOrWhiteSpace(interactive.Name) ? interactive.Identity.ToString()
-    //                        : $"{interactive.Name}-{interactive.Identity}";
-    //                    var modelDirectory = $"{CacheLocation.InteractiveFolder}{modelDirectoryName}";
-
-    //                    foreach (var render in interactive.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
-    //                    {
-    //                        await MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{interactive.Name}-{render.Identity}");
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            await File.AppendAllTextAsync(CacheLocation.MobileFolder + "messages.txt", e.Message);
-    //        }
-    //    }
+    //    var cacheObject = this.builder.CreateAndParse(identity);
+    //    Assert.NotNull(cacheObject);
     //}
 
-    //[Fact]
-    //public async Task Equipment_Parse_Correctly()
-    //{
-    //    foreach (var index in ArchiveLoader.ObjectArchive.CacheIndices.Where(c => !BadRenderIds.IsInList(c)))
-    //    {
-    //        try
-    //        {
-    //            var asset = ArchiveLoader.ObjectArchive[index.identity];
+    [Theory]
+    [MemberData(nameof(Data2000))]
+    public async Task Cache_Id_1001_2000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //            using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
-    //            var flag = (ObjectType)reader.ReadInt32();
+    [Theory]
+    [MemberData(nameof(Data3000))]
+    public async Task Cache_Id_2001_3000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //            if (flag == ObjectType.Equipment)
-    //            {
-    //                var equipment = this.builder.CreateAndParse(index.identity);
-    //                if (equipment != null)
-    //                {
-    //                    var modelDirectoryName = string.IsNullOrWhiteSpace(equipment.Name) ? equipment.Identity.ToString()
-    //                        : $"{equipment.Name}-{equipment.Identity}";
-    //                    var modelDirectory = $"{CacheLocation.EquipmentFolder}{modelDirectoryName}";
+    [Theory]
+    [MemberData(nameof(Data4000))]
+    public async Task Cache_Id_3001_4000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //                    foreach (var render in equipment.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
-    //                    {
-    //                        await MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{equipment.Name}-{render.Identity}");
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            await File.AppendAllTextAsync(CacheLocation.MobileFolder + "messages.txt", e.Message);
-    //        }
-    //    }
-    //}
+    [Theory]
+    [MemberData(nameof(Data5000))]
+    public async Task Cache_Id_4001_5000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //[Fact]
-    //public async Task Mobiles_Parse_Correctly()
-    //{
-    //    int mobilesParsed = 0;
+    [Theory]
+    [MemberData(nameof(Data6000))]
+    public async Task Cache_Id_5001_6000_Parse_Correctly(uint identity)
+    {
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //    do
-    //    {
+    // [Theory]
+    [MemberData(nameof(Data7000))]
+    public async Task Cache_Id_6001_7000_Parse_CorrectlyAsync(uint identity)
+    {
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        watch.Stop();
 
-    //        var mobileTestSubjects = ArchiveLoader.ObjectArchive.CacheIndices.Where(c => !BadRenderIds.IsInList(c))
-    //            .Skip(counter.Next(0, ArchiveLoader.ObjectArchive.IndexCount - TAKE)).Take(TAKE);
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //        foreach (var index in mobileTestSubjects)
-    //        {
-    //            try
-    //            {
-    //                var asset = ArchiveLoader.ObjectArchive[index.identity];
+    [Theory]
+    [MemberData(nameof(Data8000))]
+    public async Task Cache_Id_7001_8000_Parse_Correctly(uint identity)
+    {
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        watch.Stop();
 
-    //                using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
-    //                var flag = (ObjectType)reader.ReadInt32();
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //                if (flag != ObjectType.Mobile)
-    //                {
-    //                    continue;
-    //                }
+    [Theory]
+    [MemberData(nameof(Data9000))]
+    public async Task Cache_Id_8001_9000_Parse_Correctly(uint identity)
+    {
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
+        watch.Stop();
 
-    //                mobilesParsed++;
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //                var mobile = this.builder.CreateAndParse(index.identity);
+    [Theory]
+    [MemberData(nameof(Data10000))]
+    public async Task Cache_Id_9001_Last_Parse_Correctly(uint identity)
+    {
+        if (identity > 1999999 && identity < 2000517)
+        {
+            return;
+        }
+        var cacheObject = this.builder.CreateAndParse(identity);
+        Assert.NotNull(cacheObject);
 
-    //                if (mobile != null)
-    //                {
-    //                    var modelDirectoryName = string.IsNullOrWhiteSpace(mobile.Name)
-    //                        ? mobile.Identity.ToString() : $"{mobile.Name}-{mobile.Identity}";
-    //                    var modelDirectory = $"{CacheLocation.MobileFolder}{modelDirectoryName}";
+        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
 
-    //                    foreach (var render in mobile.Renders.Where(r =>
-    //                                 r.HasMesh && r.MeshId > 0 && r.Mesh != null))
-    //                    {
-    //                        await MeshExporter.ExportAsync(render.Mesh, modelDirectory,
-    //                            $"{mobile.Name}-{render.Identity}");
-    //                    }
-    //                }
-    //            }
-    //            catch (Exception e)
-    //            {
-    //                await File.AppendAllTextAsync(CacheLocation.MobileFolder + "messages.txt", e.Message);
-    //            }
-    //        }
-    //    }
-    //    while (mobilesParsed < TAKE);
-    //}
+    [Fact]
+    public void Cache_Id_2000000_Parses_Correctly()
+    {
+        var cacheObject = this.builder.CreateAndParse(2000000);
+        Assert.NotNull(cacheObject);
+    }
 
-    //[Fact]
-    //public async Task Structure_Models_Parse_Correctly()
-    //{
-    //    foreach (var index in ArchiveLoader.ObjectArchive.CacheIndices.Where(c => !BadRenderIds.IsInList(c)))
-    //    {
-    //        try
-    //        {
-    //            var asset = ArchiveLoader.ObjectArchive[index.identity];
-
-    //            using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
-    //            var flag = (ObjectType)reader.ReadInt32();
-
-    //            if (flag == ObjectType.Structure)
-    //            {
-    //                var structure = this.builder.CreateAndParse(index.identity);
-    //                if (structure != null)
-    //                {
-    //                    var modelDirectoryName = string.IsNullOrWhiteSpace(structure.Name) ? structure.Identity.ToString()
-    //                        : $"{structure.Name}-{structure.Identity}";
-    //                    var modelDirectory = $"{CacheLocation.StructureFolder}{modelDirectoryName}";
-
-    //                    List<Task<bool>> renderTasks = new List<Task<bool>>();
-
-    //                    foreach (var render in structure.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
-    //                    {
-    //                        renderTasks.Add(MeshExporter.ExportAsync(render.Mesh, modelDirectory,
-    //                            $"{structure.Name}-{render.Identity}"));
-    //                    }
-
-    //                    await Task.WhenAll(renderTasks);
-    //                }
-    //            }
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            await File.AppendAllTextAsync(CacheLocation.StructureFolder + "messages.txt", e.Message);
-    //        }
-    //    }
-    //}
 
     //[Fact]
-    //public async Task Simple_Models_Parse_Correctly()
+    //public async Task Master_Templar_Parses_Correctly_Async()
     //{
-    //    foreach (var index in ArchiveLoader.ObjectArchive.CacheIndices.Where(c => !BadRenderIds.IsInList(c)))
-    //    {
-    //        var asset = ArchiveLoader.ObjectArchive[index.identity];
-    //        using var reader = asset.Asset.CreateBinaryReaderUtf32(4);
-    //        var flag = (ObjectType)reader.ReadInt32();
+    //    uint identity = 252606;
+    //    var cacheObject = this.builder.CreateAndParse(identity);
 
-    //        if (flag == ObjectType.Simple)
-    //        {
-    //            var simple = this.builder.CreateAndParse(index.identity);
-    //            if (simple != null)
-    //            {
-    //                var modelDirectoryName = string.IsNullOrWhiteSpace(simple.Name) ? simple.Identity.ToString()
-    //                    : $"{simple.Name}-{simple.Identity}";
-    //                var modelDirectory = $"{CacheLocation.SimpleFolder}{modelDirectoryName}";
-    //                List<Task<bool>> renderTasks = new List<Task<bool>>();
-
-    //                foreach (var render in simple.Renders.Where(r => r.HasMesh && r.MeshId > 0 && r.Mesh != null))
-    //                {
-    //                    renderTasks.Add(MeshExporter.ExportAsync(render.Mesh, modelDirectory, $"{simple.Name}-{render.Identity}"));
-    //                }
-    //                await Task.WhenAll(renderTasks);
-    //            }
-    //        }
-    //    }
+    //    await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+    //        $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    //    Assert.NotNull(cacheObject);
     //}
 }

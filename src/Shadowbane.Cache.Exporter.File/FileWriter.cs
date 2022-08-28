@@ -28,19 +28,9 @@ public class FileWriter
         this.EnsureDirectory(folder);
         await Task.Run(() =>
         {
-            FileStream fs = null;
-
-            try
-            {
-                var file = $"{folder}\\{filename}";
-                fs = new FileStream($"{folder}\\{filename}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-                using var writer = new BinaryWriter(fs);
-                writer.Write(data.Span);
-            }
-            finally
-            {
-                fs?.Dispose();
-            }
+            using var fs = new FileStream($"{folder}\\{filename}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            using var writer = new BinaryWriter(fs);
+            writer.Write(data.Span);
         });
     }
 
