@@ -44,11 +44,12 @@ public class RenderableBuilder : IRenderableBuilder
             return null;
         }
 
-        var renderInformation = new Renderable
+        var renderable = new Renderable
         {
             Identity = identity,
             CacheIndex = ArchiveLoader.RenderArchive.CacheIndices.First(c => c.identity == identity),
-            ByteCount = asset.Asset.Length
+            ByteCount = asset.Asset.Length,
+            Data = asset.Asset
         };
 
         if (saveToFile && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}{identity}-{asset.Order}"))
@@ -61,13 +62,13 @@ public class RenderableBuilder : IRenderableBuilder
         }
 
         using var reader = asset.Asset.CreateBinaryReaderUtf32();
-        renderInformation.RenderType = reader.ReadUInt32();
+        renderable.RenderType = reader.ReadUInt32();
         reader.BaseStream.Position = 35;
-        renderInformation.HasMesh = reader.ReadUInt32() == 1;
-        renderInformation.Unknown[0] = reader.ReadUInt32();
-        renderInformation.MeshId = reader.ReadUInt32();
+        renderable.HasMesh = reader.ReadUInt32() == 1;
+        renderable.Unknown[0] = reader.ReadUInt32();
+        renderable.MeshId = reader.ReadUInt32();
 
-        if (renderInformation.HasMesh && renderInformation.MeshId == 0 && saveToFile
+        if (renderable.HasMesh && renderable.MeshId == 0 && saveToFile
             && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}missing_mesh\\{identity}-{asset.Order}"))
         {
             // for now let's save them all in a folder for analysis
@@ -75,69 +76,69 @@ public class RenderableBuilder : IRenderableBuilder
         }
 
         // build the mesh
-        if (renderInformation.HasMesh && renderInformation.MeshId > 0)
+        if (renderable.HasMesh && renderable.MeshId > 0)
         {
-            var meshAsset = ArchiveLoader.MeshArchive[renderInformation.MeshId];
-            var mesh = meshBuilder.Build(meshAsset!.Asset, renderInformation.MeshId);
+            var meshAsset = ArchiveLoader.MeshArchive[renderable.MeshId];
+            var mesh = meshBuilder.Build(meshAsset!.Asset, renderable.MeshId);
             if (mesh == null)
             {
-                throw new InvalidMeshException($"Could not build mesh with identity {renderInformation.MeshId}");
+                throw new InvalidMeshException($"Could not build mesh with identity {renderable.MeshId}");
             }
-            renderInformation.Mesh = mesh;
+            renderable.Mesh = mesh;
         }
 
         Debug.Assert(reader.BaseStream.Position == 47);
-        renderInformation.Unknown[1] = reader.ReadUInt16();
-        renderInformation.LastOffset = reader.BaseStream.Position;
+        renderable.Unknown[1] = reader.ReadUInt16();
+        renderable.LastOffset = reader.BaseStream.Position;
 
         // its seems that when the render type (nfi if that's what the first 4 bytes really are but let's go with it) is type 257
         // there is no joint name, that it claims to have a mesh but no mesh id,
 
-        renderInformation.JointNameSize = reader.ReadUInt32();
+        renderable.JointNameSize = reader.ReadUInt32();
 
-        if (renderInformation.JointNameSize > MAX_JOINT_NAME_SIZE)
+        if (renderable.JointNameSize > MAX_JOINT_NAME_SIZE)
         {
             // no joint has a name that long
-            renderInformation.Notes.Add(
-                $" We read a joint name size of {renderInformation.JointNameSize} this can't be correct.");
+            renderable.Notes.Add(
+                $" We read a joint name size of {renderable.JointNameSize} this can't be correct.");
 
 #pragma warning disable S112 // General exceptions should never be thrown
-            throw new ParseException($"Parsing {renderInformation.CacheIndex.identity} a JointMeshSize of " +
-                                     $"{renderInformation.JointNameSize} was read. This is obviously incorrect.");
+            throw new ParseException($"Parsing {renderable.CacheIndex.identity} a JointMeshSize of " +
+                                     $"{renderable.JointNameSize} was read. This is obviously incorrect.");
 #pragma warning restore S112 // General exceptions should never be thrown
         }
 
-        renderInformation.JointName = reader.AsciiString(renderInformation.JointNameSize); // should be 
-        renderInformation.Scale = reader.SafeReadToVector3();
-        if (renderInformation.HasMesh && renderInformation.Mesh != null)
+        renderable.JointName = reader.AsciiString(renderable.JointNameSize); // should be 
+        renderable.Scale = reader.SafeReadToVector3();
+        if (renderable.HasMesh && renderable.Mesh != null)
             //if (renderInformation.Mesh != null)
         {
-            renderInformation.Mesh.Scale = renderInformation.Scale;
+            renderable.Mesh.Scale = renderable.Scale;
         }
 
-        renderInformation.LastOffset = reader.BaseStream.Position;
+        renderable.LastOffset = reader.BaseStream.Position;
         // I think this is probably a bool or flag of some kind
-        renderInformation.Unknown[2] = reader.SafeReadUInt32();
-        renderInformation.LastOffset = reader.BaseStream.Position;
+        renderable.Unknown[2] = reader.SafeReadUInt32();
+        renderable.LastOffset = reader.BaseStream.Position;
         // these need to go to mesh not here :)
         // object position ?
-        renderInformation.Position = reader.SafeReadToVector3();
-        if (renderInformation.HasMesh && renderInformation.Mesh != null)
+        renderable.Position = reader.SafeReadToVector3();
+        if (renderable.HasMesh && renderable.Mesh != null)
             //if (renderInformation.Mesh != null)
         {
-            renderInformation.Mesh.Position = renderInformation.Position;
+            renderable.Mesh.Position = renderable.Position;
         }
 
-        renderInformation.LastOffset = reader.BaseStream.Position;
-        renderInformation.ChildCount = reader.SafeReadInt32();
-        renderInformation.LastOffset = reader.BaseStream.Position;
+        renderable.LastOffset = reader.BaseStream.Position;
+        renderable.ChildCount = reader.SafeReadInt32();
+        renderable.LastOffset = reader.BaseStream.Position;
 
-        for (var i = 0; i < renderInformation.ChildCount; i++)
+        for (var i = 0; i < renderable.ChildCount; i++)
         {
             // null bytes
             reader.SafeReadInt32();
             var childId = reader.SafeReadInt32();
-            renderInformation.ChildRenderIdList.Add(childId);
+            renderable.ChildRenderIdList.Add(childId);
 
             if (!parseChildren)
             {
@@ -147,7 +148,7 @@ public class RenderableBuilder : IRenderableBuilder
             var child = Build((uint)childId, saveToFile, saveIndexedTextures, true, buildTexture);
             if (child != null)
             {
-                renderInformation.Children.Add(child);
+                renderable.Children.Add(child);
             }
             else
             {
@@ -158,17 +159,17 @@ public class RenderableBuilder : IRenderableBuilder
 
         if (reader.CanRead(1))
         {
-            renderInformation.HasTexture = reader.ReadByte() == 1;
-            renderInformation.LastOffset = reader.BaseStream.Position;
+            renderable.HasTexture = reader.ReadByte() == 1;
+            renderable.LastOffset = reader.BaseStream.Position;
         }
 
-        if (renderInformation.HasTexture && buildTexture)
+        if (renderable.HasTexture && buildTexture)
         {
             // I don't believe this is correct.
             // lets save any render info where the count is greater than 1 but less than max
-            renderInformation.TextureCount = reader.SafeReadUInt32();
+            renderable.TextureCount = reader.SafeReadUInt32();
 
-            if (renderInformation.FirstInt != 257)
+            if (renderable.FirstInt != 257)
             {
                 // TODO I should be doing something with this data!
                 if (reader.CanRead(8))
@@ -184,21 +185,21 @@ public class RenderableBuilder : IRenderableBuilder
                 reader.SafeReadUInt32();
             }
 
-            if (renderInformation.TextureCount <= MAX_TEXTURE_COUNT && renderInformation.HasTexture)
+            if (renderable.TextureCount <= MAX_TEXTURE_COUNT && renderable.HasTexture)
             {
-                if (renderInformation.TextureCount > 1 && saveToFile
+                if (renderable.TextureCount > 1 && saveToFile
                                                        && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}multi-texture\\{identity}-{asset.Order}"))
                 {
                     // for now let's save them all in a folder for analysis
                     FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.RenderOutputFolder.FullName + "multi-texture", $"{identity}-{asset.Order}.sbri");
                 }
 
-                for (int i = 0; i < renderInformation.TextureCount; i++)
+                for (int i = 0; i < renderable.TextureCount; i++)
                 {
                     var textureId = reader.SafeReadUInt32();
                     if (textureId > 0)
                     {
-                        renderInformation.Textures.Add(textureId);
+                        renderable.Textures.Add(textureId);
                         CacheAsset? textureAsset = ArchiveLoader.TextureArchive[textureId];
                         
                         if (textureAsset is { IsValid: true })
@@ -214,7 +215,7 @@ public class RenderableBuilder : IRenderableBuilder
                                         $"{CacheLocation.TextureFolder.FullName}\\indexed-images", $"{identity}.sbtex");
                                 }
 
-                                renderInformation.Mesh?.Textures?.Add(texture);
+                                renderable.Mesh?.Textures?.Add(texture);
                             }
                             catch (Exception e)
                             {
@@ -225,7 +226,7 @@ public class RenderableBuilder : IRenderableBuilder
                         }
                         else
                         {
-                            renderInformation.Notes.Add($"{textureId} failed validation check, not added.");
+                            renderable.Notes.Add($"{textureId} failed validation check, not added.");
                         }
                     }
 
@@ -238,29 +239,29 @@ public class RenderableBuilder : IRenderableBuilder
             }
         }
 
-        renderInformation.IsValid = IsValid();
+        renderable.IsValid = IsValid();
 
         bool IsValid()
         {
             bool result = true;
             var sb = new StringBuilder();
-            sb.Append(renderInformation.Notes);
-            if (renderInformation.HasMesh && renderInformation.Mesh == null)
+            sb.Append(renderable.Notes);
+            if (renderable.HasMesh && renderable.Mesh == null)
             {
                 sb.Append("This claims to have a mesh, but no mesh id was found or no mesh could be parsed.");
-                sb.Append($"MeshId: {renderInformation.MeshId}");
+                sb.Append($"MeshId: {renderable.MeshId}");
                 result = false;
             }
 
-            if (renderInformation.HasTexture && renderInformation.Textures.Count == 0)
+            if (renderable.HasTexture && renderable.Textures.Count == 0)
             {
                 sb.Append("This claims to have a texture, but no texture id was found or no texture could be parsed.");
-                sb.Append($"Texture Count: {renderInformation.TextureCount}");
+                sb.Append($"Texture Count: {renderable.TextureCount}");
                 result = false;
             }
             return result;
         }
 
-        return renderInformation;
+        return renderable;
     }
 }

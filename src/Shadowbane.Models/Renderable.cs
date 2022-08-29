@@ -1,6 +1,7 @@
 ﻿#nullable enable
 namespace Shadowbane.Models;
 
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
@@ -32,6 +33,7 @@ public class Renderable : IRenderable
     public List<int> ChildRenderIdList { get; set; } = new();
     public List<IRenderable> Children { get; } = new();
     public ICollection<string> Notes { get; set; } = new HashSet<string>();
+    public ReadOnlyMemory<byte> Data { get; set; }
     public override string ToString()
     {
         var sb = new StringBuilder();

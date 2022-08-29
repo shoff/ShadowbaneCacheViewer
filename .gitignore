@@ -194,3 +194,4 @@ Temporary Items
 cache/*
 output/*
 CacheObjectExports/*
+RenderableExports/*

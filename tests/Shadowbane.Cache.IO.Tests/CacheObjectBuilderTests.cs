@@ -18,6 +18,7 @@ public class CacheObjectBuilderTests
     private static string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
 
     private List<string> timings = new();
+    private static readonly bool exportToFile = false;
 
     private const string PARSE_TIMING_FILE = "timings.csv";
     private readonly CacheObjectBuilder builder;
@@ -60,8 +61,12 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+        if(exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
             $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+
+        }
     }
     
     [Theory]
@@ -70,8 +75,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -80,8 +88,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -90,8 +101,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -100,8 +114,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -110,8 +127,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -120,8 +140,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -130,8 +153,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
     
     [Theory]
@@ -140,8 +166,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -150,8 +179,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     //[Theory]
@@ -168,8 +200,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name.Replace('<',' ').Replace('>',' ') }{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name.Replace('<', ' ').Replace('>', ' ')}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -178,8 +213,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -188,8 +226,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -198,8 +239,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name.Replace('?', ' ')}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name.Replace('?', ' ')}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -208,8 +252,11 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     // [Theory]
@@ -222,8 +269,11 @@ public class CacheObjectBuilderTests
         Assert.NotNull(cacheObject);
         watch.Stop();
 
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -236,8 +286,11 @@ public class CacheObjectBuilderTests
         Assert.NotNull(cacheObject);
         watch.Stop();
 
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -250,8 +303,11 @@ public class CacheObjectBuilderTests
         Assert.NotNull(cacheObject);
         watch.Stop();
 
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Theory]
@@ -265,8 +321,11 @@ public class CacheObjectBuilderTests
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
 
-        await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
     }
 
     [Fact]
