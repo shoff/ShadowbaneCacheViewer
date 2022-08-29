@@ -10,8 +10,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        this.CacheObjectTreeControl.ValidObjectParsed += SetValidText;
-        this.CacheObjectTreeControl.InvalidObjectParsed += SetInvalidText;
+        //this.CacheObjectTreeControl.ValidObjectParsed += SetValidText;
+        //this.CacheObjectTreeControl.InvalidObjectParsed += SetInvalidText;
     }
 
     private string SetInvalidText(string arg)

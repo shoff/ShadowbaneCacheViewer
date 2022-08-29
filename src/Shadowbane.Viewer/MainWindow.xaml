@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Shadowbane.Viewer"
         xmlns:controls="clr-namespace:Shadowbane.Viewer.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="551" Width="800">
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow" Height="Auto" Width="800">
     <Grid Margin="0,0,0,5">
         <Grid Width="300" HorizontalAlignment="Left">
             <DockPanel Height="530" VerticalAlignment="Bottom" LastChildFill="False">

@@ -30,12 +30,15 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         var flag = (ObjectType)reader.ReadInt32();
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
+        reader.BaseStream.Position += 25;
+        var renderId = reader.ReadUInt32();
 
         return new CacheObjectNameOnly()
         {
             Identity = identity,
             Name = name,
-            Flag = flag
+            Flag = flag,
+            RenderId = renderId
         };
     }
 

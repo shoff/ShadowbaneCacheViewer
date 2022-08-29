@@ -15,7 +15,7 @@ using Xunit;
 
 public class CacheObjectBuilderTests
 {
-    private static string CACHE_EXPORT_PATH = "CacheObjectExports/";
+    private static string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
 
     private List<string> timings = new();
 
@@ -169,7 +169,7 @@ public class CacheObjectBuilderTests
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
         await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+            $"{cacheObject.Name.Replace('<',' ').Replace('>',' ') }{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
 
     [Theory]
@@ -199,7 +199,7 @@ public class CacheObjectBuilderTests
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
         await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+            $"{cacheObject.Name.Replace('?', ' ')}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
     }
 
     [Theory]
