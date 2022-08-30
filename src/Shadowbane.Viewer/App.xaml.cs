@@ -7,4 +7,5 @@ using System.Windows;
 /// </summary>
 public partial class App : Application
 {
+
 }

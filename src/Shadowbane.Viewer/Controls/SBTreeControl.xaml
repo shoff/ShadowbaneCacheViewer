@@ -5,23 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shadowbane.Viewer.Controls"
              mc:Ignorable="d" 
-             d:DesignWidth="800" Height="Auto"
-             VirtualizingPanel.IsVirtualizing="False"
+             Height="Auto"
              HorizontalContentAlignment="Left"
              VerticalContentAlignment="Top">
-    <Grid Width="300" HorizontalAlignment="Left">
-        <TreeView x:Name="CacheObjectTreeView" 
-                  Margin="0,29,0,10"
-                  HorizontalContentAlignment="Left" 
-                  VerticalContentAlignment="Top">
-            <!--<TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type TreeViewItem}">
-
-                </HierarchicalDataTemplate>
-            </TreeView.Resources>-->
+    <Grid VerticalAlignment="Top">
+        <TreeView 
+            x:Name="CacheObjectTreeView" 
+            Margin="0,29,0,10"
+            HorizontalContentAlignment="Left" 
+            Grid.Row="1"
+            Grid.Column="0"
+            ScrollViewer.CanContentScroll="True"
+            VerticalContentAlignment="Top">
         </TreeView>
-    
-        <Button x:Name="LoadCacheButton" Margin="0,
-                0,0,496" Content="Load Cache" Click="LoadCacheButton_Click"/>
     </Grid>
 </UserControl>

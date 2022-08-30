@@ -1,32 +1,31 @@
 ﻿// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
-using System.Globalization;
-using System.Threading.Tasks;
-using Shadowbane.Cache.Exporter.File;
-
 namespace Shadowbane.Cache.IO.Tests;
 
-using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using Exporter.File;
 using Moq;
 using Xunit;
 
 public class CacheObjectBuilderTests
 {
-    private static string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
-
-    private List<string> timings = new();
-    private static readonly bool exportToFile = false;
-
     private const string PARSE_TIMING_FILE = "timings.csv";
-    private readonly CacheObjectBuilder builder;
-    private readonly Mock<IRenderableBuilder> renderableBuilder;
-    private static readonly List<object[]> identities = 
+    private static readonly string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
+    private static readonly bool exportToFile = true;
+
+    private static readonly List<object[]> identities =
         ArchiveLoader.ObjectArchive.CacheIndices
             .Select(x => new object[] { x.identity })
             .ToList();
+
+    private readonly CacheObjectBuilder builder;
+    private readonly Mock<IRenderableBuilder> renderableBuilder;
+
+    private List<string> timings = new();
 
     public CacheObjectBuilderTests()
     {
@@ -61,14 +60,13 @@ public class CacheObjectBuilderTests
     {
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        if(exportToFile)
+        if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-            $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
-
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data100))]
     public async Task Cache_Id_100_200_Parse_Correctly(uint identity)
@@ -81,7 +79,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data200))]
     public async Task Cache_Id_200_300_Parse_Correctly(uint identity)
@@ -94,7 +92,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data300))]
     public async Task Cache_Id_300_400_Parse_Correctly(uint identity)
@@ -107,7 +105,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data400))]
     public async Task Cache_Id_400_500_Parse_Correctly(uint identity)
@@ -120,7 +118,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data500))]
     public async Task Cache_Id_500_600_Parse_Correctly(uint identity)
@@ -133,7 +131,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data600))]
     public async Task Cache_Id_600_700_Parse_Correctly(uint identity)
@@ -146,7 +144,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data700))]
     public async Task Cache_Id_700_800_Parse_Correctly(uint identity)
@@ -159,7 +157,7 @@ public class CacheObjectBuilderTests
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-    
+
     [Theory]
     [MemberData(nameof(Data800))]
     public async Task Cache_Id_800_900_Parse_Correctly(uint identity)
@@ -263,7 +261,7 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data7000))]
     public async Task Cache_Id_6001_7000_Parse_CorrectlyAsync(uint identity)
     {
-        var watch = new System.Diagnostics.Stopwatch();
+        var watch = new Stopwatch();
         watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
@@ -280,7 +278,7 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data8000))]
     public async Task Cache_Id_7001_8000_Parse_Correctly(uint identity)
     {
-        var watch = new System.Diagnostics.Stopwatch();
+        var watch = new Stopwatch();
         watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
@@ -297,7 +295,7 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data9000))]
     public async Task Cache_Id_8001_9000_Parse_Correctly(uint identity)
     {
-        var watch = new System.Diagnostics.Stopwatch();
+        var watch = new Stopwatch();
         watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
@@ -318,6 +316,7 @@ public class CacheObjectBuilderTests
         {
             return;
         }
+
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
 

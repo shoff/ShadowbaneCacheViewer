@@ -11,7 +11,7 @@ using Shadowbane.Cache.Exporter.File;
 public class RenderableObjectBuilderTests : CacheLoaderBaseTest
 {
     private static string RENDER_EXPORT_PATH = "..\\..\\..\\..\\..\\RenderableExports/";
-    private static readonly bool exportToFile = false;
+    private static readonly bool exportToFile = true;
     public static readonly IEnumerable<object[]> identities =
         ArchiveLoader.RenderArchive.CacheIndices
             .Select(x => new object[] { x.identity })

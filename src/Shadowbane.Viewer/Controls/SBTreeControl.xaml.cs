@@ -10,16 +10,15 @@ public partial class SBTreeControl
 {
     private readonly CancellationTokenSource cancellationTokenSource = new();
     private readonly ICacheObjectBuilder objectBuilder = null!;
-    private readonly CacheObjectViewModel viewModel;
-    private readonly CacheObjectViewModelLoader loader;
+    public CacheObjectViewModel ViewModel { get; }
 
     public SBTreeControl()
     {
         InitializeComponent();
-        this.viewModel = new CacheObjectViewModel();
-        DataContext = this.viewModel;
-        this.loader = new CacheObjectViewModelLoader(this.viewModel);
-        this.CacheObjectTreeView.ItemsSource = this.viewModel.Items;
+        this.ViewModel = new CacheObjectViewModel();
+        DataContext = this.ViewModel;
+        // this.loader = new CacheObjectViewModelLoader(this.ViewModel);
+        this.CacheObjectTreeView.ItemsSource = this.ViewModel.Items;
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
@@ -30,7 +29,7 @@ public partial class SBTreeControl
 
     public async void LoadCacheButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-         await this.loader.GetObjectsAsync(this.cancellationTokenSource.Token);
+         // await this.loader.GetObjectsAsync(this.cancellationTokenSource.Token);
     }
 
 }

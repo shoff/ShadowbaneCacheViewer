@@ -1,95 +1,46 @@
 ﻿namespace Shadowbane.Viewer.ViewModels;
 
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Media;
 using static Shadowbane.Cache.Constants;
 
 public class CacheObjectViewModel : ViewModelBase
 {
-
-    private ObservableCollection<TreeViewItem> simpleNodes = new();
-    private ObservableCollection<TreeViewItem> structureNodes = new();
-    private ObservableCollection<TreeViewItem> interactiveNodes = new();
-    private ObservableCollection<TreeViewItem> equipmentNodes = new();
-    private ObservableCollection<TreeViewItem> mobileNodes = new();
-    private ObservableCollection<TreeViewItem> deedNodes = new();
-    private ObservableCollection<TreeViewItem> warrantNodes = new();
-    private ObservableCollection<TreeViewItem> unknownNodes = new();
-    private ObservableCollection<TreeViewItem> particleNodes = new();
-    private ObservableCollection<TreeViewItem> items = new();
-
+    private static readonly SolidColorBrush itemBrush = new(Color.FromRgb(240, 240, 240));
+    private static readonly double mainItemFontSize = 18;
     public CacheObjectViewModel()
     {
-        this.items.Add(this.SimpleNode);
-        this.items.Add(this.StructureNode);
-        this.items.Add(this.InteractiveNode);
-        this.items.Add(this.EquipmentNode);
-        this.items.Add(this.MobileNode);
-        this.items.Add(this.DeedNode);
-        this.items.Add(this.UnknownNode);
-        this.items.Add(this.WarrantNode);
-        this.items.Add(this.ParticleNode);
+        this.Items.Add(this.SimpleNode);
+        this.Items.Add(this.StructureNode);
+        this.Items.Add(this.InteractiveNode);
+        this.Items.Add(this.EquipmentNode);
+        this.Items.Add(this.MobileNode);
+        this.Items.Add(this.DeedNode);
+        this.Items.Add(this.UnknownNode);
+        this.Items.Add(this.WarrantNode);
+        this.Items.Add(this.ParticleNode);
     }
 
-    public ObservableCollection<TreeViewItem> Items
-    {
-        get => this.items;
-        set => SetProperty(ref this.items, value);
-    }
+    public List<TreeViewItem> Items { get; set; } = new();
 
-    public TreeViewItem SimpleNode { get; } = new() { Header = SIMPLE };
-    public TreeViewItem StructureNode { get; } = new() { Header = STRUCTURES };
-    public TreeViewItem InteractiveNode { get; } = new() { Header = INTERACTIVE };
-    public TreeViewItem EquipmentNode { get; } = new() { Header = EQUIPMENT };
-    public TreeViewItem MobileNode { get; } = new() { Header = MOBILES };
-    public TreeViewItem DeedNode { get; } = new() { Header = DEEDS };
-    public TreeViewItem UnknownNode { get; } = new() { Header = UNKNOWN };
-    public TreeViewItem WarrantNode { get; } = new() { Header = WARRANTS };
-    public TreeViewItem ParticleNode { get; } = new() { Header = PARTICLES };
-    
-    public ObservableCollection<TreeViewItem> SimpleNodes
-    {
-        get => simpleNodes;
-        set => SetProperty(ref simpleNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> StructureNodes
-    {
-        get => structureNodes;
-        set => SetProperty(ref structureNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> InteractiveNodes
-    {
-        get => interactiveNodes;
-        set => SetProperty(ref interactiveNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> EquipmentNodes
-    {
-        get => equipmentNodes;
-        set => SetProperty(ref equipmentNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> MobileNodes
-    {
-        get => mobileNodes;
-        set => SetProperty(ref mobileNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> DeedNodes
-    {
-        get => deedNodes;
-        set => SetProperty(ref deedNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> WarrantNodes
-    {
-        get => warrantNodes;
-        set => SetProperty(ref warrantNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> UnknownNodes
-    {
-        get => unknownNodes;
-        set => SetProperty(ref unknownNodes, value);
-    }
-    public ObservableCollection<TreeViewItem> ParticleNodes
-    {
-        get => particleNodes;
-        set => SetProperty(ref particleNodes, value);
-    }
+    public TreeViewItem SimpleNode { get; } = new() { Header = SIMPLE, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem StructureNode { get; } = new() { Header = STRUCTURES, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem InteractiveNode { get; } = new() { Header = INTERACTIVE, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem EquipmentNode { get; } = new() { Header = EQUIPMENT, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem MobileNode { get; } = new() { Header = MOBILES, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem DeedNode { get; } = new() { Header = DEEDS, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem UnknownNode { get; } = new() { Header = UNKNOWN, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem WarrantNode { get; } = new() { Header = WARRANTS, Foreground = itemBrush, FontSize = mainItemFontSize };
+    public TreeViewItem ParticleNode { get; } = new() { Header = PARTICLES, Foreground = itemBrush, FontSize = mainItemFontSize };
+
+    public List<TreeViewItem> SimpleNodes { get; set; } = new();
+    public List<TreeViewItem> StructureNodes { get; set; } = new();
+    public List<TreeViewItem> InteractiveNodes { get; set; } = new();
+    public List<TreeViewItem> EquipmentNodes { get; set; } = new();
+    public List<TreeViewItem> MobileNodes { get; set; } = new();
+    public List<TreeViewItem> DeedNodes { get; set; } = new();
+    public List<TreeViewItem> WarrantNodes { get; set; } = new();
+    public List<TreeViewItem> UnknownNodes { get; set; } = new();
+    public List<TreeViewItem> ParticleNodes { get; set; } = new();
 }

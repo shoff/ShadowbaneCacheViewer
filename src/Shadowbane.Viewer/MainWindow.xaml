@@ -3,21 +3,130 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Shadowbane.Viewer"
-        xmlns:controls="clr-namespace:Shadowbane.Viewer.Controls"
+        xmlns:viewer="clr-namespace:Shadowbane.Viewer"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight"
-        Title="MainWindow" Height="Auto" Width="800">
-    <Grid Margin="0,0,0,5">
-        <Grid Width="300" HorizontalAlignment="Left">
-            <DockPanel Height="530" VerticalAlignment="Bottom" LastChildFill="False">
-                <controls:SBTreeControl x:Name="CacheObjectTreeControl" Background="#333333" DockPanel.Dock="Bottom" Height="527" RenderTransformOrigin="0.5,1"/>
-            </DockPanel>
-        </Grid>
-        <Label x:Name="label" Content="invalid cache objects: " HorizontalAlignment="Left" Margin="316,26,0,0" VerticalAlignment="Top" Width="121"/>
-        <Label x:Name="label1" Content="valid cache objects: " HorizontalAlignment="Left" Margin="316,52,0,0" VerticalAlignment="Top" Width="121"/>
-        <Label x:Name="InvalidCacheCount" Content="0&#xD;&#xA;" HorizontalAlignment="Left" Margin="442,26,0,0" VerticalAlignment="Top" Height="26" Width="71"/>
-        <Label x:Name="ValidCacheObjects" Content="0&#x9;" HorizontalAlignment="Left" Margin="442,52,0,0" VerticalAlignment="Top"/>
+        Title="MainWindow" 
+        Width="Auto">
+    <Grid Margin="0,0,0,5" 
+          Background="#222222">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Height="30" Name="Menu1" VerticalAlignment="Center" Grid.ColumnSpan="2">
+            <MenuItem Header="Load Cache" Click="Load_Cache_Click"></MenuItem>
+        </Menu>
+        <Rectangle Grid.Column="1" Grid.Row="1">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#102035" Offset="0" />
+                    <GradientStop Color="#232335" Offset="0.75" />
+                    <GradientStop Color="#000000" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
 
+        <TreeView 
+            x:Name="CacheObjectTreeView" 
+            Margin="0,29,0,10"
+            VerticalContentAlignment="Top"
+            HorizontalContentAlignment="Left" 
+            Grid.Row="1"
+            Grid.Column="0"
+            Background="#000000"
+            TreeViewItem.Selected="TreeViewItem_OnItemSelected"
+            ScrollViewer.CanContentScroll="True">
+            <TreeView.Resources>
+
+                <!--<viewer:EqualityConverter x:Key="EqualityConverter" />
+
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="True" />
+                    <Setter Property="IsSelected" Value="False" />
+                    <Style.Triggers>
+                        --><!-- DataTrigger updates TreeViewItem selection when vm code changes CurrentNode --><!--
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type TreeView}}" Path="DataContext.CurrentNode" />
+                                    <Binding />
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+                            <Setter Property="IsSelected" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>-->
+                <!-- *** HierarchicalDataTemplates go here ***  -->
+
+            </TreeView.Resources>
+        </TreeView>
+        <Viewport3D 
+            Grid.Row="1" 
+            Grid.Column="1"
+            x:Name="CacheItemViewPort">
+            <Viewport3D.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Yellow"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Viewport3D.OpacityMask>
+            <Viewport3D.Camera>
+                <PerspectiveCamera 
+                    Position="-40,40,40" 
+                    LookDirection="40,-40,-40 "
+                    UpDirection="0,0,1" />
+            </Viewport3D.Camera>
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <GeometryModel3D>
+                        <GeometryModel3D.Geometry>
+                            <MeshGeometry3D x:Name="SelectedCacheObjectGeometry"
+                              Positions="0,0,0 10,0,0 0,10,0 10,10,0 0,0,10 10,0,10 0,10,10 10,10,10"
+                              TriangleIndices="0,2,1 1,2,3 0,4,2 2,4,6 0,1,4 1,5,4 1,7,5 1,3,7 4,5,6 7,6,5 2,6,3 3,6,7">
+                              <!--TextureCoordinates="0,0 0,1 0,1 1,1 1,1 0,1 1,0 0,0 0,0 1,0 0,1 1,1 0,0 1,0 0,1 1,1 1,1 0,1 1,0 0,0 1,1 0,1 1,0 0,0">-->
+                            </MeshGeometry3D>
+                        </GeometryModel3D.Geometry>
+                        <GeometryModel3D.Material>
+                            <DiffuseMaterial>
+                                <DiffuseMaterial.Brush>
+                                    <SolidColorBrush Color="Cyan" Opacity="0.3"/>
+                                </DiffuseMaterial.Brush>
+                            </DiffuseMaterial>
+                        </GeometryModel3D.Material>
+
+                        <GeometryModel3D.Transform>
+                            <TranslateTransform3D
+                                OffsetX="2" OffsetY="0" OffsetZ="-1"   >
+                            </TranslateTransform3D>
+                        </GeometryModel3D.Transform>
+                    </GeometryModel3D>
+                    <!--<Model3DGroup>
+                        <AmbientLight x:Name="ambientLight" Color="#222222"></AmbientLight> 
+                        <DirectionalLight Color="White" Direction="-1,-1,-3" />
+                        <GeometryModel3D>
+                            <GeometryModel3D.Geometry>
+                                <MeshGeometry3D Positions="0,0,0 10,0,0 10,10,0 0,10,0 0,0,10 
+                        10,0,10 10,10,10 0,10,10"
+                                                TriangleIndices="0 1 3 1 2 3  0 4 3 4 7 3  4 6 7 4 5 6 
+                                         0 4 1 1 4 5  1 2 6 6 5 1  2 3 7 7 6 2"/>
+                            </GeometryModel3D.Geometry>
+                            <GeometryModel3D.Material>
+                                <DiffuseMaterial Brush="Red"/>
+                            </GeometryModel3D.Material>
+                        </GeometryModel3D>
+                    </Model3DGroup>-->
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+        </Viewport3D>
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+            <Label x:Name="Label" Content="invalid cache objects: "/>
+            <Label x:Name="Label1" Content="valid cache objects: "/>
+            <Label x:Name="InvalidCacheCount" Content="0&#xD;&#xA;"/>
+            <Label x:Name="ValidCacheObjects" Content="0&#x9;"/>
+        </Grid>
     </Grid>
 </Window>
