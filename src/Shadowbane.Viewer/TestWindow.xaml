@@ -38,16 +38,20 @@
             HorizontalContentAlignment="Left" 
             Grid.Row="1"
             Grid.Column="0"
-            Background="#000000"
+            Background="#111111"
             TreeViewItem.Selected="TreeViewItem_OnItemSelected"
             ScrollViewer.CanContentScroll="True" />
         <t:HelixViewport3D 
             ShowFrameRate="True"
-             IsHeadLightEnabled="True"
+            IsHeadLightEnabled="True"
+            IsRotationEnabled="True"
+            CameraRotationMode="Trackball"
+            ZoomExtentsWhenLoaded="True"
             Grid.Row="1" 
             Grid.Column="1"
             x:Name="CacheItemViewPort"
             MouseDown="CacheItemViewPort_MouseDown">
+            <t:SunLight />
         </t:HelixViewport3D>
         <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
             <Label x:Name="Error" Content="invalid cache objects: " 

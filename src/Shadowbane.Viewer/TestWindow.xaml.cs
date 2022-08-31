@@ -22,7 +22,7 @@ public partial class TestWindow
     private RenderableBuilder renderableBuilder;
     private PerspectiveCamera camera;
     private DirectionalLight directionalLight;
-
+    private AmbientLight ambientLight;
     public TestWindow()
     {
         InitializeComponent();
@@ -44,13 +44,20 @@ public partial class TestWindow
             // Specify the direction that the camera is pointing.
             // LookDirection = new Vector3D(40, -40, 40),
             LookDirection = new Vector3D(40, -40, -40),
+            NearPlaneDistance = 0.001,
+            FarPlaneDistance = 5000,
             // Define camera's horizontal field of view in degrees.
             UpDirection = new Vector3D(1, 0, 0),
             FieldOfView = 80
         };
         this.CacheItemViewPort.Camera = this.camera;
 
-        //// lighting
+        // lighting
+        this.ambientLight = new AmbientLight
+        {
+            Color = Colors.WhiteSmoke
+        };
+
         this.directionalLight = new DirectionalLight
         {
             Color = Colors.White,
@@ -66,6 +73,7 @@ public partial class TestWindow
         var modelVisual3d = new ModelVisual3D();
 
         model3dGroup.Children.Add(this.directionalLight);
+        model3dGroup.Children.Add(this.ambientLight);
         model3dGroup.Children.Add(geometryModel3D);
         modelVisual3d.Content = model3dGroup;
         this.CacheItemViewPort.Children.Add(modelVisual3d);
@@ -145,7 +153,7 @@ public partial class TestWindow
             var pointCollection = new PointCollection();
             foreach (var textureIndex in renderable.Mesh.TextureVectors)
             {
-                pointCollection.Add(new Point(textureIndex.X, textureIndex.Y));
+                pointCollection.Add(new Point(textureIndex.X, -textureIndex.Y));
             }
 
             geometry.TextureCoordinates = pointCollection;
