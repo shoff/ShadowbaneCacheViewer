@@ -14,6 +14,10 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<NoWarn>1701;1702;IDE0003</NoWarn>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.22.0" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Shadowbane.Cache.IO\Shadowbane.Cache.IO.csproj" />
 		<ProjectReference Include="..\Shadowbane.CacheViewer\Shadowbane.CacheViewer.csproj" />

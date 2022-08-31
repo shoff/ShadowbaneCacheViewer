@@ -28,7 +28,7 @@ public class ObjExporter
     private const string MATERIAL_SPECULAR_NS = "Ns 10.000";
     private const string MATERIAL_DEFAULT_ILLUMINATION = "illum 2\r\n";
     private const string MAP_TO = "map_Ka {0}\r\nmap_Kd {0}\r\nmap_Ks {0}\r\n";
-    private static readonly JpegEncoder jpegEncoder = new JpegEncoder();
+    private static readonly JpegEncoder jpegEncoder = new();
 
         
     public static async Task ExportAsync(Renderable cacheObject, string outputDirectory, CancellationToken cancellationToken)
