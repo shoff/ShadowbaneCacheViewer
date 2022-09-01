@@ -53,21 +53,23 @@ public static class ReadOnlyMemoryExtensions
         return new Vector2(reader.ReadSingle(), reader.ReadSingle());
     }
     
-    public static string? AsciiString(this BinaryReader reader, uint counter)
+    public static string AsciiString(this BinaryReader reader, uint counter)
     {
         if (counter < 2) // utf so must be at least 2 bytes
         {
-            return null;
+            return string.Empty;
         }
         var byteArray = reader.ReadBytes((int)counter * 2);
         var enc = new ASCIIEncoding();
         var tvTemp = enc.GetString(byteArray);
         return tvTemp.Replace("\0", "").Trim();
     }
+
     public static bool CanRead(this BinaryReader reader, uint bytesToRead)
     {
         return reader.BaseStream.Position + bytesToRead <= reader.BaseStream.Length;
     }
+    
     public static ReadOnlyMemory<byte> Compress(this ReadOnlyMemory<byte> memory)
     {
         var deflator = new Deflater();

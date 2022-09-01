@@ -11,10 +11,10 @@ public interface ICacheObject : IComparable<ICacheObject>
     ObjectType Flag { get; }
     uint CursorOffset { get; }
     ReadOnlyMemory<byte> Data { get; }
-    uint InnerOffset { get; }
-    uint RenderCount { get; set; }
+    uint RenderCount { get; }
     ICollection<uint> RenderIds { get; }
     ICollection<IRenderable> Renders { get; }
-    ICollection<uint> InvalidRenderIds { get; }
-    ICacheObject Parse();
+    IDictionary<uint, uint> InvalidRenderIds { get; }
+    void Parse();
+    void RecordInvalidRenderId(uint renderId);
 }

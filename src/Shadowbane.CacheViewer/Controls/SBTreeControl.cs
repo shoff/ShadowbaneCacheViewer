@@ -51,7 +51,7 @@ public partial class SBTreeControl : UserControl
 
     public bool ArchivesLoaded { get; private set; }
 
-    public SBTreeControl() : this(null, null){}
+    public SBTreeControl() : this(null){}
 
     public SBTreeControl(
         IStructureService? structureService = null,
@@ -228,10 +228,9 @@ public partial class SBTreeControl : UserControl
                 var parseError = new ParseError
                 {
                     CacheIndexIdentity = cacheObject.Identity.ToString(),
-                    CacheIndexOffset = cacheObject.InnerOffset,
+                    CacheIndexOffset = cacheObject.CursorOffset,
                     CursorOffset = cacheObject.CursorOffset,
                     Data = cacheObject.Data.ToArray(),
-                    InnerOffset = cacheObject.InnerOffset,
                     Name = cacheObject.Name,
                     ObjectType = cacheObject.Flag,
                     RenderId = cacheObject.RenderId

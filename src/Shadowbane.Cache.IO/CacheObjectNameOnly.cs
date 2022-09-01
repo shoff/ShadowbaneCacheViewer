@@ -5,9 +5,20 @@ namespace Shadowbane.Cache.IO;
 
 public record CacheObjectNameOnly : ICacheObject
 {
+    private readonly object syncRoot = new();
     public int CompareTo(ICacheObject? other)
     {
-        return ((CacheObjectNameOnly)other).CompareTo(this);
+        if (other == null || this.Flag > other.Flag)
+        {
+            return 1;
+        }
+
+        if (other.Flag == this.Flag)
+        {
+            return string.Compare(this.Name, other.Name, StringComparison.Ordinal);
+        }
+
+        return -1;
     }
 
     public uint Identity { get; set; }
@@ -16,13 +27,25 @@ public record CacheObjectNameOnly : ICacheObject
     public ObjectType Flag { get; set; }
     public uint CursorOffset { get; } = 0;
     public ReadOnlyMemory<byte> Data { get; } = null;
-    public uint InnerOffset { get; } = 0;
     public uint RenderCount { get; set; }
     public ICollection<uint> RenderIds { get; } = new List<uint>();
     public ICollection<IRenderable> Renders { get; } = new List<IRenderable>();
-    public ICollection<uint> InvalidRenderIds { get; } = new List<uint>();
-    public ICacheObject Parse()
+    public IDictionary<uint, uint> InvalidRenderIds { get; } = new Dictionary<uint, uint>();
+    public void Parse()
     {
-        return new CacheObjectNameOnly(this);
+    }
+    public void RecordInvalidRenderId(uint renderId)
+    {
+        lock (this.syncRoot)
+        {
+            if (this.InvalidRenderIds.ContainsKey(renderId))
+            {
+                this.InvalidRenderIds[renderId]++;
+            }
+            else
+            {
+                this.InvalidRenderIds.Add(renderId, 1);
+            }
+        }
     }
 }

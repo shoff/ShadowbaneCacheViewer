@@ -3,19 +3,19 @@
 namespace Shadowbane.Cache.IO.Tests;
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Exporter.File;
+using Models;
 using Moq;
 using Xunit;
 
 public class CacheObjectBuilderTests
 {
-    private const string PARSE_TIMING_FILE = "timings.csv";
-    private static readonly string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
-    private static readonly bool exportToFile = true;
+    // ReSharper disable once ConvertToConstant.Local
+    private const string CACHE_EXPORT_PATH = "..\\..\\..\\..\\..\\CacheObjectExports/";
+    private static readonly bool exportToFile = false;
 
     private static readonly List<object[]> identities =
         ArchiveLoader.ObjectArchive.CacheIndices
@@ -24,9 +24,7 @@ public class CacheObjectBuilderTests
 
     private readonly CacheObjectBuilder builder;
     private readonly Mock<IRenderableBuilder> renderableBuilder;
-
-    private List<string> timings = new();
-
+    
     public CacheObjectBuilderTests()
     {
         this.renderableBuilder = new Mock<IRenderableBuilder>();
@@ -59,7 +57,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_1_100_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -72,7 +70,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_100_200_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -85,7 +83,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_200_300_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -98,7 +96,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_300_400_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -111,7 +109,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_400_500_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -124,7 +122,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_500_600_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -137,7 +135,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_600_700_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -150,7 +148,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_700_800_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -163,7 +161,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_800_900_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -176,28 +174,20 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_900_1000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
                 $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
         }
     }
-
-    //[Theory]
-    //[MemberData(nameof(Data1000))]
-    //public void Cache_Id_1_1000_Parse_Correctly(uint identity)
-    //{
-    //    var cacheObject = this.builder.CreateAndParse(identity);
-    //    Assert.NotNull(cacheObject);
-    //}
-
+    
     [Theory]
     [MemberData(nameof(Data2000))]
     public async Task Cache_Id_1001_2000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -210,7 +200,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_2001_3000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -223,7 +213,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_3001_4000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -236,7 +226,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_4001_5000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -249,7 +239,7 @@ public class CacheObjectBuilderTests
     public async Task Cache_Id_5001_6000_Parse_Correctly(uint identity)
     {
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -261,12 +251,8 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data7000))]
     public async Task Cache_Id_6001_7000_Parse_CorrectlyAsync(uint identity)
     {
-        var watch = new Stopwatch();
-        watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
-        watch.Stop();
-
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -278,12 +264,8 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data8000))]
     public async Task Cache_Id_7001_8000_Parse_Correctly(uint identity)
     {
-        var watch = new Stopwatch();
-        watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
-        watch.Stop();
-
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -295,12 +277,10 @@ public class CacheObjectBuilderTests
     [MemberData(nameof(Data9000))]
     public async Task Cache_Id_8001_9000_Parse_Correctly(uint identity)
     {
-        var watch = new Stopwatch();
-        watch.Start();
         var cacheObject = this.builder.CreateAndParse(identity);
         Assert.NotNull(cacheObject);
-        watch.Stop();
-
+        Assert.True(cacheObject.RenderId > 0);
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -316,10 +296,8 @@ public class CacheObjectBuilderTests
         {
             return;
         }
-
         var cacheObject = this.builder.CreateAndParse(identity);
-        Assert.NotNull(cacheObject);
-
+        BaseAsserts(cacheObject);
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
@@ -328,21 +306,109 @@ public class CacheObjectBuilderTests
     }
 
     [Fact]
-    public void Cache_Id_2000000_Parses_Correctly()
+    public async Task Cache_Id_2000000_Parses_Correctly()
     {
         var cacheObject = this.builder.CreateAndParse(2000000);
-        Assert.NotNull(cacheObject);
+        BaseAsserts(cacheObject);
+        if (exportToFile)
+        {
+            await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
+                $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
+        }
+    }
+    
+    [Fact]
+    public void Lizardman_Temple_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(64700);
+        BaseAsserts(cacheObject);
+    }
+    
+    [Fact]
+    public void Sun_C102_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(102);
+        BaseAsserts(cacheObject);
+    }
+        
+    [Fact]
+    public void Identity_300_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(300);
+        BaseAsserts(cacheObject);
+    }
+    
+    [Fact]
+    public void Identity_12192_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12192);
+        BaseAsserts(cacheObject);
+    }
+                
+    [Fact]
+    public void Clay_Golem_Identity_12201_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12201);
+        BaseAsserts(cacheObject);
+    }
+                    
+    [Fact]
+    public void Clay_Guardian_Identity_12202_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12202);
+        BaseAsserts(cacheObject);
+    }
+                        
+    [Fact]
+    public void Dao_Vizier_Identity_12225_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12225);
+        BaseAsserts(cacheObject);
+    }
+                            
+    [Fact]
+    public void Djinni_Identity_12241_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12241);
+        BaseAsserts(cacheObject);
+    }
+                                
+    [Fact]
+    public void Identity_12495_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(12495);
+        BaseAsserts(cacheObject);
+    }
+                                    
+    [Fact]
+    public void Lesser_Sylph_Identity_13266_Parses_Correctly()
+    {
+        // 49248 seems to be a common number in the dead zone after the updated time 
+        var cacheObject = this.builder.CreateAndParse(13266);
+        BaseAsserts(cacheObject);
     }
 
+    private void BaseAsserts(ICacheObject? cacheObject)
+    {
+        Assert.NotNull(cacheObject);
+        
+        if (cacheObject.Flag != ObjectType.Unknown)
+        {
+            Assert.True(cacheObject.RenderId > 0);
+        }
 
-    //[Fact]
-    //public async Task Master_Templar_Parses_Correctly_Async()
-    //{
-    //    uint identity = 252606;
-    //    var cacheObject = this.builder.CreateAndParse(identity);
-
-    //    await FileWriter.Writer.WriteAsync(cacheObject.Data, CACHE_EXPORT_PATH,
-    //        $"{cacheObject.Name}{cacheObject.Identity.ToString(CultureInfo.InvariantCulture)}.cache");
-    //    Assert.NotNull(cacheObject);
-    //}
+        if (cacheObject.Flag == ObjectType.Mobile)
+        {
+            Assert.True(!string.IsNullOrWhiteSpace(((Mobile)cacheObject).AiDescription));
+        }
+    }
 }

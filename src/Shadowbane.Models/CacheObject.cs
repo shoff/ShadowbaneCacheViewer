@@ -4,24 +4,33 @@ using System;
 using System.Collections.Generic;
 using Cache;
 
-public abstract record CacheObject : ICacheObject
+public abstract record CacheObject(uint Identity, ObjectType Flag, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
+    : ICacheObject
 {
-    protected CacheObject(uint identity, ObjectType flag, string? name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset) =>
-        (this.Identity, this.Flag, this.Name, this.CursorOffset, this.Data, this.InnerOffset) =
-        (identity, flag, name, offset, data, innerOffset);
-
-    public uint Identity { get; }
+    private readonly object syncRoot = new ();
     public ICollection<uint> RenderIds { get; } = new HashSet<uint>();
     public ICollection<IRenderable> Renders { get;} = new HashSet<IRenderable>();
-    public ICollection<uint> InvalidRenderIds => new HashSet<uint>();
+    public IDictionary<uint, uint> InvalidRenderIds => new Dictionary<uint, uint>();
     public uint RenderId { get; protected set; }
-    public string Name { get; protected set; }
-    public ObjectType Flag { get; }
-    public uint CursorOffset { get; }
-    public ReadOnlyMemory<byte> Data { get; }
-    public uint InnerOffset { get; }
+    public string Name { get; protected set; } = Name;
     public uint RenderCount { get; set; }
-    public abstract ICacheObject Parse();
+    public abstract void Parse();
+    
+    public void RecordInvalidRenderId(uint renderId)
+    {
+        lock (this.syncRoot)
+        {
+            if (this.InvalidRenderIds.ContainsKey(renderId))
+            {
+                this.InvalidRenderIds[renderId]++;
+            }
+            else
+            {
+                this.InvalidRenderIds.Add(renderId, 1);
+            }
+        }
+    }
+
     public int CompareTo(ICacheObject? other)
     {
         if (other == null || this.Flag > other.Flag)

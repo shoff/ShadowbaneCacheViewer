@@ -222,7 +222,7 @@ RenderInfo::~RenderInfo()
 
 CObject::CObject(unsigned char *data)
 {
-	Create(data);
+	Cremate(data);
 }
 
 CObject::CObject(const unsigned int fileID)

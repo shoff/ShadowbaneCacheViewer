@@ -4,29 +4,35 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Xunit;
 using Shadowbane.Cache.Exporter.File;
 
 public class RenderableObjectBuilderTests : CacheLoaderBaseTest
 {
-    private static string RENDER_EXPORT_PATH = "..\\..\\..\\..\\..\\RenderableExports/";
+    private const string RENDER_EXPORT_PATH = "..\\..\\..\\..\\..\\RenderableExports/";
     private static readonly bool exportToFile = true;
     public static readonly IEnumerable<object[]> identities =
         ArchiveLoader.RenderArchive.CacheIndices
             .Select(x => new object[] { x.identity })
             .ToList();
 
+    [Theory(Skip = "Not implemented")]
+    [MemberData(nameof(identities))]
+    public async Task Save_All_Renderable_Assets(uint identity)
+    {
+        var renderable = ArchiveLoader.RenderArchive[identity];
+
+        await FileWriter.Writer.WriteAsync(renderable.Asset, RENDER_EXPORT_PATH,
+            $"{identity.ToString(CultureInfo.InvariantCulture)}.cache");
+    }
+
     [Theory]
     [MemberData(nameof(identities))]
     public async Task Cache_Id_0_1000_Parse_Correctly(uint identity)
     {
-        var watch = new Stopwatch();
-        watch.Start();
         var renderObject = this.renderableBuilder.Build(identity);
         Assert.NotNull(renderObject);
-        watch.Stop();
-        Assert.True(watch.ElapsedMilliseconds < 1000);
+
         if (exportToFile)
         {
             await FileWriter.Writer.WriteAsync(renderObject.Data, RENDER_EXPORT_PATH,

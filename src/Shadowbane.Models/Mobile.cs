@@ -9,13 +9,11 @@ using System.IO;
 using System.Numerics;
 using Cache;
 
-public record Mobile : AnimationObject
+public record Mobile(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
+    : AnimationObject(Identity, ObjectType.Mobile, Name, CursorOffset, Data)
 {
-    public Mobile(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
-        uint innerOffset)
-        : base(identity, ObjectType.Mobile, name, offset, data, innerOffset)
-    {
-    }
+    private const string NO_AI = "No AI Type";
+    private const int VALID_RANGE = 50000;
 
     public uint IsPetOrRune { get; set; }
     public decimal ObjId { get; set; }
@@ -23,7 +21,7 @@ public record Mobile : AnimationObject
     public string? AiDescription { get; set; }
     public uint MobToken { get; set; }
     public float ZOffset { get; set; }
-    public Dictionary<string,List<uint>> SkillsMap { get; set; } = new();
+    public Dictionary<string, List<uint>> SkillsMap { get; set; } = new();
     public List<uint> StatArray { get; } = new();
     public int Gender { get; set; }
     public int TrainingPowerBonus { get; set; }
@@ -48,8 +46,9 @@ public record Mobile : AnimationObject
     public int SomethingWithPets { get; set; }
     public DateTime WolfpackCreateDate { get; set; }
 
+
     // ReSharper disable once CognitiveComplexity
-    public override ICacheObject Parse()
+    public override void Parse()
     {
         this.ObjId = this.Identity; // huh?
 
@@ -57,9 +56,10 @@ public record Mobile : AnimationObject
         using var reader = this.Data.CreateBinaryReaderUtf32();
         // TNLC
         reader.ReadInt32();
-        reader.ReadInt32();
 
-        // flag
+        var flag = reader.ReadInt32();
+        Debug.Assert(flag == 13);
+
         this.NameSize = reader.ReadInt32();
         reader.BaseStream.Position += this.NameSize * 2;
 
@@ -73,121 +73,188 @@ public record Mobile : AnimationObject
         var time = reader.ReadUInt32();
         this.WolfpackCreateDate = DateTime.UnixEpoch.AddSeconds(time);
 
-        _ = reader.ToVector3();
-        var u1 = reader.ReadUInt32(); //0
+        this.Scale = reader.ToVector3();
+        var u1 = reader.ReadSingle(); // 0
         Debug.Assert(u1 == 0);
 
         //4000
         this.FourThousandInt = reader.ReadInt32();
 
         // should be all zeros
-        for (var ed = 0; ed < 6; ed++)
+        //for (var ed = 0; ed < 6; ed++)
+        //{
+        //    var u2 = reader.ReadUInt32();
+        //    Debug.Assert(u2 == 0);
+        //}
+        reader.BaseStream.Position += 25; // null bytes
+
+        var someCounter = reader.ReadUInt32();
+        // either 12 null bytes or maybe some other vector3
+        var someVector3 = reader.ToVector3();
+        var someOtherWeirdNumber = reader.ReadUInt32();
+
+        var aiNameLength = reader.ReadUInt32();
+        this.AiDescription = aiNameLength > 0 ? reader.AsciiString(aiNameLength) : NO_AI;
+        // I've validated that nothing in this chunk of bytes is a valid render id
+        // 89 garbage bytes
+        
+        // HACK in cobject 12495 Gypsy
+        // TODO see if there are more that follow this pattern
+        if (aiNameLength == 0)
         {
-            var u2 = reader.ReadUInt32();
-            Debug.Assert(u2 == 0);
+            reader.BaseStream.Position += 126;
         }
+        else
+        {
+            reader.BaseStream.Position += 134;
+        }
+
+        var nameCounter = reader.ReadUInt32();
+        Debug.Assert(nameCounter == this.NameSize);
+
+        // first we need to find the renderId as that's all we REALLY need first this is still a 
+        // CObject and all we REALLY care about from CObjects is the name and the render id(s)
+        while (reader.CanRead(4) && this.RenderId == 0)
+        {
+            var off = reader.BaseStream.Position;
+
+            var id = reader.ReadUInt32();
+            var valid = Validate(id, Identity);
+
+            if (valid)
+            {
+                this.RenderId = id;
+                this.RenderIds.Add(id);
+            }
+            else
+            {
+                // rewind 3 bytes and read the next
+                this.RecordInvalidRenderId(id);
+                off++;
+                reader.BaseStream.Position = off;
+            }
+        }
+
+        // multiple render ids? wtf was I thinking with this?
+        while (reader.CanRead(4))
+        {
+            var id = reader.ReadUInt32();
+            var valid = Validate(id, Identity);
+            if (valid)
+            {
+                if (!this.RenderIds.Contains(id))
+                {
+                    this.RenderIds.Add(id);
+                }
+            }
+            else
+            {
+                this.RecordInvalidRenderId(id);
+            }
+        }
+
 
         // is this a boolean?
-        _ = reader.ReadByte(); //Data block 00
-        this.RuneCategory = reader.ReadUInt32(); // Rune Icon
-        this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
-        this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
-        var sanity = reader.ReadUInt32();
-        //Debug.Assert(sanity <= 0);
+        //_ = reader.ReadByte(); //Data block 00
+        //this.RuneCategory = reader.ReadUInt32(); // Rune Icon
+        //this.ZOffset = reader.ReadSingle(); // Z offset. Undead = 2.0, Bats = 4.0
+        //this.IsPetOrRune = reader.ReadUInt32(); // 4 for summoned pets? 2 for some runes.
+        //var sanity = reader.ReadUInt32();
+        ////Debug.Assert(sanity <= 0);
 
-        this.MobToken = reader.ReadUInt32();
-        /*
-                if(mobToken == 612015249){
-                    uint aiSize;
-                    wchar_t ai[aiSize];
-                    uint padding[4];
-                } else {
-                    uint padding[3];
-                }
-             */
-        if (this.MobToken == 612015249)
-        {
-            // Determines Aggro Type
-            var strSize = reader.ReadUInt32();
-            this.AiDescription = reader.AsciiString(strSize);
+        //this.MobToken = reader.ReadUInt32();
+        ///*
+        //        if(mobToken == 612015249){
+        //            uint aiSize;
+        //            wchar_t ai[aiSize];
+        //            uint padding[4];
+        //        } else {
+        //            uint padding[3];
+        //        }
+        //     */
+        //if (this.MobToken == 612015249)
+        //{
+        //    // Determines Aggro Type
+        //    var strSize = reader.ReadUInt32();
+        //    this.AiDescription = reader.AsciiString(strSize);
 
-            // this needs to be read here because its 4 if mobtoken is this
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-        }
-        else if (this.MobToken == 2085359803)
-        {
-            reader.ReadByte();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-        }
-        else
-        {
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-        }
+        //    // this needs to be read here because its 4 if mobtoken is this
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //}
+        //else if (this.MobToken == 2085359803)
+        //{
+        //    reader.ReadByte();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //}
+        //else
+        //{
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //}
 
-        _ = reader.ReadSingle();
-        _ = reader.ReadUInt32(); // All runes have this, set to 1.0.
-        this.SomeKindOfTypeHash = reader.ReadUInt32(); //Some kind of type hash
+        //_ = reader.ReadSingle();
+        //_ = reader.ReadUInt32(); // All runes have this, set to 1.0.
+        //this.SomeKindOfTypeHash = reader.ReadUInt32(); //Some kind of type hash
 
-        var petIndicator = reader.ReadUInt32();
+        //var petIndicator = reader.ReadUInt32();
 
-        if (petIndicator == 0)
-        {
-            for (var be = 0; be < 18; be++)
-            {
-                reader.ReadUInt32();
-            }
+        //if (petIndicator == 0)
+        //{
+        //    for (var be = 0; be < 18; be++)
+        //    {
+        //        reader.ReadUInt32();
+        //    }
 
-            var thirtyTwo = reader.ReadUInt32();
-            //Debug.Assert(thirtyTwo == 32);
+        //    var thirtyTwo = reader.ReadUInt32();
+        //    //Debug.Assert(thirtyTwo == 32);
 
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
 
-            // unknown short
-            reader.ReadUInt16();
+        //    // unknown short
+        //    reader.ReadUInt16();
 
-            reader.ReadUInt32();
-            reader.ReadUInt32();
-            reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
+        //    reader.ReadUInt32();
 
-            if (this.MobToken == 3851523961)
-            {
-                // CSR
-                // skip two reads
-                reader.ReadUInt32();
-                reader.ReadUInt32();
-            }
-        }
-        else
-        {
-            for (var pj = 0; pj < 5; pj++)
-            {
-                reader.ReadUInt32();
-            }
+        //    if (this.MobToken == 3851523961)
+        //    {
+        //        // CSR
+        //        // skip two reads
+        //        reader.ReadUInt32();
+        //        reader.ReadUInt32();
+        //    }
+        //}
+        //else
+        //{
+        //    for (var pj = 0; pj < 5; pj++)
+        //    {
+        //        reader.ReadUInt32();
+        //    }
 
-            var petTextSize = reader.ReadUInt32();
-            _ = reader.AsciiString(petTextSize);
-            _ = reader.ReadUInt16();
-            for (var pj = 0; pj < 33; pj++)
-            {
-                reader.ReadUInt32();
-            }
-        }
+        //    var petTextSize = reader.ReadUInt32();
+        //    _ = reader.AsciiString(petTextSize);
+        //    _ = reader.ReadUInt16();
+        //    for (var pj = 0; pj < 33; pj++)
+        //    {
+        //        reader.ReadUInt32();
+        //    }
+        //}
 
-        this.SecondNameSize = reader.ReadUInt32();
-        if (this.SecondNameSize == this.NameSize)
-        {
-            _ = reader.AsciiString(this.SecondNameSize);
-        }
+        //this.SecondNameSize = reader.ReadUInt32();
+        //if (this.SecondNameSize == this.NameSize)
+        //{
+        //    _ = reader.AsciiString(this.SecondNameSize);
+        //}
 
         ////StructureValidationResult validationResult = null;
         //MobileRenderFinder? finder = null;
@@ -250,6 +317,7 @@ public record Mobile : AnimationObject
         //}
 
         #region old shit
+
         //reader.ReadUInt32(); //All them Pets = 34
         //reader.ReadUInt32(); //All 0s
         //reader.ReadUInt32(); //All them Pets = 231
@@ -678,10 +746,32 @@ public record Mobile : AnimationObject
         //+ "(" + i + ")" + "(" + k + ")" 
 
         //System.out.println(counter2 + "/" + counter3);
+
         #endregion
-        return this;
     }
-        
+
+    private bool Validate(uint id, uint identity)
+    {
+        if (id <= 0 || id > IdLookup.HighestObjectId)
+        {
+            return false;
+        }
+
+        if (!IdLookup.IsValidObjectId(id) || id < 100)
+        {
+            return false;
+        }
+
+        var range = (int)(id > identity ? Math.Abs(id - identity) : Math.Abs(identity - id));
+
+        if (Math.Abs(range) > VALID_RANGE)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
     public MobileRenderFinder? GetFinder(BinaryReader reader)
     {
         var finder = new MobileRenderFinder
