@@ -158,13 +158,6 @@ public partial class TestWindow
 
             geometry.TextureCoordinates = pointCollection;
             material.Brush = new ImageBrush(new BitmapImage(new Uri($"file://{path}")));
-            //var brush= new Brush()
-            //ImageSource imageSource = new BitmapImage(new Uri($"file://{path}"));
-            //var material = new DiffuseMaterial(
-
-            //this.material.Brush = new ImageBrush { ImageSource = new BitmapImage(new Uri($"file://{path}")) };
-            //ImageBrush brush = (ImageBrush)this.material.Brush;
-            //brush.ImageSource = new System.Windows.Image();
         }
         else
         {

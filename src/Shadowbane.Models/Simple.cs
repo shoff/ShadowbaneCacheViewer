@@ -3,24 +3,14 @@
 using System;
 using Cache;
 
-public record Simple : ModelObject
+public record Simple(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
+    : ModelObject(Identity, ObjectType.Simple, Name, CursorOffset, Data)
 {
-
-    public Simple(
-        uint identity, 
-        string? name, 
-        uint offset, 
-        ReadOnlyMemory<byte> data,
-        uint innerOffset)
-        : base(identity, ObjectType.Simple, name, offset, data, innerOffset)
-    {
-    }
-
-    public override ICacheObject Parse()
+    public override void Parse()
     {
         using var reader = this.Data.CreateBinaryReaderUtf32(this.CursorOffset);
         this.RenderId = reader.ReadUInt32();
-        this.RenderIds.Add(this.RenderId);
-        return this;
+        // only child render ids go into the renderIds collection
+        // this.RenderIds.Add(this.RenderId);
     }
 }

@@ -1,15 +1,12 @@
 ﻿namespace Shadowbane.Models;
 
 using System;
+using System.Numerics;
 using Cache;
 
-public abstract record AnimationObject : ModelObject
+public abstract record AnimationObject(uint Identity, ObjectType Flag, string? Name, uint CursorOffset,
+    ReadOnlyMemory<byte> Data) : ModelObject(Identity, Flag, Name, CursorOffset, Data)
 {
-    protected AnimationObject(uint identity, ObjectType flag, string? name, uint offset,
-        ReadOnlyMemory<byte> data, uint innerOffset)
-        : base(identity, flag, name, offset, data, innerOffset)
-    {
-    }
-
     public ICacheObject? Skeleton { get; set; }
+    public Vector3 Scale {get;set;}
 }

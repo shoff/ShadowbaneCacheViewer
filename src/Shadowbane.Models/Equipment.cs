@@ -9,12 +9,12 @@ public record Equipment : ModelObject
     private uint inventoryTextureId;
     private uint mapTex;
 
-    public Equipment(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data, uint innerOffset)
-        : base(identity, ObjectType.Equipment, name, offset, data, innerOffset)
+    public Equipment(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data)
+        : base(identity, ObjectType.Equipment, name, offset, data)
     {
     }
 
-    public override ICacheObject Parse()
+    public override void Parse()
     {
         using var reader = this.Data.CreateBinaryReaderUtf32(this.CursorOffset);
         // ReSharper disable once NotAccessedVariable
@@ -66,7 +66,6 @@ public record Equipment : ModelObject
 
         //var ri = this.renderRepository.BuildRenderInfo(cii);
         //this.renderInfo.Add(ri);
-        return this;
     }
 
     //private void ValidateRenderId(BinaryReader reader)

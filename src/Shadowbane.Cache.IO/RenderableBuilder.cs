@@ -37,9 +37,9 @@ public class RenderableBuilder : IRenderableBuilder
         bool parseChildren = false,
         bool buildTexture = true)
     {
-        var asset = ArchiveLoader.RenderArchive[identity];
+        var renderableAsset = ArchiveLoader.RenderArchive[identity];
 
-        if (asset == null)
+        if (renderableAsset == null)
         {
             return null;
         }
@@ -48,20 +48,12 @@ public class RenderableBuilder : IRenderableBuilder
         {
             Identity = identity,
             CacheIndex = ArchiveLoader.RenderArchive.CacheIndices.First(c => c.identity == identity),
-            ByteCount = asset.Asset.Length,
-            Data = asset.Asset
+            ByteCount = renderableAsset.Asset.Length,
+            Data = renderableAsset.Asset
         };
 
-        if (saveToFile && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}{identity}-{asset.Order}"))
-        {
-            // for now let's save them all in a folder for analysis
-            FileWriter.Writer.Write(
-                asset.Asset.Span, 
-                CacheLocation.RenderOutputFolder.FullName,
-                $"{identity}-{asset.Order}.sbri");
-        }
 
-        using var reader = asset.Asset.CreateBinaryReaderUtf32();
+        using var reader = renderableAsset.Asset.CreateBinaryReaderUtf32();
         renderable.RenderType = reader.ReadUInt32();
         reader.BaseStream.Position = 35;
         renderable.HasMesh = reader.ReadUInt32() == 1;
@@ -69,22 +61,30 @@ public class RenderableBuilder : IRenderableBuilder
         renderable.MeshId = reader.ReadUInt32();
 
         if (renderable.HasMesh && renderable.MeshId == 0 && saveToFile
-            && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}missing_mesh\\{identity}-{asset.Order}"))
+            && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}missing_mesh\\{identity}-{renderableAsset.Order}"))
         {
             // for now let's save them all in a folder for analysis
-            FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.RenderOutputFolder.FullName + "missing_mesh", $"{identity}-{asset.Order}.sbri");
+            FileWriter.Writer.Write(renderableAsset.Asset.Span, CacheLocation.RenderOutputFolder.FullName + "missing_mesh", $"{identity}-{renderableAsset.Order}.sbri");
         }
 
         // build the mesh
-        if (renderable.HasMesh && renderable.MeshId > 0)
+        if (renderable.HasMesh 
+            && renderable.MeshId > 0 
+            && IdLookup.IsValidMeshId(renderable.MeshId))
         {
             var meshAsset = ArchiveLoader.MeshArchive[renderable.MeshId];
             var mesh = meshBuilder.Build(meshAsset!.Asset, renderable.MeshId);
+           
             if (mesh == null)
             {
                 throw new InvalidMeshException($"Could not build mesh with identity {renderable.MeshId}");
             }
+            
             renderable.Mesh = mesh;
+        }
+        else if (renderable.HasMesh)
+        {
+            throw new InvalidMeshException($"{renderable.Identity} claims to have a mesh but the mesh id {renderable.MeshId} is not valid");
         }
 
         Debug.Assert(reader.BaseStream.Position == 47);
@@ -188,10 +188,10 @@ public class RenderableBuilder : IRenderableBuilder
             if (renderable.TextureCount <= MAX_TEXTURE_COUNT && renderable.HasTexture)
             {
                 if (renderable.TextureCount > 1 && saveToFile
-                                                       && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}multi-texture\\{identity}-{asset.Order}"))
+                                                       && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}multi-texture\\{identity}-{renderableAsset.Order}"))
                 {
                     // for now let's save them all in a folder for analysis
-                    FileWriter.Writer.Write(asset.Asset.Span, CacheLocation.RenderOutputFolder.FullName + "multi-texture", $"{identity}-{asset.Order}.sbri");
+                    FileWriter.Writer.Write(renderableAsset.Asset.Span, CacheLocation.RenderOutputFolder.FullName + "multi-texture", $"{identity}-{renderableAsset.Order}.sbri");
                 }
 
                 for (int i = 0; i < renderable.TextureCount; i++)

@@ -1,5 +1,5 @@
 //------------------------------------------------
-//--- 010 Editor v8.0.1 Binary Template
+//--- 010 Editor v12.0.1 Binary Template
 //
 //      File: 
 //   Authors: 
@@ -10,6 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 typedef struct {
     FLOAT    x;
     FLOAT    y;
@@ -46,25 +47,4 @@ tVector3f someVec; // ptr += 12 so 21
 
 int empty; // brings us to ptr += 25
 
-
-
-// byte nulls[65];
-// float someFloat1;
-
-
-// Skip over this data that we currently have no interest in
-// ptr += 25;
-
-//uchar someboolean; // always a 01 or 00
-
-//float unknown; // 00 00 80 3F
-
-//time_t lastUpdated;
-//float unknownFloat1;
-//float unknownFloat2;
-//float unknownFloat3;
-
-//int crap[11];
-//
-//int unk1; // 1  ?
-//int unk2; // 4  ?
+int renderId;

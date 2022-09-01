@@ -3,19 +3,14 @@
 using System;
 using Cache;
 
-public record Deed : CacheObject
+public record Deed(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
+    : CacheObject(Identity, ObjectType.Deed, Name, CursorOffset, Data)
 {
-    public Deed(uint identity, string? name, uint offset, ReadOnlyMemory<byte> data,
-        uint innerOffset)
-        : base(identity, ObjectType.Deed, name, offset, data, innerOffset)
-    {
-    }
-
     public uint InventoryTexture { get; private set; }
 
     public uint MapTexture { get; private set; }
 
-    public override ICacheObject Parse()
+    public override void Parse()
     {
         using var reader = this.Data.CreateBinaryReaderUtf32(this.CursorOffset);
         this.RenderId = reader.ReadUInt32();
@@ -38,6 +33,5 @@ public record Deed : CacheObject
         //memcpy(&iUnk, data + ptr, 4);
         //ptr += 4;
         //wxLogMessage(_T("Unknown ID: %i"), iUnk);
-        return this;
     }
 }
