@@ -131,12 +131,12 @@ public partial class TestWindow
         }
 
         // normals
-        //var normals = new Vector3DCollection();
-        //foreach (var normal in renderable.Mesh.Normals)
-        //{
-        //    normals.Add(new Vector3D(normal.X, normal.Y, normal.Z));
-        //}
-        //geometry.Normals = normals;
+        var normals = new Vector3DCollection();
+        foreach (var normal in renderable.Mesh.Normals)
+        {
+            normals.Add(new Vector3D(normal.X, normal.Y, normal.Z));
+        }
+        geometry.Normals = normals;
 
         var material = new DiffuseMaterial();
 
