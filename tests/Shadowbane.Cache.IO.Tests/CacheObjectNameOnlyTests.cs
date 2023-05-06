@@ -26,7 +26,7 @@ public class CacheObjectNameOnlyTests
 
     public CacheObjectNameOnlyTests()
     {
-        this.builder = new CacheObjectBuilder();
+        this.builder = new CacheObjectBuilder(new RenderableBuilder());
          
     }
     [Theory]

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Cache;
 using ControlExtensions;
 using Controls;
+using Serilog;
 
 public partial class SBCacheObjectForm : Form
 {
@@ -16,6 +17,7 @@ public partial class SBCacheObjectForm : Form
         InitializeComponent();
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
+            Log.Information("Loading SBCacheObjectForm components");
             this.sbTreeControl1.OnCacheObjectSelected += CacheObjectSelected;
             this.sbTreeControl1.OnLoadingMessage += LoadingMessageReceived;
             this.sbTreeControl1.OnInvalidRenderId += InvalidRenderIdRead;
@@ -24,24 +26,24 @@ public partial class SBCacheObjectForm : Form
         }
     }
 
-    private void ParseErrorReceived(object sender, ParseErrorEventArgs e)
+    private void ParseErrorReceived(object? sender, ParseErrorEventArgs e)
     {
         var message = $"Parse error created trying to parse {e.ParseError.Name} ";
         this.MessageLabel.SetText(message);
     }
 
-    private void InvalidRenderIdRead(object sender, InvalidRenderIdEventArgs e)
+    private void InvalidRenderIdRead(object? sender, InvalidRenderIdEventArgs e)
     {
         var message = $"Unable to find valid render id where expected from cache object {e.CacheObject.Name} ";
         this.MessageLabel.SetText(message);
     }
 
-    private void LoadingMessageReceived(object sender, LoadingMessageEventArgs e)
+    private void LoadingMessageReceived(object? sender, LoadingMessageEventArgs e)
     {
         this.MessageLabel.SetText(e.Message);
     }
 
-    private void CacheObjectSelected(object sender, CacheObjectSelectedEventArgs e)
+    private void CacheObjectSelected(object? sender, CacheObjectSelectedEventArgs e)
     {
         var message = $"Cache object {e.CacheObject.Name} selected";
         this.selectedObject = e.CacheObject;

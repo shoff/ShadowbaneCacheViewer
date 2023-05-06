@@ -5,7 +5,7 @@ using Cache.IO;
 using Models;
 using Serilog;
 
-public class RealTimeModelService
+public class RealTimeModelService : IRealTimeModelService
 {
     public Task<List<IMesh?>> GenerateModelAsync(uint cacheObjectIdentity)
     {

@@ -68,14 +68,14 @@ public class InsideMover : Component
         this.ParentMouseDown(null, e);
     }
 
-    private void ParentMouseDown(object sender, MouseEventArgs e)
+    private void ParentMouseDown(object? sender, MouseEventArgs e)
     {
         this.lastMouseX = e.X;
         this.lastMouseY = e.Y;
         this.moving = true;
     }
 
-    private void ParentMouseMove(object sender, MouseEventArgs e)
+    private void ParentMouseMove(object? sender, MouseEventArgs e)
     {
         if (this.moving)
         {
@@ -91,12 +91,12 @@ public class InsideMover : Component
         }
     }
 
-    private void ParentMouseUp(object sender, MouseEventArgs e)
+    private void ParentMouseUp(object? sender, MouseEventArgs e)
     {
         this.moving = false;
     }
 
-    private void ParentDoubleClick(object sender, EventArgs e)
+    private void ParentDoubleClick(object? sender, EventArgs e)
     {
         if (this.parent is Form f)
         {

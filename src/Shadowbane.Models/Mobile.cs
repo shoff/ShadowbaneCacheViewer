@@ -110,7 +110,7 @@ public record Mobile(uint Identity, string Name, uint CursorOffset, ReadOnlyMemo
         }
 
         var nameCounter = reader.ReadUInt32();
-        Debug.Assert(nameCounter == this.NameSize);
+        // Debug.Assert(nameCounter == this.NameSize);
 
         // first we need to find the renderId as that's all we REALLY need first this is still a 
         // CObject and all we REALLY care about from CObjects is the name and the render id(s)

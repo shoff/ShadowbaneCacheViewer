@@ -1,10 +1,8 @@
 ﻿namespace Shadowbane.Cache.IO;
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using Models;
 using Serilog;
 
@@ -12,9 +10,9 @@ public class CacheObjectBuilder : ICacheObjectBuilder
 {
     private readonly IRenderableBuilder? renderableObjectBuilder;
 
-    public CacheObjectBuilder(IRenderableBuilder? renderableBuilder = null)
+    public CacheObjectBuilder(IRenderableBuilder renderableBuilder)
     {
-        this.renderableObjectBuilder = renderableBuilder ?? new RenderableBuilder();
+        this.renderableObjectBuilder = renderableBuilder;
     }
 
     public ICacheObject? NameOnly(uint identity)

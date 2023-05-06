@@ -19,7 +19,7 @@ public class CacheObjectViewModelLoader
     public CacheObjectViewModelLoader(CacheObjectViewModel viewModel)
     {
         this.viewModel = viewModel;
-        this.objectBuilder = new CacheObjectBuilder();
+        this.objectBuilder = new CacheObjectBuilder(new RenderableBuilder());
     }
 
     internal async Task GetObjectsAsync(CancellationToken cancellationToken)

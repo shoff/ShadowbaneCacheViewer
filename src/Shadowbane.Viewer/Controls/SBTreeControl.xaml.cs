@@ -5,6 +5,7 @@ namespace Shadowbane.Viewer.Controls;
 using Shadowbane.Viewer.ViewModels;
 using System.ComponentModel;
 using Cache.IO;
+using System;
 
 public partial class SBTreeControl 
 {
@@ -22,14 +23,15 @@ public partial class SBTreeControl
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
-            this.objectBuilder = new CacheObjectBuilder();
+            this.objectBuilder = new CacheObjectBuilder(new RenderableBuilder());
 
         }
     }
 
     public async void LoadCacheButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-         // await this.loader.GetObjectsAsync(this.cancellationTokenSource.Token);
+        throw new NotImplementedException();
+        // await this.loader.GetObjectsAsync(this.cancellationTokenSource.Token);
     }
 
 }

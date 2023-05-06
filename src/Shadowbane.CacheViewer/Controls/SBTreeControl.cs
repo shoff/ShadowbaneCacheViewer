@@ -17,12 +17,12 @@ using Shadowbane.CacheViewer.Services;
 
 public partial class SBTreeControl : UserControl
 {
-    private readonly ICacheObjectBuilder objectBuilder = null!;
-    private readonly IStructureService structureService = null!;
-    public event EventHandler<ParseErrorEventArgs> OnParseError = null!;
-    public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage = null!;
-    public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected = null!;
-    public event EventHandler<InvalidRenderIdEventArgs> OnInvalidRenderId = null!;
+    private readonly ICacheObjectBuilder objectBuilder;
+    private readonly IStructureService structureService;
+    public event EventHandler<ParseErrorEventArgs> OnParseError;
+    public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage;
+    public event EventHandler<CacheObjectSelectedEventArgs> OnCacheObjectSelected;
+    public event EventHandler<InvalidRenderIdEventArgs> OnInvalidRenderId;
 
     private TreeNode selectedNode = new();
 
@@ -65,7 +65,7 @@ public partial class SBTreeControl : UserControl
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
-            this.objectBuilder = cacheObjectBuilder ?? new CacheObjectBuilder();
+            this.objectBuilder = cacheObjectBuilder ?? new CacheObjectBuilder(new RenderableBuilder());
             this.structureService = structureService ?? new StructureService();
 
             this.SaveButton.Enabled = false;
@@ -227,7 +227,7 @@ public partial class SBTreeControl : UserControl
 
                 var parseError = new ParseError
                 {
-                    CacheIndexIdentity = cacheObject.Identity.ToString(),
+                    CacheIndexIdentity = cacheObject.Identity,
                     CacheIndexOffset = cacheObject.CursorOffset,
                     CursorOffset = cacheObject.CursorOffset,
                     Data = cacheObject.Data.ToArray(),
@@ -417,12 +417,12 @@ public class LoadingMessageEventArgs : EventArgs
 
 public class ParseError
 {
-    public string CacheIndexIdentity { get; set; } = null!;
+    public uint CacheIndexIdentity { get; set; }
     public uint CacheIndexOffset { get; set; }
     public uint CursorOffset { get; set; }
-    public byte[] Data { get; set; } = null!;
+    public byte[] Data { get; set; } = Array.Empty<byte>();
     public uint InnerOffset { get; set; }
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = string.Empty;
     public ObjectType ObjectType { get; set; }
     public uint RenderId { get; set; }
 }

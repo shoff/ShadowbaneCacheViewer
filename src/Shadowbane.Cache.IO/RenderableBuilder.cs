@@ -31,6 +31,7 @@ public class RenderableBuilder : IRenderableBuilder
         return Build(cacheIndex.identity, false, false, true, false);
     }
 
+    // ReSharper disable once CognitiveComplexity
     public Renderable? Build(uint identity, 
         bool saveToFile = false, 
         bool saveIndexedTextures = false,
@@ -60,7 +61,7 @@ public class RenderableBuilder : IRenderableBuilder
         renderable.Unknown[0] = reader.ReadUInt32();
         renderable.MeshId = reader.ReadUInt32();
 
-        if (renderable.HasMesh && renderable.MeshId == 0 && saveToFile
+        if (renderable is { HasMesh: true, MeshId: 0 } && saveToFile 
             && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}missing_mesh\\{identity}-{renderableAsset.Order}"))
         {
             // for now let's save them all in a folder for analysis
@@ -68,8 +69,7 @@ public class RenderableBuilder : IRenderableBuilder
         }
 
         // build the mesh
-        if (renderable.HasMesh 
-            && renderable.MeshId > 0 
+        if (renderable is { HasMesh: true, MeshId: > 0 } 
             && IdLookup.IsValidMeshId(renderable.MeshId))
         {
             var meshAsset = ArchiveLoader.MeshArchive[renderable.MeshId];
@@ -110,7 +110,7 @@ public class RenderableBuilder : IRenderableBuilder
 
         renderable.JointName = reader.AsciiString(renderable.JointNameSize); // should be 
         renderable.Scale = reader.SafeReadToVector3();
-        if (renderable.HasMesh && renderable.Mesh != null)
+        if (renderable is { HasMesh: true, Mesh: { } })
             //if (renderInformation.Mesh != null)
         {
             renderable.Mesh.Scale = renderable.Scale;
@@ -123,7 +123,7 @@ public class RenderableBuilder : IRenderableBuilder
         // these need to go to mesh not here :)
         // object position ?
         renderable.Position = reader.SafeReadToVector3();
-        if (renderable.HasMesh && renderable.Mesh != null)
+        if (renderable is { HasMesh: true, Mesh: { } })
             //if (renderInformation.Mesh != null)
         {
             renderable.Mesh.Position = renderable.Position;
@@ -185,7 +185,7 @@ public class RenderableBuilder : IRenderableBuilder
                 reader.SafeReadUInt32();
             }
 
-            if (renderable.TextureCount <= MAX_TEXTURE_COUNT && renderable.HasTexture)
+            if (renderable is { TextureCount: <= MAX_TEXTURE_COUNT, HasTexture: true })
             {
                 if (renderable.TextureCount > 1 && saveToFile
                                                        && !File.Exists($"{CacheLocation.RenderOutputFolder.FullName}multi-texture\\{identity}-{renderableAsset.Order}"))
@@ -246,14 +246,14 @@ public class RenderableBuilder : IRenderableBuilder
             bool result = true;
             var sb = new StringBuilder();
             sb.Append(renderable.Notes);
-            if (renderable.HasMesh && renderable.Mesh == null)
+            if (renderable is { HasMesh: true, Mesh: null })
             {
                 sb.Append("This claims to have a mesh, but no mesh id was found or no mesh could be parsed.");
                 sb.Append($"MeshId: {renderable.MeshId}");
                 result = false;
             }
 
-            if (renderable.HasTexture && renderable.Textures.Count == 0)
+            if (renderable is { HasTexture: true, Textures.Count: 0 })
             {
                 sb.Append("This claims to have a texture, but no texture id was found or no texture could be parsed.");
                 sb.Append($"Texture Count: {renderable.TextureCount}");
