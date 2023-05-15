@@ -4,7 +4,7 @@ using System;
 using Cache;
 
 public record Deed(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
-    : CacheObject(Identity, ObjectType.Deed, Name, CursorOffset, Data)
+    : CacheRecord(Identity, ObjectType.Deed, Name, CursorOffset, Data)
 {
     public uint InventoryTexture { get; private set; }
 

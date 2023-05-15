@@ -4,8 +4,8 @@ using System;
 
 public class MayaObjHeaderFactory
 {
-    private const string SB_CACHE_ID = "# Shadowbane cacheObject id: {0}\r\n";
-    private const string SB_CACHE_NAME = "# Shadowbane cacheObject: {0}\r\n";
+    private const string SB_CACHE_ID = "# Shadowbane cacheRecord id: {0}\r\n";
+    private const string SB_CACHE_NAME = "# Shadowbane cacheRecord: {0}\r\n";
     private const string SB_CREATED = "# created on: {0}\r\n";
 
     public static MayaObjHeaderFactory Instance => new();

@@ -4,5 +4,5 @@ using Cache;
 
 public interface IStructureService
 {
-    Task SaveAssembledModelAsync(string saveFolder, ICacheObject cacheObject, bool singleFile = false);
+    Task SaveAssembledModelAsync(string saveFolder, ICacheRecord cacheRecord, bool singleFile = false);
 }

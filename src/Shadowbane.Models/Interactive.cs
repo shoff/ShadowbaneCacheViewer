@@ -6,7 +6,7 @@ using Cache;
 
 // TODO this isn't correct it's just the code for structures and needs collision info added.
 public record Interactive(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
-    : AnimationObject(Identity, ObjectType.Interactive, Name, CursorOffset, Data)
+    : AnimationRecord(Identity, ObjectType.Interactive, Name, CursorOffset, Data)
 {
     private const int VALID_RANGE = 5000;
 

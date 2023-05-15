@@ -24,11 +24,11 @@ public partial class CObjectViewControl : UserControl
     /// </summary>
     /// <param name="cacheObject">The cache object.</param>
     /// <returns></returns>
-    public async Task Display(ICacheObject? cacheObject)
+    public async Task Display(ICacheRecord? cacheObject)
     {
         if (cacheObject == null)
         {
-            Log.Error("Null ICacheObject sent to CObjectViewControl.Display");
+            Log.Error("Null ICacheRecord sent to CObjectViewControl.Display");
             return;
         }
 
@@ -44,10 +44,10 @@ public partial class CObjectViewControl : UserControl
                 new ListViewItem(new[] {$"offset {cacheObject.CursorOffset}"});
                 
             items[3] =
-                new ListViewItem(new[] {"uncompressed: Unknown Fix ICacheObject"});
+                new ListViewItem(new[] {"uncompressed: Unknown Fix ICacheRecord"});
 
             items[4] =
-                new ListViewItem(new[] {"compressed Unknown Fix ICacheObject"});
+                new ListViewItem(new[] {"compressed Unknown Fix ICacheRecord"});
 
             items[5] =
                 new ListViewItem(new[]{$"render id {cacheObject.RenderId.ToString(CultureInfo.InvariantCulture)}"});

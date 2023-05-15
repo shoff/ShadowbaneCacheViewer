@@ -27,8 +27,8 @@ public abstract class CacheArchive : IDisposable
         this.fileInfo = new FileInfo(Path.Combine(CacheLocation.CacheFolder.FullName, this.name));
         this.bufferData = this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
        
-        this.Header();
-        this.Indexes();
+        Header();
+        Indexes();
     }
 
     internal ReadOnlySpan<byte> Decompress(uint uncompressedSize, ReadOnlySpan<byte> memory)
@@ -115,7 +115,7 @@ public abstract class CacheArchive : IDisposable
             // these "identities" are in fact duped, but the underlying data is ALWAYS identical so not sure why they duped them
             var cacheIndex = this.indices[id];
             var buffer = this.bufferData.Span.Slice((int)cacheIndex.offset, (int)cacheIndex.compressedSize);
-            var asset = new CacheAsset(cacheIndex, this.Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
+            var asset = new CacheAsset(cacheIndex, Decompress(cacheIndex.unCompressedSize, buffer).ToArray());
             return asset;
         }
     }
@@ -125,7 +125,7 @@ public abstract class CacheArchive : IDisposable
         get
         {
             // ReSharper disable once ArrangeAccessorOwnerBody
-            return indices.Values.ToList().AsReadOnly();
+            return this.indices.Values.ToList().AsReadOnly();
         }
     }
 

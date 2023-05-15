@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Shadowbane.Cache.IO;
 
-public record CacheObjectNameOnly : ICacheObject
+public record CacheRecordNameOnly : ICacheRecord
 {
     private readonly object syncRoot = new();
-    public int CompareTo(ICacheObject? other)
+    public int CompareTo(ICacheRecord? other)
     {
         if (other == null || this.Flag > other.Flag)
         {
@@ -21,6 +21,7 @@ public record CacheObjectNameOnly : ICacheObject
         return -1;
     }
 
+    public CacheIndex CacheIndex { get; set; }
     public uint Identity { get; set; }
     public uint RenderId { get; set; }
     public string Name { get; set; }

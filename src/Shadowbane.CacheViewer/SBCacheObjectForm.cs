@@ -10,7 +10,7 @@ using Serilog;
 
 public partial class SBCacheObjectForm : Form
 {
-    private ICacheObject selectedObject = null!;
+    private ICacheRecord selectedRecord = null!;
 
     public SBCacheObjectForm()
     {
@@ -46,7 +46,7 @@ public partial class SBCacheObjectForm : Form
     private void CacheObjectSelected(object? sender, CacheObjectSelectedEventArgs e)
     {
         var message = $"Cache object {e.CacheObject.Name} selected";
-        this.selectedObject = e.CacheObject;
+        this.selectedRecord = e.CacheObject;
         this.MessageLabel.SetText(message);
         // open gl has issues currently I will fix this later
 
@@ -84,7 +84,7 @@ public partial class SBCacheObjectForm : Form
         //GL.Ortho(0, 512, 0, 512, (float)-1.0, (float)1.0);
         //GL.Disable(All.DepthTest);
 
-        //foreach (var render in this.selectedObject.Renders)
+        //foreach (var render in this.selectedRecord.Renders)
         //{
         //    if (render.Mesh.Textures.Count > 0)
         //    {

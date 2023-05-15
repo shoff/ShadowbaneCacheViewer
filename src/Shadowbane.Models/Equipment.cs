@@ -3,7 +3,7 @@
 using System;
 using Cache;
 
-public record Equipment : ModelObject
+public record Equipment : ModelRecord
 {
     // ReSharper disable NotAccessedField.Local
     private uint inventoryTextureId;

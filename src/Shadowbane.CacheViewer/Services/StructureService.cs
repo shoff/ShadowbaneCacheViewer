@@ -17,10 +17,10 @@ public class StructureService : IStructureService
         this.meshExporter = prefabObjExporter ?? new PrefabObjExporter();
     }
 
-    public async Task SaveAssembledModelAsync(string saveFolder, ICacheObject cacheObject, bool singleFile = false)
+    public async Task SaveAssembledModelAsync(string saveFolder, ICacheRecord cacheRecord, bool singleFile = false)
     {
         Guard.IsNotNull(saveFolder, nameof(saveFolder));
-        Guard.IsNotNull(cacheObject, nameof(cacheObject));
+        Guard.IsNotNull(cacheRecord, nameof(cacheRecord));
         
         var projectFolder = $"{this.folder}{saveFolder}";
         if (!Directory.Exists(projectFolder))
@@ -35,7 +35,7 @@ public class StructureService : IStructureService
         // let's try combining them :)
         var meshModels = new List<IMesh>();
 
-        foreach (var r in cacheObject.Renders)
+        foreach (var r in cacheRecord.Renders)
         {
             sb.AppendLine(
                 $"CacheIndexIdentity: {r.CacheIndex.identity}, HasMesh: {r.HasMesh}, MeshId: {r.MeshId}, " +
@@ -55,11 +55,11 @@ public class StructureService : IStructureService
 
         if (singleFile)
         {
-            await this.meshExporter.CreateSingleObjFile(meshModels, cacheObject.Name.Replace(" ", ""));
+            await this.meshExporter.CreateSingleObjFile(meshModels, cacheRecord.Name.Replace(" ", ""));
         }
         else
         {
-            await this.meshExporter.CreateIndividualObjFiles(meshModels, cacheObject.Name.Replace(" ", ""));
+            await this.meshExporter.CreateIndividualObjFiles(meshModels, cacheRecord.Name.Replace(" ", ""));
         }
     }
 }

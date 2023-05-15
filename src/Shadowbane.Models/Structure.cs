@@ -5,7 +5,7 @@ using System.IO;
 using Cache;
 
 public record Structure(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
-    : ModelObject(Identity, ObjectType.Structure, Name, CursorOffset, Data)
+    : ModelRecord(Identity, ObjectType.Structure, Name, CursorOffset, Data)
 {
     private const int VALID_RANGE = 5000;
 

@@ -6,7 +6,7 @@ using System.Linq;
 using Models;
 using Serilog;
 
-public class CacheObjectBuilder : ICacheObjectBuilder
+public class CacheObjectBuilder : ICacheRecordBuilder
 {
     private readonly IRenderableBuilder? renderableObjectBuilder;
 
@@ -15,7 +15,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         this.renderableObjectBuilder = renderableBuilder;
     }
 
-    public ICacheObject? NameOnly(uint identity)
+    public ICacheRecord? NameOnly(uint identity)
     {
         var asset = ArchiveLoader.ObjectArchive[identity];
         if (asset == null)
@@ -31,7 +31,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         reader.BaseStream.Position += 25;
         var renderId = reader.ReadUInt32();
 
-        return new CacheObjectNameOnly()
+        return new CacheRecordNameOnly()
         {
             Identity = identity,
             Name = name,
@@ -40,7 +40,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         };
     }
 
-    public ICacheObject? CreateAndParse(uint identity)
+    public ICacheRecord? CreateAndParse(uint identity)
     {
         var asset = ArchiveLoader.ObjectArchive[identity];
         if (asset == null)
@@ -54,7 +54,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return ToObject(flag, reader, asset);
     }
 
-    private ICacheObject? ToObject(ObjectType objectType, BinaryReader reader, CacheAsset asset)
+    private ICacheRecord? ToObject(ObjectType objectType, BinaryReader reader, CacheAsset asset)
         => objectType switch
         {
             ObjectType.Sun => Sun(reader, asset),
@@ -70,7 +70,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
             _ => null
         };
 
-    private ICacheObject Sun(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Sun(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -96,7 +96,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return simple;
     }
 
-    private ICacheObject SimpleType(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord SimpleType(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         string name = reader.AsciiString(nameLength);
@@ -124,7 +124,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return simple;
     }
 
-    private ICacheObject Structure(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Structure(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -156,7 +156,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return structure;
     }
 
-    private ICacheObject Interactive(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Interactive(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -181,7 +181,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return interactive;
     }
 
-    private ICacheObject Equipment(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Equipment(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -206,7 +206,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return equipment;
     }
 
-    private ICacheObject Unknown(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Unknown(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -232,7 +232,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return unknown;
     }
 
-    private ICacheObject Mobile(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Mobile(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -258,7 +258,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return mobile;
     }
 
-    private ICacheObject Deed(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Deed(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -269,7 +269,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return deed;
     }
 
-    private ICacheObject Warrant(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Warrant(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);
@@ -282,7 +282,7 @@ public class CacheObjectBuilder : ICacheObjectBuilder
         return warrant;
     }
 
-    private ICacheObject Particle(BinaryReader reader, CacheAsset asset)
+    private ICacheRecord Particle(BinaryReader reader, CacheAsset asset)
     {
         var nameLength = reader.ReadUInt32();
         var name = reader.AsciiString(nameLength);

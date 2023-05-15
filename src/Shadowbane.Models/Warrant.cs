@@ -4,7 +4,7 @@ using System;
 using Cache;
 
 public record Warrant(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
-    : CacheObject(Identity, ObjectType.Warrant, Name, CursorOffset, Data)
+    : CacheRecord(Identity, ObjectType.Warrant, Name, CursorOffset, Data)
 {
     public uint InventoryTexture { get; private set; }
     public uint MapTexture { get; private set; }

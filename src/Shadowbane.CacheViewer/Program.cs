@@ -33,14 +33,12 @@ internal static class Program
 
         Console.ResetColor(); // reset the console color to default
 
-        using var serviceProvider = services.BuildServiceProvider();
-
         
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        CacheViewForm cacheViewForm = new CacheViewForm(serviceProvider.GetRequiredService<IRenderableBuilder>());
-
+        CacheViewForm cacheViewForm = new CacheViewForm();
+        cacheViewForm.Services = services;
         Application.Run(cacheViewForm);
     }
 

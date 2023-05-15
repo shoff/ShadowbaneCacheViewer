@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using Cache;
 
-public abstract record ModelObject(uint Identity, ObjectType Flag, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
-    : ICacheObject
+public abstract record ModelRecord(uint Identity, ObjectType Flag, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
+    : ICacheRecord
 {
     private readonly object syncRoot = new();
     // sort by object type then name
-    public int CompareTo(ICacheObject? other)
+    public int CompareTo(ICacheRecord? other)
     {
         if (other == null || this.Flag > other.Flag)
         {
@@ -24,6 +24,7 @@ public abstract record ModelObject(uint Identity, ObjectType Flag, string Name, 
         return -1;
     }
 
+    public CacheIndex CacheIndex { get; set; }
     public uint RenderId { get; set; }
 
     public uint RenderCount => (uint)this.RenderIds.Count;

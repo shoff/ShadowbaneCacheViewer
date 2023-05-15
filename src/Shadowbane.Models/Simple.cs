@@ -4,7 +4,7 @@ using System;
 using Cache;
 
 public record Simple(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
-    : ModelObject(Identity, ObjectType.Simple, Name, CursorOffset, Data)
+    : ModelRecord(Identity, ObjectType.Simple, Name, CursorOffset, Data)
 {
     public override void Parse()
     {

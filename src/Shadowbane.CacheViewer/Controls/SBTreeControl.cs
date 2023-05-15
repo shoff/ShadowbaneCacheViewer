@@ -17,7 +17,7 @@ using Shadowbane.CacheViewer.Services;
 
 public partial class SBTreeControl : UserControl
 {
-    private readonly ICacheObjectBuilder objectBuilder;
+    private readonly ICacheRecordBuilder objectBuilder;
     private readonly IStructureService structureService;
     public event EventHandler<ParseErrorEventArgs> OnParseError;
     public event EventHandler<LoadingMessageEventArgs> OnLoadingMessage;
@@ -55,9 +55,9 @@ public partial class SBTreeControl : UserControl
 
     public SBTreeControl(
         IStructureService? structureService = null,
-        ICacheObjectBuilder? cacheObjectBuilder = null)
+        ICacheRecordBuilder? cacheObjectBuilder = null)
     {
-        this.InitializeComponent();
+        InitializeComponent();
         // ReSharper disable once LocalizableElement
         this.ErrorLabel.Text = "Invalid cache object count: ";
         this.MessageLabel.Text = "";
@@ -78,9 +78,9 @@ public partial class SBTreeControl : UserControl
             WorkerSupportsCancellation = true
         };
 
-        this.parseObjectWorker.DoWork += this.ParseSelected!;
-        this.parseObjectWorker.ProgressChanged += this.ParseObjectWorkerProgressChanged!;
-        this.parseObjectWorker.RunWorkerCompleted += this.ParseObjectWorkerRunWorkerCompleted!;
+        this.parseObjectWorker.DoWork += ParseSelected!;
+        this.parseObjectWorker.ProgressChanged += ParseObjectWorkerProgressChanged!;
+        this.parseObjectWorker.RunWorkerCompleted += ParseObjectWorkerRunWorkerCompleted!;
     }
     private static int GetCounts()
     {
@@ -104,7 +104,7 @@ public partial class SBTreeControl : UserControl
     {
         if (pb.InvokeRequired)
         {
-            pb.BeginInvoke(new MethodInvoker(() => this.SetVisibility(pb, visible)));
+            pb.BeginInvoke(new MethodInvoker(() => SetVisibility(pb, visible)));
         }
         else
         {
@@ -113,12 +113,12 @@ public partial class SBTreeControl : UserControl
         }
     }
 
-    public ICacheObject? SelectedCacheObject { get; set; }
+    public ICacheRecord? SelectedCacheObject { get; set; }
 
     private async void SaveButtonClick(object sender, EventArgs e)
     {
         this.SaveButton.Enabled = false;
-        this.SelectedCacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+        this.SelectedCacheObject = (ICacheRecord)this.CacheObjectTreeView.SelectedNode.Tag;
 
         try
         {
@@ -168,7 +168,7 @@ public partial class SBTreeControl : UserControl
         // pertinent information from the renderId by validating the information
         // against the other archives. I will give each "archive" portion for each 
         // cacheObject a listView that ties all the information together at once.
-        var cacheObject = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+        var cacheObject = (ICacheRecord)this.CacheObjectTreeView.SelectedNode.Tag;
 
         // reparse it correctly
 
@@ -194,10 +194,10 @@ public partial class SBTreeControl : UserControl
             return;
         }
 
-        var cacheObject = (ICacheObject?)e.Argument;
+        var cacheObject = (ICacheRecord?)e.Argument;
         if (cacheObject == null)
         {
-            Log.Error($"ParseSelected could not cast event args to ICacheObject");
+            Log.Error($"ParseSelected could not cast event args to ICacheRecord");
         }
         Log.Information($"Selected {cacheObject!.Identity} for parsing.");
 
@@ -272,10 +272,10 @@ public partial class SBTreeControl : UserControl
         }
         else
         {
-            this.SelectedCacheObject = e.Result as ICacheObject;
+            this.SelectedCacheObject = e.Result as ICacheRecord;
             this.OnLoadingMessage.Raise(this,
                 this.SelectedCacheObject == null
-                    ? new LoadingMessageEventArgs("could not cast selection as a ICacheObject")
+                    ? new LoadingMessageEventArgs("could not cast selection as a ICacheRecord")
                     : new LoadingMessageEventArgs("Parsing complete"));
         }
     }
@@ -287,7 +287,7 @@ public partial class SBTreeControl : UserControl
     
     private async void LoadCacheButton_Click(object sender, EventArgs e)
     {
-        await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
+        await Task.Run(() => SetVisibility(this.LoadingPictureBox, true));
 
         await Task.Run(() =>
         {
@@ -379,20 +379,20 @@ public partial class SBTreeControl : UserControl
 
 public class InvalidRenderIdEventArgs : EventArgs
 {
-    public InvalidRenderIdEventArgs(ICacheObject cacheObject)
+    public InvalidRenderIdEventArgs(ICacheRecord cacheObject)
     {
         this.CacheObject = cacheObject;
     }
-    public ICacheObject CacheObject { get; }
+    public ICacheRecord CacheObject { get; }
 }
 
 public class CacheObjectSelectedEventArgs : EventArgs
 {
-    public CacheObjectSelectedEventArgs(ICacheObject cacheObject)
+    public CacheObjectSelectedEventArgs(ICacheRecord cacheObject)
     {
         this.CacheObject = cacheObject;
     }
-    public ICacheObject CacheObject { get; }
+    public ICacheRecord CacheObject { get; }
 }
 
 public class ParseErrorEventArgs : EventArgs

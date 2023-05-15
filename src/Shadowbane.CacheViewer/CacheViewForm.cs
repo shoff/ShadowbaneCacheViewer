@@ -3,15 +3,16 @@ namespace Shadowbane.CacheViewer;
 
 using Shadowbane.Cache.Exporter.File;
 using Shadowbane.Cache;
-using Shadowbane.CacheViewer.Controls;
 using Shadowbane.CacheViewer.Services;
 using System.ComponentModel;
-using System.Configuration;
 using System.Globalization;
 using System.Windows.Forms;
 using Cache.IO;
 using ControlExtensions;
 using Serilog;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Shadowbane.CacheViewer.Config;
 
 public partial class CacheViewForm : Form
 {
@@ -24,18 +25,18 @@ public partial class CacheViewForm : Form
     private readonly TreeNode unknownNode = new("Unknown");
     private readonly TreeNode warrantNode = new("Warrants");
     private readonly TreeNode particleNode = new("Particles");
+
     // Archives
-    private readonly CacheObjectBuilder cacheObjectBuilder;
-    private readonly IRenderableBuilder renderableBuilder;
+    private readonly CacheObjectBuilder cacheObjectBuilder = null!;
+    private readonly IRenderableBuilder renderableBuilder = null!;
     private bool archivesLoaded;
 
 
-    public CacheViewForm(IRenderableBuilder renderableBuilder)
+    public CacheViewForm()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         this.SaveButton.Enabled = false;
         this.CacheSaveButton.Enabled = false;
-        this.renderableBuilder = renderableBuilder;
 
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
@@ -70,33 +71,28 @@ public partial class CacheViewForm : Form
         var particleNodes = new List<TreeNode>();
 
         // ReSharper disable once CSharpWarnings::CS4014
-        await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
+        await Task.Run(() => SetVisibility(this.LoadingPictureBox, true));
 
         await Task.Run(() =>
         {
-            var cacheObjects = ArchiveLoader.ObjectArchive.CacheIndices;
-            Log.Information("In LoadCacheButtonClick found {IndexCount}", cacheObjects.Count);
             int cacheNumber = 0;
-            var total = ArchiveLoader.ObjectArchive.IndexCount;
             foreach (var ci in ArchiveLoader.ObjectArchive.CacheIndices)
             {
                 try
                 {
                     var cacheObject = this.cacheObjectBuilder.CreateAndParse(ci.identity);
-                    // Log.Debug("Loaded cacheObject {Name}", cacheObject.Name);
-                    string title;
-                    if (string.IsNullOrWhiteSpace(cacheObject.Name))
+                    if (cacheObject is null)
                     {
-                        title = ci.identity.ToString(CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        title = $"{ci.identity.ToString(CultureInfo.InvariantCulture)} - {cacheObject.Name}";
+                        throw new InvalidCacheObjectException(ci.identity);
                     }
 
-                    this.LoadingLabel.SetText($"Now loading {title} item {cacheNumber++} of {total}");
+                    cacheObject.CacheIndex = ci;
+                    var title = string.IsNullOrWhiteSpace(cacheObject.Name)
+                        ? ci.identity.ToString(CultureInfo.InvariantCulture)
+                        : $"{ci.identity.ToString(CultureInfo.InvariantCulture)} - {cacheObject.Name}";
 
-                    //string title = string.IsNullOrEmpty(cacheObject.Name) ? ci.Identity.ToString(CultureInfo.InvariantCulture) : $"{ ci.Identity.ToString(CultureInfo.InvariantCulture)} - {cacheObject.Name}";
+                    this.LoadingLabel.SetText($"Now loading number {cacheNumber++} : {title}");
+
                     var node = new TreeNode(title)
                     {
                         Tag = cacheObject,
@@ -156,7 +152,7 @@ public partial class CacheViewForm : Form
         this.LoadingPictureBox.SetVisible(false);
         this.LoadingPictureBox.Refresh();
 
-        this.ResetSaveButtons();
+        ResetSaveButtons();
         Log.Information("CacheViewForm completed loading all cache archives.");
         this.archivesLoaded = true;
     }
@@ -178,7 +174,7 @@ public partial class CacheViewForm : Form
     {
         this.SaveButton.Enabled = false;
         this.CacheSaveButton.Enabled = false;
-        ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+        ICacheRecord item = (ICacheRecord)this.CacheObjectTreeView.SelectedNode.Tag;
 
         try
         {
@@ -187,7 +183,7 @@ public partial class CacheViewForm : Form
                 var service = new StructureService();
                 await service.SaveAssembledModelAsync(item.Name.Replace(" ", ""), item, this.SaveTypeRadioButton1.Checked);
             });
-            this.ResetSaveButtons();
+            ResetSaveButtons();
         }
         catch (Exception ex)
         {
@@ -209,8 +205,8 @@ public partial class CacheViewForm : Form
         // well ok its going to be a cache object, but find the renderId and the
         // pertinent information from the renderId by validating the information
         // against the other archives. I will give each "archive" portion for each 
-        // cacheObject a listView that ties all the information together at once.
-        var item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+        // cacheRecord a listView that ties all the information together at once.
+        var item = (ICacheRecord)this.CacheObjectTreeView.SelectedNode.Tag;
 
         //await this.CacheIndexListView.Display(item);
 
@@ -228,17 +224,17 @@ public partial class CacheViewForm : Form
             if (models == null || models.Count == 0)
             {
                 Log.Error($"Unable to parse model for {item.Identity}: {item.Name}");
-                ParseError parseError = new ParseError
-                {
-                    CacheIndexIdentity = item.Identity,
-                    CacheIndexOffset = item.CursorOffset,
-                    CursorOffset = item.CursorOffset,
-                    Data = item.Data.ToArray(),
-                    InnerOffset = 0,
-                    Name = item.Name,
-                    ObjectType = item.Flag,
-                    RenderId = item.RenderId
-                };
+                //ParseError parseError = new ParseError
+                //{
+                //    CacheIndexIdentity = item.Identity,
+                //    CacheIndexOffset = item.CursorOffset,
+                //    CursorOffset = item.CursorOffset,
+                //    Data = item.Data.ToArray(),
+                //    InnerOffset = 0,
+                //    Name = item.Name,
+                //    ObjectType = item.Flag,
+                //    RenderId = item.RenderId
+                //};
                 //using (var context = new SbCacheViewerContext())
                 //{
                 //    context.ParseErrors.Add(parseError);
@@ -256,7 +252,7 @@ public partial class CacheViewForm : Form
     {
         if (pb.InvokeRequired)
         {
-            pb.BeginInvoke(new MethodInvoker(() => this.SetVisibility(pb, visible)));
+            pb.BeginInvoke(new MethodInvoker(() => SetVisibility(pb, visible)));
         }
         else
         {
@@ -267,30 +263,25 @@ public partial class CacheViewForm : Form
 
     private async void CacheSaveButtonClick(object sender, EventArgs e)
     {
-        string selectedFolder = ConfigurationManager.AppSettings["CacheExport"];
+        using var serviceProvider = this.Services.BuildServiceProvider();
+        IOptions<DirectoryOptions> directoryOptions =
+            serviceProvider.GetRequiredService<IOptions<DirectoryOptions>>();
 
-        //    = AppDomain.CurrentDomain.BaseDirectory;
-
-        //using (this.folderBrowserDialog1 = new FolderBrowserDialog())
-        //{
-        //    DialogResult result = folderBrowserDialog1.ShowDialog();
-        //    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
-        //    {
-        //        selectedFolder = folderBrowserDialog1.SelectedPath;
-        //    }
-        //}
+        string selectedFolder = directoryOptions.Value.CacheExportDirectory;
 
         this.SaveButton.Enabled = false;
         this.CacheSaveButton.Enabled = false;
 
         // this.PropertiesListView.Items.Clear();
-        await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, true));
-        ICacheObject item = (ICacheObject)this.CacheObjectTreeView.SelectedNode.Tag;
+        await Task.Run(() => SetVisibility(this.LoadingPictureBox, true));
+        ICacheRecord item = (ICacheRecord)this.CacheObjectTreeView.SelectedNode.Tag;
 
-        if (item.Data.Length == 0)
+
+        if (item is null || item.Data.Length == 0)
         {
-            throw new ApplicationException();
+            throw new NullCacheTreeNodeException(this.CacheObjectTreeView.SelectedNode.Text ?? "No text was in the selected node!");
         }
+
         // make the directory
         // TODO extract to it's own method
         string directory;
@@ -310,38 +301,24 @@ public partial class CacheViewForm : Form
         }
 
         Directory.CreateDirectory(directory);
-        await FileWriter.Writer.WriteAsync(item.Data.ToArray(), directory, "cobject.cache");
+        await FileWriter.Writer.WriteAsync(item.Data.ToArray(), directory, $"{item.Name}.cache");
 
         try
         {
-
             // now try to create each render id if any are found
             if (item.RenderId == 0)
             {
                 Log.Error(Messages.CouldNotFindRenderId, item.Identity);
-                this.ResetSaveButtons();
+                ResetSaveButtons();
                 return;
             }
 
-            // throw new NotImplementedException();
-
-            //var render = this.renderableBuilder.Build((int)item., addByteData: true);
-
-            //if (render.BinaryAsset.Item1.Count > 0)
-            //{
-            //    await this.SaveBinaryData(directory, render.CacheIndex.Name, render.BinaryAsset.Item1);
-            //}
-
-            //if (render.BinaryAsset.Item2.Count > 0)
-            //{
-            //    await this.SaveBinaryData(directory, render.BinaryAsset.CacheIndex2.Name, render.BinaryAsset.Item1);
-            //}
-
             // what a pain in the ass this is Microsoft.
-            await Task.Run(() => this.SetVisibility(this.LoadingPictureBox, false));
+            await Task.Run(() => SetVisibility(this.LoadingPictureBox, false));
             this.LoadingPictureBox.Visible = false;
             this.LoadingPictureBox.Refresh();
-            this.ResetSaveButtons();
+
+            ResetSaveButtons();
         }
         catch (Exception ex)
         {
@@ -393,5 +370,6 @@ public partial class CacheViewForm : Form
     {
 
     }
-}
 
+    internal IServiceCollection Services { get; set; }
+}

@@ -4,7 +4,7 @@ using System;
 using Cache;
 
 public record Unknown(uint Identity, ObjectType Flag, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data) 
-    : ModelObject(Identity, Flag, Name, CursorOffset, Data)
+    : ModelRecord(Identity, Flag, Name, CursorOffset, Data)
 {
     private const int VALID_RANGE = 50000;
     

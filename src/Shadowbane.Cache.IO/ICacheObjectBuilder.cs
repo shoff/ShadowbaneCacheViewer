@@ -1,7 +1,7 @@
 ﻿namespace Shadowbane.Cache.IO;
 
-public interface ICacheObjectBuilder
+public interface ICacheRecordBuilder
 {
-    ICacheObject? NameOnly(uint identity);
-    ICacheObject? CreateAndParse(uint identity);
+    ICacheRecord? NameOnly(uint identity);
+    ICacheRecord? CreateAndParse(uint identity);
 }

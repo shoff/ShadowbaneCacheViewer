@@ -35,7 +35,7 @@ public static class Ioc
         services.AddSingleton<IMeshOnlyObjExporter, MeshOnlyObjExporter>();
         services.AddSingleton<IMeshFactory, MeshFactory>();
         services.AddSingleton<IRenderableBuilder, RenderableBuilder>();
-        services.AddSingleton<ICacheObjectBuilder, CacheObjectBuilder>();
+        services.AddSingleton<ICacheRecordBuilder, CacheObjectBuilder>();
         services.AddSingleton<CacheViewForm>();
         return services;
     }

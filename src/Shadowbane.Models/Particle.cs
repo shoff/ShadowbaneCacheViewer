@@ -4,7 +4,7 @@ using System;
 using Cache;
 
 public record Particle(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
-    : ModelObject(Identity, ObjectType.Particle, Name, CursorOffset, Data)
+    : ModelRecord(Identity, ObjectType.Particle, Name, CursorOffset, Data)
 {
     public override void Parse()
     {

@@ -10,7 +10,7 @@ using System.Numerics;
 using Cache;
 
 public record Mobile(uint Identity, string Name, uint CursorOffset, ReadOnlyMemory<byte> Data)
-    : AnimationObject(Identity, ObjectType.Mobile, Name, CursorOffset, Data)
+    : AnimationRecord(Identity, ObjectType.Mobile, Name, CursorOffset, Data)
 {
     private const string NO_AI = "No AI Type";
     private const int VALID_RANGE = 50000;

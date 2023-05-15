@@ -397,7 +397,7 @@ public class CacheObjectBuilderTests
         BaseAsserts(cacheObject);
     }
 
-    private void BaseAsserts(ICacheObject? cacheObject)
+    private void BaseAsserts(ICacheRecord? cacheObject)
     {
         Assert.NotNull(cacheObject);
         

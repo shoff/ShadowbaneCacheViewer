@@ -6,15 +6,15 @@ using Cache;
 
 public partial class CObjectControl : UserControl
 {
-    private readonly ICacheObject cacheObject;
+    private readonly ICacheRecord cacheRecord;
 
-    public CObjectControl(ICacheObject cacheObject)
+    public CObjectControl(ICacheRecord cacheRecord)
     {
-        this.cacheObject = cacheObject;
+        this.cacheRecord = cacheRecord;
         InitializeComponent();
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
-            this.CObjectHeadLabel.Text = this.cacheObject.Name ?? "WTF? No name";
+            this.CObjectHeadLabel.Text = this.cacheRecord.Name ?? "WTF? No name";
         }
     }
 
