@@ -244,9 +244,3 @@ public class ArcaneData
     }
 }
 
-
-public class Index
-{
-    [JsonIgnore]
-    public List<(int, int, int[])> MeshExtraIndices { get; set; } = new();
-}
