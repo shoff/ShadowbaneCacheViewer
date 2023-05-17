@@ -1,9 +1,9 @@
-﻿using System.IO;
+﻿namespace Shadowbane.Cache.IO;
+
 using System.Text;
 using System;
 using CommunityToolkit.HighPerformance;
 
-namespace Shadowbane.Cache.IO;
 
 public static class AsyncBinaryReaderExtensions
 {

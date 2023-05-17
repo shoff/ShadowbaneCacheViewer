@@ -35,47 +35,32 @@ public class AsyncBinaryReader : IDisposable
 
     public AsyncBinaryReader(Stream? input, Encoding encoding, bool leaveOpen)
     {
-        if (input == null)
-        {
-            throw new ArgumentNullException(nameof(input));
-        }
-        if (encoding == null)
-        {
-            throw new ArgumentNullException(nameof(encoding));
-        }
+        ArgumentNullException.ThrowIfNull(input);
+        ArgumentNullException.ThrowIfNull(encoding);
         if (!input.CanRead)
         {
             throw new ArgumentException("stream not readable");
         }
 
-        Contract.EndContractBlock();
-        stream = input;
-        decoder = encoding.GetDecoder();
-        maxCharsSize = encoding.GetMaxCharCount(MaxCharBytesSize);
+        this.stream = input;
+        this.decoder = encoding.GetDecoder();
+        this.maxCharsSize = encoding.GetMaxCharCount(MaxCharBytesSize);
         int minBufferSize = encoding.GetMaxByteCount(1);  // max bytes per one char
         if (minBufferSize < 16)
         {
             minBufferSize = 16;
         }
 
-        buffer = new byte[minBufferSize];
+        this.buffer = new byte[minBufferSize];
         // m_charBuffer and m_charBytes will be left null.
 
         // For Encodings that always use 2 bytes per char (or more), 
         // special case them here to make Read() & Peek() faster.
-        twoBytesPerChar = encoding is UnicodeEncoding;
+        this.twoBytesPerChar = encoding is UnicodeEncoding;
         this.leaveOpen = leaveOpen;
-
-        Contract.Assert(decoder != null, "[BinaryReader.ctor]m_decoder!=null");
     }
 
-    public virtual Stream? BaseStream
-    {
-        get
-        {
-            return stream;
-        }
-    }
+    public virtual Stream? BaseStream => this.stream;
 
     public virtual void Close()
     {
@@ -86,19 +71,20 @@ public class AsyncBinaryReader : IDisposable
     {
         if (disposing)
         {
-            Stream? copyOfStream = stream;
-            stream = null;
-            if (copyOfStream != null && !leaveOpen)
+            Stream? copyOfStream = this.stream;
+            this.stream = null;
+            if (copyOfStream != null && !this.leaveOpen)
             {
                 copyOfStream.Close();
             }
         }
-        stream = null;
-        buffer = null;
-        decoder = null;
-        charBytes = null;
-        singleChar = null;
-        charBuffer = null;
+
+        this.stream = null;
+        this.buffer = null;
+        this.decoder = null;
+        this.charBytes = null;
+        this.singleChar = null;
+        this.charBuffer = null;
     }
 
     public void Dispose()
@@ -106,50 +92,50 @@ public class AsyncBinaryReader : IDisposable
         Dispose(true);
     }
 
-    public virtual async Task<int> PeekCharAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<int> PeekCharAsync(CancellationToken cancellationToken = default)
     {
-        Contract.Ensures(Contract.Result<int>() >= -1);
-
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
 
-        if (!stream.CanSeek)
+        var o = this.stream;
+        if (o is { CanSeek: false } || o is null)
         {
             return -1;
         }
 
-        long origPos = stream.Position;
+        long origPos = o.Position;
         int ch = await ReadAsync(cancellationToken).ConfigureAwait(false);
-        stream.Position = origPos;
+        o.Position = origPos;
         return ch;
     }
 
-    public virtual Task<int> ReadAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<int> ReadAsync(CancellationToken cancellationToken = default)
     {
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
         return InternalReadOneCharAsync(cancellationToken);
     }
 
-    public virtual async Task<bool> ReadBooleanAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<bool> ReadBooleanAsync(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(1, cancellationToken).ConfigureAwait(false);
-        return (buffer[0] != 0);
+        var bytes = this.buffer;
+        return bytes != null && (bytes[0] != 0);
     }
 
-    public virtual async Task<byte> ReadByteAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<byte> ReadByteAsync(CancellationToken cancellationToken = default)
     {
         // Inlined to avoid some method call overhead with FillBuffer.
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
 
-        int b = await stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
+        int b = await this.stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
         if (b == -1)
         {
             __Error.EndOfFile();
@@ -158,13 +144,19 @@ public class AsyncBinaryReader : IDisposable
         return (byte)b;
     }
 
-    public virtual async Task<sbyte> ReadSByteAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<sbyte> ReadSByteAsync(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(1, cancellationToken).ConfigureAwait(false);
-        return (sbyte)(buffer[0]);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            return (sbyte)(bytes[0]);
+        }
+
+        return 0;
     }
 
-    public virtual async Task<char> ReadCharAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<char> ReadCharAsync(CancellationToken cancellationToken = default)
     {
         int value = await ReadAsync(cancellationToken).ConfigureAwait(false);
         if (value == -1)
@@ -174,86 +166,117 @@ public class AsyncBinaryReader : IDisposable
         return (char)value;
     }
 
-    public virtual async Task<short> ReadInt16Async(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<short> ReadInt16Async(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(2, cancellationToken).ConfigureAwait(false);
-        return (short)(buffer[0] | buffer[1] << 8);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            return (short)(bytes[0] | bytes[1] << 8);
+        }
+
+        return 0;
     }
 
-    public virtual async Task<ushort> ReadUInt16Async(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<ushort> ReadUInt16Async(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(2, cancellationToken).ConfigureAwait(false);
-        return (ushort)(buffer[0] | buffer[1] << 8);
-    }
-
-    public virtual async Task<int> ReadInt32Async(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
-        return buffer[0] | buffer[1] << 8 | buffer[2] << 16 | buffer[3] << 24;
-    }
-
-    public virtual async Task<uint> ReadUInt32Async(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
-        return (uint)(buffer[0] | buffer[1] << 8 | buffer[2] << 16 | buffer[3] << 24);
-    }
-
-    public virtual async Task<long> ReadInt64Async(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await FillBufferAsync(8, cancellationToken).ConfigureAwait(false);
-        uint lo = (uint)(buffer[0] | buffer[1] << 8 |
-                         buffer[2] << 16 | buffer[3] << 24);
-        uint hi = (uint)(buffer[4] | buffer[5] << 8 |
-                         buffer[6] << 16 | buffer[7] << 24);
-        return (long)((ulong)hi) << 32 | lo;
-    }
-
-    public virtual async Task<ulong> ReadUInt64Async(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await FillBufferAsync(8, cancellationToken).ConfigureAwait(false);
-        uint lo = (uint)(buffer[0] | buffer[1] << 8 |
-                         buffer[2] << 16 | buffer[3] << 24);
-        uint hi = (uint)(buffer[4] | buffer[5] << 8 |
-                         buffer[6] << 16 | buffer[7] << 24);
-        return ((ulong)hi) << 32 | lo;
-    }
-
-    //[SecuritySafeCritical]
-    public virtual async Task<float> ReadSingleAsync(CancellationToken cancellationToken = default(CancellationToken))
-    {
-        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
-        uint tmpBuffer = (uint)(buffer[0] | buffer[1] << 8 | buffer[2] << 16 | buffer[3] << 24);
-
-        unsafe
+        var bytes = this.buffer;
+        if (bytes != null)
         {
-            return *((float*)&tmpBuffer);
+            return (ushort)(bytes[0] | bytes[1] << 8);
         }
+        return 0;
     }
 
+    public virtual async Task<int> ReadInt32Async(CancellationToken cancellationToken = default)
+    {
+        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            return bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24;
+        }
+        return 0;
+    }
 
+    public virtual async Task<uint> ReadUInt32Async(CancellationToken cancellationToken = default)
+    {
+        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            return (uint)(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24);
+        }
+        return 0;
+    }
 
-    //[SecuritySafeCritical]
-    public virtual async Task<double> ReadDoubleAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<long> ReadInt64Async(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(8, cancellationToken).ConfigureAwait(false);
-        uint lo = (uint)(buffer[0] | buffer[1] << 8 |
-                buffer[2] << 16 | buffer[3] << 24);
-        uint hi = (uint)(buffer[4] | buffer[5] << 8 |
-            buffer[6] << 16 | buffer[7] << 24);
-
-        ulong tmpBuffer = ((ulong)hi) << 32 | lo;
-        unsafe
+        var bytes = this.buffer;
+        if (bytes != null)
         {
-            return *((double*)&tmpBuffer);
+            uint lo = (uint)(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24);
+            uint hi = (uint)(bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24);
+            return (long)((ulong)hi) << 32 | lo;
         }
+        return 0;
     }
 
-    public virtual async Task<decimal> ReadDecimalAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<ulong> ReadUInt64Async(CancellationToken cancellationToken = default)
+    {
+        await FillBufferAsync(8, cancellationToken).ConfigureAwait(false);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            uint lo = (uint)(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24);
+            uint hi = (uint)(bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24);
+            return ((ulong)hi) << 32 | lo;
+        }
+        return 0;
+    }
+    
+    public virtual async Task<float> ReadSingleAsync(CancellationToken cancellationToken = default)
+    {
+        await FillBufferAsync(4, cancellationToken).ConfigureAwait(false);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            uint tmpBuffer = (uint)(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24);
+
+            unsafe
+            {
+                return *((float*)&tmpBuffer);
+            }
+        }
+        return 0;
+    }
+    
+    public virtual async Task<double> ReadDoubleAsync(CancellationToken cancellationToken = default)
+    {
+        await FillBufferAsync(8, cancellationToken).ConfigureAwait(false);
+        var bytes = this.buffer;
+        if (bytes != null)
+        {
+            uint lo = (uint)(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24);
+            uint hi = (uint)(bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24);
+
+            ulong tmpBuffer = ((ulong)hi) << 32 | lo;
+            unsafe
+            {
+                return *((double*)&tmpBuffer);
+            }
+        }
+        return 0;
+    }
+
+    public virtual async Task<decimal> ReadDecimalAsync(CancellationToken cancellationToken = default)
     {
         await FillBufferAsync(16, cancellationToken).ConfigureAwait(false);
         try
         {
-            return ToDecimal(buffer);
+            return ToDecimal(this.buffer);
         }
         catch (ArgumentException e)
         {
@@ -263,7 +286,6 @@ public class AsyncBinaryReader : IDisposable
 
         decimal ToDecimal(byte[]? buffer)
         {
-            Contract.Requires((buffer != null && buffer.Length >= 16), "[ToDecimal]buffer != null && buffer.Length >= 16");
             int lo = buffer[0] | buffer[1] << 8 | buffer[2] << 16 | buffer[3] << 24;
             int mid = buffer[4] | buffer[5] << 8 | buffer[6] << 16 | buffer[7] << 24;
             int hi = buffer[8] | buffer[9] << 8 | buffer[10] << 16 | buffer[11] << 24;
@@ -272,23 +294,17 @@ public class AsyncBinaryReader : IDisposable
         }
     }
 
-    public virtual async Task<String> ReadStringAsync(CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<string> ReadStringAsync(CancellationToken cancellationToken = default)
     {
-        Contract.Ensures(Contract.Result<String>() != null);
-
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
 
         int currPos = 0;
-        int n;
-        int stringLength;
-        int readLength;
-        int charsRead;
 
         // Length of the string in bytes, not chars
-        stringLength = await Read7BitEncodedIntAsync(cancellationToken).ConfigureAwait(false);
+        var stringLength = await Read7BitEncodedIntAsync(cancellationToken).ConfigureAwait(false);
         if (stringLength < 0)
         {
             throw new IOException("invalid string length", stringLength);
@@ -296,35 +312,35 @@ public class AsyncBinaryReader : IDisposable
 
         if (stringLength == 0)
         {
-            return String.Empty;
+            return string.Empty;
         }
 
-        if (charBytes == null)
-        {
-            charBytes = new byte[MaxCharBytesSize];
-        }
+        this.charBytes ??= new byte[MaxCharBytesSize];
 
-        if (charBuffer == null)
-        {
-            charBuffer = new char[maxCharsSize];
-        }
+        this.charBuffer ??= new char[this.maxCharsSize];
 
-        StringBuilder sb = null;
+        StringBuilder sb = new StringBuilder();
         do
         {
-            readLength = ((stringLength - currPos) > MaxCharBytesSize) ? MaxCharBytesSize : (stringLength - currPos);
+            var readLength = ((stringLength - currPos) > MaxCharBytesSize) ? MaxCharBytesSize : (stringLength - currPos);
 
-            n = await stream.ReadAsync(charBytes, 0, readLength, cancellationToken).ConfigureAwait(false);
+            var o = this.stream;
+            if (o == null)
+            {
+                continue;
+            }
+
+            var n = await o.ReadAsync(this.charBytes, 0, readLength, cancellationToken).ConfigureAwait(false);
             if (n == 0)
             {
                 __Error.EndOfFile();
             }
 
-            charsRead = decoder.GetChars(charBytes, 0, n, charBuffer, 0);
+            var charsRead = this.decoder.GetChars(this.charBytes, 0, n, this.charBuffer, 0);
 
             if (currPos == 0 && n == stringLength)
             {
-                return new String(charBuffer, 0, charsRead);
+                return new string(this.charBuffer, 0, charsRead);
             }
 
             if (sb == null)
@@ -332,16 +348,14 @@ public class AsyncBinaryReader : IDisposable
                 sb = StringBuilderCache.Acquire(stringLength); // Actual string length in chars may be smaller.
             }
 
-            sb.Append(charBuffer, 0, charsRead);
+            sb.Append(this.charBuffer, 0, charsRead);
             currPos += n;
-
         } while (currPos < stringLength);
 
         return StringBuilderCache.GetStringAndRelease(sb);
     }
-
-    //[SecuritySafeCritical]
-    public virtual Task<int> ReadAsync(char[] buffer, int index, int count, CancellationToken cancellationToken = default(CancellationToken))
+    
+    public virtual Task<int> ReadAsync(char[] buffer, int index, int count, CancellationToken cancellationToken = default)
     {
         if (buffer == null)
         {
@@ -359,11 +373,7 @@ public class AsyncBinaryReader : IDisposable
         {
             throw new ArgumentException("invalid offset length");
         }
-        Contract.Ensures(Contract.Result<int>() >= 0);
-        Contract.Ensures(Contract.Result<int>() <= count);
-        Contract.EndContractBlock();
-
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
@@ -371,20 +381,15 @@ public class AsyncBinaryReader : IDisposable
         // SafeCritical: index and count have already been verified to be a valid range for the buffer
         return InternalReadCharsAsync(buffer, index, count, cancellationToken);
     }
-
-    //[SecurityCritical]
+    
     private async Task<int> InternalReadCharsAsync(char[] buffer, int index, int count, CancellationToken cancellationToken)
     {
-        Contract.Requires(buffer != null);
-        Contract.Requires(index >= 0 && count >= 0);
-        Contract.Assert(stream != null);
-
         int numBytes = 0;
         int charsRemaining = count;
 
-        if (charBytes == null)
+        if (this.charBytes == null)
         {
-            charBytes = new byte[MaxCharBytesSize];
+            this.charBytes = new byte[MaxCharBytesSize];
         }
 
         while (charsRemaining > 0)
@@ -396,12 +401,12 @@ public class AsyncBinaryReader : IDisposable
             numBytes = charsRemaining;
 
             // special case for DecoderNLS subclasses when there is a hanging byte from the previous loop
-            if (CheckDecoderNLS_And_HasState(decoder) && numBytes > 1)
+            if (CheckDecoderNLS_And_HasState(this.decoder) && numBytes > 1)
             {
                 numBytes -= 1;
             }
 
-            if (twoBytesPerChar)
+            if (this.twoBytesPerChar)
             {
                 numBytes <<= 1;
             }
@@ -414,8 +419,8 @@ public class AsyncBinaryReader : IDisposable
             int position = 0;
             byte[]? byteBuffer = null;
 
-            numBytes = await stream.ReadAsync(charBytes, 0, numBytes, cancellationToken).ConfigureAwait(false);
-            byteBuffer = charBytes;
+            numBytes = await this.stream.ReadAsync(this.charBytes, 0, numBytes, cancellationToken).ConfigureAwait(false);
+            byteBuffer = this.charBytes;
 
             if (numBytes == 0)
             {
@@ -443,7 +448,7 @@ public class AsyncBinaryReader : IDisposable
                     {
                         fixed (char* pChars = buffer)
                         {
-                            charsRead = decoder.GetChars(pBytes + position, numBytes, pChars + index, charsRemaining, false);
+                            charsRead = this.decoder.GetChars(pBytes + position, numBytes, pChars + index, charsRemaining, false);
                         }
                     }
                 }
@@ -461,8 +466,6 @@ public class AsyncBinaryReader : IDisposable
         return (count - charsRemaining);
     }
 
-
-
     private async Task<int> InternalReadOneCharAsync(CancellationToken cancellationToken)
     {
         // I know having a separate InternalReadOneChar method seems a little 
@@ -473,18 +476,18 @@ public class AsyncBinaryReader : IDisposable
         int numBytes = 0;
         long posSav = posSav = 0;
 
-        if (stream.CanSeek)
+        if (this.stream.CanSeek)
         {
-            posSav = stream.Position;
+            posSav = this.stream.Position;
         }
 
-        if (charBytes == null)
+        if (this.charBytes == null)
         {
-            charBytes = new byte[MaxCharBytesSize]; //
+            this.charBytes = new byte[MaxCharBytesSize]; //
         }
-        if (singleChar == null)
+        if (this.singleChar == null)
         {
-            singleChar = new char[1];
+            this.singleChar = new char[1];
         }
 
         while (charsRead == 0)
@@ -493,10 +496,10 @@ public class AsyncBinaryReader : IDisposable
             // is for our encoding.  Otherwise for UnicodeEncoding we'd have to
             // do ~1+log(n) reads to read n characters.
             // Assume 1 byte can be 1 char unless m_2BytesPerChar is true.
-            numBytes = twoBytesPerChar ? 2 : 1;
+            numBytes = this.twoBytesPerChar ? 2 : 1;
 
-            int r = await stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
-            charBytes[0] = (byte)r;
+            int r = await this.stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
+            this.charBytes[0] = (byte)r;
             if (r == -1)
             {
                 numBytes = 0;
@@ -504,8 +507,8 @@ public class AsyncBinaryReader : IDisposable
 
             if (numBytes == 2)
             {
-                r = await stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
-                charBytes[1] = (byte)r;
+                r = await this.stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
+                this.charBytes[1] = (byte)r;
                 if (r == -1)
                 {
                     numBytes = 1;
@@ -523,15 +526,15 @@ public class AsyncBinaryReader : IDisposable
             try
             {
 
-                charsRead = decoder.GetChars(charBytes, 0, numBytes, singleChar, 0);
+                charsRead = this.decoder.GetChars(this.charBytes, 0, numBytes, this.singleChar, 0);
             }
             catch
             {
                 // Handle surrogate char 
 
-                if (stream.CanSeek)
+                if (this.stream.CanSeek)
                 {
-                    stream.Seek((posSav - stream.Position), SeekOrigin.Current);
+                    this.stream.Seek((posSav - this.stream.Position), SeekOrigin.Current);
                 }
                 // else - we can't do much here
 
@@ -546,11 +549,10 @@ public class AsyncBinaryReader : IDisposable
             return -1;
         }
 
-        return singleChar[0];
+        return this.singleChar[0];
     }
-
-    //[SecuritySafeCritical]
-    public virtual async Task<char[]> ReadCharsAsync(int count, CancellationToken cancellationToken = default(CancellationToken))
+    
+    public virtual async Task<char[]> ReadCharsAsync(int count, CancellationToken cancellationToken = default)
     {
         if (count < 0)
         {
@@ -559,14 +561,14 @@ public class AsyncBinaryReader : IDisposable
         Contract.Ensures(Contract.Result<char[]>() != null);
         Contract.Ensures(Contract.Result<char[]>().Length <= count);
         Contract.EndContractBlock();
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
 
         if (count == 0)
         {
-            return Array.Empty<Char>();
+            return Array.Empty<char>();
         }
 
         // SafeCritical: we own the chars buffer, and therefore can guarantee that the index and count are valid
@@ -582,7 +584,7 @@ public class AsyncBinaryReader : IDisposable
         return chars;
     }
 
-    public virtual Task<int> ReadAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<int> ReadAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken = default)
     {
         if (buffer == null)
         {
@@ -608,15 +610,15 @@ public class AsyncBinaryReader : IDisposable
         Contract.Ensures(Contract.Result<int>() <= count);
         Contract.EndContractBlock();
 
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
 
-        return stream.ReadAsync(buffer, index, count, cancellationToken);
+        return this.stream.ReadAsync(buffer, index, count, cancellationToken);
     }
 
-    public virtual async Task<byte[]> ReadBytesAsync(int count, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual async Task<byte[]> ReadBytesAsync(int count, CancellationToken cancellationToken = default)
     {
         if (count < 0)
         {
@@ -626,7 +628,7 @@ public class AsyncBinaryReader : IDisposable
         Contract.Ensures(Contract.Result<byte[]>() != null);
         Contract.Ensures(Contract.Result<byte[]>().Length <= Contract.OldValue(count));
         Contract.EndContractBlock();
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
@@ -641,7 +643,7 @@ public class AsyncBinaryReader : IDisposable
         int numRead = 0;
         do
         {
-            int n = await stream.ReadAsync(result, numRead, count, cancellationToken).ConfigureAwait(false);
+            int n = await this.stream.ReadAsync(result, numRead, count, cancellationToken).ConfigureAwait(false);
             if (n == 0)
             {
                 break;
@@ -664,14 +666,14 @@ public class AsyncBinaryReader : IDisposable
 
     protected virtual async Task FillBufferAsync(int numBytes, CancellationToken cancellationToken)
     {
-        if (buffer != null && (numBytes < 0 || numBytes > buffer.Length))
+        if (this.buffer != null && (numBytes < 0 || numBytes > this.buffer.Length))
         {
             throw new ArgumentOutOfRangeException("numBytes");
         }
         int bytesRead = 0;
         int n = 0;
 
-        if (stream == null)
+        if (this.stream == null)
         {
             __Error.FileNotOpen();
         }
@@ -681,19 +683,19 @@ public class AsyncBinaryReader : IDisposable
         // streams.
         if (numBytes == 1)
         {
-            n = await stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
+            n = await this.stream.ReadByteAsync(cancellationToken).ConfigureAwait(false);
             if (n == -1)
             {
                 __Error.EndOfFile();
             }
 
-            buffer[0] = (byte)n;
+            this.buffer[0] = (byte)n;
             return;
         }
 
         do
         {
-            n = await stream.ReadAsync(buffer, bytesRead, numBytes - bytesRead, cancellationToken).ConfigureAwait(false);
+            n = await this.stream.ReadAsync(this.buffer, bytesRead, numBytes - bytesRead, cancellationToken).ConfigureAwait(false);
             if (n == 0)
             {
                 __Error.EndOfFile();
@@ -702,7 +704,7 @@ public class AsyncBinaryReader : IDisposable
         } while (bytesRead < numBytes);
     }
 
-    internal protected async Task<int> Read7BitEncodedIntAsync(CancellationToken ct)
+    protected internal async Task<int> Read7BitEncodedIntAsync(CancellationToken ct)
     {
         // Read out an Int32 7 bits at a time.  The high bit
         // of the byte when on means to continue reading more bytes.
@@ -725,16 +727,10 @@ public class AsyncBinaryReader : IDisposable
         } while ((b & 0x80) != 0);
         return count;
     }
-
-
-    #region DecoderNLS
-
     // code here is used to to deal with accessing the HasState property of the non-public DecoderNLS class
     // which most popular encodings appear to be using
-
     private static readonly Type decoderNls = typeof(Decoder).Assembly.GetType("System.Text.DecoderNLS");
-    private static Lazy<Func<Decoder, bool>> decoderNlsHasState = new Lazy<Func<Decoder, bool>>(CreateDecoderNLS_HasState_Delegate);
-
+    private static readonly Lazy<Func<Decoder, bool>> decoderNlsHasState = new(CreateDecoderNLS_HasState_Delegate);
     private static Func<Decoder, bool> CreateDecoderNLS_HasState_Delegate()
     {
         var expDec = Expression.Parameter(typeof(Decoder));
@@ -743,8 +739,7 @@ public class AsyncBinaryReader : IDisposable
         var lambda = Expression.Lambda(expHasState, expDec);
         return (Func<Decoder, bool>)lambda.Compile();
     }
-
-    private static readonly Dictionary<Type, bool> decoderNlsCache = new Dictionary<Type, bool>();
+    private static readonly Dictionary<Type, bool> decoderNlsCache = new();
     private static bool CheckDecoderNLS_And_HasState(Decoder? decoderInQuestion)
     {
         if (!decoderNlsCache.TryGetValue(decoderInQuestion.GetType(), out bool isNls))
@@ -760,7 +755,6 @@ public class AsyncBinaryReader : IDisposable
 
         return decoderNlsHasState.Value(decoderInQuestion);
     }
-    #endregion
 }
 
 internal static class __Error

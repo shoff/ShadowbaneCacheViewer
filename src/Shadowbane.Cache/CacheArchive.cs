@@ -17,7 +17,9 @@ public abstract class CacheArchive : IDisposable
     private uint duplicateCount;
     
     protected readonly Dictionary<uint, CacheIndex> indices = new();
+    protected readonly Dictionary<uint, CacheIndex> duplicateIndices = new();
     private long indexOffset;
+
     protected const uint DUPE_FLAG = 900000; // is this big enough?
     
     protected CacheArchive(string name)
@@ -27,8 +29,8 @@ public abstract class CacheArchive : IDisposable
         this.fileInfo = new FileInfo(Path.Combine(CacheLocation.CacheFolder.FullName, this.name));
         this.bufferData = this.bufferData = new ReadOnlyMemory<byte>(File.ReadAllBytes(this.fileInfo.FullName));
        
-        Header();
-        Indexes();
+        FillHeader();
+        FillIndexes();
     }
 
     internal ReadOnlySpan<byte> Decompress(uint uncompressedSize, ReadOnlySpan<byte> memory)
@@ -48,7 +50,7 @@ public abstract class CacheArchive : IDisposable
         return item;
     }
 
-    private void Indexes()
+    private void FillIndexes()
     {
         var cacheIndexSize = Marshal.SizeOf<CacheIndex>();
 
@@ -56,12 +58,15 @@ public abstract class CacheArchive : IDisposable
         {
             var indexData = this.bufferData.Span.Slice((int)(this.indexOffset + cacheIndexSize * i), cacheIndexSize);
             var index = indexData.ByteArrayToStructure<CacheIndex>();
+
             if (!this.indices.ContainsKey(index.identity))
             {
                 this.indices.Add(index.identity, index);
             }
             else
             {
+                // should record the dupes and then we can check them later
+                this.duplicateIndices.Add(index.identity, index);
                 this.duplicateCount = this.DuplicateCount + 1;
             }
         }
@@ -73,7 +78,7 @@ public abstract class CacheArchive : IDisposable
         }
     }
 
-    private void Header()
+    private void FillHeader()
     {
         // TODO convert this to just use the extension
         using var reader = this.bufferData.CreateBinaryReaderUtf32();
@@ -95,7 +100,7 @@ public abstract class CacheArchive : IDisposable
             }
 
             throw new HeaderFileSizeException(
-                $"{this.Name} Header states file should be {this.cacheHeader.fileSize} in size, but FileInfo object reported {length} as actual size.");
+                $"{this.Name} FillHeader states file should be {this.cacheHeader.fileSize} in size, but FileInfo object reported {length} as actual size.");
         }
 
         this.indexOffset = reader.BaseStream.Position;
@@ -155,10 +160,12 @@ public abstract class CacheArchive : IDisposable
         get => this.cacheHeader;
         set => this.cacheHeader = value;
     }
+
     public uint DuplicateCount
     {
         get => this.duplicateCount;
     }
+    
     public abstract CacheArchive Validate();
 
     public void Dispose()

@@ -21,7 +21,7 @@ public sealed class ObjectCache : CacheArchive
     {
         public Validator()
         {
-            this.RuleFor(c => c)
+            RuleFor(c => c)
                 .Must(ch => ch.CacheHeader.indexCount == ch.CacheIndices.Count)
                 .WithMessage("cache header index count does not match index count");
         }
