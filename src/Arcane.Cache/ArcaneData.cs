@@ -4,11 +4,16 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Arcane.Cache.Json.CObjects;
 using Arcane.Cache.Json.Render;
+using Arcane.Cache.Models;
 using UnityEngine;
 using Mesh = Json.Mesh.Mesh;
 
 public class ArcaneData
 {
+    protected const string ZONE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\CZONE"; // yuck
+    protected const string STRUCTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\STRUCTURE"; // yuck
+    protected const string ASSET_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\ASSET"; // yuck
+    protected const string ASSET_STRUCTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\ASSETSTRUCTURE"; // yuck
     protected const string RUNE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\RUNE"; // yuck
     protected const string TEXTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\TEXTURE"; // yuck
     protected const string MESH_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\MESH"; // yuck
