@@ -1,7 +1,6 @@
 ﻿namespace Arcane.Cache;
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Arcane.Cache.Json.CObjects;
 using Arcane.Cache.Json.Render;
 using Arcane.Cache.Models;
