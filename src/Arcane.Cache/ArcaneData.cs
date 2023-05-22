@@ -7,18 +7,18 @@ using Arcane.Cache.Models;
 using UnityEngine;
 using Mesh = Json.Mesh.Mesh;
 
-public class ArcaneData
+public sealed class ArcaneData
 {
-    protected const string ZONE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\CZONE"; // yuck
-    protected const string STRUCTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\STRUCTURE"; // yuck
-    protected const string ASSET_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\ASSET"; // yuck
-    protected const string ASSET_STRUCTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\ASSETSTRUCTURE"; // yuck
-    protected const string RUNE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\COBJECTS\\RUNE"; // yuck
-    protected const string TEXTURE_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\TEXTURE"; // yuck
-    protected const string MESH_PATH = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP\\MESH"; // yuck
-    protected const string ARCANE_DUMP = "C:\\dev\\ShadowbaneCacheViewer\\ARCANE_DUMP"; // yuck
+    private readonly List<string> renderAssets;
+    private readonly List<string> meshAssets;
 
-    public Rune? GetRune(uint id)
+    public ArcaneData()
+    {
+        this.renderAssets = Directory.GetFiles(RENDER_PATH).ToList();
+        this.meshAssets = Directory.GetFiles(MESH_PATH).ToList();
+    }
+
+    public SBRune? GetRune(uint id)
     {
         var assetFiles = Directory.GetFiles(Path.Combine(RUNE_PATH)).ToList();
         var file = assetFiles.FirstOrDefault(x => x.Contains($"{id}.json"));
@@ -26,16 +26,147 @@ public class ArcaneData
         {
             return null;
         }
-        
+
         var rune = JsonSerializer.Deserialize<Rune>(File.ReadAllText(file));
         rune!.RuneId = id;
-        return rune;
+        return new SBRune
+        {
+            Icon = rune.Icon,
+            RuneId = rune.RuneId,
+            RuneType = rune.RuneType,
+            Renderable = GetById(rune.RenderObject),
+            RenderObject = rune.RenderObject,
+            RenderObjectLowDetail = rune.RenderObjectLowDetail,
+            RuneAttack = rune.RuneAttack,
+            RuneDefense = rune.RuneDefense,
+            RuneAttrAdjs = rune.RuneAttrAdjs,
+            RuneBeard = rune.RuneBeard,
+            RuneBodyPartsArray = CreateBodyParts(rune.RuneBodyPartsArray),
+            RuneCanFly = rune.RuneCanFly,
+            RuneClassIcon = rune.RuneClassIcon,
+            RuneCreationCost = rune.RuneCreationCost,
+            RuneDeathEffect = rune.RuneDeathEffect,
+            RuneDsc = rune.RuneDsc,
+            RuneEnchantmentType = rune.RuneEnchantmentType,
+            RuneEnemyGender = rune.RuneEnemyGender,
+            RuneEnemyMonsterTypes = rune.RuneEnemyMonsterTypes,
+            RuneExpReqToLevel = rune.RuneExpReqToLevel,
+            RuneFxTxt = rune.RuneFxTxt,
+            RuneGroup = rune.RuneGroup,
+            RuneGroupeeMonsterTypes = rune.RuneGroupeeMonsterTypes,
+            RuneGroupRoleSet = rune.RuneGroupRoleSet,
+            RuneGroupTactics = rune.RuneGroupTactics,
+            RuneHair = rune.RuneHair,
+            RuneHealth = rune.RuneHealth,
+            ArcHardpointList = rune.ArcHardpointList,
+            CombatAttackResist = rune.CombatAttackResist,
+            CombatPowers = rune.CombatPowers,
+            CullDistance = rune.CullDistance,
+            DefaultAlignment = rune.DefaultAlignment,
+            DoubleFusion = rune.DoubleFusion,
+            ForwardVector = rune.ForwardVector,
+            Gravity = rune.Gravity,
+            GravityF = rune.GravityF,
+            HealthCurrent = rune.HealthCurrent,
+            HealthFull = rune.HealthFull,
+            ItemAttrReq = rune.ItemAttrReq,
+            ItemBaneRank = rune.ItemBaneRank,
+            ItemBaseName = rune.ItemBaseName,
+            ItemBookArcana = rune.ItemBookArcana,
+            ItemClassReq = rune.ItemClassReq,
+            ItemDiscReq = rune.ItemDiscReq,
+            ItemDsc = rune.ItemDsc,
+            ItemEqSlotsAnd = rune.ItemEqSlotsAnd,
+            ItemEqSlotsOr = rune.ItemEqSlotsOr,
+            ItemEqSlotsType = rune.ItemEqSlotsType,
+            ItemEqSlotsValue = rune.ItemEqSlotsValue,
+            ItemFlags = rune.ItemFlags,
+            ItemHasStub = rune.ItemHasStub,
+            ItemHealthFull = rune.ItemHealthFull,
+            ItemIgnoreSavedActions = rune.ItemIgnoreSavedActions,
+            ItemInitialCharges = rune.ItemInitialCharges,
+            ItemLevelReq = rune.ItemLevelReq,
+            ItemOfferingAdjustments = rune.ItemOfferingAdjustments,
+            ItemOfferingInfo = rune.ItemOfferingInfo,
+            ItemParryAnimId = rune.ItemParryAnimId,
+            ItemPassiveDefenseMod = rune.ItemPassiveDefenseMod,
+            ItemPostItemId = rune.ItemPostItemId,
+            ItemPowerAction = rune.ItemPowerAction,
+            ItemPowerGrant = rune.ItemPowerGrant,
+            ItemRaceReq = rune.ItemRaceReq,
+            ItemRankReq = rune.ItemRankReq,
+            ItemRenderObjectFemale = rune.ItemRenderObjectFemale,
+            ItemResourceCosts = rune.ItemResourceCosts,
+            ItemSexReq = rune.ItemSexReq,
+            ItemSheathable = rune.ItemSheathable,
+            ItemSkillMasteryUsed = rune.ItemSkillMasteryUsed,
+            ItemSkillReq = rune.ItemSkillReq,
+            ItemSkillUsed = rune.ItemSkillUsed,
+            ItemTakeable = rune.ItemTakeable,
+            ItemType = rune.ItemType,
+            ItemUseFlags = rune.ItemUseFlags,
+            ItemUserPowerActions = rune.ItemUserPowerActions,
+            ItemValue = rune.ItemValue,
+            ItemWT = rune.ItemWT,
+            MaxTrackingDistance = rune.MaxTrackingDistance,
+            ObjName = rune.ObjName,
+            Pickable = rune.Pickable,
+            RuneHelperMonsterTypes = rune.RuneHelperMonsterTypes,
+            RuneInventoryContents = rune.RuneInventoryContents,
+            RuneIsStandardCharacterCreation = rune.RuneIsStandardCharacterCreation,
+            RuneLevel = rune.RuneLevel,
+            RuneMana = rune.RuneMana,
+            RuneMaxAttrAdjs = rune.RuneMaxAttrAdjs,
+            RuneMaxDamage = rune.RuneMaxDamage,
+            RuneMinDamage = rune.RuneMinDamage,
+            RuneNaturalattacks = rune.RuneNaturalattacks,
+            RuneNaturalPowerAttack = rune.RuneNaturalPowerAttack,
+            RuneNotEnemyMonsterTypes = rune.RuneNotEnemyMonsterTypes,
+            RunePracsPerLevel = rune.RunePracsPerLevel,
+            RuneRank = rune.RuneRank,
+            RuneRenderable = rune.RuneRenderable,
+            RuneScaleFactor = rune.RuneScaleFactor,
+            RuneSex = rune.RuneSex,
+            RuneSkeleton = rune.RuneSkeleton,
+            RuneSkillAdjs = rune.RuneSkillAdjs,
+            RuneSkillGrants = rune.RuneSkillGrants,
+            RuneSlopeHugger = rune.RuneSlopeHugger,
+            RuneSparseData = rune.RuneSparseData,
+            RuneSpeed = rune.RuneSpeed,
+            RuneStamina = rune.RuneStamina,
+            RuneSubType = rune.RuneSubType,
+            RuneTombstoneId = rune.RuneTombstoneId,
+            Scale = rune.Scale,
+            SoundEvents = rune.SoundEvents,
+            SoundTable = rune.SoundTable,
+            SparseData = rune.SparseData,
+            TrackingName = rune.TrackingName
+        };
     }
 
-    public Renderable? GetRenderableById(uint id)
+    private SBRuneBodyParts[] CreateBodyParts(RuneBodyParts[] runeRuneBodyPartsArray)
     {
-        var assetFiles = Directory.GetFiles(Path.Combine(ARCANE_DUMP, "RENDER")).ToList();
-        var file = assetFiles.FirstOrDefault(x => x.Contains($"{id}.json"));
+        // dm
+        var bodyParts = new SBRuneBodyParts[runeRuneBodyPartsArray.Length];
+        var assetFiles = Directory.GetFiles(Path.Combine(RENDER_PATH)).ToList();
+
+        // for each body part, get the renderable and mesh
+        for (int i = 0; i < runeRuneBodyPartsArray.Length; i++)
+        {
+            var runeBodyPart = runeRuneBodyPartsArray[i];
+            var id = runeBodyPart.BodyPartRender;
+            var sbBodyPart = new SBRuneBodyParts(runeBodyPart.BodyPartPosition, id)
+            {
+                BodyPart = GetById(id)
+            };
+            bodyParts[i] = sbBodyPart;
+        }
+        return bodyParts;
+    }
+
+    private Renderable? GetRenderableById(uint id)
+    {
+        var file = this.renderAssets.FirstOrDefault(x => x.Contains($"{id}.json"));
         if (file == null)
         {
             return null;
@@ -46,12 +177,13 @@ public class ArcaneData
 
     private SBMesh? GetMeshById(uint id)
     {
-        var assetFiles = Directory.GetFiles(Path.Combine(MESH_PATH)).ToList();
-        var file = assetFiles.FirstOrDefault(x => x.Contains($"{id}.json"));
+        var file = this.meshAssets.FirstOrDefault(x => x.Contains($"{id}.json"));
+        
         if (file == null)
         {
             return null;
         }
+        
         var mesh = JsonSerializer.Deserialize<Mesh>(File.ReadAllText(file));
 
         if (mesh == null)
@@ -131,7 +263,7 @@ public class ArcaneData
                 List<int> three = new();
 
                 var temp =
-                    s.Substring(5, s.Length-6);
+                    s.Substring(5, s.Length - 6);
                 var intArray = temp
                     .Split(',');
                 for (int ia = 0; ia < intArray.Length; ia++)

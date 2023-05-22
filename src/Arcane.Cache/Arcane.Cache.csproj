@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Json\Motion\" />
     <Folder Include="Json\Mesh\" />
+    <Folder Include="Config\" />
   </ItemGroup>
 
   <ItemGroup>

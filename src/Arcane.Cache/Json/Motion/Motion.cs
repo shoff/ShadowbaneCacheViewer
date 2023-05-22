@@ -17,7 +17,7 @@ public class Motion
     public float MotionSmoothedFactor { get; set; }
 
     [JsonPropertyName("motion_sound")]
-    public int MotionSound { get; set; }
+    public uint MotionSound { get; set; }
 
     [JsonPropertyName("motion_sheath")]
     public int MotionSheath { get; set; }
@@ -35,7 +35,7 @@ public class Motion
     public bool MotionDisableBlend { get; set; }
 
     [JsonPropertyName("motion_parts")]
-    public string[] MotionParts { get; set; } = Array.Empty<string>();
+    public List<string> MotionParts { get; set; } = new ();
 
     [JsonPropertyName("motion_smoothing")]
     public List<List<float>> MotionSmoothing { get; set; } = new();

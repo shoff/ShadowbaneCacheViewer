@@ -1,9 +1,10 @@
-﻿namespace Arcane.Cache.Models;
+﻿namespace Arcane.Data.Mongo.Entities;
 
-using Arcane.Cache.Json.CObjects;
+using MongoDB.Bson.Serialization.Attributes;
 
-public class SBRune
+public class RuneEntity
 {
+    [BsonId]
     public uint RuneId { get; set; }
     public string ObjName { get; set; } = string.Empty;
     public bool Pickable { get; set; }
@@ -12,23 +13,22 @@ public class SBRune
     public float[] Scale { get; set; } = Array.Empty<float>();
     // TODO flatten this with the renderable that matches the id
     public uint RenderObject { get; set; }
-    public SBRenderable? Renderable { get; set; }
+    public RenderableEntity? Renderable { get; set; }
     public bool DoubleFusion { get; set; }
     public float[] ForwardVector { get; set; } = Array.Empty<float>();
     public string TrackingName { get; set; } = string.Empty;
     public float MaxTrackingDistance { get; set; }
     public uint Icon { get; set; }
     public float GravityF { get; set; }
-    public object[] SoundEvents { get; set; } = Array.Empty<object>();
-    public object[] ArcHardpointList { get; set; } = Array.Empty<object>();
-    public ObjSparseData? SparseData { get; set; }
+    //public object[] SoundEvents { get; set; } = Array.Empty<object>();
+    //public object[] ArcHardpointList { get; set; } = Array.Empty<object>();
     public int RenderObjectLowDetail { get; set; }
     public float[] DefaultAlignment { get; set; } = Array.Empty<float>();
-    public object? SoundTable { get; set; }
+    // public object? SoundTable { get; set; }
     public float HealthCurrent { get; set; }
     public float HealthFull { get; set; }
-    public CombatAttackResist CombatAttackResist { get; set; } = new();
-    public object[] CombatPowers { get; set; } = Array.Empty<object>();
+    public CombatAttackResistEntity CombatAttackResist { get; set; } = new();
+    //public object[] CombatPowers { get; set; } = Array.Empty<object>();
     public string ItemType { get; set; } = string.Empty;
     public int ItemEqSlotsValue { get; set; }
     public bool ItemEqSlotsType { get; set; }
@@ -45,31 +45,31 @@ public class SBRune
     public int ItemSkillUsed { get; set; }
     public int ItemSkillMasteryUsed { get; set; }
     public int ItemParryAnimId { get; set; }
-    public object[] ItemOfferingInfo { get; set; } = Array.Empty<object>();
-    public string[] ItemFlags { get; set; } = Array.Empty<string>();
-    public object[] ItemUseFlags { get; set; } = Array.Empty<object>();
+    //public object[] ItemOfferingInfo { get; set; } = Array.Empty<object>();
+    //public string[] ItemFlags { get; set; } = Array.Empty<string>();
+    //public object[] ItemUseFlags { get; set; } = Array.Empty<object>();
     public int ItemPostItemId { get; set; }
     public int ItemInitialCharges { get; set; }
     public int ItemBookArcana { get; set; }
-    public object[] ItemSkillReq { get; set; } = Array.Empty<object>();
-    public ItemRaceReq? ItemRaceReq { get; set; }
-    public ItemClassReq? ItemClassReq { get; set; }
-    public ItemDiscReq? ItemDiscReq { get; set; }
-    public object[] ItemAttrReq { get; set; } = Array.Empty<object>();
+    //public object[] ItemSkillReq { get; set; } = Array.Empty<object>();
+    //public ItemRaceReq? ItemRaceReq { get; set; }
+    //public ItemClassReq? ItemClassReq { get; set; }
+    //public ItemDiscReq? ItemDiscReq { get; set; }
+    //public object[] ItemAttrReq { get; set; } = Array.Empty<object>();
     public int ItemLevelReq { get; set; }
     public int ItemRankReq { get; set; }
     public string ItemSexReq { get; set; } = string.Empty;
-    public ItemUserPowerAction[] ItemUserPowerActions { get; set; } = Array.Empty<ItemUserPowerAction>();
-    public object[] ItemPowerGrant { get; set; } = Array.Empty<object>();
-    public object[] ItemPowerAction { get; set; } = Array.Empty<object>();
+    public ItemUserPowerActionEntity[] ItemUserPowerActions { get; set; } = Array.Empty<ItemUserPowerActionEntity>();
+    //public object[] ItemPowerGrant { get; set; } = Array.Empty<object>();
+    public List<ItemPowerActionEntity> ItemPowerAction { get; set; } = new();
     public bool ItemSheathable { get; set; }
     public bool ItemHasStub { get; set; }
-    public object[] ItemOfferingAdjustments { get; set; } = Array.Empty<object>();
-    public object[] ItemResourceCosts { get; set; } = Array.Empty<object>();
+    //public object[] ItemOfferingAdjustments { get; set; } = Array.Empty<object>();
+    //public object[] ItemResourceCosts { get; set; } = Array.Empty<object>();
     public int ItemBaneRank { get; set; }
     public bool ItemIgnoreSavedActions { get; set; }
     public string RuneType { get; set; } = string.Empty;
-    public object? RuneSubType { get; set; }
+    // public object? RuneSubType { get; set; }
     public bool RuneIsStandardCharacterCreation { get; set; }
     public int RuneCreationCost { get; set; }
     public int RuneRank { get; set; }
@@ -85,24 +85,24 @@ public class SBRune
     public int RuneAttack { get; set; }
     public int RuneDefense { get; set; }
     public int RuneLevel { get; set; }
-    public RuneSpeed? RuneSpeed { get; set; }
-    public RuneGroup? RuneGroup { get; set; }
+    public RuneSpeedEntity? RuneSpeed { get; set; }
+    public RuneGroupEntity? RuneGroup { get; set; }
     public string RuneDsc { get; set; } = string.Empty;
     public string RuneFxTxt { get; set; } = string.Empty;
     public long RuneGroupTactics { get; set; }
     public long RuneGroupRoleSet { get; set; }
-    public object[] RuneEnemyMonsterTypes { get; set; } = Array.Empty<object>();
-    public object[] RuneGroupeeMonsterTypes { get; set; } = Array.Empty<object>();
-    public object[] RuneHelperMonsterTypes { get; set; } = Array.Empty<object>();
-    public object[] RuneNotEnemyMonsterTypes { get; set; } = Array.Empty<object>();
-    public object[] RuneEnemyGender { get; set; } = Array.Empty<object>();
-    public RuneSkillGrant[] RuneSkillGrants { get; set; } = Array.Empty<RuneSkillGrant>();
-    public RuneSkillAdj[] RuneSkillAdjs { get; set; } = Array.Empty<RuneSkillAdj>();
-    public RuneAttrAdj[] RuneAttrAdjs { get; set; } = Array.Empty<RuneAttrAdj>();
-    public RuneMaxAttrAdj[] RuneMaxAttrAdjs { get; set; } = Array.Empty<RuneMaxAttrAdj>();
+    // public object[] RuneEnemyMonsterTypes { get; set; } = Array.Empty<object>();
+    // public object[] RuneGroupeeMonsterTypes { get; set; } = Array.Empty<object>();
+    // public object[] RuneHelperMonsterTypes { get; set; } = Array.Empty<object>();
+    // public object[] RuneNotEnemyMonsterTypes { get; set; } = Array.Empty<object>();
+    // public object[] RuneEnemyGender { get; set; } = Array.Empty<object>();
+    // public RuneSkillGrant[] RuneSkillGrants { get; set; } = Array.Empty<RuneSkillGrant>();
+    // public RuneSkillAdj[] RuneSkillAdjs { get; set; } = Array.Empty<RuneSkillAdj>();
+    // public RuneAttrAdj[] RuneAttrAdjs { get; set; } = Array.Empty<RuneAttrAdj>();
+    // public RuneMaxAttrAdj[] RuneMaxAttrAdjs { get; set; } = Array.Empty<RuneMaxAttrAdj>();
     public float[][] RuneNaturalattacks { get; set; } = Array.Empty<float[]>();
-    public object[] RuneEnchantmentType { get; set; } = Array.Empty<object>();
-    public object[] RuneInventoryContents { get; set; } = Array.Empty<object>();
+    // public object[] RuneEnchantmentType { get; set; } = Array.Empty<object>();
+    // public object[] RuneInventoryContents { get; set; } = Array.Empty<object>();
     public bool RuneRenderable { get; set; }
     public float[] RuneScaleFactor { get; set; } = Array.Empty<float>();
     public int RuneSkeleton { get; set; }
@@ -110,22 +110,8 @@ public class SBRune
     public bool RuneCanFly { get; set; }
     public int RuneDeathEffect { get; set; }
     public int RuneTombstoneId { get; set; }
-    public SBRuneBodyParts[] RuneBodyPartsArray { get; set; } = Array.Empty<SBRuneBodyParts>();
+    public RuneBodyPartsEntity[] RuneBodyPartsArray { get; set; } = Array.Empty<RuneBodyPartsEntity>();
     public int[] RuneHair { get; set; } = Array.Empty<int>();
     public int[] RuneBeard { get; set; } = Array.Empty<int>();
     public int RuneNaturalPowerAttack { get; set; }
-    public RuneSparseData? RuneSparseData { get; set; }
-}
-
-public class SBRuneBodyParts
-{
-    public SBRuneBodyParts(float[] bodyPartPosition, uint renderId)
-    {
-        this.BodyPartRender = renderId;
-        this.BodyPartPosition = bodyPartPosition;
-    }
-
-    public uint BodyPartRender { get; }
-    public float[] BodyPartPosition { get; }
-    public SBRenderable? BodyPart { get; set; }
 }

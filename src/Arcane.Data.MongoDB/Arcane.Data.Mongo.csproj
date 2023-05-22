@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>1701;1702;IDE0003;NU1803</NoWarn>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Folder Include="DbContexts\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
+	  <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+	  <PackageReference Include="MongoDB.Driver.Core" Version="2.19.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Arcane.Cache\Arcane.Cache.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="UnityEditor">
+	    <HintPath>..\..\..\..\Program Files\Unity 2021.3.7f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+	    <HintPath>..\..\..\..\Program Files\Unity 2021.3.7f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>

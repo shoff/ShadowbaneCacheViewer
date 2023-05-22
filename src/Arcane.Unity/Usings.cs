@@ -1,0 +1,1 @@
+﻿global using static Arcane.Cache.Config.Locations;

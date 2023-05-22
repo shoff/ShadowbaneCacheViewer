@@ -11,6 +11,9 @@ public class Renderable
     [JsonPropertyName("render_template")]
     public RenderTemplate? RenderTemplate { get; set; }
 
+    [JsonPropertyName("render_texture_set")]
+    public RenderTextureSet[] RenderTextureSets { get; set; } = Array.Empty<RenderTextureSet>();
+
     [JsonPropertyName("render_target_bone")]
     public string RenderTargetBone { get; set; } = string.Empty;
 
@@ -28,9 +31,6 @@ public class Renderable
 
     [JsonPropertyName("render_has_texture_set")]
     public bool RenderHasTextureSet { get; set; }
-
-    [JsonPropertyName("render_texture_set")]
-    public RenderTextureSet[] RenderTextureSets { get; set; } = Array.Empty<RenderTextureSet>();
 
     [JsonPropertyName("render_collides")]
     public bool RenderCollides { get; set; }

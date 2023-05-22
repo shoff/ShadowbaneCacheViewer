@@ -24,7 +24,7 @@ public class Rune
     
     // TODO flatten this with the renderable that matches the id
     [JsonPropertyName("obj_render_object")]
-    public int RenderObject { get; set; }
+    public uint RenderObject { get; set; }
     
     [JsonPropertyName("obj_double_fusion")]
     public bool DoubleFusion { get; set; }
@@ -39,7 +39,7 @@ public class Rune
     public float MaxTrackingDistance { get; set; }
     
     [JsonPropertyName("obj_icon")]
-    public int Icon { get; set; }
+    public uint Icon { get; set; }
     
     [JsonPropertyName("obj_gravity_f")]
     public float GravityF { get; set; }

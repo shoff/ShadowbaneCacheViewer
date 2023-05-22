@@ -106,11 +106,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowbane.CacheViewer", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlExtensions", "src\ControlExtensions\ControlExtensions.csproj", "{27B162D0-7464-43B3-8F4F-2613251447FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcane.Cache", "src\Arcane.Cache\Arcane.Cache.csproj", "{C11E8A73-008F-4D25-98C9-44034BCF3624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcane.Cache", "src\Arcane.Cache\Arcane.Cache.csproj", "{C11E8A73-008F-4D25-98C9-44034BCF3624}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcane.Cache.Tests", "tests\Arcane.Cache.Tests\Arcane.Cache.Tests.csproj", "{010EB9DA-537A-419C-B403-7A70069285EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcane.Cache.Tests", "tests\Arcane.Cache.Tests\Arcane.Cache.Tests.csproj", "{010EB9DA-537A-419C-B403-7A70069285EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcane.Unity", "src\Arcane.Unity\Arcane.Unity.csproj", "{1CB76F7A-86E6-4DA3-996D-CB9D17661A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcane.Unity", "src\Arcane.Unity\Arcane.Unity.csproj", "{1CB76F7A-86E6-4DA3-996D-CB9D17661A86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcane.Data.Mongo", "src\Arcane.Data.MongoDB\Arcane.Data.Mongo.csproj", "{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +180,10 @@ Global
 		{1CB76F7A-86E6-4DA3-996D-CB9D17661A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CB76F7A-86E6-4DA3-996D-CB9D17661A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CB76F7A-86E6-4DA3-996D-CB9D17661A86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,6 +206,7 @@ Global
 		{C11E8A73-008F-4D25-98C9-44034BCF3624} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 		{010EB9DA-537A-419C-B403-7A70069285EA} = {0E58955A-2EDD-420C-884E-4497B81B3ACF}
 		{1CB76F7A-86E6-4DA3-996D-CB9D17661A86} = {2916BC6B-F8D1-4C1D-A6F3-FE7D7B4ECC70}
+		{AB5DF2E3-04DB-4251-A9D2-6C7441CEC717} = {DA4F06D7-E994-42C5-A0ED-C0E160D3A54B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57BF6F85-F66E-4A85-A73B-E0851F0E3973}

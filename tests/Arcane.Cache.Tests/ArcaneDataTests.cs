@@ -1,4 +1,6 @@
-﻿namespace Arcane.Cache.Tests.Json;
+﻿namespace Arcane.Cache.Tests;
+
+using Arcane.Data.Mongo.Mappings;
 
 public class ArcaneDataTests
 {
@@ -37,9 +39,27 @@ public class ArcaneDataTests
     [InlineData(14119)]
     [InlineData(250112)]
     [InlineData(252128)]
-    public void GetRune_Returns_Rune_For_Id(uint id)
+    public void GetRune_Returns_SBRune_For_Id(uint id)
     {
         var rune = this.arcaneData.GetRune(id);
+        Assert.Equal(id, rune!.RuneId);
+        Assert.NotNull(rune);
+    }
+
+    [Theory]
+    [InlineData(12134)]
+    [InlineData(12193)]
+    [InlineData(12272)]
+    [InlineData(12322)]
+    [InlineData(13297)]
+    [InlineData(13346)]
+    [InlineData(14060)]
+    [InlineData(14119)]
+    [InlineData(250112)]
+    [InlineData(252128)]
+    public void GetRune_Returns_RuneEntity_For_Id(uint id)
+    {
+        var rune = EntityExtensions.GetRune(id);
         Assert.Equal(id, rune!.RuneId);
         Assert.NotNull(rune);
     }
